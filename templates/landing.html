@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Kelajak — Xorijda Ta'lim va Grantlar AI Mentori | 9-11 Sinf O'quvchilari Uchun{% endblock %}
 
@@ -13,135 +13,159 @@
       <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
         
         <!-- Top Pill Badge -->
-        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase shadow-xs">
-          <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
-          <span>O'zbekiston maktab o'quvchilari uchun 1-raqamli AI mentor</span>
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-indigo-50 via-purple-50 to-indigo-50 border border-indigo-200/80 text-indigo-700 text-xs font-extrabold tracking-wide uppercase shadow-xs">
+          <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600 animate-pulse"></i>
+          <span>O'zbekiston maktab o'quvchilari uchun 1-raqamli AI ta'lim platformasi</span>
         </div>
 
         <!-- Main Title -->
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-          Xorijiy universitetlar va <span class="text-indigo-600 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">katta grantlarga</span> AI bilan kiring
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
+          Xorijiy universitetlar va <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-700">katta grantlarga</span> AI bilan kiring
         </h1>
 
         <!-- Subtitle -->
-        <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-          Statik kitoblardan charchadingizmi? AI mentor sizga har kuni shaxsiy o'quv rejasi beradi, xatolaringizni tahlil qiladi va xalqaro grantlar (Global UGRAD, DAAD, Chevening) talablariga tayyorlaydi.
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+          Statik kitoblar va qimmat repetitorlardan charchadingizmi? Kelajak AI sizga har kuni <strong>Dual-Track reja</strong> (IELTS/SAT tayyorgarligi + Universitet arizasi) tuzadi, insholaringizni tahlil qiladi va to'liq grant yutishingizga yordam beradi.
         </p>
 
         <!-- CTA Buttons -->
         <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
-          <a href="{% url 'accounts:register' %}" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-base font-bold rounded-2xl shadow-lg shadow-indigo-200 transition duration-150 space-x-2">
-            <span>Diagnostikani boshlash</span>
-            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          <a href="{% url 'accounts:register' %}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white text-base font-bold rounded-2xl shadow-xl shadow-indigo-200 transition duration-150 space-x-2 group">
+            <i data-lucide="compass" class="w-5 h-5"></i>
+            <span>Diagnostika va Reja Olish</span>
+            <i data-lucide="arrow-right" class="w-5 h-5 transition-transform group-hover:translate-x-1"></i>
           </a>
-          <a href="{% url 'programs:catalog' %}" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 bg-white hover:bg-slate-50 text-slate-800 text-base font-bold rounded-2xl border border-slate-200 shadow-xs transition duration-150 space-x-2">
+          <a href="{% url 'programs:catalog' %}" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-4 bg-white hover:bg-slate-50 active:scale-[0.99] text-slate-800 text-base font-bold rounded-2xl border border-slate-200 shadow-xs transition duration-150 space-x-2">
             <i data-lucide="graduation-cap" class="w-5 h-5 text-indigo-600"></i>
-            <span>Grantlar bazasi</span>
+            <span>Grantlar Katalogi</span>
           </a>
         </div>
 
-        <!-- Highlights Row -->
-        <div class="pt-4 grid grid-cols-3 gap-3 border-t border-slate-200/80 text-left">
+        <!-- Social Proof Stats Row -->
+        <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200/80 text-left">
           <div class="space-y-0.5">
-            <div class="flex items-center space-x-1.5 text-indigo-600 font-extrabold text-sm sm:text-base">
-              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+            <div class="flex items-center space-x-1.5 text-slate-900 font-black text-base sm:text-lg">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
               <span>100% Bepul</span>
             </div>
-            <p class="text-xs text-slate-500">Boshlang'ich diagnostika</p>
+            <p class="text-xs text-slate-500 font-medium">Boshlang'ich diagnostika</p>
           </div>
           <div class="space-y-0.5">
-            <div class="flex items-center space-x-1.5 text-indigo-600 font-extrabold text-sm sm:text-base">
-              <i data-lucide="flame" class="w-4 h-4 text-amber-500"></i>
-              <span>Duolingo uslubi</span>
+            <div class="flex items-center space-x-1.5 text-slate-900 font-black text-base sm:text-lg">
+              <i data-lucide="flame" class="w-4 h-4 text-amber-500 flex-shrink-0"></i>
+              <span>Duolingo Uslubi</span>
             </div>
-            <p class="text-xs text-slate-500">Kunlik odat va streak</p>
+            <p class="text-xs text-slate-500 font-medium">Kunlik odat va streak</p>
           </div>
           <div class="space-y-0.5">
-            <div class="flex items-center space-x-1.5 text-indigo-600 font-extrabold text-sm sm:text-base">
-              <i data-lucide="bot" class="w-4 h-4 text-indigo-600"></i>
-              <span>AI Maslahatchi</span>
+            <div class="flex items-center space-x-1.5 text-slate-900 font-black text-base sm:text-lg">
+              <i data-lucide="bot" class="w-4 h-4 text-indigo-600 flex-shrink-0"></i>
+              <span>24/7 AI Mentor</span>
             </div>
-            <p class="text-xs text-slate-500">24/7 shaxsiy mentor</p>
+            <p class="text-xs text-slate-500 font-medium">Shaxsiy yo'l-yo'riq</p>
           </div>
         </div>
 
       </div>
 
-      <!-- Right Column: Interactive App Preview Card -->
-      <div class="lg:col-span-5">
+      <!-- Right Column: Visual Composite Card with Images and Badges -->
+      <div class="lg:col-span-5 relative">
         <div class="relative mx-auto max-w-md">
-          <!-- Glow background -->
-          <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-3xl blur-xl opacity-25"></div>
           
-          <!-- Mock Card -->
-          <div class="relative bg-white rounded-3xl border border-slate-200 shadow-xl p-6 space-y-5">
+          <!-- Background Glow Effect -->
+          <div class="absolute -inset-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-400 rounded-[2.5rem] blur-2xl opacity-20"></div>
+          
+          <!-- Main Showcase Visual Card -->
+          <div class="relative bg-white rounded-3xl border border-slate-200/90 shadow-2xl p-5 sm:p-6 space-y-5">
             
-            <!-- Card Header: Student Profile -->
+            <!-- Student Header with Real Photo -->
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
               <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
-                  <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-                </div>
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop" alt="Talaba" class="w-12 h-12 rounded-2xl object-cover border-2 border-indigo-100 shadow-xs">
                 <div>
-                  <h3 class="font-bold text-slate-900 text-sm">Abdurahmon (10-sinf)</h3>
-                  <p class="text-xs text-slate-500">Maqsad: Global UGRAD & DAAD</p>
+                  <div class="flex items-center space-x-1.5">
+                    <h3 class="font-bold text-slate-900 text-sm">Madina Karimova</h3>
+                    <span class="px-1.5 py-0.5 bg-indigo-50 text-indigo-700 text-[10px] font-bold rounded">10-sinf</span>
+                  </div>
+                  <p class="text-xs text-slate-500 flex items-center space-x-1 mt-0.5">
+                    <i data-lucide="target" class="w-3 h-3 text-indigo-600"></i>
+                    <span>Maqsad: Global UGRAD (AQSh)</span>
+                  </p>
                 </div>
               </div>
-              <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-full border border-emerald-100">
-                Faol
+              <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-full border border-emerald-100 flex items-center space-x-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                <span>Faol</span>
               </span>
             </div>
 
-            <!-- Ready Score + Streak Metrics -->
+            <!-- Ready Score & Streak Metric Grid -->
             <div class="grid grid-cols-2 gap-3">
-              <div class="p-3.5 bg-indigo-50/70 border border-indigo-100 rounded-2xl">
-                <div class="flex items-center space-x-1.5 text-xs text-indigo-700 font-semibold mb-1">
-                  <i data-lucide="target" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <div class="p-3.5 bg-indigo-50/70 border border-indigo-100 rounded-2xl space-y-1">
+                <div class="flex items-center justify-between text-xs text-indigo-700 font-bold">
                   <span>Ready Score</span>
+                  <i data-lucide="target" class="w-3.5 h-3.5 text-indigo-600"></i>
                 </div>
-                <div class="text-2xl font-black text-indigo-700">74%</div>
-                <p class="text-[10px] text-indigo-600/80 mt-0.5">+4% bugungi mashqdan</p>
+                <div class="text-2xl font-black text-indigo-700">78%</div>
+                <div class="w-full bg-indigo-200/60 rounded-full h-1.5 overflow-hidden">
+                  <div class="bg-indigo-600 h-1.5 rounded-full" style="width: 78%"></div>
+                </div>
+                <p class="text-[10px] text-indigo-600 font-semibold pt-0.5">+6% mock imtihonidan</p>
               </div>
 
-              <div class="p-3.5 bg-amber-50/70 border border-amber-100 rounded-2xl">
-                <div class="flex items-center space-x-1.5 text-xs text-amber-800 font-semibold mb-1">
-                  <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-500"></i>
+              <div class="p-3.5 bg-amber-50/70 border border-amber-100 rounded-2xl space-y-1">
+                <div class="flex items-center justify-between text-xs text-amber-800 font-bold">
                   <span>Kunlik Streak</span>
+                  <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-500"></i>
                 </div>
-                <div class="text-2xl font-black text-amber-700">12 kun</div>
-                <p class="text-[10px] text-amber-700/80 mt-0.5">Intizom saqlanmoqda</p>
+                <div class="text-2xl font-black text-amber-700">14 kun</div>
+                <div class="w-full bg-amber-200/60 rounded-full h-1.5 overflow-hidden">
+                  <div class="bg-amber-500 h-1.5 rounded-full" style="width: 100%"></div>
+                </div>
+                <p class="text-[10px] text-amber-700 font-semibold pt-0.5">Odat shakllandi 🔥</p>
               </div>
             </div>
 
-            <!-- Sample Daily Task -->
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
-              <div class="flex items-center justify-between text-xs">
-                <span class="font-bold text-slate-800 flex items-center space-x-1">
-                  <i data-lucide="zap" class="w-3.5 h-3.5 text-indigo-600"></i>
-                  <span>Bugungi vazifa: Grammar Drill</span>
-                </span>
-                <span class="text-emerald-600 font-semibold flex items-center space-x-1">
-                  <i data-lucide="check-circle" class="w-3 h-3"></i>
-                  <span>90 ball</span>
-                </span>
+            <!-- Dual-Track Tasks Preview -->
+            <div class="space-y-2.5">
+              <div class="p-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl space-y-1.5">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-slate-800 flex items-center space-x-1.5">
+                    <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+                    <span>Track A: IELTS Writing Task 2</span>
+                  </span>
+                  <span class="text-emerald-600 font-bold flex items-center space-x-1 text-[11px]">
+                    <i data-lucide="check-circle" class="w-3 h-3"></i>
+                    <span>Band 7.5</span>
+                  </span>
+                </div>
+                <div class="p-2.5 bg-white border border-indigo-100 rounded-xl text-[11px] text-slate-700 flex items-start space-x-2">
+                  <i data-lucide="bot" class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0 mt-0.5"></i>
+                  <span><strong>AI Tahlili:</strong> Akademik argumentatsiya va linking words a'lo darajada qo'llangan!</span>
+                </div>
               </div>
-              <p class="text-xs text-slate-600 line-clamp-2">
-                "Conditional Sentences: Grant arizalarida shart mayllarini to'g'ri qo'llash"
-              </p>
-              <!-- AI feedback bubble -->
-              <div class="p-2.5 bg-white border border-indigo-100 rounded-xl text-[11px] text-slate-700 flex items-start space-x-2">
-                <i data-lucide="bot" class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0 mt-0.5"></i>
-                <span><strong>AI Izohi:</strong> Third Conditional qoidasini ajoyib qo'lladingiz!</span>
+
+              <div class="p-3 bg-emerald-50/70 border border-emerald-100 rounded-2xl flex items-center justify-between text-xs">
+                <div class="flex items-center space-x-2">
+                  <i data-lucide="clipboard-check" class="w-4 h-4 text-emerald-600"></i>
+                  <span class="font-bold text-emerald-950">Track B: Statement of Purpose (SOP)</span>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-md">Ko'rib chiqildi</span>
               </div>
             </div>
 
-            <!-- AI Mentor Quick Tip -->
-            <div class="p-3 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-2xl text-white flex items-center justify-between">
-              <div class="flex items-center space-x-2 text-xs">
-                <i data-lucide="message-circle" class="w-4 h-4 text-indigo-200"></i>
-                <span class="font-medium">AI Mentor bilan suhbatlashish</span>
+            <!-- Floating Admission Congratulation Badge -->
+            <div class="p-3 bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 rounded-2xl text-white flex items-center justify-between shadow-md">
+              <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-xs shadow-xs">
+                  <i data-lucide="award" class="w-4 h-4 text-slate-950"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold">DAAD & UGRAD Grantlari</div>
+                  <div class="text-[10px] text-indigo-200">100% To'liq stipendiya va aviachipta</div>
+                </div>
               </div>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              <i data-lucide="arrow-up-right" class="w-4 h-4 text-amber-300"></i>
             </div>
 
           </div>
@@ -151,140 +175,383 @@
     </div>
   </section>
 
-  <!-- HOW IT WORKS SECTION -->
+  <!-- ================= TOP STUDY ABROAD DESTINATIONS GALLERY ================= -->
+  <section class="pt-6 border-t border-slate-200">
+    <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
+      <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-3.5 py-1 rounded-full border border-indigo-100">
+        Dunyo Bo'ylab Imkoniyatlar
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+        Qaysi davlatda ta'lim olmoqchisiz?
+      </h2>
+      <p class="text-sm text-slate-500">
+        Kelajak AI har bir davlatning qabul standartlari va stipendiya talablariga moslashtirilgan
+      </p>
+    </div>
+
+    <!-- Country Cards Grid with High-Res Photography -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <!-- Card 1: USA -->
+      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-indigo-300 transition duration-300 flex flex-col">
+        <div class="relative h-44 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=700&auto=format&fit=crop" alt="AQSh Universitetlari" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
+            <span>🇺🇸 AQSh</span>
+          </div>
+          <div class="absolute bottom-3 left-3 text-white">
+            <h3 class="text-lg font-black leading-tight">Global UGRAD & Ivy League</h3>
+            <p class="text-xs text-indigo-200">To'liq moliyalashtiriluvchi grantlar</p>
+          </div>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+          <div class="text-xs text-slate-600 space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>O'qish, yotoqxona va oylik stipendiya</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>SAT & TOEFL / IELTS sertifikatlari talabi</span>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-indigo-600">Muddat: Har yili dekabr</span>
+            <a href="{% url 'programs:catalog' %}?country=AQSh" class="font-bold text-slate-700 hover:text-indigo-600 flex items-center space-x-1">
+              <span>Grantlar ➔</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: UK -->
+      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-indigo-300 transition duration-300 flex flex-col">
+        <div class="relative h-44 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=700&auto=format&fit=crop" alt="Buyuk Britaniya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
+            <span>🇬🇧 Buyuk Britaniya</span>
+          </div>
+          <div class="absolute bottom-3 left-3 text-white">
+            <h3 class="text-lg font-black leading-tight">Chevening & Foundation</h3>
+            <p class="text-xs text-indigo-200">Oxford, Cambridge, Russell Group</p>
+          </div>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+          <div class="text-xs text-slate-600 space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>100% O'qish to'lovi va viza xarajatlari</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>IELTS 7.0+ va kuchli liderlik inshosi</span>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-indigo-600">Muddat: Noyabr oyi</span>
+            <a href="{% url 'programs:catalog' %}?country=Buyuk+Britaniya" class="font-bold text-slate-700 hover:text-indigo-600 flex items-center space-x-1">
+              <span>Grantlar ➔</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Germany -->
+      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-indigo-300 transition duration-300 flex flex-col">
+        <div class="relative h-44 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=700&auto=format&fit=crop" alt="Germaniya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
+            <span>🇩🇪 Germaniya</span>
+          </div>
+          <div class="absolute bottom-3 left-3 text-white">
+            <h3 class="text-lg font-black leading-tight">DAAD & Davlat Universitetlari</h3>
+            <p class="text-xs text-indigo-200">Kontrakt to'lovisiz bepul ta'lim</p>
+          </div>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+          <div class="text-xs text-slate-600 space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>Davlat universitetlarida 0€ ta'lim to'lovi</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>Oylik 934€ stipendiya imkoniyati</span>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-indigo-600">Muddat: Oktyabr - Noyabr</span>
+            <a href="{% url 'programs:catalog' %}?country=Germaniya" class="font-bold text-slate-700 hover:text-indigo-600 flex items-center space-x-1">
+              <span>Grantlar ➔</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Turkey -->
+      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-indigo-300 transition duration-300 flex flex-col">
+        <div class="relative h-44 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=700&auto=format&fit=crop" alt="Turkiya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
+            <span>🇹🇷 Turkiya</span>
+          </div>
+          <div class="absolute bottom-3 left-3 text-white">
+            <h3 class="text-lg font-black leading-tight">Türkiye Bursları</h3>
+            <p class="text-xs text-indigo-200">Eng ommabop to'liq stipendiya</p>
+          </div>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+          <div class="text-xs text-slate-600 space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>O'qish, bepul yotoqxona, ovqatlanish va sug'urta</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>Turk tili kursi va bepul aviachipta</span>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-indigo-600">Muddat: 10-yanvar — 20-fevral</span>
+            <a href="{% url 'programs:catalog' %}?country=Turkiya" class="font-bold text-slate-700 hover:text-indigo-600 flex items-center space-x-1">
+              <span>Grantlar ➔</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: South Korea -->
+      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-indigo-300 transition duration-300 flex flex-col">
+        <div class="relative h-44 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1538485399081-7191377e8241?q=80&w=700&auto=format&fit=crop" alt="Janubiy Koreya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
+            <span>🇰🇷 Janubiy Koreya</span>
+          </div>
+          <div class="absolute bottom-3 left-3 text-white">
+            <h3 class="text-lg font-black leading-tight">GKS / KGSP Granti</h3>
+            <p class="text-xs text-indigo-200">SKY Universitetlari (Seoul Nat, Korea, Yonsei)</p>
+          </div>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+          <div class="text-xs text-slate-600 space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>100% Kontrakt + 1,000,000 KRW oylik stipendiya</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>1 yillik bepul koreys tili tayyorlov kursi</span>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-indigo-600">Muddat: Sentyabr - Oktyabr</span>
+            <a href="{% url 'programs:catalog' %}?country=Janubiy+Koreya" class="font-bold text-slate-700 hover:text-indigo-600 flex items-center space-x-1">
+              <span>Grantlar ➔</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6: Japan -->
+      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-indigo-300 transition duration-300 flex flex-col">
+        <div class="relative h-44 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=700&auto=format&fit=crop" alt="Yaponiya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
+            <span>🇯🇵 Yaponiya</span>
+          </div>
+          <div class="absolute bottom-3 left-3 text-white">
+            <h3 class="text-lg font-black leading-tight">MEXT Davlat Granti</h3>
+            <p class="text-xs text-indigo-200">Tokyo, Kyoto va Osaka Universitetlari</p>
+          </div>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+          <div class="text-xs text-slate-600 space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>To'liq grant va oylik 120,000¥ stipendiya</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>Elchixona orqali imtihon va intervyu</span>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-indigo-600">Muddat: May oyi</span>
+            <a href="{% url 'programs:catalog' %}?country=Yaponiya" class="font-bold text-slate-700 hover:text-indigo-600 flex items-center space-x-1">
+              <span>Grantlar ➔</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= HOW IT WORKS SECTION ================= -->
   <section id="how-it-works" class="pt-6 border-t border-slate-200">
     <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-      <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-3 py-1 rounded-full">3 ta oddiy qadam</span>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Platforma qanday ishlaydi?</h2>
-      <p class="text-sm text-slate-500">Katta orzular har kungi kichik intizomdan boshlanadi</p>
+      <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-3.5 py-1 rounded-full border border-indigo-100">
+        3 Bosqichli Strategiya
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+        Platforma qanday ishlaydi?
+      </h2>
+      <p class="text-sm text-slate-500">
+        Katta natijalar har kungi intizom va to'g'ri tizimdan boshlanadi
+      </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       
-      <!-- Step 1 -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs relative space-y-4">
-        <div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 font-black text-lg flex items-center justify-center">
-          1
+      <!-- Step 1 Card -->
+      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-indigo-300 transition duration-200">
+        <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <i data-lucide="clipboard-check" class="w-7 h-7"></i>
         </div>
-        <h3 class="text-lg font-bold text-slate-900">Diagnostika topshiring</h3>
-        <p class="text-sm text-slate-600 leading-relaxed">
-          Reading, Writing, Listening, Speaking va Grammar bo'yicha 5 ta asosiy ko'nikmangizni AI orqali 0-100 shkalada aniqlab oling.
+        <div class="space-y-1">
+          <span class="text-xs font-black text-indigo-600 uppercase tracking-wider">1-Qadam</span>
+          <h3 class="text-lg font-black text-slate-900">AI Diagnostika va Sertifikat Tahlili</h3>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Reading, Writing, Listening, Speaking va Grammar bo'yicha 5 ta asosiy ko'nikmangiz 0–100 shkalada aniqlanadi yoki IELTS/SAT sertifikatlaringiz yaroqliligi tekshiriladi.
         </p>
       </div>
 
-      <!-- Step 2 -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs relative space-y-4">
-        <div class="w-12 h-12 rounded-2xl bg-violet-50 border border-violet-100 text-violet-600 font-black text-lg flex items-center justify-center">
-          2
+      <!-- Step 2 Card -->
+      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-violet-300 transition duration-200">
+        <div class="w-14 h-14 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center">
+          <i data-lucide="layers" class="w-7 h-7"></i>
         </div>
-        <h3 class="text-lg font-bold text-slate-900">Shaxsiy reja oling</h3>
-        <p class="text-sm text-slate-600 leading-relaxed">
-          AI maqsadingiz (Global UGRAD, DAAD, IELTS) va eng zaif ko'nikmangizga moslashtirilgan haftalik aniq o'quv rejasini shakllantiradi.
+        <div class="space-y-1">
+          <span class="text-xs font-black text-violet-600 uppercase tracking-wider">2-Qadam</span>
+          <h3 class="text-lg font-black text-slate-900">Dual-Track Shaxsiy O'quv Rejasi</h3>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          AI sizga 8 oygacha bo'lgan 2 yo'nalishli reja tuzadi: <strong>Track A</strong> (IELTS/SAT test drilllari) va <strong>Track B</strong> (Insho, Extracurricular va Universitet arizalari).
         </p>
       </div>
 
-      <!-- Step 3 -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs relative space-y-4">
-        <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-600 font-black text-lg flex items-center justify-center">
-          3
+      <!-- Step 3 Card -->
+      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-emerald-300 transition duration-200">
+        <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <i data-lucide="trophy" class="w-7 h-7"></i>
         </div>
-        <h3 class="text-lg font-bold text-slate-900">Har kuni bajaring</h3>
-        <p class="text-sm text-slate-600 leading-relaxed">
-          Kuniga 2-3 ta qisqa vazifani bajaring, AI izohini o'rganing, Ready Score balingizni oshiring va grantga tayyor bo'ling.
+        <div class="space-y-1">
+          <span class="text-xs font-black text-emerald-600 uppercase tracking-wider">3-Qadam</span>
+          <h3 class="text-lg font-black text-slate-900">Kunlik Mashqlar va Mock Imtihonlar</h3>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Har kuni 2-3 ta qisqa mashqni bajaring, xatolaringizga batafsil AI izohini oling, to'liq vaqtli Mock simulyatsiyasini topshirib, 100% grantga tayyor bo'ling.
         </p>
       </div>
 
     </div>
   </section>
 
-  <!-- FEATURES GRID -->
+
+  <!-- ================= KEY FEATURES GRID ================= -->
   <section id="features" class="pt-6 border-t border-slate-200">
     <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-      <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-3 py-1 rounded-full">Afzalliklar</span>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Nega aynan Kelajak platformasi?</h2>
-      <p class="text-sm text-slate-500">Xorijda o'qish orzuingizni haqiqiy natijaga aylantiruvchi vositalar</p>
+      <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-3.5 py-1 rounded-full border border-indigo-100">
+        Asosiy Imkoniyatlar
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+        Nega aynan Kelajak AI Mentori?
+      </h2>
+      <p class="text-sm text-slate-500">
+        Xorijda o'qish orzuingizni bosqichma-bosqich haqiqiy natijaga aylantiruvchi vositalar
+      </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       
       <!-- Feature 1 -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-3">
-        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-          <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-600"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-indigo-300 transition">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
         </div>
-        <h3 class="font-bold text-slate-900 text-base">5 Ko'nikma Diagnostikasi</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Reading, Writing, Grammar, Listening va Speaking ko'nikmalaringizni alohida baholaydi va zaif nuqtangizni ko'rsatadi.
+        <h3 class="font-black text-slate-900 text-base">5 Ko'nikma Diagnostikasi</h3>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Reading, Writing, Grammar, Listening va Speaking ko'nikmalaringizni alohida baholaydi va kuchli hamda zaif nuqtalaringizni aniq ko'rsatadi.
         </p>
       </div>
 
       <!-- Feature 2 -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-3">
-        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-          <i data-lucide="flame" class="w-5 h-5 text-amber-600"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-amber-300 transition">
+        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <i data-lucide="stopwatch" class="w-6 h-6"></i>
         </div>
-        <h3 class="font-bold text-slate-900 text-base">Ready Score & Decay</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Kunlik mashqlar orqali balingiz oshadi. Agar kun o'tkazib yuborsangiz, ball asta kamayadi — bu sizni muntazam intizomda ushlaydi.
+        <h3 class="font-black text-slate-900 text-base">IELTS Mock Exam Simulator</h3>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Listening (30 min), Reading (60 min) va Writing (60 min) bo'yicha real imtihon formatidagi simulyatsiya va 0.0–9.0 Band baholash.
         </p>
       </div>
 
       <!-- Feature 3 -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-3">
-        <div class="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center">
-          <i data-lucide="message-circle" class="w-5 h-5 text-violet-600"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-violet-300 transition">
+        <div class="w-12 h-12 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center">
+          <i data-lucide="bot" class="w-6 h-6"></i>
         </div>
-        <h3 class="font-bold text-slate-900 text-base">AI Mentor Chat</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Sizning o'quv rejangiz, ballaringiz va maqsadlaringizni biladigan 24/7 yordamchi. Grant insholari va talablari bo'yicha maslahat beradi.
+        <h3 class="font-black text-slate-900 text-base">24/7 Shaxsiy AI Mentor</h3>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Sizning maqsadlaringiz, arizalaringiz va zaif ko'nikmalaringizni to'liq eslab qoluvchi, insholaringizni tahlil qilib, suhbatlarga tayyorlovchi aqlli mentor.
         </p>
       </div>
 
       <!-- Feature 4 -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-3">
-        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-          <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-emerald-300 transition">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <i data-lucide="send" class="w-6 h-6"></i>
         </div>
-        <h3 class="font-bold text-slate-900 text-base">Tasdiqlangan Grantlar Bazasi</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Hech qanday yolg'on yoki to'qima ma'lumot yo'q. Faqat moderatorlar tomonidan tekshirilgan rasmiy grant va dasturlar katalogi.
+        <h3 class="font-black text-slate-900 text-base">Ariza Holati Tracker (8 Bosqich)</h3>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Kuzatuvdan tortib to suhbat va qabul xatigacha bo'lgan barcha universitet arizalaringizni bitta qulay dashboardda tartibli boshqaring.
         </p>
       </div>
 
       <!-- Feature 5 -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-3">
-        <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
-          <i data-lucide="calendar-clock" class="w-5 h-5 text-rose-600"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-rose-300 transition">
+        <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center">
+          <i data-lucide="flame" class="w-6 h-6"></i>
         </div>
-        <h3 class="font-bold text-slate-900 text-base">Deadline Hisoblagich</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Siz kuzatayotgan dasturlarning muddatiga qolgan kunlarni dashboardda aniq ko'rsatib, arizani vaqtida topshirishga undaydi.
+        <h3 class="font-black text-slate-900 text-base">Ready Score & Motivatsion Odat</h3>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Kunlik mashqlar bilan umumiy Ready Score ko'rsatkichi oshadi. Muntazamlik saqlanmasa kichik decay mexanizmi intizomda ushlaydi.
         </p>
       </div>
 
       <!-- Feature 6 -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-3">
-        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-          <i data-lucide="smartphone" class="w-5 h-5 text-blue-600"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-blue-300 transition">
+        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+          <i data-lucide="shield-check" class="w-6 h-6"></i>
         </div>
-        <h3 class="font-bold text-slate-900 text-base">Mobil Moslashuvchanlik</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Istalgan smartfon yoki kompyuter orqali qulay foydalaning. O'zbek lotin alifbosidagi tushunarli va ravon interfeys.
+        <h3 class="font-black text-slate-900 text-base">100% Tasdiqlangan Grantlar Bazasi</h3>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Hech qanday soxta e'lonlar yo'q. Faqat moderatorlar tomonidan rasmiy manbasi va muddatlari tekshirilgan xalqaro stipendiyalar katalogi.
         </p>
       </div>
 
     </div>
   </section>
 
-  <!-- FEATURED PROGRAMS SECTION -->
+
+  <!-- ================= POPULAR PROGRAMS PREVIEW ================= -->
   <section id="programs" class="pt-6 border-t border-slate-200">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
       <div>
-        <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-3 py-1 rounded-full">Katalog</span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">Mashhur Xalqaro Grant Dasturlari</h2>
-        <p class="text-sm text-slate-500 mt-1">O'zbekiston yoshlari topshirishi mumkin bo'lgan to'liq moliyalashtiriluvchi dasturlar</p>
+        <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-3.5 py-1 rounded-full border border-indigo-100">
+          Tasdiqlangan Grantlar
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-black text-slate-900 mt-2">Mashhur Xalqaro Grant Dasturlari</h2>
+        <p class="text-sm text-slate-500 mt-1">O'zbekiston yoshlari uchun to'liq moliyalashtiriluvchi stipendiya va almashinuv dasturlari</p>
       </div>
-      <a href="{% url 'programs:catalog' %}" class="text-sm font-bold text-indigo-600 hover:text-indigo-700 flex items-center space-x-1">
+      <a href="{% url 'programs:catalog' %}" class="px-5 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-black rounded-xl transition flex items-center space-x-1.5">
         <span>Barcha dasturlarni ko'rish</span>
         <i data-lucide="arrow-right" class="w-4 h-4"></i>
       </a>
@@ -292,39 +559,39 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {% for prog in programs %}
-        <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs flex flex-col justify-between hover:shadow-md transition">
+        <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs flex flex-col justify-between hover:shadow-xl hover:border-indigo-300 transition duration-200">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <span class="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full">
                 {{ prog.country }}
               </span>
-              <span class="text-xs font-semibold {% if prog.type == 'grant' %}text-emerald-600{% else %}text-indigo-600{% endif %} uppercase">
+              <span class="text-xs font-bold {% if prog.type == 'grant' %}text-emerald-600{% else %}text-indigo-600{% endif %} uppercase">
                 {{ prog.get_type_display }}
               </span>
             </div>
             
-            <h3 class="text-lg font-bold text-slate-900">{{ prog.name }}</h3>
+            <h3 class="text-lg font-black text-slate-900">{{ prog.name }}</h3>
             
-            <div class="space-y-1.5 text-xs text-slate-600">
+            <div class="space-y-2 text-xs text-slate-600">
               <div class="flex items-center space-x-2">
-                <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i>
+                <i data-lucide="calendar-clock" class="w-4 h-4 text-slate-400"></i>
                 <span>Muddati: <strong>{{ prog.deadline|date:"d-F, Y"|default:"Har yili" }}</strong></span>
               </div>
               <div class="flex items-center space-x-2">
-                <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-500"></i>
-                <span>Tasdiqlangan: {{ prog.last_verified_date|date:"d.m.Y" }}</span>
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i>
+                <span>Rasmiy tekshirilgan sana: {{ prog.last_verified_date|date:"d.m.Y" }}</span>
               </div>
             </div>
           </div>
 
           <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-            <a href="{{ prog.source_url }}" target="_blank" rel="noopener" class="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center space-x-1">
+            <a href="{{ prog.source_url }}" target="_blank" rel="noopener" class="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center space-x-1">
               <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
               <span>Rasmiy sayt</span>
             </a>
-            <a href="{% url 'accounts:register' %}" class="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center space-x-1">
-              <span>Tayyorlanish</span>
-              <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            <a href="{% url 'programs:detail' prog.id %}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition flex items-center space-x-1">
+              <span>Batafsil</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
           </div>
         </div>
@@ -336,22 +603,120 @@
     </div>
   </section>
 
-  <!-- CTA BANNER -->
-  <section class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-violet-900 rounded-3xl p-8 sm:p-12 text-white shadow-xl text-center space-y-6 relative overflow-hidden">
-    <!-- Glow circle decoration -->
-    <div class="absolute -top-24 -right-24 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-violet-500/20 rounded-full blur-3xl"></div>
 
-    <div class="relative z-10 max-w-2xl mx-auto space-y-4">
-      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black">
+  <!-- ================= TESTIMONIALS / STUDENT SUCCESS STORIES ================= -->
+  <section class="pt-6 border-t border-slate-200">
+    <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+      <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-3.5 py-1 rounded-full border border-indigo-100">
+        O'quvchilar Fikrlari
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+        Kelajak AI bilan grant yutgan talabalar
+      </h2>
+      <p class="text-sm text-slate-500">
+        Haqiqiy o'quvchilar tajribasi va erishilgan yutuqlar
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Testimonial 1 -->
+      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-indigo-200 transition">
+        <div class="space-y-3">
+          <div class="flex items-center space-x-1 text-amber-400">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+            "Global UGRAD uchun insho yozishda eng ko'p qiynalgan edim. AI Mentor har bir xatboshimdagi kamchiliklarni ko'rsatib, STAR metodida qayta yozishimga yordam berdi. Natijada 100% grant yutdim!"
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-3 pt-3 border-t border-slate-100">
+          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=120&auto=format&fit=crop" alt="Javohir" class="w-11 h-11 rounded-2xl object-cover border border-slate-200">
+          <div>
+            <h4 class="text-xs sm:text-sm font-black text-slate-900">Javohir Rustamov</h4>
+            <p class="text-[11px] text-indigo-600 font-bold">Global UGRAD Finalisti • AQSh</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-indigo-200 transition">
+        <div class="space-y-3">
+          <div class="flex items-center space-x-1 text-amber-400">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+            "IELTS Mock Simulator bo'limi ajoyib! Haqiqiy imtihondek taymer bilan ishlaydi. 3 marta mock topshirib, xatolarimni to'g'irlaganimdan so'ng rasmiy imtihonda 8.0 Band oldim."
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-3 pt-3 border-t border-slate-100">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=120&auto=format&fit=crop" alt="Zuhra" class="w-11 h-11 rounded-2xl object-cover border border-slate-200">
+          <div>
+            <h4 class="text-xs sm:text-sm font-black text-slate-900">Zuhra Aliyeva</h4>
+            <p class="text-[11px] text-indigo-600 font-bold">IELTS 8.0 • DAAD Stipendiyasi</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-indigo-200 transition">
+        <div class="space-y-3">
+          <div class="flex items-center space-x-1 text-amber-400">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+            "Kunlik streak va Ready Score meni har kuni o'qishga majbur qildi. Ariza tracker orqali 4 ta universitet arizasini adashmasdan vaqtida topshirdim va 2 tasidan to'liq qabul oldim."
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-3 pt-3 border-t border-slate-100">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=120&auto=format&fit=crop" alt="Bekzod" class="w-11 h-11 rounded-2xl object-cover border border-slate-200">
+          <div>
+            <h4 class="text-xs sm:text-sm font-black text-slate-900">Bekzod Toshmatov</h4>
+            <p class="text-[11px] text-indigo-600 font-bold">Türkiye Bursları G'olibi</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= CTA BANNER ================= -->
+  <section class="bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 rounded-3xl p-8 sm:p-14 text-white shadow-2xl text-center space-y-6 relative overflow-hidden">
+    <!-- Glow circle decoration -->
+    <div class="absolute -top-24 -right-24 w-80 h-80 bg-indigo-500/25 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-violet-500/25 rounded-full blur-3xl"></div>
+
+    <div class="relative z-10 max-w-2xl mx-auto space-y-5">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-white/10 backdrop-blur rounded-full text-indigo-200 text-xs font-bold border border-white/10">
+        <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span>Kelajagingiz sari ilk qadamni qo'ying</span>
+      </div>
+
+      <h2 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
         Xorijda bepul ta'lim olish orzuingizni reallikka aylantiring
       </h2>
-      <p class="text-indigo-100 text-sm sm:text-base leading-relaxed">
-        Birinchi qadam — hoziroq 3 daqiqalik bepul diagnostika testini topshirib, o'z bilim darajangiz va shaxsiy o'quv rejangizni oling.
+      <p class="text-indigo-200 text-xs sm:text-base leading-relaxed max-w-xl mx-auto">
+        3 daqiqalik bepul diagnostikadan o'ting, o'z bilim darajangizni aniqlang va AI tuzgan shaxsiy o'quv rejangizga ega bo'ling.
       </p>
-      <div class="pt-2">
-        <a href="{% url 'accounts:register' %}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-indigo-900 hover:bg-indigo-50 text-base font-extrabold rounded-2xl shadow-lg transition duration-150 space-x-2">
-          <span>Ro'yxatdan o'tish (Bepul)</span>
+      <div class="pt-3">
+        <a href="{% url 'accounts:register' %}" class="inline-flex items-center justify-center px-9 py-4 bg-white text-indigo-950 hover:bg-slate-100 active:scale-[0.99] text-base font-extrabold rounded-2xl shadow-xl transition duration-150 space-x-2">
+          <span>Ro'yxatdan o'tish (100% Bepul)</span>
           <i data-lucide="arrow-right" class="w-5 h-5 text-indigo-600"></i>
         </a>
       </div>
