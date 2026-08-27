@@ -180,29 +180,17 @@
     {% include 'includes/nav_bottom.html' %}
   {% endif %}
 
-  <!-- Lucide Icon Initialization -->
+  <!-- Fast, Safe Lucide Icon Initialization (Zero CPU Lag) -->
   <script>
-    lucide.createIcons();
-    document.addEventListener('DOMContentLoaded', function() {
-      lucide.createIcons();
-    });
-    if (typeof MutationObserver !== 'undefined') {
-      const observer = new MutationObserver(function(mutations) {
-        let hasNewIcons = false;
-        mutations.forEach(function(mutation) {
-          if (mutation.addedNodes.length > 0) {
-            mutation.addedNodes.forEach(function(node) {
-              if (node.nodeType === 1 && (node.hasAttribute('data-lucide') || (node.querySelector && node.querySelector('[data-lucide]')))) {
-                hasNewIcons = true;
-              }
-            });
-          }
-        });
-        if (hasNewIcons) {
-          lucide.createIcons();
-        }
-      });
-      observer.observe(document.body, { childList: true, subtree: true });
+    function initLucideIcons() {
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLucideIcons);
+    } else {
+      initLucideIcons();
     }
   </script>
 
