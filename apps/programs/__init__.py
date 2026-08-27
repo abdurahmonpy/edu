@@ -1,0 +1,3 @@
+"""
+Programs catalog app package.
+"""

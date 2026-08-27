@@ -1,0 +1,3 @@
+"""
+Study plans app package.
+"""

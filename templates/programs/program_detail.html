@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ program.name }} | Kelajak{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+
+  <!-- Breadcrumb and Program Header -->
+  <div class="space-y-2">
+    <a href="{% url 'programs:catalog' %}" class="inline-flex items-center space-x-1 text-xs font-bold text-indigo-600 hover:text-indigo-800">
+      <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+      <span>Barcha dasturlarga qaytish</span>
+    </a>
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <div class="flex items-center space-x-2">
+        <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full {% if program.type == 'grant' %}bg-indigo-100 text-indigo-800{% elif program.type == 'exchange' %}bg-blue-100 text-blue-800{% else %}bg-purple-100 text-purple-800{% endif %}">
+          {{ program.get_type_display }}
+        </span>
+        <span class="text-xs text-slate-400">•</span>
+        <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full inline-flex items-center space-x-1">
+          <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i>
+          <span>{{ program.country }}</span>
+        </span>
+      </div>
+
+      <!-- Kuzatish (Track / Bookmark) Toggle Button -->
+      <button
+        type="button"
+        onclick="toggleTrackProgramDetail({{ program.id }}, this)"
+        id="detail-track-btn"
+        class="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition duration-150 {% if is_tracked %}bg-indigo-100 text-indigo-800 border border-indigo-200{% else %}bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200{% endif %}"
+        title="Kuzatuvga qo'shish yoki olib tashlash"
+      >
+        <i data-lucide="bookmark" class="w-4 h-4 {% if is_tracked %}fill-indigo-700 text-indigo-700{% else %}text-slate-500{% endif %}"></i>
+        <span id="detail-track-btn-label">{% if is_tracked %}Kuzatilmoqda{% else %}Kuzatish{% endif %}</span>
+      </button>
+    </div>
+
+    <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">
+      {{ program.name }}
+    </h1>
+  </div>
+
+  <!-- Mandatory Trust & Safety Disclaimer -->
+  {% include 'includes/disclaimer.html' %}
+
+  <!-- Program Details Card -->
+  <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+    
+    <!-- Deadline and Key Attributes -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-slate-100">
+      <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start space-x-3">
+        <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl mt-0.5">
+          <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Topshirish muddati</span>
+          <div class="text-base font-bold text-slate-900 mt-0.5">
+            {{ program.deadline|default:"Belgilanmagan" }}
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start space-x-3">
+        <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl mt-0.5">
+          <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Dastur turi</span>
+          <div class="text-base font-bold text-slate-900 mt-0.5">
+            {{ program.get_type_display }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Requirements Breakdown -->
+    <div class="space-y-3">
+      <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+        <i data-lucide="clipboard-check" class="w-5 h-5 text-indigo-600"></i>
+        <span>Dastur Talablari</span>
+      </h2>
+      {% if program.requirements %}
+        <div class="divide-y divide-slate-100 border border-slate-100 rounded-2xl overflow-hidden">
+          {% for req_key, req_val in program.requirements.items %}
+            <div class="p-4 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between text-sm gap-1">
+              <span class="font-bold text-slate-700 capitalize">{{ req_key }}</span>
+              <span class="text-slate-600 sm:text-right">{{ req_val }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-sm text-slate-500">Talablar rasmiy veb-saytda ko'rsatilgan.</p>
+      {% endif %}
+    </div>
+
+    <!-- Admin Verification Meta (R5 Requirement) -->
+    <div class="p-5 bg-indigo-50/50 border border-indigo-200 rounded-2xl space-y-2 text-xs text-slate-700">
+      <div class="font-bold text-indigo-900 text-sm flex items-center space-x-1.5">
+        <i data-lucide="shield-check" class="w-4 h-4 text-indigo-600"></i>
+        <span>Rasmiy Ma'lumot Tekshiruvi</span>
+      </div>
+      <p class="text-slate-600">
+        Ushbu dastur ma'lumotlari adminlarimiz tomonidan rasmiy veb-sayti orqali tekshirilgan.
+      </p>
+      <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-indigo-200/60 text-xs">
+        <span>Oxirgi tekshirilgan sana: <strong>{{ program.last_verified_date|date:"d-F, Y" }}</strong></span>
+        <span>Moderator: <strong>{{ program.verified_by }}</strong></span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <a
+        href="{{ program.source_url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-2xl shadow-md transition text-center inline-flex items-center justify-center space-x-2"
+      >
+        <span>Rasmiy Saytga O'tish</span>
+        <i data-lucide="external-link" class="w-4 h-4"></i>
+      </a>
+
+      <a
+        href="{% url 'mentor:chat' %}"
+        class="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold rounded-2xl transition text-center inline-flex items-center justify-center space-x-1.5"
+      >
+        <i data-lucide="message-circle" class="w-4 h-4 text-indigo-600"></i>
+        <span>AI Mentordan so'rash</span>
+      </a>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  async function toggleTrackProgramDetail(progId, btn) {
+    const csrftoken = getCookie('csrftoken');
+    const url = `/programs/${progId}/track/`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken,
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const labelSpan = document.getElementById('detail-track-btn-label');
+        const icon = btn.querySelector('i[data-lucide="bookmark"]');
+
+        if (data.is_tracked) {
+          btn.className = 'inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition duration-150 bg-indigo-100 text-indigo-800 border border-indigo-200';
+          if (labelSpan) labelSpan.textContent = 'Kuzatilmoqda';
+          if (icon) {
+            icon.classList.add('fill-indigo-700', 'text-indigo-700');
+            icon.classList.remove('text-slate-500');
+          }
+        } else {
+          btn.className = 'inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition duration-150 bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200';
+          if (labelSpan) labelSpan.textContent = 'Kuzatish';
+          if (icon) {
+            icon.classList.remove('fill-indigo-700', 'text-indigo-700');
+            icon.classList.add('text-slate-500');
+          }
+        }
+        lucide.createIcons();
+      } else {
+        window.location.href = url;
+      }
+    } catch (err) {
+      window.location.href = url;
+    }
+  }
+</script>
+{% endblock %}

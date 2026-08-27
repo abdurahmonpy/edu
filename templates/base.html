@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>{% block title %}Kelajak — Xorijda Ta'lim AI Mentori{% endblock %}</title>
+  
+  <!-- Local Fast JS Assets (Zero CDN Latency) -->
+  <script src="{% static 'js/lucide.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/tailwind.min.css' %}">
+  <script src="{% static 'js/tailwind.js' %}"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    .pb-safe {
+      padding-bottom: env(safe-area-inset-bottom, 1rem);
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-full font-sans antialiased text-slate-900 bg-slate-50">
+
+  {% if request.user.is_authenticated and not hide_sidebar %}
+    <!-- Desktop Persistent Left Sidebar (>= 640px) -->
+    <aside class="hidden sm:flex flex-col fixed left-0 top-0 h-screen w-60 bg-white border-r border-slate-200 z-30 justify-between">
+      <!-- Top Section: Brand + Navigation -->
+      <div class="flex flex-col flex-1 min-h-0">
+        <!-- Brand Logo -->
+        <div class="h-16 flex items-center px-5 border-b border-slate-100 flex-shrink-0">
+          <a href="{% url 'dashboard:index' %}" class="flex items-center space-x-3 text-indigo-600 hover:opacity-90 transition">
+            <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+              <i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i>
+            </div>
+            <span class="text-xl font-extrabold text-slate-900 tracking-tight">Kelajak</span>
+          </a>
+        </div>
+
+        <!-- Navigation List -->
+        <nav class="p-3 space-y-1.5 flex-1 overflow-y-auto">
+          <!-- 1. Bosh sahifa -->
+          <a href="{% url 'dashboard:index' %}"
+             class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl transition duration-150 {% if '/dashboard/' in request.path %}bg-indigo-50 text-indigo-700 font-semibold border-l-4 border-indigo-600 rounded-r-xl{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium{% endif %}">
+            <i data-lucide="home" class="w-5 h-5 {% if '/dashboard/' in request.path %}text-indigo-600{% else %}text-slate-500{% endif %}"></i>
+            <span>Bosh sahifa</span>
+          </a>
+
+          <!-- 2. Vazifalar -->
+          <a href="{% url 'tasks:list' %}"
+             class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl transition duration-150 {% if '/tasks/' in request.path %}bg-indigo-50 text-indigo-700 font-semibold border-l-4 border-indigo-600 rounded-r-xl{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium{% endif %}">
+            <i data-lucide="clipboard-check" class="w-5 h-5 {% if '/tasks/' in request.path %}text-indigo-600{% else %}text-slate-500{% endif %}"></i>
+            <span>Vazifalar</span>
+          </a>
+
+          <!-- 3. AI Mentor -->
+          <a href="{% url 'mentor:chat' %}"
+             class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl transition duration-150 {% if '/mentor/' in request.path %}bg-indigo-50 text-indigo-700 font-semibold border-l-4 border-indigo-600 rounded-r-xl{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium{% endif %}">
+            <i data-lucide="message-circle" class="w-5 h-5 {% if '/mentor/' in request.path %}text-indigo-600{% else %}text-slate-500{% endif %}"></i>
+            <span>AI Mentor</span>
+          </a>
+
+          <!-- 4. Dasturlar -->
+          <a href="{% url 'programs:catalog' %}"
+             class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl transition duration-150 {% if '/programs/' in request.path %}bg-indigo-50 text-indigo-700 font-semibold border-l-4 border-indigo-600 rounded-r-xl{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium{% endif %}">
+            <i data-lucide="graduation-cap" class="w-5 h-5 {% if '/programs/' in request.path %}text-indigo-600{% else %}text-slate-500{% endif %}"></i>
+            <span>Dasturlar</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Bottom Section: Persistent Widget + Auth/User Info -->
+      <div class="flex-shrink-0">
+        <div class="p-4 border-t border-slate-100 space-y-3 bg-slate-50/60">
+          <!-- Ready Score Widget -->
+          <div class="flex items-center justify-between p-2.5 bg-white rounded-xl border border-slate-200 shadow-xs text-xs">
+            <div class="flex items-center space-x-2 text-slate-700 font-medium">
+              <i data-lucide="target" class="w-4 h-4 text-indigo-600"></i>
+              <span>Ready Score:</span>
+            </div>
+            <span class="font-bold text-indigo-600 text-sm">{{ request.user.student_profile.overall_ready_score|default:0|floatformat:0 }}%</span>
+          </div>
+
+          <!-- Streak Widget -->
+          <div class="flex items-center justify-between p-2.5 bg-white rounded-xl border border-slate-200 shadow-xs text-xs">
+            <div class="flex items-center space-x-2 text-slate-700 font-medium">
+              <i data-lucide="flame" class="w-4 h-4 text-amber-500"></i>
+              <span>Streak:</span>
+            </div>
+            <span class="font-bold text-amber-600 text-sm">{{ request.user.student_profile.streak_days|default:0 }} kun</span>
+          </div>
+
+          <!-- User Profile & Logout -->
+          <div class="flex items-center justify-between pt-1 border-t border-slate-200/60">
+            <div class="flex items-center space-x-2 min-w-0">
+              <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                {{ request.user.first_name|default:request.user.phone_number|slice:":1"|upper }}
+              </div>
+              <span class="text-xs font-semibold text-slate-800 truncate" title="{{ request.user.first_name|default:request.user.phone_number }}">
+                {{ request.user.first_name|default:request.user.phone_number }}
+              </span>
+            </div>
+            <form method="post" action="{% url 'accounts:logout' %}" class="inline">
+              {% csrf_token %}
+              <button type="submit" class="text-xs text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition" title="Chiqish">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Top Navigation Bar (< 640px) -->
+    {% include 'includes/nav_top.html' %}
+  {% else %}
+    <!-- Public Header for unauthenticated / landing / auth pages -->
+    {% include 'includes/nav_public.html' %}
+  {% endif %}
+
+  <!-- Main Layout Wrapper (Desktop offset sm:pl-60 only when sidebar is active) -->
+  <div class="min-h-screen flex flex-col {% if request.user.is_authenticated and not hide_sidebar %}sm:pl-60{% endif %}">
+    
+    <!-- Flash Messages Banner Container -->
+    <div class="max-w-6xl w-full mx-auto px-4 pt-3">
+      {% include 'includes/messages.html' %}
+    </div>
+
+    <!-- Main Application Content Area -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-4 md:py-8 {% if request.user.is_authenticated and not hide_sidebar %}pb-20 sm:pb-8{% endif %}">
+      {% block content %}
+        {% if message %}
+          <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 text-center">
+            <p class="text-slate-700 font-medium">{{ message }}</p>
+          </div>
+        {% endif %}
+      {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 gap-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-5 h-5 rounded-md bg-indigo-600 text-white flex items-center justify-center">
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-white"></i>
+          </div>
+          <span class="font-bold text-slate-800 text-sm">Kelajak</span>
+          <span>— O'zbekiston maktab o'quvchilari uchun AI ta'lim mentori</span>
+        </div>
+        <div>
+          <span class="text-slate-600 font-medium">{{ DISCLAIMER_TEXT|default:"AI tavsiyasi — yakuniy qarorni oila va o'quvchi qabul qiladi." }}</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  {% if request.user.is_authenticated and not hide_sidebar %}
+    <!-- Mobile Bottom Navigation Bar (< 640px) -->
+    {% include 'includes/nav_bottom.html' %}
+  {% endif %}
+
+  <!-- Lucide Icon Initialization -->
+  <script>
+    lucide.createIcons();
+    document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+    });
+    if (typeof MutationObserver !== 'undefined') {
+      const observer = new MutationObserver(function(mutations) {
+        let hasNewIcons = false;
+        mutations.forEach(function(mutation) {
+          if (mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.nodeType === 1 && (node.hasAttribute('data-lucide') || (node.querySelector && node.querySelector('[data-lucide]')))) {
+                hasNewIcons = true;
+              }
+            });
+          }
+        });
+        if (hasNewIcons) {
+          lucide.createIcons();
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+  </script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,3 @@
+"""
+Mentor chat app package.
+"""

@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block title %}Diagnostika Natijalari va Shaxsiy O'quv Rejasi | Kelajak{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-4">
+
+  <!-- Step Indicator -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between relative">
+      <div class="w-full absolute top-1/2 -translate-y-1/2 h-1 bg-indigo-500 -z-0"></div>
+      
+      <!-- Step 1 (Completed) -->
+      <div class="relative z-10 flex flex-col items-center">
+        <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+          <i data-lucide="check" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="text-xs font-semibold text-indigo-700 mt-2">1. Profil</span>
+      </div>
+
+      <!-- Step 2 (Completed) -->
+      <div class="relative z-10 flex flex-col items-center">
+        <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+          <i data-lucide="check" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="text-xs font-semibold text-indigo-700 mt-2">2. Diagnostika</span>
+      </div>
+
+      <!-- Step 3 (Active) -->
+      <div class="relative z-10 flex flex-col items-center">
+        <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-indigo-100">
+          3
+        </div>
+        <span class="text-xs font-bold text-indigo-800 mt-2">3. O'quv rejasi</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Header Card -->
+  <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 rounded-3xl p-6 md:p-10 text-white shadow-xl mb-8 relative overflow-hidden">
+    <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="text-center md:text-left">
+        <span class="px-3.5 py-1 bg-indigo-700/80 text-indigo-100 text-xs font-bold rounded-full uppercase tracking-wider">
+          Muvaffaqiyatli topshirildi
+        </span>
+        <h1 class="text-2xl md:text-4xl font-extrabold mt-3">
+          Tabriklaymiz, {{ student.user.first_name|default:"O'quvchi" }}!
+        </h1>
+        <p class="text-indigo-100 text-sm md:text-base mt-2 max-w-lg">
+          Sizning dastlabki diagnostika natijalaringiz tahlil qilindi va maqsadlaringizga mos shaxsiy o'quv rejasi shakllantirildi.
+        </p>
+      </div>
+
+      <!-- Ready Score Circle Display -->
+      <div class="flex flex-col items-center bg-white/10 backdrop-blur-md px-8 py-6 rounded-3xl border border-white/20 shadow-inner">
+        <span class="text-xs font-semibold text-indigo-200 uppercase tracking-wider mb-1">
+          Ready Score (Tayyorgarlik)
+        </span>
+        <div class="text-4xl md:text-5xl font-black text-white">
+          {{ ready_score }}<span class="text-2xl text-indigo-300">%</span>
+        </div>
+        <span class="text-xs text-indigo-100 mt-1 font-medium">Boshlang'ich ko'rsatkich</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mandatory Uzbek Disclaimer -->
+  {% include 'includes/disclaimer.html' %}
+
+  <!-- 5 Skills Breakdown Card -->
+  <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 mb-8">
+    <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+      <div>
+        <h2 class="text-xl font-extrabold text-slate-900">5 ta Asosiy Ko'nikma Bo'yicha Boshlang'ich Ballar</h2>
+        <p class="text-xs md:text-sm text-slate-500 mt-0.5">Xalqaro grantlar va universitetlarga kirish talablari asosida (0-100 shkalada)</p>
+      </div>
+      <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+        <i data-lucide="bar-chart-3" class="w-6 h-6 text-indigo-600"></i>
+      </div>
+    </div>
+
+    <div class="space-y-5">
+      {% for item in skill_scores %}
+        <div>
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-sm font-bold text-slate-800 flex items-center space-x-2">
+              {% if item.skill == 'reading' %}
+                <i data-lucide="book-open" class="w-4 h-4 text-blue-600"></i>
+                <span>O'qish (Reading)</span>
+              {% elif item.skill == 'grammar' %}
+                <i data-lucide="pen-tool" class="w-4 h-4 text-amber-600"></i>
+                <span>Grammatika (Grammar)</span>
+              {% elif item.skill == 'writing' %}
+                <i data-lucide="file-text" class="w-4 h-4 text-indigo-600"></i>
+                <span>Yozish (Writing)</span>
+              {% elif item.skill == 'listening' %}
+                <i data-lucide="headphones" class="w-4 h-4 text-purple-600"></i>
+                <span>Tinglab tushunish (Listening)</span>
+              {% elif item.skill == 'speaking' %}
+                <i data-lucide="mic" class="w-4 h-4 text-rose-600"></i>
+                <span>Gapirish (Speaking)</span>
+              {% else %}
+                <i data-lucide="target" class="w-4 h-4 text-indigo-600"></i>
+                <span>{{ item.get_skill_display }}</span>
+              {% endif %}
+            </span>
+            <span class="text-sm font-extrabold {% if item.current_score >= 70 %}text-indigo-700{% elif item.current_score >= 50 %}text-amber-600{% else %}text-rose-600{% endif %}">
+              {{ item.current_score }} / 100
+            </span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden p-0.5">
+            <div
+              class="h-full rounded-full transition-all duration-500 {% if item.current_score >= 70 %}bg-indigo-600{% elif item.current_score >= 50 %}bg-amber-500{% else %}bg-rose-500{% endif %}"
+              style="width: {{ item.current_score }}%;"
+            ></div>
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-sm text-slate-500">Ko'nikma ballari hisoblanmoqda...</p>
+      {% endfor %}
+    </div>
+
+    {% if weakest_skill %}
+      <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start space-x-3">
+        <div class="text-amber-600 flex-shrink-0 mt-0.5">
+          <i data-lucide="target" class="w-5 h-5 text-amber-600"></i>
+        </div>
+        <div class="text-xs md:text-sm text-amber-900 leading-relaxed">
+          <strong>Asosiy e'tibor qaratiladigan ko'nikma:</strong> Sizning eng zaif ko'nikmangiz — <strong>{{ weakest_skill.get_skill_display }} ({{ weakest_skill.current_score }} ball)</strong>. Kundalik mashg'ulotlar dastlab ushbu sohani tezkor rivojlantirishga qaratiladi.
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- AI Generated Study Plan Card -->
+  {% if active_plan %}
+    <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 mb-8">
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+        <div>
+          <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-full uppercase tracking-wider">
+            AI O'quv Rejasi
+          </span>
+          <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 mt-2">
+            {{ active_plan.generated_by_ai.title|default:"Xalqaro Grantlar Uchun Shaxsiy O'quv Rejasi" }}
+          </h2>
+          <p class="text-xs md:text-sm text-slate-500 mt-1">
+            Muddati: {{ active_plan.start_date }} dan {{ active_plan.target_date }} gacha
+          </p>
+        </div>
+        <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <i data-lucide="calendar" class="w-6 h-6 text-indigo-600"></i>
+        </div>
+      </div>
+
+      <!-- Plan Summary -->
+      <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl mb-6 text-sm text-slate-700 leading-relaxed">
+        <p class="font-medium">
+          {{ active_plan.generated_by_ai.summary|default:active_plan.goal }}
+        </p>
+        {% if active_plan.generated_by_ai.weakest_skill_strategy %}
+          <div class="mt-3 pt-3 border-t border-slate-200 text-xs text-slate-600">
+            <strong>Maxsus strategiya:</strong> {{ active_plan.generated_by_ai.weakest_skill_strategy }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Milestones Grid -->
+      {% if active_plan.generated_by_ai.milestones %}
+        <div class="mb-6">
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">Asosiy Bosqichlar (Milestones)</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {% for m in active_plan.generated_by_ai.milestones %}
+              <div class="p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 flex flex-col justify-between">
+                <div>
+                  <span class="text-xs font-bold text-indigo-800 px-2 py-0.5 bg-indigo-200/60 rounded-md">
+                    {{ m.target_week }}-hafta
+                  </span>
+                  <h4 class="font-bold text-slate-900 text-sm mt-2">{{ m.title }}</h4>
+                  <p class="text-xs text-slate-600 mt-1 leading-relaxed">{{ m.description }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Daily Routine Tips -->
+      {% if active_plan.generated_by_ai.daily_routine_tips %}
+        <div class="p-5 bg-blue-50/50 border border-blue-100 rounded-2xl mb-6">
+          <h3 class="text-xs font-bold text-blue-900 uppercase tracking-wider mb-2">Kunlik Odatlar va Tavsiyalar</h3>
+          <ul class="list-disc list-inside text-xs md:text-sm text-blue-800 space-y-1">
+            {% for tip in active_plan.generated_by_ai.daily_routine_tips %}
+              <li>{{ tip }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <!-- Motivational Advice -->
+      {% if active_plan.generated_by_ai.motivational_advice %}
+        <div class="text-center italic text-xs md:text-sm text-slate-500 pt-2">
+          "{{ active_plan.generated_by_ai.motivational_advice }}"
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <!-- Call to Action Card -->
+  <div class="p-6 md:p-8 bg-white rounded-3xl shadow-md border border-indigo-200 text-center">
+    <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mb-2">
+      Tayyorgarlikni boshlashga tayyormisiz?
+    </h3>
+    <p class="text-slate-600 text-xs md:text-sm max-w-md mx-auto mb-6">
+      Boshqaruv paneliga o'ting va bugungi kunlik vazifalaringizni bajarish orqali Ready Score balingizni oshiring.
+    </p>
+
+    <a
+      href="{% url 'dashboard:index' %}"
+      class="inline-flex items-center justify-center px-10 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-2xl shadow-lg transition-all duration-200 text-base space-x-2"
+    >
+      <span>Boshqaruv paneliga o'tish (Dashboard)</span>
+      <i data-lucide="arrow-right" class="w-5 h-5"></i>
+    </a>
+  </div>
+
+</div>
+{% endblock %}
