@@ -1,0 +1,26 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Hujjatni o'chirish — Kelajak{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto my-8">
+  <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xs text-center space-y-4">
+    <div class="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto">
+      <i data-lucide="trash-2" class="w-6 h-6"></i>
+    </div>
+    
+    <h1 class="text-xl font-bold text-slate-900">Hujjatni o'chirishni tasdiqlaysizmi?</h1>
+    <p class="text-xs text-slate-500">«<strong>{{ document.title }}</strong>» hujjati butunlay o'chiriladi. Bu amalni qaytarib bo'lmaydi.</p>
+
+    <form method="post" class="flex items-center justify-center space-x-3 pt-3">
+      {% csrf_token %}
+      <a href="{% url 'documents:detail' document.id %}" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">
+        Bekor qilish
+      </a>
+      <button type="submit" class="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl shadow-xs transition">
+        Ha, o'chirilsin
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

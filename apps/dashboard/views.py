@@ -301,3 +301,171 @@ def dashboard_view(request):
     }
     return render(request, 'dashboard/index.html', context)
 
+
+@login_required
+def calendar_view(request):
+    """
+    Calendar view aggregating program deadlines, tracking bookmarks, and upcoming milestones.
+    """
+    student, _ = Student.objects.get_or_create(user=request.user)
+    today = timezone.localdate()
+
+    # Get month / year from query params or current date
+    try:
+        current_year = int(request.GET.get('year', today.year))
+        current_month = int(request.GET.get('month', today.month))
+    except (ValueError, TypeError):
+        current_year, current_month = today.year, today.month
+
+    # Clamp month
+    if current_month < 1:
+        current_month = 12
+        current_year -= 1
+    elif current_month > 12:
+        current_month = 1
+        current_year += 1
+
+    cal = calendar.Calendar(firstweekday=0)  # Monday first
+    month_days = cal.monthdatescalendar(current_year, current_month)
+
+    # Fetch programs
+    all_programs = list(Program.objects.all())
+    tracked_program_ids = set(
+        Program.objects.filter(student_tracking__student=student).values_list('id', flat=True)
+    )
+
+    # Parse deadlines and map by date
+    events_by_date = {}
+    upcoming_deadlines = []
+
+    for prog in all_programs:
+        parsed_d = parse_deadline_to_date(prog.deadline, reference_date=today)
+        is_tracked = (prog.id in tracked_program_ids)
+        if parsed_d:
+            if parsed_d not in events_by_date:
+                events_by_date[parsed_d] = []
+            event_item = {
+                'program': prog,
+                'is_tracked': is_tracked,
+                'days_left': (parsed_d - today).days,
+            }
+            events_by_date[parsed_d].append(event_item)
+
+            if parsed_d >= today:
+                upcoming_deadlines.append({
+                    'date': parsed_d,
+                    'program': prog,
+                    'is_tracked': is_tracked,
+                    'days_left': (parsed_d - today).days,
+                })
+
+    upcoming_deadlines.sort(key=lambda x: x['date'])
+
+    # Build calendar grid data
+    calendar_weeks = []
+    for week in month_days:
+        week_days = []
+        for day in week:
+            is_current_month = (day.month == current_month)
+            day_events = events_by_date.get(day, [])
+            week_days.append({
+                'date': day,
+                'day_num': day.day,
+                'is_today': (day == today),
+                'is_current_month': is_current_month,
+                'events': day_events,
+                'has_tracked': any(e['is_tracked'] for e in day_events),
+            })
+        calendar_weeks.append(week_days)
+
+    month_names_uz = [
+        "", "Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun",
+        "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"
+    ]
+
+    prev_month = current_month - 1 if current_month > 1 else 12
+    prev_year = current_year if current_month > 1 else current_year - 1
+    next_month = current_month + 1 if current_month < 12 else 1
+    next_year = current_year if current_month < 12 else current_year + 1
+
+    return render(request, 'dashboard/calendar.html', {
+        'student': student,
+        'current_year': current_year,
+        'current_month': current_month,
+        'month_name': month_names_uz[current_month],
+        'prev_month': prev_month,
+        'prev_year': prev_year,
+        'next_month': next_month,
+        'next_year': next_year,
+        'calendar_weeks': calendar_weeks,
+        'upcoming_deadlines': upcoming_deadlines,
+        'today': today,
+    })
+
+
+@login_required
+def stats_view(request):
+    """
+    Detailed analytics, SkillScore growth charts, Ready Score timeline, and contribution heatmap.
+    """
+    student, _ = Student.objects.get_or_create(user=request.user)
+    today = timezone.localdate()
+
+    # 1. Skill Scores
+    skills_map = {s.skill: s for s in student.skill_scores.all()}
+    all_skill_keys = ['reading', 'writing', 'listening', 'speaking', 'grammar']
+    skill_labels = {
+        'reading': "O'qish (Reading)",
+        'writing': "Yozish (Writing)",
+        'listening': "Tinglash (Listening)",
+        'speaking': "Gapirish (Speaking)",
+        'grammar': "Grammatika (Grammar)",
+    }
+
+    skills_data = []
+    for k in all_skill_keys:
+        s_obj = skills_map.get(k)
+        score = s_obj.current_score if s_obj else 50
+        skills_data.append({
+            'key': k,
+            'label': skill_labels[k],
+            'score': score,
+        })
+
+    # 2. Historical Progress Logs (last 30 days)
+    logs = list(student.progress_logs.all().order_by('date'))[-30:]
+    ready_score = calculate_overall_ready_score(student)
+    streak = get_student_streak(student)
+
+    # 3. Heatmap Matrix (Past 12 weeks = 84 days)
+    start_heatmap = today - timedelta(days=83)
+    completed_task_dates = set(
+        DailyTask.objects.filter(
+            student=student,
+            date__gte=start_heatmap,
+            completed=True
+        ).values_list('date', flat=True)
+    )
+
+    heatmap_days = []
+    total_completed_tasks = DailyTask.objects.filter(student=student, completed=True).count()
+
+    for i in range(84):
+        day_date = start_heatmap + timedelta(days=i)
+        is_done = day_date in completed_task_dates
+        heatmap_days.append({
+            'date': day_date,
+            'is_done': is_done,
+            'is_today': (day_date == today),
+        })
+
+    return render(request, 'dashboard/stats.html', {
+        'student': student,
+        'skills_data': skills_data,
+        'overall_ready_score': ready_score,
+        'streak_count': streak,
+        'logs': logs,
+        'heatmap_days': heatmap_days,
+        'total_completed_tasks': total_completed_tasks,
+    })
+

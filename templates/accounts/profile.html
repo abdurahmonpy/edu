@@ -1,0 +1,126 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Profil va Sozlamalar — Kelajak AI Mentori{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+
+  <!-- Header -->
+  <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div class="flex items-center space-x-4">
+      <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 text-white flex items-center justify-center text-xl font-bold shadow-md shadow-indigo-100">
+        {{ request.user.first_name|default:request.user.phone_number|slice:":1"|upper }}
+      </div>
+      <div>
+        <h1 class="text-xl sm:text-2xl font-black text-slate-900">{{ request.user.first_name|default:"O'quvchi" }}</h1>
+        <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">{{ request.user.phone_number }}</p>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <span class="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full border border-indigo-100">
+        {{ student.get_grade_display|default:"10-sinf" }}
+      </span>
+      <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-full border border-emerald-100">
+        {{ student.get_english_level_display }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Settings Form Card -->
+  <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xs space-y-6">
+    <div class="pb-4 border-b border-slate-100">
+      <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+        <i data-lucide="user-cog" class="w-4 h-4 text-indigo-600"></i>
+        <span>Profil va Ta'lim Sozlamalari</span>
+      </h2>
+      <p class="text-xs text-slate-500 mt-0.5">Shaxsiy ma'lumotlaringiz va maqsadlaringizni yangilang</p>
+    </div>
+
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+
+      <!-- Personal Info -->
+      <div class="space-y-4">
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Asosiy ma'lumotlar</h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Ismingiz</label>
+            {{ form.first_name }}
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Telefon raqami (Asosiy login)</label>
+            <input type="text" value="{{ request.user.phone_number }}" disabled class="w-full px-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-slate-500 text-sm cursor-not-allowed">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Email manzili</label>
+          {{ form.email }}
+        </div>
+      </div>
+
+      <!-- Academic Goals -->
+      <div class="space-y-4 pt-4 border-t border-slate-100">
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ta'lim va Maqsadlar</h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Sinfingiz</label>
+            {{ form.grade }}
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Maqsad qilingan dastur</label>
+            {{ form.target_program_type }}
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Ingliz tili darajasi</label>
+            {{ form.english_level }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Preferences -->
+      <div class="space-y-4 pt-4 border-t border-slate-100">
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Eslatmalar va Bildirishnomalar</h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Kunlik vazifa eslatma vaqti</label>
+            {{ form.notification_reminder_time }}
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Til sozlamasi</label>
+            {{ form.preferred_language }}
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-2">
+          <label class="flex items-center space-x-3 text-xs font-semibold text-slate-700 cursor-pointer">
+            {{ form.notification_daily_reminders }}
+            <span>Har kuni vazifalarni eslatib turish</span>
+          </label>
+          <label class="flex items-center space-x-3 text-xs font-semibold text-slate-700 cursor-pointer">
+            {{ form.notification_email_enabled }}
+            <span>Yangi grantlar va deadline yangiliklarini email orqali olish</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-4 border-t border-slate-100">
+        <button type="submit" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center space-x-2">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          <span>O'zgarishlarni saqlash</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+{% endblock %}

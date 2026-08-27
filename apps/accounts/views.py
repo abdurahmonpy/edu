@@ -56,3 +56,31 @@ def logout_view(request):
     logout(request)
     messages.info(request, "Tizimdan muvaffaqiyatli chiqdingiz.")
     return redirect('accounts:login')
+
+
+from django.contrib.auth.decorators import login_required
+from .forms import ProfileSettingsForm
+from .models import Student
+
+@login_required
+def profile_settings_view(request):
+    student, _ = Student.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileSettingsForm(request.POST, instance=student, user=request.user)
+        if form.is_valid():
+            # Update user fields
+            request.user.first_name = form.cleaned_data.get('first_name', request.user.first_name)
+            request.user.email = form.cleaned_data.get('email', request.user.email)
+            request.user.save()
+
+            form.save()
+            messages.success(request, "Profil va sozlamalar muvaffaqiyatli saqlandi.")
+            return redirect('accounts:profile')
+    else:
+        form = ProfileSettingsForm(instance=student, user=request.user)
+
+    return render(request, 'accounts/profile.html', {
+        'form': form,
+        'student': student,
+    })

@@ -1,0 +1,57 @@
+﻿from django.db import models
+from apps.programs.models import Program
+
+
+class Resource(models.Model):
+    CATEGORY_CHOICES = [
+        ('essay_writing', 'Insho va SOP yozish'),
+        ('interview_prep', 'Intervyuga tayyorgarlik'),
+        ('visa_process', 'Viza va elchixona jarayoni'),
+        ('general_tips', 'Foydali maslahatlar va strategiyalar'),
+    ]
+
+    title = models.CharField(
+        max_length=255,
+        verbose_name="Qo'llanma sarlavhasi"
+    )
+    category = models.CharField(
+        max_length=50,
+        choices=CATEGORY_CHOICES,
+        default='general_tips',
+        verbose_name="Kategoriya"
+    )
+    summary = models.CharField(
+        max_length=400,
+        blank=True,
+        verbose_name="Qisqacha mazmun"
+    )
+    content = models.TextField(
+        verbose_name="To'liq matn / Qo'llanma"
+    )
+    related_programs = models.ManyToManyField(
+        Program,
+        blank=True,
+        related_name='resources',
+        verbose_name="Tegishli grant dasturlari"
+    )
+    author_name = models.CharField(
+        max_length=100,
+        default="Kelajak Ekspertlar Guruhi",
+        verbose_name="Muallif / Ekspert"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Yaratilgan vaqt"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Yangilangan vaqt"
+    )
+
+    class Meta:
+        verbose_name = "Resurs / Qo'llanma"
+        verbose_name_plural = "Resurslar kutubxonasi"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.title} ({self.get_category_display()})"

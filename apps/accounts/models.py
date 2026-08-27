@@ -144,6 +144,25 @@ class Student(models.Model):
         default=False,
         verbose_name="Onboarding yakunlangan"
     )
+    notification_reminder_time = models.CharField(
+        max_length=10,
+        default="20:00",
+        blank=True,
+        verbose_name="Eslatma vaqti"
+    )
+    notification_email_enabled = models.BooleanField(
+        default=True,
+        verbose_name="Email eslatmalari"
+    )
+    notification_daily_reminders = models.BooleanField(
+        default=True,
+        verbose_name="Kunlik vazifa eslatmalari"
+    )
+    preferred_language = models.CharField(
+        max_length=10,
+        default="uz",
+        verbose_name="Afzal ko'rilgan til"
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Yaratilgan vaqt"

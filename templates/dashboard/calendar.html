@@ -1,0 +1,136 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Kalendar va Muddatlar — Kelajak AI Mentori{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-xs">
+    <div>
+      <div class="flex items-center space-x-2 text-xs font-bold text-indigo-600 uppercase tracking-wider mb-1">
+        <i data-lucide="calendar" class="w-4 h-4"></i>
+        <span>Xalqaro Dasturlar Taqvim</span>
+      </div>
+      <h1 class="text-2xl font-black text-slate-900">Grantlar Kalendari</h1>
+      <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Arizalar topshirish muddatlari, muhim sanalar va rejalashtirish</p>
+    </div>
+
+    <!-- Month Navigation -->
+    <div class="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-end">
+      <a href="{% url 'dashboard:calendar' %}?year={{ prev_year }}&month={{ prev_month }}" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition">
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+      </a>
+      <span class="text-sm font-bold text-slate-900 px-3 py-1 bg-slate-50 rounded-xl border border-slate-200 min-w-[120px] text-center">
+        {{ month_name }} {{ current_year }}
+      </span>
+      <a href="{% url 'dashboard:calendar' %}?year={{ next_year }}&month={{ next_month }}" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition">
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- Left / Top: Interactive Calendar Grid -->
+    <div class="lg:col-span-8 bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+      
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-bold text-slate-900 flex items-center space-x-2">
+          <i data-lucide="calendar-days" class="w-4 h-4 text-indigo-600"></i>
+          <span>Oylik ko'rinish ({{ month_name }})</span>
+        </h2>
+        <div class="flex items-center space-x-3 text-xs text-slate-500">
+          <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-indigo-600 inline-block"></span> <span>Kuzatilayotgan</span></span>
+          <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span> <span>Boshqa grant</span></span>
+        </div>
+      </div>
+
+      <!-- Weekday Header -->
+      <div class="grid grid-cols-7 gap-1 text-center font-bold text-xs text-slate-400 uppercase tracking-wider py-2 border-b border-slate-100">
+        <div>Du</div>
+        <div>Se</div>
+        <div>Chor</div>
+        <div>Pay</div>
+        <div>Jum</div>
+        <div>Shan</div>
+        <div>Yak</div>
+      </div>
+
+      <!-- Days Grid -->
+      <div class="grid grid-cols-7 gap-1.5">
+        {% for week in calendar_weeks %}
+          {% for day in week %}
+            <div class="min-h-[85px] sm:min-h-[95px] p-1.5 rounded-2xl border transition flex flex-col justify-between {% if day.is_today %}bg-indigo-50/50 border-indigo-300 ring-2 ring-indigo-200{% elif not day.is_current_month %}bg-slate-50/40 border-slate-100 opacity-40{% else %}bg-white border-slate-100 hover:border-slate-300{% endif %}">
+              
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold {% if day.is_today %}text-indigo-700 bg-indigo-100 w-5 h-5 rounded-full flex items-center justify-center{% elif day.is_current_month %}text-slate-800{% else %}text-slate-400{% endif %}">
+                  {{ day.day_num }}
+                </span>
+                {% if day.events %}
+                  <span class="w-2 h-2 rounded-full {% if day.has_tracked %}bg-indigo-600 animate-pulse{% else %}bg-amber-500{% endif %}"></span>
+                {% endif %}
+              </div>
+
+              <!-- Events inside day cell -->
+              <div class="space-y-1 mt-1 overflow-y-auto max-h-[50px]">
+                {% for event in day.events %}
+                  <a href="{% url 'programs:detail' event.program.id %}" class="block text-[10px] font-bold px-1.5 py-0.5 rounded-lg truncate {% if event.is_tracked %}bg-indigo-600 text-white{% else %}bg-slate-100 text-slate-700 hover:bg-slate-200{% endif %}" title="{{ event.program.name }} ({{ event.program.deadline }})">
+                    {{ event.program.name }}
+                  </a>
+                {% endfor %}
+              </div>
+
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+
+    </div>
+
+    <!-- Right / Bottom: Upcoming Deadlines List (Mobile friendly default) -->
+    <div class="lg:col-span-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h2 class="text-sm font-bold text-slate-900 flex items-center space-x-2">
+          <i data-lucide="clock" class="w-4 h-4 text-indigo-600"></i>
+          <span>Eng yaqin arizalar</span>
+        </h2>
+        <span class="text-xs text-slate-400">{{ upcoming_deadlines|length }} ta</span>
+      </div>
+
+      <div class="space-y-3 max-h-[550px] overflow-y-auto pr-1">
+        {% for item in upcoming_deadlines %}
+          <div class="p-3.5 rounded-2xl border transition {% if item.is_tracked %}bg-indigo-50/70 border-indigo-200{% else %}bg-slate-50 border-slate-200{% endif %} space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-md {% if item.is_tracked %}bg-indigo-600 text-white{% else %}bg-slate-200 text-slate-700{% endif %}">
+                {% if item.days_left == 0 %}Bugun{% elif item.days_left > 0 %}{{ item.days_left }} kun qoldi{% else %}Tugagan{% endif %}
+              </span>
+              <span class="text-xs font-semibold text-slate-500">{{ item.date|date:"d-M, Y" }}</span>
+            </div>
+
+            <h3 class="text-sm font-bold text-slate-900">
+              <a href="{% url 'programs:detail' item.program.id %}" class="hover:text-indigo-600 transition">
+                {{ item.program.name }}
+              </a>
+            </h3>
+
+            <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
+              <span>{{ item.program.country }} ({{ item.program.get_type_display }})</span>
+              <a href="{% url 'programs:detail' item.program.id %}" class="text-indigo-600 font-bold hover:underline">
+                Batafsil ➔
+              </a>
+            </div>
+          </div>
+        {% empty %}
+          <div class="text-center py-8 text-slate-400 text-xs">
+            Yaqin orada tugaydigan arizalar yo'q.
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

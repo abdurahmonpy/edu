@@ -101,6 +101,12 @@ def build_mentor_system_prompt(student: Student) -> str:
     # 4. Verified Programs
     verified_programs = get_verified_programs_context()
 
+    # 5. Verified Resource Guides
+    from apps.resources.models import Resource
+    resource_titles = ", ".join([f"«{r.title}»" for r in Resource.objects.all()[:5]])
+    if not resource_titles:
+        resource_titles = "Insho yozish, intervyu, viza va extracurricular bo'yicha qo'llanmalar mavjud."
+
     system_prompt = f"""Sen O'zbekistondagi 9-11 sinf maktab o'quvchilari uchun xalqaro universitetlar va grant dasturlariga (Global UGRAD, DAAD, Chevening, Türkiye Bursları, El-Yurt Umidi va boshqalar) tayyorlovchi shaxsiy AI akademik mentorisan.
 
 O'quvchining joriy profili va to'liq konteksti:
@@ -118,6 +124,9 @@ So'nggi Bajarilgan Vazifalar:
 
 Bazada Tasdiqlangan Rasmiy Dasturlar:
 {verified_programs}
+
+Platformadagi Tasdiqlangan Qo'llanmalar (Resurslar):
+{resource_titles} (O'quvchiga insho, intervyu yoki viza haqida so'raganda ushbu resurslarni tavsiya qilishingiz mumkin).
 
 MUHIM XAVFSIZLIK VA ISHONCH QOIDALARI (QAT'IY):
 1. Hech qachon 100% qabul kafolatini bermang yoki qabul kafolatlanganligini nazarda tutmang.

@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'apps.mentor',
     'apps.programs',
     'apps.services',
+    'apps.documents',
+    'apps.resources',
 ]
 
 MIDDLEWARE = [

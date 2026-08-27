@@ -134,3 +134,59 @@ class UserLoginForm(forms.Form):
                 raise forms.ValidationError("Foydalanuvchi hisobi faol emas.")
 
         return cleaned_data
+
+
+class ProfileSettingsForm(forms.ModelForm):
+    first_name = forms.CharField(
+        max_length=150,
+        label="Ismingiz",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm'
+        })
+    )
+    email = forms.EmailField(
+        required=False,
+        label="Email manzili",
+        widget=forms.EmailInput(attrs={
+            'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm'
+        })
+    )
+
+    class Meta:
+        from .models import Student
+        model = Student
+        fields = [
+            'grade', 'target_program_type', 'english_level',
+            'notification_reminder_time', 'notification_email_enabled',
+            'notification_daily_reminders', 'preferred_language'
+        ]
+        widgets = {
+            'grade': forms.Select(attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm'
+            }),
+            'target_program_type': forms.Select(attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm'
+            }),
+            'english_level': forms.Select(attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm'
+            }),
+            'notification_reminder_time': forms.TextInput(attrs={
+                'placeholder': 'Masalan: 20:00',
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm'
+            }),
+            'notification_email_enabled': forms.CheckboxInput(attrs={
+                'class': 'w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500'
+            }),
+            'notification_daily_reminders': forms.CheckboxInput(attrs={
+                'class': 'w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500'
+            }),
+            'preferred_language': forms.Select(choices=[('uz', "O'zbekcha"), ('en', "English")], attrs={
+                'class': 'w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm'
+            }),
+        }
+
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['first_name'].initial = user.first_name
+            self.fields['email'].initial = user.email
