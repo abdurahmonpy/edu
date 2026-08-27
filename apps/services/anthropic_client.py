@@ -55,6 +55,17 @@ def extract_json_from_response(raw_text: Any) -> Union[Dict[str, Any], List[Any]
             except json.JSONDecodeError:
                 continue
 
+    # 3. Use JSONDecoder.raw_decode to find valid JSON dict/list starting anywhere in text
+    decoder = json.JSONDecoder()
+    for i in range(len(text)):
+        if text[i] in ('{', '['):
+            try:
+                obj, _ = decoder.raw_decode(text[i:])
+                if isinstance(obj, (dict, list)):
+                    return obj
+            except Exception:
+                pass
+
     # 3. Locate outermost JSON structure ({ ... } or [ ... ])
     start_brace = text.find('{')
     start_bracket = text.find('[')
@@ -252,9 +263,9 @@ class MockClaudeClient(ClaudeClient):
             # 3. Task Grading Intent
             if any(k in prompt_lower for k in ["grade_task", "baholash", "vazifa turi", "task score", "evaluate task", "topshiriq"]):
                 return {
-                    "score": 85,
+                    "score": 100,
                     "completed": True,
-                    "ai_feedback": "Javobingiz to'g'ri va mantiqan asoslangan. Ushbu qoidani amaliyotda to'g'ri qo'llay olishingiz grant insholarida akademik aniqlikni ta'minlaydi. Present Perfect zamonining o'tgan zamondagi natijasi to'g'ri ko'rsatilgan."
+                    "ai_feedback": "Ajoyib! Javobingiz to'g'ri va mantiqan asoslangan. Ushbu qoidani amaliyotda to'g'ri qo'llay olishingiz grant insholarida akademik aniqlikni ta'minlaydi. Present Perfect zamonining o'tgan zamondagi natijasi to'g'ri ko'rsatilgan."
                 }
 
             # 4. Daily Task Generation Intent

@@ -43,7 +43,7 @@
 </head>
 <body class="min-h-full font-sans antialiased text-slate-900 bg-slate-50">
 
-  {% if request.user.is_authenticated and not hide_sidebar %}
+  {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}
     <!-- Desktop Persistent Left Sidebar (>= 640px) -->
     <aside class="hidden sm:flex flex-col fixed left-0 top-0 h-screen w-60 bg-white border-r border-slate-200 z-30 justify-between">
       <!-- Top Section: Brand + Navigation -->
@@ -174,7 +174,7 @@
   {% endif %}
 
   <!-- Main Layout Wrapper (Desktop offset sm:pl-60 only when sidebar is active) -->
-  <div class="min-h-screen flex flex-col {% if request.user.is_authenticated and not hide_sidebar %}sm:pl-60{% endif %}">
+  <div class="min-h-screen flex flex-col {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}sm:pl-60{% endif %}">
     
     <!-- Flash Messages Banner Container -->
     <div class="max-w-6xl w-full mx-auto px-4 pt-3">
@@ -182,7 +182,7 @@
     </div>
 
     <!-- Main Application Content Area -->
-    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-4 md:py-8 {% if request.user.is_authenticated and not hide_sidebar %}pb-20 sm:pb-8{% endif %}">
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-4 md:py-8 {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}pb-20 sm:pb-8{% endif %}">
       {% block content %}
         {% if message %}
           <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 text-center">
@@ -209,7 +209,7 @@
     </footer>
   </div>
 
-  {% if request.user.is_authenticated and not hide_sidebar %}
+  {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}
     <!-- Mobile Bottom Navigation Bar (< 640px) -->
     {% include 'includes/nav_bottom.html' %}
   {% endif %}

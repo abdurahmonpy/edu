@@ -88,12 +88,47 @@ class User(AbstractUser):
 
 class Student(models.Model):
     """
-    Student profile linked OneToOne with User, storing academic and onboarding data.
+    Student profile linked OneToOne with User, storing academic, demographic, and onboarding data.
     """
     GRADE_CHOICES = [
         (9, '9-sinf'),
         (10, '10-sinf'),
         (11, '11-sinf'),
+    ]
+
+    REGION_CHOICES = [
+        ('toshkent_sh', 'Toshkent shahri'),
+        ('toshkent_vil', 'Toshkent viloyati'),
+        ('samarqand', 'Samarqand'),
+        ('buxoro', 'Buxoro'),
+        ('fargona', "Farg'ona"),
+        ('andijon', 'Andijon'),
+        ('namangan', 'Namangan'),
+        ('qashqadaryo', 'Qashqadaryo'),
+        ('surxondaryo', 'Surxondaryo'),
+        ('xorazm', 'Xorazm'),
+        ('navoiy', 'Navoiy'),
+        ('jizzax', 'Jizzax'),
+        ('sirdaryo', 'Sirdaryo'),
+        ('qoraqalpogiston', "Qoraqalpog'iston"),
+    ]
+
+    FIELD_OF_STUDY_CHOICES = [
+        ('cs_it', "Dasturlash va IT"),
+        ('ai_ds', "Sun'iy intellekt va Data Science"),
+        ('medicine', "Tibbiyot va Salomatlik"),
+        ('business_finance', "Biznes va Moliya"),
+        ('engineering', "Muhandislik va Biotexnologiya"),
+        ('international_law', "Xalqaro munosabatlar va Huquq"),
+        ('natural_sciences', "Aniq va tabiiy fanlar"),
+        ('humanities_arts', "Gumanitar fanlar va San'at"),
+        ('education', "Pedagogika va Ta'lim"),
+    ]
+
+    BUDGET_CHOICES = [
+        ('toliq_grant', "To'liq Grant (Full Scholarship)"),
+        ('qisman_grant', "Qisman Grant (Partial Tuition / Discount)"),
+        ('ozi_moliyalashtirish', "O'zi moliyalashtirish (Self-funded)"),
     ]
 
     PROGRAM_TYPE_CHOICES = [
@@ -114,6 +149,54 @@ class Student(models.Model):
         on_delete=models.CASCADE,
         related_name='student_profile',
         verbose_name="Foydalanuvchi"
+    )
+    birth_year = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Tug'ilgan yili"
+    )
+    birth_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Tug'ilgan sana"
+    )
+    region = models.CharField(
+        max_length=50,
+        choices=REGION_CHOICES,
+        blank=True,
+        default='',
+        verbose_name="Viloyat / Hudud"
+    )
+    city = models.CharField(
+        max_length=100,
+        blank=True,
+        default='',
+        verbose_name="Shahar / Tuman"
+    )
+    interests = models.JSONField(
+        default=list,
+        blank=True,
+        verbose_name="Qiziqishlar va xobbilar"
+    )
+    target_field_of_study = models.CharField(
+        max_length=100,
+        choices=FIELD_OF_STUDY_CHOICES,
+        blank=True,
+        default='',
+        verbose_name="Kelajak o'qish yo'nalishi"
+    )
+    target_career = models.CharField(
+        max_length=150,
+        blank=True,
+        default='',
+        verbose_name="Kelajak kasbi / Maqsad"
+    )
+    budget_preference = models.CharField(
+        max_length=50,
+        choices=BUDGET_CHOICES,
+        default='toliq_grant',
+        blank=True,
+        verbose_name="Byudjet imkoniyati / Afzallik"
     )
     grade = models.IntegerField(
         choices=GRADE_CHOICES,
@@ -139,6 +222,15 @@ class Student(models.Model):
         default='beginner',
         blank=True,
         verbose_name="Ingliz tili darajasi"
+    )
+    planned_test_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Rejalashtirilgan imtihon sanasi"
+    )
+    plan_timeline_months = models.IntegerField(
+        default=6,
+        verbose_name="Reja davomiyligi (oylar)"
     )
     onboarding_completed = models.BooleanField(
         default=False,

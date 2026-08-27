@@ -11,13 +11,28 @@
       <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
       <span>Barcha vazifalarga qaytish</span>
     </a>
-    <div class="flex items-center space-x-2">
-      <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full {% if task.task_type == 'grammar_drill' %}bg-purple-100 text-purple-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+    
+    <div class="flex items-center space-x-2 flex-wrap gap-1">
+      <!-- Track Badge -->
+      {% if task.track == 'track_a' %}
+        <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-purple-100 text-purple-800 border border-purple-200 flex items-center space-x-1">
+          <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+          <span>Track A: Imtihon Tayyorgarligi</span>
+        </span>
+      {% else %}
+        <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center space-x-1">
+          <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+          <span>Track B: Universitet Arizasi va Hujjatlar</span>
+        </span>
+      {% endif %}
+
+      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
         {{ task.get_task_type_display }}
       </span>
       <span class="text-xs text-slate-400">•</span>
       <span class="text-xs font-medium text-slate-500">{{ task.date|date:"d-F, Y" }}</span>
     </div>
+
     <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900">
       {{ task.content.title|default:task.get_task_type_display }}
     </h1>
@@ -46,6 +61,21 @@
         <div class="p-5 bg-slate-50/80 border border-slate-200 rounded-2xl text-sm md:text-base text-slate-800 leading-relaxed font-serif">
           {{ task.content.passage }}
         </div>
+      </div>
+    {% endif %}
+
+    <!-- Guidelines (for essay / SOP / LOR tasks) -->
+    {% if task.content.guidelines %}
+      <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-2xl text-xs md:text-sm text-slate-800 space-y-1.5">
+        <div class="font-bold text-amber-900 flex items-center space-x-1.5">
+          <i data-lucide="sparkles" class="w-4 h-4 text-amber-700"></i>
+          <span>Yozish bo'yicha tavsiyalar:</span>
+        </div>
+        <ul class="list-disc list-inside space-y-1 text-slate-700">
+          {% for g in task.content.guidelines %}
+            <li>{{ g }}</li>
+          {% endfor %}
+        </ul>
       </div>
     {% endif %}
 
@@ -81,16 +111,19 @@
         <!-- Open Ended Text Area -->
         <div class="space-y-2">
           <label for="student_answer" class="block text-xs font-bold uppercase tracking-wider text-slate-500">
-            Javobingizni yozing (Ingliz tilida):
+            Javobingizni yozing (Ingliz yoki O'zbek tilida):
           </label>
           <textarea
             id="student_answer"
             name="student_answer"
-            rows="5"
+            rows="6"
             required
             placeholder="Javobingizni shu yerga batafsil yozing..."
-            class="w-full rounded-2xl border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm p-4"
+            class="w-full rounded-2xl border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm p-4 leading-relaxed"
           ></textarea>
+          <p class="text-xs text-slate-400">
+            Topshiriq mazmuni bo'yicha to'liqroq va asosli javob yozish AI bahosini oshiradi.
+          </p>
         </div>
       {% endif %}
 
@@ -100,7 +133,7 @@
         </a>
         <button
           type="submit"
-          class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-2xl shadow-md transition inline-flex items-center space-x-2"
+          class="px-6 py-3.5 {% if task.track == 'track_a' %}bg-purple-600 hover:bg-purple-700{% else %}bg-emerald-600 hover:bg-emerald-700{% endif %} text-white text-sm font-bold rounded-2xl shadow-md transition inline-flex items-center space-x-2"
         >
           <span>Javobni topshirish</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>

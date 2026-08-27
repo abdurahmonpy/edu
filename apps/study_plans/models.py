@@ -17,6 +17,7 @@ class StudyPlan(models.Model):
     goal = models.TextField(verbose_name="O'quv maqsadi")
     start_date = models.DateField(default=timezone.localdate, verbose_name="Boshlanish sanasi")
     target_date = models.DateField(verbose_name="Maqsad sanasi")
+    timeline_months = models.IntegerField(default=6, verbose_name="Reja davomiyligi (oylar)")
     generated_by_ai = models.JSONField(default=dict, verbose_name="AI tomonidan tuzilgan reja")
     active = models.BooleanField(default=True, verbose_name="Faol reja")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Yaratilgan vaqt")
@@ -27,4 +28,27 @@ class StudyPlan(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.student.user.first_name} — Reja ({self.start_date} dan {self.target_date} gacha)"
+        student_name = self.student.user.first_name if self.student and self.student.user else "O'quvchi"
+        return f"{student_name} — Reja ({self.start_date} dan {self.target_date} gacha)"
+
+    @property
+    def track_a(self):
+        """Track A: Imtihon tayyorgarligi (Test Prep) payload."""
+        if isinstance(self.generated_by_ai, dict):
+            return self.generated_by_ai.get('track_a', {})
+        return {}
+
+    @property
+    def track_b(self):
+        """Track B: Universitet arizasi va Hujjatlar (Application Prep) payload."""
+        if isinstance(self.generated_by_ai, dict):
+            return self.generated_by_ai.get('track_b', {})
+        return {}
+
+    @property
+    def weekly_schedule(self):
+        """Weekly synchronized dual-track schedule."""
+        if isinstance(self.generated_by_ai, dict):
+            return self.generated_by_ai.get('weekly_schedule', [])
+        return []
+

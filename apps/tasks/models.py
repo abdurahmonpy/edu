@@ -7,11 +7,29 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class DailyTask(models.Model):
     """
-    Daily practice tasks (grammar drill, reading comprehension) targeting the student's weakest skill.
+    Daily practice tasks (grammar drill, reading comprehension, essay milestones, extracurriculars)
+    supporting dual-track progression (Track A: Test Prep, Track B: University Admissions).
     """
+    TRACK_CHOICES = [
+        ('track_a', "Track A: Imtihon tayyorgarligi (Test Prep)"),
+        ('track_b', "Track B: Universitet arizasi va Hujjatlar (Application Prep)"),
+        ('general', "Umumiy vazifa (General)"),
+    ]
+
     TASK_TYPE_CHOICES = [
         ('grammar_drill', 'Grammar Drill'),
         ('reading_comprehension', 'Reading Comprehension'),
+        ('vocabulary_drill', "Lug'at boyligi (Vocabulary Drill)"),
+        ('listening_drill', "Eshitish ko'nikmasi (Listening Drill)"),
+        ('speaking_drill', "Nutq va talaffuz (Speaking Drill)"),
+        ('writing_drill', "Yozish mashqi (Writing Drill)"),
+        ('mock_test', "Sinov testi (Mock Exam)"),
+        ('essay_milestone', "Insho yozish (SOP / Motivation Letter)"),
+        ('extracurricular', "Darsdan tashqari faoliyat loyihasi"),
+        ('lor_request', "Tavsiyanoma tayyorlash (LOR)"),
+        ('document_prep', "Hujjatlar to'plash va tarjima"),
+        ('university_research', "Universitet va grant tahlili"),
+        ('application_submit', "Arizani topshirish (Application Submission)"),
     ]
 
     student = models.ForeignKey(
@@ -27,6 +45,12 @@ class DailyTask(models.Model):
         blank=True,
         related_name='daily_tasks',
         verbose_name="O'quv rejasi"
+    )
+    track = models.CharField(
+        max_length=20,
+        choices=TRACK_CHOICES,
+        default='track_a',
+        verbose_name="Yo'nalish (Track)"
     )
     date = models.DateField(
         default=timezone.localdate,

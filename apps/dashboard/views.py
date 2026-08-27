@@ -1,5 +1,6 @@
 """
 Views for student dashboard, Ready Score visualization, streak, and daily tasks.
+Integrates Dual-Track Study Plan (Track A & Track B) and Dual Countdowns.
 """
 import calendar
 import logging
@@ -12,9 +13,13 @@ from django.utils import timezone
 from apps.accounts.models import Student
 from apps.services.score_service import calculate_overall_ready_score, get_student_streak
 from apps.services.task_service import generate_daily_tasks_for_student, get_student_weakest_skill
-from apps.services.study_plan_service import get_active_study_plan, generate_study_plan
+from apps.services.study_plan_service import (
+    get_active_study_plan,
+    generate_study_plan,
+    calculate_default_target_date
+)
 from apps.dashboard.models import SkillScore, ProgressLog
-from apps.programs.models import Program, StudentProgram
+from apps.programs.models import Program, StudentProgram, StudentTargetSelection, University
 from apps.tasks.models import DailyTask
 
 logger = logging.getLogger(__name__)
@@ -133,7 +138,7 @@ def get_nearest_deadline_for_student(student):
     for prog in candidates:
         parsed_d = parse_deadline_to_date(prog.deadline, reference_date=today)
         if parsed_d:
-            days_left = (parsed_d - today).days
+            days_left = max(0, (parsed_d - today).days)
         else:
             days_left = 30 + (prog.id * 7) % 60
         scored_candidates.append((days_left, prog))
@@ -166,13 +171,6 @@ def get_weekly_consistency_for_student(student):
             student=student,
             date__range=(start_of_week, end_of_week),
             completed=True
-        ).values_list('date', flat=True)
-    )
-
-    progress_log_dates = set(
-        ProgressLog.objects.filter(
-            student=student,
-            date__range=(start_of_week, end_of_week)
         ).values_list('date', flat=True)
     )
 
@@ -210,22 +208,25 @@ def dashboard_view(request):
     """
     Main student dashboard view:
     - Checks onboarding status.
-    - Displays overall Ready Score (0-100).
-    - Displays daily streak count.
+    - Displays overall Ready Score (0-100) and daily streak count.
     - Displays 5-skill breakdown (reading, writing, listening, speaking, grammar).
-    - Displays active study plan summary and milestones.
-    - Displays today's daily tasks with real-time status.
-    - Displays nearest deadline countdown and weekly consistency strip.
+    - Computes and displays Dual Countdowns:
+        1) exam_days_left: Days remaining until planned_test_date / target_date.
+        2) admission_days_left: Days remaining until primary target program deadline.
+    - Displays Dual-Track Study Plan (Track A: Exam Prep & Track B: Applications) with visual progress.
+    - Displays categorized today's daily tasks (Track A & Track B).
+    - Passes demographic badges and target university details.
     """
     # 1. Check if user has a student profile
     student = getattr(request.user, 'student_profile', None)
     if not student:
-        # Create student profile if not present
         student, _ = Student.objects.get_or_create(user=request.user)
 
     # 2. Redirect to onboarding if not completed
     if not student.onboarding_completed:
         return redirect('onboarding:step_1')
+
+    today = timezone.localdate()
 
     # 3. Ensure 5 skill scores exist
     skills_map = {s.skill: s for s in student.skill_scores.all()}
@@ -252,16 +253,90 @@ def dashboard_view(request):
         except Exception as e:
             logger.warning(f"Dashboard study plan creation failed: {e}")
 
-    # 6. Ensure today's daily tasks exist (2-3 tasks: grammar drill + reading comprehension)
-    today = timezone.localdate()
+    # 6. Ensure today's daily tasks exist (Dual-track: Track A + Track B)
     today_tasks = generate_daily_tasks_for_student(student, task_date=today, count=2)
+    today_tasks_track_a = [t for t in today_tasks if t.track == 'track_a']
+    today_tasks_track_b = [t for t in today_tasks if t.track == 'track_b']
     completed_tasks_count = sum(1 for t in today_tasks if t.completed)
     total_tasks_count = len(today_tasks)
 
-    # 7. Fetch recent progress logs (last 7 logs)
-    recent_logs = student.progress_logs.all().order_by('-date', '-created_at')[:7]
+    # 7. Compute Dual Countdowns
+    # A) Exam Countdown (exam_days_left)
+    exam_target_date = student.planned_test_date
+    if not exam_target_date and active_plan:
+        exam_target_date = active_plan.target_date
+    if not exam_target_date:
+        exam_target_date = calculate_default_target_date(student)
 
-    # 8. Calculate nearest deadline and 7-day consistency strip
+    exam_days_left = max(0, (exam_target_date - today).days) if exam_target_date else 0
+
+    # Extract target exam details
+    track_a_payload = active_plan.track_a if active_plan else {}
+    exam_title = track_a_payload.get('title') or "Xalqaro Imtihon (IELTS / SAT / DET)"
+    exam_target_score = track_a_payload.get('target_score') or "IELTS 7.5+ / SAT 1400+"
+
+    # B) Admission Deadline Countdown (admission_days_left)
+    target_selection = StudentTargetSelection.objects.filter(student=student).first()
+    primary_program = None
+    primary_university = None
+    primary_deadline_text = ""
+    primary_program_name = ""
+    primary_country = ""
+    has_primary_target = False
+    match_score = None
+    backup_programs = []
+
+    if target_selection and target_selection.primary_program:
+        primary_program = target_selection.primary_program
+        primary_university = primary_program.university
+        primary_deadline_text = primary_program.deadline
+        primary_program_name = primary_program.name
+        primary_country = primary_program.country
+        match_score = target_selection.match_score
+        has_primary_target = True
+        backup_programs = list(target_selection.backup_programs.all())
+
+        parsed_adm = parse_deadline_to_date(primary_program.deadline, reference_date=today)
+        admission_days_left = max(0, (parsed_adm - today).days) if parsed_adm else 30
+    else:
+        # Fallback to nearest deadline from tracked or available programs
+        nearest_deadline = get_nearest_deadline_for_student(student)
+        admission_days_left = nearest_deadline.get('days_left', 0)
+        primary_program_name = nearest_deadline.get('program_name') or "Xalqaro Grant Dasturi"
+        primary_deadline_text = nearest_deadline.get('deadline_text') or ""
+        primary_program = nearest_deadline.get('program')
+        if primary_program:
+            primary_university = primary_program.university
+            primary_country = primary_program.country
+        has_primary_target = nearest_deadline.get('has_tracked', False)
+
+    # 8. Dual-Track Plan Milestones and Progress Calculations
+    track_a_data = active_plan.track_a if active_plan else {}
+    track_b_data = active_plan.track_b if active_plan else {}
+    weekly_schedule = active_plan.weekly_schedule if active_plan else []
+
+    track_a_milestones = track_a_data.get('milestones', [])
+    track_b_milestones = track_b_data.get('milestones', [])
+    track_a_phases = track_a_data.get('phases', [])
+    track_b_phases = track_b_data.get('phases', [])
+
+    # Historical task counts for progress metrics
+    track_a_completed_tasks = DailyTask.objects.filter(student=student, track='track_a', completed=True).count()
+    track_a_total_tasks = DailyTask.objects.filter(student=student, track='track_a').count()
+    if track_a_total_tasks > 0:
+        track_a_progress_pct = min(100, round((track_a_completed_tasks / track_a_total_tasks) * 100))
+    else:
+        track_a_progress_pct = min(100, max(15, round((ready_score or 50) * 0.8)))
+
+    track_b_completed_tasks = DailyTask.objects.filter(student=student, track='track_b', completed=True).count()
+    track_b_total_tasks = DailyTask.objects.filter(student=student, track='track_b').count()
+    if track_b_total_tasks > 0:
+        track_b_progress_pct = min(100, round((track_b_completed_tasks / track_b_total_tasks) * 100))
+    else:
+        track_b_progress_pct = min(100, max(10, round((ready_score or 50) * 0.7)))
+
+    # 9. Fetch recent progress logs (last 7 logs) & consistency strip
+    recent_logs = student.progress_logs.all().order_by('-date', '-created_at')[:7]
     nearest_deadline = get_nearest_deadline_for_student(student)
     weekly_consistency = get_weekly_consistency_for_student(student)
 
@@ -284,16 +359,62 @@ def dashboard_view(request):
             'is_weakest': (k == weakest_skill)
         })
 
+    # Demographic badges dictionary
+    demographics = {
+        'grade_display': student.get_grade_display() if student.grade else f"{student.grade}-sinf" if student.grade else "Sinf belgilanmagan",
+        'region_display': student.get_region_display() if student.region else "",
+        'field_of_study_display': student.get_target_field_of_study_display() if student.target_field_of_study else "",
+        'budget_display': student.get_budget_preference_display() if student.budget_preference else "",
+        'target_program_type_display': student.get_target_program_type_display() if student.target_program_type else "Grant dasturlari",
+        'english_level_display': student.get_english_level_display() if student.english_level else "",
+        'target_countries': student.target_countries or [],
+        'target_career': student.target_career or "",
+    }
+
     context = {
         'student': student,
+        'demographics': demographics,
         'overall_ready_score': ready_score,
         'streak_count': streak,
         'weakest_skill': weakest_skill,
         'skills_display': skills_display,
         'active_plan': active_plan,
+        
+        # Dual Countdowns
+        'exam_days_left': exam_days_left,
+        'exam_target_date': exam_target_date,
+        'exam_title': exam_title,
+        'exam_target_score': exam_target_score,
+        
+        'admission_days_left': admission_days_left,
+        'primary_program': primary_program,
+        'primary_university': primary_university,
+        'primary_program_name': primary_program_name,
+        'primary_deadline_text': primary_deadline_text,
+        'primary_country': primary_country,
+        'has_primary_target': has_primary_target,
+        'match_score': match_score,
+        'backup_programs': backup_programs,
+        
+        # Dual-Track Study Plan Data
+        'track_a_data': track_a_data,
+        'track_b_data': track_b_data,
+        'track_a_milestones': track_a_milestones,
+        'track_b_milestones': track_b_milestones,
+        'track_a_phases': track_a_phases,
+        'track_b_phases': track_b_phases,
+        'track_a_progress_pct': track_a_progress_pct,
+        'track_b_progress_pct': track_b_progress_pct,
+        'weekly_schedule': weekly_schedule,
+        
+        # Daily Tasks
         'today_tasks': today_tasks,
+        'today_tasks_track_a': today_tasks_track_a,
+        'today_tasks_track_b': today_tasks_track_b,
         'completed_tasks_count': completed_tasks_count,
         'total_tasks_count': total_tasks_count,
+        
+        # Logs & Consistency
         'recent_logs': recent_logs,
         'today_date': today,
         'nearest_deadline': nearest_deadline,
@@ -468,4 +589,3 @@ def stats_view(request):
         'heatmap_days': heatmap_days,
         'total_completed_tasks': total_completed_tasks,
     })
-

@@ -29,7 +29,7 @@ class CustomUserAdmin(BaseUserAdmin):
 
 @admin.register(Student)
 class StudentAdmin(SuperuserOnlyAdminMixin, admin.ModelAdmin):
-    list_display = ('user', 'grade', 'english_level', 'target_program_type', 'onboarding_completed', 'created_at')
-    list_filter = ('grade', 'english_level', 'target_program_type', 'onboarding_completed')
-    search_fields = ('user__phone_number', 'user__first_name', 'user__last_name')
+    list_display = ('user', 'grade', 'region', 'target_field_of_study', 'budget_preference', 'english_level', 'onboarding_completed', 'created_at')
+    list_filter = ('grade', 'region', 'target_field_of_study', 'budget_preference', 'english_level', 'onboarding_completed')
+    search_fields = ('user__phone_number', 'user__first_name', 'user__last_name', 'city', 'target_career')
     readonly_fields = ('created_at',)

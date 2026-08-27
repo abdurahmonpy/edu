@@ -1,15 +1,17 @@
 """
 Task Service:
-- Generates 2-3 daily tasks for high school students targeting weakest skills.
-- Implements task types: Grammar Drill and Reading Comprehension.
-- Grades student submissions via Claude API, producing detailed explanatory ai_feedback.
+- Generates synchronized daily tasks for high school students supporting Dual-Track progression:
+  * Track A: Imtihon tayyorgarligi (Exam drills, vocabulary, reading, grammar, mock tests)
+  * Track B: Universitet arizasi va Hujjatlar (SOP drafting, extracurricular reflection, LOR request templates, document prep)
+- Populates Uzbek titles, instructions, expected outcomes, and points.
+- Grades student submissions via Claude API or deterministic heuristic, producing explanatory ai_feedback.
 - Records scores, updates progress, and tracks streaks.
 """
 import json
 import logging
 import re
 from datetime import date
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 from django.db import transaction
 from django.utils import timezone
 
@@ -22,96 +24,314 @@ from apps.services.score_service import record_task_completion_score
 
 logger = logging.getLogger(__name__)
 
-# High-quality curated templates for deterministic generation and offline/fallback modes
-CURATED_GRAMMAR_TASKS = [
-    {
-        "title": "Grammar Drill: Conditional Sentences for Scholarship Applications",
-        "skill": "grammar",
-        "difficulty": "Intermediate-Advanced",
-        "instruction": "Quyidagi gapdagi bo'sh joyni to'g'ri fe'l shakli bilan to'ldiring va tanlovingizni qisqacha izohlang.",
-        "question": "If Aziz ________ (apply) for the Global UGRAD exchange program earlier, he would have secured the full sponsorship.",
-        "options": [
-            {"key": "A", "text": "applied"},
-            {"key": "B", "text": "had applied"},
-            {"key": "C", "text": "has applied"},
-            {"key": "D", "text": "would apply"}
-        ],
-        "correct_option": "B",
-        "explanation": "Third Conditional o'tgan zamondagi amalga oshmagan shartni ifodalaydi: If + Past Perfect (had applied), ... would have + V3."
-    },
-    {
-        "title": "Grammar Drill: Inversion in Academic Motivation Letters",
-        "skill": "grammar",
-        "difficulty": "Advanced",
-        "instruction": "Inkor so'z bilan boshlangan gapdagi to'g'ri so'z tartibini tanlang.",
-        "question": "Seldom ________ such profound dedication to community leadership in high school applicants.",
-        "options": [
-            {"key": "A", "text": "the admissions committee observes"},
-            {"key": "B", "text": "does the admissions committee observe"},
-            {"key": "C", "text": "the admissions committee has observed"},
-            {"key": "D", "text": "observes the admissions committee"}
-        ],
-        "correct_option": "B",
-        "explanation": "'Seldom', 'Rarely', 'Never' kabi inkor ravishlar gap boshida kelganda inversiya yasaladi (yordamchi fe'l + ega + asosiy fe'l)."
-    },
-    {
-        "title": "Grammar Drill: Complex Gerunds and Infinitives",
-        "skill": "grammar",
-        "difficulty": "Intermediate",
-        "instruction": "Akademik matn kontekstida to'g'ri fe'l shaklini tanlang.",
-        "question": "The DAAD scholarship committee expects all candidates ________ their certified transcripts by December 1st.",
-        "options": [
-            {"key": "A", "text": "submitting"},
-            {"key": "B", "text": "to submit"},
-            {"key": "C", "text": "submit"},
-            {"key": "D", "text": "submitted"}
-        ],
-        "correct_option": "B",
-        "explanation": "'Expect someone to do something' strukturasi to-infinitive talab qiladi."
-    }
+# ==============================================================================
+# CURATED TRACK A TASKS (Imtihon Tayyorgarligi: Grammar, Reading, Vocabulary, Drills)
+# ==============================================================================
+
+CURATED_TRACK_A_TASKS: List[Tuple[str, Dict[str, Any]]] = [
+    (
+        'grammar_drill',
+        {
+            "title": "Track A (Grammar Drill): Conditional Sentences for Scholarship Applications",
+            "skill": "grammar",
+            "difficulty": "Intermediate-Advanced",
+            "instruction": "Quyidagi gapdagi bo'sh joyni to'g'ri fe'l shakli bilan to'ldiring va tanlovingizni qisqacha izohlang.",
+            "question": "If Aziz ________ (apply) for the Global UGRAD exchange program earlier, he would have secured the full sponsorship.",
+            "options": [
+                {"key": "A", "text": "applied"},
+                {"key": "B", "text": "had applied"},
+                {"key": "C", "text": "has applied"},
+                {"key": "D", "text": "would apply"}
+            ],
+            "correct_option": "B",
+            "explanation": "Third Conditional o'tgan zamondagi amalga oshmagan shartni ifodalaydi: If + Past Perfect (had applied), ... would have + V3.",
+            "expected_outcome": "To'g'ri grammatik qolipni aniqlash va xalqaro insholarda to'g'ri qo'llash.",
+            "points": 100
+        }
+    ),
+    (
+        'grammar_drill',
+        {
+            "title": "Track A (Grammar Drill): Inversion in Academic Motivation Letters",
+            "skill": "grammar",
+            "difficulty": "Advanced",
+            "instruction": "Inkor so'z bilan boshlangan gapdagi to'g'ri so'z tartibini tanlang.",
+            "question": "Seldom ________ such profound dedication to community leadership in high school applicants.",
+            "options": [
+                {"key": "A", "text": "the admissions committee observes"},
+                {"key": "B", "text": "does the admissions committee observe"},
+                {"key": "C", "text": "the admissions committee has observed"},
+                {"key": "D", "text": "observes the admissions committee"}
+            ],
+            "correct_option": "B",
+            "explanation": "'Seldom', 'Rarely', 'Never' kabi inkor ravishlar gap boshida kelganda inversiya yasaladi (yordamchi fe'l + ega + asosiy fe'l).",
+            "expected_outcome": "Akademik matnlarda urg'u berish va inversiya qoidasini qo'llash.",
+            "points": 100
+        }
+    ),
+    (
+        'grammar_drill',
+        {
+            "title": "Track A (Grammar Drill): Complex Gerunds and Infinitives in Admissions",
+            "skill": "grammar",
+            "difficulty": "Intermediate",
+            "instruction": "Akademik matn kontekstida to'g'ri fe'l shaklini tanlang.",
+            "question": "The DAAD scholarship committee expects all candidates ________ their certified transcripts by December 1st.",
+            "options": [
+                {"key": "A", "text": "submitting"},
+                {"key": "B", "text": "to submit"},
+                {"key": "C", "text": "submit"},
+                {"key": "D", "text": "submitted"}
+            ],
+            "correct_option": "B",
+            "explanation": "'Expect someone to do something' strukturasi to-infinitive talab qiladi.",
+            "expected_outcome": "Rasmiy talablar va qoidalarni ifodalovchi fe'l shakllarini to'g'ri ishlatish.",
+            "points": 100
+        }
+    ),
+    (
+        'grammar_drill',
+        {
+            "title": "Track A (Grammar Drill): Subjunctive Mood in Formal Grant Requests",
+            "skill": "grammar",
+            "difficulty": "Advanced",
+            "instruction": "Rasmiy ariza kontekstida to'g'ri Subjunctive shaklini tanlang.",
+            "question": "The admissions director recommended that the candidate ________ additional letters of recommendation.",
+            "options": [
+                {"key": "A", "text": "submits"},
+                {"key": "B", "text": "submit"},
+                {"key": "C", "text": "submitted"},
+                {"key": "D", "text": "would submit"}
+            ],
+            "correct_option": "B",
+            "explanation": "'Recommend/Suggest that someone do something' qolipida subjunctive fe'l asosi (bare infinitive - submit) ishlatiladi.",
+            "expected_outcome": "Rasmiy akademik tavsiya va talablarni ifodalashda subjunctive mood qoidasini egallash.",
+            "points": 100
+        }
+    ),
+    (
+        'reading_comprehension',
+        {
+            "title": "Track A (Reading): Statement of Purpose Structure & Academic Coherence",
+            "skill": "reading",
+            "difficulty": "Intermediate",
+            "passage": (
+                "An effective Statement of Purpose (SOP) for international undergraduate grants must articulate a coherent narrative. "
+                "Rather than merely listing academic accolades, strong applicants connect their past leadership projects in Uzbekistan "
+                "with their future vision. Admissions committees at European and American institutions look for evidence of self-reflection, "
+                "cultural agility, and tangible plans to contribute to the applicant's home country upon graduation."
+            ),
+            "question": "According to the passage, what distinguishes a compelling Statement of Purpose from a weak one?",
+            "options": [
+                {"key": "A", "text": "Listing as many awards and certificates as possible without narrative context."},
+                {"key": "B", "text": "Connecting past leadership experiences with a clear future vision and community impact."},
+                {"key": "C", "text": "Focusing solely on foreign travel aspirations rather than returning to Uzbekistan."},
+                {"key": "D", "text": "Writing exclusively about high school examination grades."}
+            ],
+            "correct_option": "B",
+            "explanation": "Matnda kuchli arizachilar o'tmishdagi yetakchilik tajribalarini kelajak rejalari va vataniga hissa qo'shish bilan bog'lashi ta'kidlangan.",
+            "expected_outcome": "Akademik insho strukturasini tahlil qilish va asosiy fikrni ajratib olish.",
+            "points": 100
+        }
+    ),
+    (
+        'reading_comprehension',
+        {
+            "title": "Track A (Reading): Chevening Leadership Assessment Criteria",
+            "skill": "reading",
+            "difficulty": "Advanced",
+            "passage": (
+                "The Chevening scholarship seeks individuals with demonstrable leadership qualities. "
+                "Leadership is evaluated not by formal job titles, but by the candidate's ability to influence others, "
+                "resolve conflicts, and drive sustainable community initiatives. Applicants must provide concrete STAR-method "
+                "(Situation, Task, Action, Result) examples to validate their claims."
+            ),
+            "question": "How does the Chevening selection committee define and assess true leadership?",
+            "options": [
+                {"key": "A", "text": "By formal managerial titles and family connections."},
+                {"key": "B", "text": "By the applicant's ability to influence, resolve conflict, and demonstrate measurable impact."},
+                {"key": "C", "text": "Only through academic test scores and GPA."},
+                {"key": "D", "text": "Through letters of recommendation from government officials only."}
+            ],
+            "correct_option": "B",
+            "explanation": "Matnga ko'ra, yetakchilik mansab bilan emas, odamlarga ta'sir o'tkazish va aniq natijalarga erishish orqali baholanadi.",
+            "expected_outcome": "Xalqaro stipendiya mezonlarini tushunish va xulosalarni aniqlash.",
+            "points": 100
+        }
+    ),
+    (
+        'vocabulary_drill',
+        {
+            "title": "Track A (Vocabulary): Academic Collocations for Scholarships",
+            "skill": "vocabulary",
+            "difficulty": "Intermediate-Advanced",
+            "instruction": "Grant va insholarda ko'p uchraydigan akademik iborani to'ldiring.",
+            "question": "The applicant successfully managed to ________ a nationwide environmental awareness campaign.",
+            "options": [
+                {"key": "A", "text": "spearhead"},
+                {"key": "B", "text": "do"},
+                {"key": "C", "text": "make up"},
+                {"key": "D", "text": "invent"}
+            ],
+            "correct_option": "A",
+            "explanation": "'Spearhead a campaign/initiative' - tashabbus yoki loyihaga yetakchilik qilish ma'nosidagi kuchli akademik birikma.",
+            "expected_outcome": "Rezyume va insholarda kuchli akademik so'z birikmalarini qo'llash ko'nikmasi.",
+            "points": 100
+        }
+    ),
+    (
+        'reading_comprehension',
+        {
+            "title": "Track A (Reading): DAAD Research Proposal and Study Plan Guidelines",
+            "skill": "reading",
+            "difficulty": "Advanced",
+            "passage": (
+                "Securing research grants at German state universities requires a well-delineated study plan. "
+                "Committees evaluate feasibility, methodology clarity, and institutional alignment with the host department. "
+                "A successful applicant demonstrates that their academic pursuits directly address real-world scientific gaps."
+            ),
+            "question": "Which factor is critical for German scholarship committee evaluation?",
+            "options": [
+                {"key": "A", "text": "Vague hypotheses without methodology."},
+                {"key": "B", "text": "Methodology clarity, feasibility, and host institution alignment."},
+                {"key": "C", "text": "Solely the applicant's age."},
+                {"key": "D", "text": "Informal social media recommendations."}
+            ],
+            "correct_option": "B",
+            "explanation": "Germaniya universitetlarida tadqiqot loyihasining aniq metodologiyasi va tanlangan kafedra bilan uyg'unligi hal qiluvchi mezondir.",
+            "expected_outcome": "Tadqiqot rejalari bo'yicha akademik matnni tushunish.",
+            "points": 100
+        }
+    )
 ]
 
-CURATED_READING_TASKS = [
-    {
-        "title": "Reading Comprehension: Statement of Purpose Structure",
-        "skill": "reading",
-        "difficulty": "Intermediate",
-        "passage": (
-            "An effective Statement of Purpose (SOP) for international undergraduate grants must articulate a coherent narrative. "
-            "Rather than merely listing academic accolades, strong applicants connect their past leadership projects in Uzbekistan "
-            "with their future vision. Admissions committees at European and American institutions look for evidence of self-reflection, "
-            "cultural agility, and tangible plans to contribute to the applicant's home country upon graduation."
-        ),
-        "question": "According to the passage, what distinguishes a compelling Statement of Purpose from a weak one?",
-        "options": [
-            {"key": "A", "text": "Listing as many awards and certificates as possible without narrative context."},
-            {"key": "B", "text": "Connecting past leadership experiences with a clear future vision and community impact."},
-            {"key": "C", "text": "Focusing solely on foreign travel aspirations rather than returning to Uzbekistan."},
-            {"key": "D", "text": "Writing exclusively about high school examination grades."}
-        ],
-        "correct_option": "B",
-        "explanation": "Matnda kuchli arizachilar o'tmishdagi yetakchilik tajribalarini kelajak rejalari va vataniga hissa qo'shish bilan bog'lashi ta'kidlangan."
-    },
-    {
-        "title": "Reading Comprehension: Chevening Leadership Criteria",
-        "skill": "reading",
-        "difficulty": "Advanced",
-        "passage": (
-            "The Chevening scholarship seeks individuals with demonstrable leadership qualities. "
-            "Leadership is evaluated not by formal job titles, but by the candidate's ability to influence others, "
-            "resolve conflicts, and drive sustainable community initiatives. Applicants must provide concrete STAR-method "
-            "(Situation, Task, Action, Result) examples to validate their claims."
-        ),
-        "question": "How does the Chevening selection committee define and assess true leadership?",
-        "options": [
-            {"key": "A", "text": "By formal managerial titles and family connections."},
-            {"key": "B", "text": "By the applicant's ability to influence, resolve conflict, and demonstrate measurable impact."},
-            {"key": "C", "text": "Only through academic test scores and GPA."},
-            {"key": "D", "text": "Through letters of recommendation from government officials only."}
-        ],
-        "correct_option": "B",
-        "explanation": "Matnga ko'ra, yetakchilik mansab bilan emas, odamlarga ta'sir o'tkazish va aniq natijalarga erishish orqali baholanadi."
-    }
+# Backward compatibility alias
+CURATED_GRAMMAR_TASKS = [t[1] for t in CURATED_TRACK_A_TASKS if t[0] == 'grammar_drill']
+CURATED_READING_TASKS = [t[1] for t in CURATED_TRACK_A_TASKS if t[0] == 'reading_comprehension']
+
+# ==============================================================================
+# CURATED TRACK B TASKS (Universitet Arizasi va Hujjatlar: SOP, LOR, Extracurricular)
+# ==============================================================================
+
+CURATED_TRACK_B_TASKS: List[Tuple[str, Dict[str, Any]]] = [
+    (
+        'essay_milestone',
+        {
+            "title": "Track B (SOP Drafting): Shaxsiy Bayonot Kirish Qismini Yozish (Hook & Motivation)",
+            "skill": "writing",
+            "difficulty": "Intermediate-Advanced",
+            "instruction": "Shaxsiy bayonotingizning (Statement of Purpose / Personal Statement) 1-xatboshisini (150-200 so'z) yozing. Tanlangan mutaxassislikka qiziqishingiz qanday boshlangani va asosiy maqsadingizni bayon qiling.",
+            "question": "Nima uchun aynan shu sohani tanladingiz? Qaysi aniq hayotiy yoki akademik voqea sizni ilhomlantirgan?",
+            "guidelines": [
+                "1. O'quvchining diqqatini tortuvchi kuchli 'Hook' (kirish jumlasi) bilan boshlang.",
+                "2. Umumiy gaplardan qoching; o'zingizning aniq tajribangizni keltiring.",
+                "3. 150-200 so'z atrofida ingliz yoki o'zbek tilida bayon qiling."
+            ],
+            "expected_outcome": "Xalqaro talablarga javob beradigan, shaxsiy va ishonchli insho kirish qoralamasi.",
+            "points": 100
+        }
+    ),
+    (
+        'essay_milestone',
+        {
+            "title": "Track B (SOP Drafting): Asosiy Qism — Akademik Loyihalar va STAR Metodi",
+            "skill": "writing",
+            "difficulty": "Advanced",
+            "instruction": "Inshongizning asosiy qismida (Body Paragraph) eng muhim akademik yoki jamoaviy loyihangizni STAR (Situation, Task, Action, Result) usulida yoriting (200-250 so'z).",
+            "question": "Qaysi loyiha yoki tadqiqot ustida ishlagansiz? Qanday qiyinchilikka duch keldingiz va qanday aniq natijaga (sonli ko'rsatkichlar bilan) erishdingiz?",
+            "guidelines": [
+                "Situation: Loyiha qayerda va qanday sharoitda amalga oshirilgan?",
+                "Task: Sizning oldingizda qanday aniq vazifa turgan edi?",
+                "Action: Muammoni hal qilish uchun shaxsan o'zingiz nima qildingiz?",
+                "Result: Qanday o'lchanadigan natijaga erishildi?"
+            ],
+            "expected_outcome": "STAR metodi asosida tizimlashtirilgan, dalillarga boy asosiy qism matni.",
+            "points": 100
+        }
+    ),
+    (
+        'extracurricular',
+        {
+            "title": "Track B (Portfolio): Darsdan Tashqari Faoliyat va Yetakchilik Portfoliosi",
+            "skill": "leadership",
+            "difficulty": "Intermediate",
+            "instruction": "Oxirgi 2 yildagi 3 ta eng muhim darsdan tashqari faoliyatingizni (Volontyorlik, Olimpiada, To'garak, Jamoat ishlari) ro'yxatlang va erishilgan natijalarni yozing.",
+            "question": "Har bir faoliyat bo'yicha: 1) Tashkilot/Tadbir nomi, 2) Sizning rolingiz, 3) Qancha soat/hafta vaqt ajratgansiz, 4) Aniq yutug'ingiz.",
+            "guidelines": [
+                "Misol: 'EcoUzbekistan volontyori — 50 nafar o'quvchiga ekologik darslar o'tdim, 200 ta daraxt ekish aksiyasini boshqardim.'",
+                "Sonli ko'rsatkichlar (metrics) keltirishga e'tibor qarating."
+            ],
+            "expected_outcome": "Xalqaro standartdagi 3 ta kuchli faoliyat tavsifi.",
+            "points": 80
+        }
+    ),
+    (
+        'lor_request',
+        {
+            "title": "Track B (LOR): Ustozga Tavsiyanoma (Recommendation Letter) So'rash Xati Shabloni",
+            "skill": "communication",
+            "difficulty": "Intermediate",
+            "instruction": "O'zingizni yaxshi taniydigan fan o'qituvchisiga yoki maktab rahbariga xalqaro grant uchun tavsiyanoma so'rab yoziladigan rasmiy va hurmatli xat loyihasini tayyorlang.",
+            "question": "Ustozingizga maqsadingiz, nima uchun aynan undan tavsiyanoma so'rayotganingiz va topshirish muddatlarini aniq bayon qiling.",
+            "guidelines": [
+                "1. Rasmiy va samimiy salomlashuv bilan boshlang.",
+                "2. Ariza topshirilayotgan dastur nomi va deadline'ni ko'rsating.",
+                "3. Ustozingiz darsida ko'rsatgan 1-2 ta yutuqli loyihangizni eslatib o'ting (Brag sheet ilova qilinadi)."
+            ],
+            "expected_outcome": "O'qituvchiga yuborishga tayyor professional LOR so'rov xati.",
+            "points": 80
+        }
+    ),
+    (
+        'essay_milestone',
+        {
+            "title": "Track B (SOP Drafting): Xulosa — O'zbekiston Taraqqiyotiga Qo'shiladigan Hissa",
+            "skill": "writing",
+            "difficulty": "Intermediate",
+            "instruction": "Inshoning yakuniy xulosa qismini yozing (150 so'z). O'qishni tugatgach O'zbekistonga qaytib qanday loyihalarni amalga oshirmoqchisiz?",
+            "question": "Olingan xalqaro bilim va tajribalaringiz orqali O'zbekistonning qaysi sohasini rivojlantirishga hissa qo'shasiz?",
+            "guidelines": [
+                "1. O'zingiz tanlagan soha bo'yicha aniq 2-3 ta kelajak tashabbusini ko'rsating.",
+                "2. Universitet beradigan imkoniyatlar bu rejalarga qanday yordam berishini bog'lang.",
+                "3. Ijobiy va qat'iy yakuniy xulosa jumlasi yozing."
+            ],
+            "expected_outcome": "Vatanga qaytish va real hissa qo'shish rejasini isbotlovchi xulosa qismi.",
+            "points": 100
+        }
+    ),
+    (
+        'university_research',
+        {
+            "title": "Track B (Tadqiqot): Maqsadli Universitetlar va Grant Dasturlari Qabul Mezonlari Tahlili",
+            "skill": "research",
+            "difficulty": "Intermediate",
+            "instruction": "Tanlangan 2 ta maqsadli universitet yoki grantning rasmiy veb-saytini o'rganib, minimal IELTS/SAT, GPA, insho mavzulari va qabul deadline'larini tekshiring.",
+            "question": "Har bir universitet bo'yicha talablar jadvalini tuzing va o'zingizning hozirgi ko'rsatkichlaringiz bilan solishtiring.",
+            "guidelines": [
+                "1. Universitet nomi va davlati",
+                "2. Minimal til talabi (IELTS / TOEFL / DET)",
+                "3. Grant qamrovi (Full-ride yoki qisman)",
+                "4. Arizalar qabulining oxirgi sanasi"
+            ],
+            "expected_outcome": "Aniq muddatlar va talablar aks etgan qabul jadvali.",
+            "points": 70
+        }
+    ),
+    (
+        'document_prep',
+        {
+            "title": "Track B (Hujjatlar): Baholar Tabeli (Transkript) va Sertifikatlar Nazorat Ro'yxati",
+            "skill": "organization",
+            "difficulty": "Intermediate",
+            "instruction": "Ariza topshirish uchun zarur bo'lgan barcha rasmiy hujjatlar ro'yxatini (Checklist) tuzing va ularning tayyorgarlik holatini belgilang.",
+            "question": "Passport, 9-11 sinf baholar tabeli tarjimasi, til sertifikati, diplomlar va portfolio fayllari holatini tekshiring.",
+            "guidelines": [
+                "Barcha hujjatlar ingliz tilida va rasmiy muhrlangan bo'lishi lozimligini tekshiring."
+            ],
+            "expected_outcome": "100% to'liq akademik hujjatlar nazorat ro'yxati.",
+            "points": 70
+        }
+    )
 ]
 
 
@@ -126,67 +346,82 @@ def get_student_weakest_skill(student: Student) -> str:
     return weakest.skill
 
 
-def build_task_generation_prompts(student: Student, weakest_skill: str) -> tuple[str, str]:
+def generate_daily_tasks_for_dual_track(
+    student: Student,
+    date_for_tasks: Optional[date] = None
+) -> List[DailyTask]:
     """
-    Creates Claude prompt for generating 2 fresh daily tasks tailored to weakest skill.
+    Alternates / provisions daily tasks tagged with track='track_a' (Exam drills, vocabulary, grammar)
+    and track='track_b' (SOP drafting, extracurricular reflection, LOR request templates).
+    Populates Uzbek titles, instructions, expected outcomes, and points.
     """
-    system_prompt = (
-        "Sen O'zbekistonlik 9-11 sinf maktab o'quvchilari uchun xalqaro grant va universitetlarga "
-        "tayyorgarlik bo'yicha kunlik amaliy vazifalar tuzuvchi tajribali AI metodistsan.\n"
-        "Barcha topshiriqlar, savollar va tushuntirishlar o'quvchining zaif ko'nikmasini kuchaytirishga "
-        "qaratilgan bo'lishi va O'zbek tili (lotin alifbosi) orqali boshqarilishi kerak.\n"
-        "JSON formatda qaytar."
-    )
-    user_prompt = f"""O'quvchi profili:
-- Sinf: {student.grade or 10}-sinf
-- Zaif ko'nikma: {weakest_skill.upper()}
-- Maqsad: {student.target_program_type or 'grant'} dasturlariga tayyorgarlik
+    if date_for_tasks is None:
+        date_for_tasks = timezone.localdate()
 
-Quyidagi 2 ta vazifani o'z ichiga olgan JSON qaytar:
-1. grammar_drill (zaif ko'nikmaga mos grammatik mashq)
-2. reading_comprehension (grant/insho mavzusidagi matn va savol)
+    existing_tasks = list(DailyTask.objects.filter(student=student, date=date_for_tasks).order_by('id'))
+    if existing_tasks:
+        return existing_tasks
 
-JSON strukturasi:
-{{
-  "tasks": [
-    {{
-      "task_type": "grammar_drill",
-      "content": {{
-        "title": "Grammar Drill sarlavhasi",
-        "skill": "grammar",
-        "instruction": "Ko'rsatma",
-        "question": "Gap yoki savol",
-        "options": [
-          {{"key": "A", "text": "Variant A"}},
-          {{"key": "B", "text": "Variant B"}},
-          {{"key": "C", "text": "Variant C"}},
-          {{"key": "D", "text": "Variant D"}}
-        ],
-        "correct_option": "B",
-        "explanation": "O'zbekcha qisqa tushuntirish"
-      }}
-    }},
-    {{
-      "task_type": "reading_comprehension",
-      "content": {{
-        "title": "Reading sarlavhasi",
-        "skill": "reading",
-        "passage": "1-2 xatboshi matn",
-        "question": "Matn bo'yicha savol",
-        "options": [
-          {{"key": "A", "text": "Variant A"}},
-          {{"key": "B", "text": "Variant B"}},
-          {{"key": "C", "text": "Variant C"}},
-          {{"key": "D", "text": "Variant D"}}
-        ],
-        "correct_option": "A",
-        "explanation": "Matnga asoslangan o'zbekcha tushuntirish"
-      }}
-    }}
-  ]
-}}
-"""
-    return system_prompt, user_prompt
+    active_plan = get_active_study_plan(student)
+    weakest_skill = get_student_weakest_skill(student)
+
+    # Offset based on date and student id for deterministic variation
+    day_offset = (date_for_tasks - date(2026, 1, 1)).days + (student.id * 3)
+
+    # Pick Track A task (prioritizing weakest skill if applicable)
+    track_a_pool = CURATED_TRACK_A_TASKS
+    if weakest_skill == 'grammar':
+        grammar_pool = [t for t in track_a_pool if t[0] == 'grammar_drill']
+        track_a_task = grammar_pool[day_offset % len(grammar_pool)] if grammar_pool else track_a_pool[day_offset % len(track_a_pool)]
+    elif weakest_skill == 'reading':
+        reading_pool = [t for t in track_a_pool if t[0] == 'reading_comprehension']
+        track_a_task = reading_pool[day_offset % len(reading_pool)] if reading_pool else track_a_pool[day_offset % len(track_a_pool)]
+    else:
+        track_a_task = track_a_pool[day_offset % len(track_a_pool)]
+
+    # Pick Track B task
+    track_b_task = CURATED_TRACK_B_TASKS[(day_offset + 1) % len(CURATED_TRACK_B_TASKS)]
+
+    created_tasks = []
+    with transaction.atomic():
+        existing_tasks = list(DailyTask.objects.filter(student=student, date=date_for_tasks).order_by('id'))
+        if existing_tasks:
+            return existing_tasks
+
+        # Create Track A task
+        t_type_a, content_a = track_a_task
+        task_a = DailyTask.objects.create(
+            student=student,
+            study_plan=active_plan,
+            track='track_a',
+            date=date_for_tasks,
+            task_type=t_type_a,
+            content=content_a,
+            completed=False,
+            score=None,
+            student_answer="",
+            ai_feedback=""
+        )
+        created_tasks.append(task_a)
+
+        # Create Track B task
+        t_type_b, content_b = track_b_task
+        task_b = DailyTask.objects.create(
+            student=student,
+            study_plan=active_plan,
+            track='track_b',
+            date=date_for_tasks,
+            task_type=t_type_b,
+            content=content_b,
+            completed=False,
+            score=None,
+            student_answer="",
+            ai_feedback=""
+        )
+        created_tasks.append(task_b)
+
+    logger.info(f"Student {student.id} uchun 2 ta Dual-Track vazifa (Track A va Track B) yaratildi ({date_for_tasks}).")
+    return created_tasks
 
 
 def generate_daily_tasks_for_student(
@@ -195,54 +430,10 @@ def generate_daily_tasks_for_student(
     count: int = 2
 ) -> List[DailyTask]:
     """
-    Generates or retrieves 2-3 DailyTask records for a student for the given date.
-    Ensures at least 1 grammar_drill and 1 reading_comprehension.
-    AI call is deliberately outside any DB transaction to avoid SQLite lock contention.
+    Generates or retrieves DailyTask records for a student for the given date.
+    Standardized to delegate to generate_daily_tasks_for_dual_track.
     """
-    if task_date is None:
-        task_date = timezone.localdate()
-
-    existing_tasks = list(DailyTask.objects.filter(student=student, date=task_date).order_by('id'))
-    if existing_tasks:
-        return existing_tasks
-
-    active_plan = get_active_study_plan(student)
-    weakest_skill = get_student_weakest_skill(student)
-
-    # Generate instant adaptive daily tasks based on student's weakest skill and date
-    day_offset = (task_date - date(2026, 1, 1)).days + (student.id * 3)
-    g_idx = day_offset % len(CURATED_GRAMMAR_TASKS)
-    r_idx = (day_offset + 1) % len(CURATED_READING_TASKS)
-
-    tasks_to_create = [
-        ('grammar_drill', CURATED_GRAMMAR_TASKS[g_idx]),
-        ('reading_comprehension', CURATED_READING_TASKS[r_idx])
-    ]
-
-    # --- Only the DB write is inside a short transaction ---
-    created_tasks = []
-    with transaction.atomic():
-        # Re-check: another request may have created tasks while we were calling AI
-        existing_tasks = list(DailyTask.objects.filter(student=student, date=task_date).order_by('id'))
-        if existing_tasks:
-            return existing_tasks
-
-        for t_type, t_content in tasks_to_create:
-            dt = DailyTask.objects.create(
-                student=student,
-                study_plan=active_plan,
-                date=task_date,
-                task_type=t_type,
-                content=t_content,
-                completed=False,
-                score=None,
-                student_answer="",
-                ai_feedback=""
-            )
-            created_tasks.append(dt)
-
-    logger.info(f"Student {student.id} uchun {len(created_tasks)} ta kunlik vazifa yaratildi ({task_date}).")
-    return created_tasks
+    return generate_daily_tasks_for_dual_track(student, date_for_tasks=task_date)
 
 
 def grade_task_submission(task: DailyTask, student_answer: str) -> Dict[str, Any]:
@@ -255,6 +446,7 @@ def grade_task_submission(task: DailyTask, student_answer: str) -> Dict[str, Any
     explanation = content.get('explanation', '')
     question_text = content.get('question', '')
     passage_text = content.get('passage', '')
+    is_multiple_choice = bool(correct_option and 'options' in content)
 
     system_prompt = (
         "Sen xalqaro grant va universitetlarga tayyorlovchi AI o'qituvchisan. "
@@ -264,11 +456,13 @@ def grade_task_submission(task: DailyTask, student_answer: str) -> Dict[str, Any
         "Hech qachon 100% qabul kafolatini bermang. AI tavsiyasi — yakuniy qarorni oila va o'quvchi qabul qiladi."
     )
 
-    user_prompt = f"""Vazifa turi: {task.get_task_type_display()}
+    user_prompt = f"""Vazifa turi: {task.get_task_type_display()} (Track: {task.get_track_display()})
+Sarlavha: {content.get('title', '')}
+Ko'rsatma: {content.get('instruction', '')}
 Savol / Topshiriq: {question_text}
 {f'Matn: {passage_text}' if passage_text else ''}
-To'g'ri javob kaliti: {correct_option}
-Standart izoh: {explanation}
+{f'To\'g\'ri javob kaliti: {correct_option}' if correct_option else ''}
+{f'Standart izoh: {explanation}' if explanation else ''}
 
 O'quvchi bergan javob: "{student_answer}"
 
@@ -301,37 +495,62 @@ Javobni quyidagi JSON formatda qaytar:
 
     # Heuristic fallback grading
     cleaned_ans = student_answer.strip().upper()
-    is_correct = False
-    
-    # Check direct match with option key (A, B, C, D)
-    if correct_option and (cleaned_ans == correct_option or cleaned_ans.startswith(f"{correct_option})") or cleaned_ans.startswith(f"{correct_option}.")):
-        is_correct = True
-    # Or check if student wrote the text of the correct option
-    elif correct_option and 'options' in content:
-        for opt in content.get('options', []):
-            if opt.get('key') == correct_option and opt.get('text', '').lower() in student_answer.lower():
-                is_correct = True
-                break
 
-    if is_correct:
-        score = 100
-        ai_feedback = (
-            f"Ajoyib! Siz to'g'ri javobni tanladingiz ({correct_option}). "
-            f"{explanation} Ushbu qoidani amaliyotda to'g'ri qo'llay olishingiz grant insholarida akademik aniqlikni ta'minlaydi."
-        )
-    else:
-        # Partial credit if long analytical attempt was written
-        if len(student_answer.split()) >= 10:
-            score = 50
+    if is_multiple_choice:
+        is_correct = False
+        if correct_option and (cleaned_ans == correct_option or cleaned_ans.startswith(f"{correct_option})") or cleaned_ans.startswith(f"{correct_option}.")):
+            is_correct = True
+        elif correct_option and 'options' in content:
+            for opt in content.get('options', []):
+                if opt.get('key') == correct_option and opt.get('text', '').lower() in student_answer.lower():
+                    is_correct = True
+                    break
+
+        if is_correct:
+            score = 100
             ai_feedback = (
-                f"Sizning javobingizda yaxshi fikrlar bor, biroq to'g'ri javob {correct_option} edi. "
-                f"Tushuntirish: {explanation}. Keyingi safar kalit so'zlarga va grammatik qolipga e'tibor qarating."
+                f"Ajoyib! Siz to'g'ri javobni tanladingiz ({correct_option}). "
+                f"{explanation} Ushbu qoidani amaliyotda to'g'ri qo'llay olishingiz grant insholarida akademik aniqlikni ta'minlaydi."
             )
         else:
-            score = 30
+            if len(student_answer.split()) >= 10:
+                score = 50
+                ai_feedback = (
+                    f"Sizning javobingizda yaxshi fikrlar bor, biroq to'g'ri javob {correct_option} edi. "
+                    f"Tushuntirish: {explanation}. Keyingi safar kalit so'zlarga va grammatik qolipga e'tibor qarating."
+                )
+            else:
+                score = 30
+                ai_feedback = (
+                    f"Afsuski javobingiz noto'g'ri. To'g'ri javob: {correct_option}. "
+                    f"Tushuntirish: {explanation}. Ushbu mavzuni mustahkamlash uchun yana mashq qiling."
+                )
+    else:
+        # Open-ended essay / Track B task heuristic grading
+        words = student_answer.strip().split()
+        word_count = len(words)
+        if word_count >= 25:
+            score = 95
             ai_feedback = (
-                f"Afsuski javobingiz noto'g'ri. To'g'ri javob: {correct_option}. "
-                f"Tushuntirish: {explanation}. Ushbu mavzuni mustahkamlash uchun yana mashq qiling."
+                "Ajoyib va mazmunli topshiriq ijrosi! Siz o'z fikringizni aniq dalillar va reja bilan ifodalagansiz. "
+                "Ushbu yondashuv xalqaro grant va universitet komissiyasida yuqori baholanadi."
+            )
+        elif word_count >= 12:
+            score = 80
+            ai_feedback = (
+                "Yaxshi urinish. Javobingizda asosiy g'oya aks etgan. "
+                "Keyingi safar fikringizni yanada boyitish uchun aniqroq misollar va sonli ko'rsatkichlar qo'shish tavsiya etiladi."
+            )
+        elif word_count >= 5:
+            score = 60
+            ai_feedback = (
+                "Qisqa javob berildi. Topshiriq bo'yicha to'liqroq yoritish va batafsilroq bayon qilish orqali "
+                "ko'proq ball to'plashingiz mumkin."
+            )
+        else:
+            score = 35
+            ai_feedback = (
+                "Javob juda qisqa. Iltimos, topshiriq ko'rsatmalariga muvofiq to'liqroq va batafsilroq yozing."
             )
 
     return {
@@ -344,7 +563,7 @@ Javobni quyidagi JSON formatda qaytar:
 @transaction.atomic
 def submit_daily_task(task_id: int, student: Student, student_answer: str) -> DailyTask:
     """
-    Processes task submission: grades via Claude, updates DailyTask,
+    Processes task submission: grades via Claude/heuristic, updates DailyTask,
     and updates student SkillScore & ProgressLog.
     """
     task = DailyTask.objects.select_for_update().get(id=task_id, student=student)
@@ -363,7 +582,7 @@ def submit_daily_task(task_id: int, student: Student, student_answer: str) -> Da
     record_task_completion_score(student, task.task_type, task.score)
 
     logger.info(
-        f"Task {task.id} ({task.task_type}) submitted by student {student.id}. "
+        f"Task {task.id} ({task.task_type}, track={task.track}) submitted by student {student.id}. "
         f"Score: {task.score}."
     )
     return task
