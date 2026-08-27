@@ -186,9 +186,19 @@ class Program(models.Model):
 
 class StudentProgram(models.Model):
     """
-    Through model linking Student (accounts.Student) and Program (programs.Program)
-    for tracking and bookmarking study abroad programs.
+    Through model linking Student and Program for application status tracking and bookmarking.
     """
+    STATUS_CHOICES = [
+        ('tracking', "Kuzatilmoqda"),           # default, current behavior
+        ('preparing', "Hujjatlar tayyorlanmoqda"),
+        ('submitted', "Ariza topshirildi"),
+        ('interview', "Suhbatga taklif qilindi"),
+        ('accepted', "Qabul qilindi"),
+        ('rejected', "Rad etildi"),
+        ('waitlisted', "Kutish ro'yxatida"),
+        ('withdrawn', "Bekor qilindi"),
+    ]
+
     student = models.ForeignKey(
         'accounts.Student',
         on_delete=models.CASCADE,
@@ -201,6 +211,30 @@ class StudentProgram(models.Model):
         related_name='student_tracking',
         verbose_name="Dastur"
     )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='tracking',
+        verbose_name="Holat"
+    )
+    status_updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Holat yangilangan vaqt"
+    )
+    submitted_at = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Topshirilgan sana"
+    )
+    decision_at = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Qaror sanasi"
+    )
+    notes = models.TextField(
+        blank=True,
+        verbose_name="Shaxsiy izohlar"
+    )
     tracked_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Kuzatuvga olingan vaqt"
@@ -211,13 +245,13 @@ class StudentProgram(models.Model):
     )
 
     class Meta:
-        verbose_name = "Kuzatilayotgan dastur"
-        verbose_name_plural = "Kuzatilayotgan dasturlar"
+        verbose_name = "Kuzatilayotgan dastur / Ariza holati"
+        verbose_name_plural = "Kuzatilayotgan dasturlar / Arizalar"
         unique_together = ('student', 'program')
-        ordering = ['-tracked_at']
+        ordering = ['-status_updated_at']
 
     def __str__(self):
-        return f"{self.student} — {self.program.name}"
+        return f"{self.student} — {self.program.name} ({self.get_status_display()})"
 
 
 class StudentTargetSelection(models.Model):

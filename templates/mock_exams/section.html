@@ -1,0 +1,215 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}{{ section.get_section_type_display }} | IELTS Mock Imtihon{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-2 sm:py-6 px-2 sm:px-4">
+
+  <!-- Sticky Exam Header with Prominent Countdown Timer -->
+  <div class="sticky top-2 z-40 bg-slate-900 text-white rounded-3xl p-4 sm:p-5 shadow-lg border border-slate-800 flex items-center justify-between mb-6">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center font-black text-xs">
+        {{ current_index }}/{{ total_sections }}
+      </div>
+      <div>
+        <h2 class="text-sm sm:text-base font-extrabold tracking-tight">
+          {{ section.get_section_type_display }}
+        </h2>
+        <p class="text-[11px] text-slate-400 hidden sm:block">IELTS Academic Mock</p>
+      </div>
+    </div>
+
+    <!-- Live Timer -->
+    <div class="flex items-center space-x-2 bg-slate-800/90 px-4 py-2 rounded-2xl border border-slate-700">
+      <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
+      <span id="countdownDisplay" class="font-mono text-sm sm:text-lg font-black tracking-widest text-amber-300">
+        00:00
+      </span>
+    </div>
+
+    <div>
+      <button type="button" onclick="confirmAndSubmit()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition flex items-center space-x-1.5">
+        <span>Bo'limni yakunlash</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
+  </div>
+
+  <form id="sectionExamForm" method="post" action="{% url 'mock_exams:submit_section' exam.id section.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="auto_submitted" id="autoSubmittedInput" value="0">
+
+    {% if section.section_type == 'listening' %}
+      <!-- ================= LISTENING SECTION ================= -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Audio / Transcript Context -->
+        <div class="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center space-x-2 text-indigo-600 font-bold text-xs">
+            <i data-lucide="headphones" class="w-4 h-4"></i>
+            <span>Audio Matni (Listening Transcript)</span>
+          </div>
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-700 font-mono leading-relaxed whitespace-pre-line max-h-[60vh] overflow-y-auto">
+            {{ section.content.audio_transcript }}
+          </div>
+        </div>
+
+        <!-- Questions -->
+        <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xs space-y-6">
+          <h3 class="text-sm font-black text-slate-900 border-b border-slate-100 pb-3">
+            Savollarga javob bering:
+          </h3>
+          {% for q in section.content.questions %}
+            <div class="space-y-3 p-4 bg-slate-50/70 rounded-2xl border border-slate-100">
+              <p class="text-xs sm:text-sm font-bold text-slate-800">{{ q.question }}</p>
+              
+              {% if q.type == 'multiple_choice' %}
+                <div class="space-y-2">
+                  {% for opt in q.options %}
+                    <label class="flex items-center space-x-2.5 p-2.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 cursor-pointer text-xs transition">
+                      <input type="radio" name="{{ q.id }}" value="{{ opt }}" class="text-indigo-600 focus:ring-indigo-500">
+                      <span class="text-slate-700 font-medium">{{ opt }}</span>
+                    </label>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <div>
+                  <input type="text" name="{{ q.id }}" placeholder="{{ q.hint|default:'Javobingizni yozing...' }}" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-indigo-500">
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    {% elif section.section_type == 'reading' %}
+      <!-- ================= READING SECTION ================= -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Reading Passage -->
+        <div class="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center space-x-2 text-emerald-600 font-bold text-xs">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>Akademik Matn (Reading Passage)</span>
+          </div>
+          <div class="text-xs sm:text-sm text-slate-800 leading-relaxed space-y-3 max-h-[65vh] overflow-y-auto pr-2">
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 whitespace-pre-line font-serif">
+              {{ section.content.passage }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Reading Questions -->
+        <div class="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xs space-y-6 max-h-[75vh] overflow-y-auto">
+          <h3 class="text-sm font-black text-slate-900 border-b border-slate-100 pb-3">
+            Matn asosidagi savollar:
+          </h3>
+          {% for q in section.content.questions %}
+            <div class="space-y-3 p-4 bg-slate-50/70 rounded-2xl border border-slate-100">
+              <p class="text-xs sm:text-sm font-bold text-slate-800">{{ q.question }}</p>
+              
+              <div class="space-y-2">
+                {% for opt in q.options %}
+                  <label class="flex items-center space-x-2.5 p-2.5 rounded-xl border border-slate-200 bg-white hover:border-emerald-300 cursor-pointer text-xs transition">
+                    <input type="radio" name="{{ q.id }}" value="{{ opt }}" class="text-emerald-600 focus:ring-emerald-500">
+                    <span class="text-slate-700 font-medium">{{ opt }}</span>
+                  </label>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    {% elif section.section_type == 'writing' %}
+      <!-- ================= WRITING SECTION ================= -->
+      <div class="space-y-8">
+        <!-- Task 1 -->
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center space-x-2 text-amber-600 font-bold text-xs">
+              <i data-lucide="pen-tool" class="w-4 h-4"></i>
+              <span>Task 1 (Kamida 150 so'z)</span>
+            </div>
+            <span class="text-xs text-slate-400" id="task1Count">0 so'z</span>
+          </div>
+          <p class="text-xs sm:text-sm font-bold text-slate-800 bg-amber-50/60 p-4 rounded-2xl border border-amber-100">
+            {{ section.content.task_1.prompt }}
+          </p>
+          <textarea id="task1Input" name="task_1" rows="8" placeholder="Task 1 hisobotingizni ingliz tilida shu yerga yozing..." class="w-full p-4 rounded-2xl border border-slate-300 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-indigo-500 leading-relaxed font-mono" oninput="countWords('task1Input', 'task1Count')"></textarea>
+        </div>
+
+        <!-- Task 2 -->
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center space-x-2 text-indigo-600 font-bold text-xs">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+              <span>Task 2 (Kamida 250 so'z)</span>
+            </div>
+            <span class="text-xs text-slate-400" id="task2Count">0 so'z</span>
+          </div>
+          <p class="text-xs sm:text-sm font-bold text-slate-800 bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100">
+            {{ section.content.task_2.prompt }}
+          </p>
+          <textarea id="task2Input" name="task_2" rows="12" placeholder="Task 2 inshongizni ingliz tilida shu yerga yozing..." class="w-full p-4 rounded-2xl border border-slate-300 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-indigo-500 leading-relaxed font-mono" oninput="countWords('task2Input', 'task2Count')"></textarea>
+        </div>
+      </div>
+
+    {% endif %}
+
+    <!-- Bottom Submit Bar -->
+    <div class="mt-8 pt-6 border-t border-slate-200 flex items-center justify-between">
+      <span class="text-xs text-slate-400">
+        Bo'limni yakunlaganingizdan so'ng javoblarni o'zgartirib bo'lmaydi.
+      </span>
+      <button type="submit" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white text-xs font-bold rounded-xl shadow-md transition flex items-center space-x-2">
+        <span>Bo'limni topshirish va davom etish</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </form>
+
+</div>
+
+<script>
+  let remainingSeconds = {{ remaining_seconds }};
+  const timerDisplay = document.getElementById('countdownDisplay');
+  const form = document.getElementById('sectionExamForm');
+
+  function updateTimer() {
+    if (remainingSeconds <= 0) {
+      timerDisplay.innerText = "00:00";
+      timerDisplay.classList.add('text-rose-400');
+      document.getElementById('autoSubmittedInput').value = "1";
+      alert("Vaqt tugadi! Ushbu bo'lim javoblari avtomatik tarzda saqlanadi.");
+      form.submit();
+      return;
+    }
+
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = remainingSeconds % 60;
+    timerDisplay.innerText = 
+      (minutes < 10 ? '0' : '') + minutes + ':' + 
+      (seconds < 10 ? '0' : '') + seconds;
+
+    if (remainingSeconds <= 300) {
+      timerDisplay.classList.add('text-rose-400');
+    }
+
+    remainingSeconds--;
+  }
+
+  setInterval(updateTimer, 1000);
+  updateTimer();
+
+  function countWords(inputId, countId) {
+    const text = document.getElementById(inputId).value.trim();
+    const words = text ? text.split(/\s+/).length : 0;
+    document.getElementById(countId).innerText = words + ' so\'z';
+  }
+
+  function confirmAndSubmit() {
+    if (confirm("Haqiqatan ham ushbu bo'limni yakunlab, keyingisiga o'tmoqchimisiz?")) {
+      form.submit();
+    }
+  }
+</script>
+{% endblock %}

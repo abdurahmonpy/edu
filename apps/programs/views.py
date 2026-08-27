@@ -57,19 +57,61 @@ def program_list_view(request):
 def program_detail_view(request, program_id):
     """
     Detailed profile for a single verified scholarship/exchange program.
+    Includes application status stepper and notes for tracked programs.
     """
     program = get_object_or_404(Program, id=program_id)
+    student_program = None
     is_tracked = False
     if request.user.is_authenticated:
         student = getattr(request.user, 'student_profile', None)
         if student:
-            is_tracked = StudentProgram.objects.filter(student=student, program=program).exists()
+            student_program = StudentProgram.objects.filter(student=student, program=program).first()
+            is_tracked = student_program is not None
 
     context = {
         'program': program,
         'is_tracked': is_tracked,
+        'student_program': student_program,
+        'status_choices': StudentProgram.STATUS_CHOICES,
     }
     return render(request, 'programs/program_detail.html', context)
+
+
+@login_required
+def update_application_status_view(request, program_id):
+    """
+    Updates the application status, submission date, decision date, and notes for a student program.
+    """
+    program = get_object_or_404(Program, id=program_id)
+    student = getattr(request.user, 'student_profile', None)
+    if not student:
+        return redirect('accounts:login')
+
+    if request.method == 'POST':
+        student_program, _ = StudentProgram.objects.get_or_create(student=student, program=program)
+        new_status = request.POST.get('status')
+        if new_status in dict(StudentProgram.STATUS_CHOICES):
+            student_program.status = new_status
+
+        submitted_at = request.POST.get('submitted_at')
+        if submitted_at:
+            student_program.submitted_at = submitted_at
+        elif 'submitted_at' in request.POST and not submitted_at:
+            student_program.submitted_at = None
+
+        decision_at = request.POST.get('decision_at')
+        if decision_at:
+            student_program.decision_at = decision_at
+        elif 'decision_at' in request.POST and not decision_at:
+            student_program.decision_at = None
+
+        notes = request.POST.get('notes')
+        if notes is not None:
+            student_program.notes = notes.strip()
+
+        student_program.save()
+
+    return redirect('programs:detail', program_id=program.id)
 
 
 @login_required
@@ -105,8 +147,6 @@ def toggle_track_program(request, program_id=None, pk=None):
         or request.GET.get('format') == 'json'
         or request.POST.get('format') == 'json'
     )
-
-
 
     if is_ajax:
         return JsonResponse({

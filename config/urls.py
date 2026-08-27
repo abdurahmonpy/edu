@@ -19,5 +19,6 @@ urlpatterns = [
     path('stats/', stats_view, name='stats_direct'),
     path('mentor/', include('apps.mentor.urls', namespace='mentor')),
     path('programs/', include('apps.programs.urls', namespace='programs')),
+    path('mock-exams/', include('apps.mock_exams.urls', namespace='mock_exams')),
     path('', landing_page_view, name='home'),
 ]

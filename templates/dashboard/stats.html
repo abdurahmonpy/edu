@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Statistika va O'sish Dinamikasi — Kelajak AI Mentori{% endblock %}
 
@@ -16,7 +16,11 @@
       <p class="text-xs sm:text-sm text-slate-500 mt-0.5">5 ta ko'nikma bo'yicha ko'rsatkichlar, kunlik faollik va o'sish dinamikangiz</p>
     </div>
 
-    <div class="flex items-center space-x-3">
+    <div class="flex items-center space-x-3 flex-wrap gap-2">
+      <a href="{% url 'mock_exams:intro' %}" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white text-xs font-bold rounded-2xl shadow-xs transition flex items-center space-x-1.5">
+        <i data-lucide="stopwatch" class="w-4 h-4"></i>
+        <span>Mock imtihon topshirish</span>
+      </a>
       <div class="px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-2xl text-center">
         <span class="text-[10px] uppercase tracking-wider font-bold text-indigo-600 block">Ready Score</span>
         <span class="text-xl font-black text-indigo-700">{{ overall_ready_score|floatformat:0 }}%</span>

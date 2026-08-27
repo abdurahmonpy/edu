@@ -419,6 +419,19 @@ def dashboard_view(request):
         'today_date': today,
         'nearest_deadline': nearest_deadline,
         'weekly_consistency': weekly_consistency,
+        
+        # Active Applications Summary
+        'applications_summary': {
+            'total': StudentProgram.objects.filter(student=student).count(),
+            'tracking': StudentProgram.objects.filter(student=student, status='tracking').count(),
+            'preparing': StudentProgram.objects.filter(student=student, status='preparing').count(),
+            'submitted': StudentProgram.objects.filter(student=student, status='submitted').count(),
+            'interview': StudentProgram.objects.filter(student=student, status='interview').count(),
+            'accepted': StudentProgram.objects.filter(student=student, status='accepted').count(),
+            'rejected': StudentProgram.objects.filter(student=student, status='rejected').count(),
+            'waitlisted': StudentProgram.objects.filter(student=student, status='waitlisted').count(),
+            'items': StudentProgram.objects.filter(student=student).select_related('program')[:4],
+        },
     }
     return render(request, 'dashboard/index.html', context)
 

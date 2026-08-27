@@ -176,3 +176,127 @@ def task_result_view(request, task_id):
         'next_task': next_task,
     }
     return render(request, 'tasks/task_result.html', context)
+
+
+@login_required
+def exam_prep_view(request):
+    """
+    Dedicated Exam Prep (IELTS / SAT / CEFR) section:
+    - Today's Track A daily drills (grammar, reading, listening, speaking, writing, vocabulary)
+    - Per-skill breakdown dashboard (0-100 scores for 5 skills)
+    - CTA for full Mock Exam Simulator
+    - Scoped IELTS & Language Resource Library (Reading, Writing, Listening, Speaking, Grammar)
+    """
+    student = getattr(request.user, 'student_profile', None)
+    if not student or not student.onboarding_completed:
+        return redirect('onboarding:step_1')
+
+    today = timezone.localdate()
+    # Ensure today's tasks exist
+    generate_daily_tasks_for_student(student, task_date=today, count=2)
+
+    # 1. Track A Tasks
+    tab = request.GET.get('tab', 'today').lower().strip()
+    if tab == 'completed':
+        exam_tasks = DailyTask.objects.filter(student=student, track='track_a', completed=True).order_by('-completed_at', '-date')
+    elif tab == 'all':
+        exam_tasks = DailyTask.objects.filter(student=student, track='track_a').order_by('-date')
+    else:
+        exam_tasks = DailyTask.objects.filter(student=student, track='track_a', date=today).order_by('completed', '-id')
+
+    # Counts
+    today_count = DailyTask.objects.filter(student=student, track='track_a', date=today).count()
+    completed_today_count = DailyTask.objects.filter(student=student, track='track_a', date=today, completed=True).count()
+    total_completed_count = DailyTask.objects.filter(student=student, track='track_a', completed=True).count()
+
+    # 2. 5 Skill Scores
+    from apps.dashboard.models import SkillScore
+    from apps.services.score_service import calculate_overall_ready_score
+    skills_map = {s.skill: s.current_score for s in student.skill_scores.all()}
+    skill_items = [
+        {'key': 'reading', 'label': "Reading (O'qish)", 'score': skills_map.get('reading', 50), 'icon': 'book-open', 'color': 'emerald'},
+        {'key': 'listening', 'label': "Listening (Eshitish)", 'score': skills_map.get('listening', 50), 'icon': 'headphones', 'color': 'indigo'},
+        {'key': 'writing', 'label': "Writing (Yozish)", 'score': skills_map.get('writing', 50), 'icon': 'pen-tool', 'color': 'amber'},
+        {'key': 'speaking', 'label': "Speaking (Gapirish)", 'score': skills_map.get('speaking', 50), 'icon': 'mic', 'color': 'violet'},
+        {'key': 'grammar', 'label': "Grammar & Vocab", 'score': skills_map.get('grammar', 50), 'icon': 'spell-check', 'color': 'rose'},
+    ]
+    ready_score = calculate_overall_ready_score(student)
+
+    # 3. IELTS Specific Resource Library
+    from apps.resources.models import Resource
+    ielts_categories = ['ielts_reading', 'ielts_writing', 'ielts_listening', 'ielts_speaking', 'grammar_vocab']
+    selected_category = request.GET.get('category', '').strip()
+    
+    resource_qs = Resource.objects.filter(category__in=ielts_categories)
+    if selected_category and selected_category in ielts_categories:
+        resource_qs = resource_qs.filter(category=selected_category)
+    
+    ielts_resources = resource_qs.order_by('-created_at')
+
+    context = {
+        'student': student,
+        'tab': tab,
+        'exam_tasks': exam_tasks,
+        'today_count': today_count,
+        'completed_today_count': completed_today_count,
+        'total_completed_count': total_completed_count,
+        'skill_items': skill_items,
+        'ready_score': ready_score,
+        'ielts_resources': ielts_resources,
+        'selected_category': selected_category,
+        'ielts_category_choices': [
+            ('ielts_reading', "Reading"),
+            ('ielts_writing', "Writing"),
+            ('ielts_listening', "Listening"),
+            ('ielts_speaking', "Speaking"),
+            ('grammar_vocab', "Grammatika"),
+        ],
+    }
+    return render(request, 'tasks/exam_prep.html', context)
+
+
+@login_required
+def application_prep_view(request):
+    """
+    Dedicated University & Scholarship Application Prep (Track B) section:
+    - Today's Track B daily tasks (essay milestones, LOR, document prep, extracurricular)
+    - Active application statuses (StudentProgram)
+    - Linked documents
+    """
+    student = getattr(request.user, 'student_profile', None)
+    if not student or not student.onboarding_completed:
+        return redirect('onboarding:step_1')
+
+    today = timezone.localdate()
+    # Ensure today's tasks exist
+    generate_daily_tasks_for_student(student, task_date=today, count=2)
+
+    tab = request.GET.get('tab', 'today').lower().strip()
+    if tab == 'completed':
+        app_tasks = DailyTask.objects.filter(student=student, track='track_b', completed=True).order_by('-completed_at', '-date')
+    elif tab == 'all':
+        app_tasks = DailyTask.objects.filter(student=student, track='track_b').order_by('-date')
+    else:
+        app_tasks = DailyTask.objects.filter(student=student, track='track_b', date=today).order_by('completed', '-id')
+
+    # Applications summary
+    from apps.programs.models import StudentProgram
+    tracked_programs = StudentProgram.objects.filter(student=student).select_related('program')
+
+    # Documents summary
+    from apps.documents.models import Document
+    documents = Document.objects.filter(student=student).order_by('-updated_at')[:4]
+
+    # Application Guides
+    from apps.resources.models import Resource
+    app_guides = Resource.objects.filter(category__in=['essay_writing', 'interview_prep', 'visa_process', 'general_tips'])[:4]
+
+    context = {
+        'student': student,
+        'tab': tab,
+        'app_tasks': app_tasks,
+        'tracked_programs': tracked_programs,
+        'documents': documents,
+        'app_guides': app_guides,
+    }
+    return render(request, 'tasks/application_prep.html', context)

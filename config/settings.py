@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'apps.services',
     'apps.documents',
     'apps.resources',
+    'apps.mock_exams',
 ]
 
 MIDDLEWARE = [
@@ -224,6 +225,8 @@ JAZZMIN_SETTINGS = {
         "onboarding.TestCertificate": "fas fa-certificate",
         "onboarding.DiagnosticResult": "fas fa-stethoscope",
         "dashboard.ProgressLog": "fas fa-chart-line",
+        "mock_exams.MockExam": "fas fa-stopwatch",
+        "mock_exams.MockExamSection": "fas fa-tasks",
     },
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",

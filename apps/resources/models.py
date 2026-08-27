@@ -1,13 +1,20 @@
-﻿from django.db import models
+from django.db import models
 from apps.programs.models import Program
 
 
 class Resource(models.Model):
     CATEGORY_CHOICES = [
+        # University Application Categories
         ('essay_writing', 'Insho va SOP yozish'),
         ('interview_prep', 'Intervyuga tayyorgarlik'),
         ('visa_process', 'Viza va elchixona jarayoni'),
         ('general_tips', 'Foydali maslahatlar va strategiyalar'),
+        # IELTS & Exam Prep Categories
+        ('ielts_reading', "IELTS: Reading strategiyalari"),
+        ('ielts_writing', "IELTS: Writing (Task 1 & 2)"),
+        ('ielts_listening', "IELTS: Listening ko'nikmalari"),
+        ('ielts_speaking', "IELTS: Speaking (Part 1-3)"),
+        ('grammar_vocab', "Grammatika va lug'at boyligi"),
     ]
 
     title = models.CharField(

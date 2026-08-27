@@ -101,11 +101,27 @@ def build_mentor_system_prompt(student: Student) -> str:
     # 4. Verified Programs
     verified_programs = get_verified_programs_context()
 
-    # 5. Verified Resource Guides
+    # 5. Tracked Programs and Application Statuses
+    from apps.programs.models import StudentProgram
+    tracked_apps = StudentProgram.objects.filter(student=student).select_related('program')
+    if tracked_apps.exists():
+        app_status_lines = []
+        for app in tracked_apps:
+            sub_date = f", Topshirilgan sana: {app.submitted_at}" if app.submitted_at else ""
+            dec_date = f", Qaror sanasi: {app.decision_at}" if app.decision_at else ""
+            notes_str = f" (Izoh: {app.notes})" if app.notes else ""
+            app_status_lines.append(f"- {app.program.name}: Holati = «{app.get_status_display()}»{sub_date}{dec_date}{notes_str}")
+        tracked_apps_context = "\n".join(app_status_lines)
+    else:
+        tracked_apps_context = "O'quvchi hali aniq dasturlar bo'yicha ariza holatini kiritmagan."
+
+    # 6. Verified Resource Guides (Grouped by Track)
     from apps.resources.models import Resource
-    resource_titles = ", ".join([f"«{r.title}»" for r in Resource.objects.all()[:5]])
-    if not resource_titles:
-        resource_titles = "Insho yozish, intervyu, viza va extracurricular bo'yicha qo'llanmalar mavjud."
+    ielts_res = Resource.objects.filter(category__in=['ielts_reading', 'ielts_writing', 'ielts_listening', 'ielts_speaking', 'grammar_vocab'])
+    ielts_titles = ", ".join([f"«{r.title}»" for r in ielts_res[:4]]) or "IELTS Reading, Writing, Listening va Grammatika qo'llanmalari"
+
+    app_res = Resource.objects.filter(category__in=['essay_writing', 'interview_prep', 'visa_process', 'general_tips'])
+    app_titles = ", ".join([f"«{r.title}»" for r in app_res[:4]]) or "Insho yozish, intervyu, viza va extracurricular bo'yicha qo'llanmalar"
 
     system_prompt = f"""Sen O'zbekistondagi 9-11 sinf maktab o'quvchilari uchun xalqaro universitetlar va grant dasturlariga (Global UGRAD, DAAD, Chevening, Türkiye Bursları, El-Yurt Umidi va boshqalar) tayyorlovchi shaxsiy AI akademik mentorisan.
 
@@ -115,6 +131,9 @@ O'quvchining joriy profili va to'liq konteksti:
 - Dastur turi: {program_type}
 - Ingliz tili darajasi: {english_level}
 - Ko'nikma ballari: {skills_summary}
+
+O'quvchining Kuzatayotgan Dasturlari va Ariza Topshirish Holatlari:
+{tracked_apps_context}
 
 Faol O'quv Rejasi:
 {plan_summary}
@@ -126,12 +145,13 @@ Bazada Tasdiqlangan Rasmiy Dasturlar:
 {verified_programs}
 
 Platformadagi Tasdiqlangan Qo'llanmalar (Resurslar):
-{resource_titles} (O'quvchiga insho, intervyu yoki viza haqida so'raganda ushbu resurslarni tavsiya qilishingiz mumkin).
+- Imtihon Tayyorgarligi (IELTS / Til): {ielts_titles} (IELTS yoki til o'rganish bo'yicha savollarda ushbu qo'llanmalarni tavsiya qiling).
+- Universitet Arizasi va Hujjatlar: {app_titles} (Insho, intervyu, tavsiyanoma yoki viza haqida so'raganda ushbu resurslarni tavsiya qiling).
 
-MUHIM XAVFSIZLIK VA ISHONCH QOIDALARI (QAT'IY):
+MUHIM QOIDALAR:
 1. Hech qachon 100% qabul kafolatini bermang yoki qabul kafolatlanganligini nazarda tutmang.
-2. Barcha tavsiyalaringizni qat'iy va'da emas, balki yo'naltiruvchi maslahat sifatida shakllantiring.
-3. Yakuniy qaror o'quvchi va uning oilasi tomonidan qabul qilinishini doimo eslatib turing: "{MANDATORY_DISCLAIMER}".
+2. Barcha tavsiyalaringizni qat'iy va'da emas, balki amaliy va yo'naltiruvchi maslahat sifatida shakllantiring.
+3. O'quvchining arizasi holatiga moslab maslahat bering (masalan: "Hujjatlar tayyorlanmoqda" bo'lsa insho va tavsiyanomalarga urg'u bering, "Suhbatga taklif qilindi" bo'lsa intervyu sirlarini o'rgating).
 4. Agar o'quvchi yuqoridagi tasdiqlangan dasturlar ro'yxatida MAVJUD BO'LMAGAN begona yoki soxta dastur haqida so'rasa, hech qachon to'qib chiqarmang, faqat quyidagi ibora bilan javob bering:
    "{UNVERIFIED_PROGRAM_FALLBACK}"
 5. Barcha javoblaringizni o'zbek tilida (lotin alifbosi), o'ta muloyim, rag'batlantiruvchi va amaliy maslahatlar bilan yozing.

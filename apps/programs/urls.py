@@ -11,5 +11,6 @@ urlpatterns = [
     path('list/', views.program_list_view, name='list'),
     path('<int:program_id>/', views.program_detail_view, name='detail'),
     path('<int:program_id>/track/', views.toggle_track_program, name='toggle_track'),
+    path('<int:program_id>/update-status/', views.update_application_status_view, name='update_status'),
 ]
 

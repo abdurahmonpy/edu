@@ -1,4 +1,4 @@
-﻿"""
+"""
 Views for Student Documents management and AI Review.
 """
 from django.shortcuts import render, redirect, get_object_or_404
@@ -30,6 +30,11 @@ def document_list_view(request):
     ready_count = documents.filter(status='final').count()
 
     # Document stats by tracked program
+    from apps.programs.models import StudentProgram
+    student_programs_map = {
+        sp.program_id: sp for sp in StudentProgram.objects.filter(student=student)
+    }
+
     tracked_programs = Program.objects.filter(student_tracking__student=student)
     program_doc_stats = []
     for prog in tracked_programs:
@@ -40,11 +45,16 @@ def document_list_view(request):
             'program': prog,
             'total': prog_total,
             'final': prog_final,
+            'student_program': student_programs_map.get(prog.id),
         })
+
+    docs_list = list(documents)
+    for d in docs_list:
+        d.student_program = student_programs_map.get(d.linked_program_id) if d.linked_program_id else None
 
     return render(request, 'documents/document_list.html', {
         'student': student,
-        'documents': documents,
+        'documents': docs_list,
         'doc_type_filter': doc_type_filter,
         'program_filter': program_filter,
         'total_count': total_count,

@@ -35,9 +35,9 @@ class ProgramAdmin(admin.ModelAdmin):
 
 @admin.register(StudentProgram)
 class StudentProgramAdmin(admin.ModelAdmin):
-    list_display = ('student', 'program', 'tracked_at')
-    list_filter = ('tracked_at', 'program__country', 'program__type')
-    search_fields = ('student__user__phone_number', 'student__user__first_name', 'program__name')
+    list_display = ('student', 'program', 'status', 'submitted_at', 'decision_at', 'status_updated_at')
+    list_filter = ('status', 'submitted_at', 'decision_at', 'program__country', 'program__type')
+    search_fields = ('student__user__phone_number', 'student__user__first_name', 'program__name', 'notes')
 
 
 @admin.register(StudentTargetSelection)

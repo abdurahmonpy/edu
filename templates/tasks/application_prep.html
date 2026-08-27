@@ -1,0 +1,157 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Universitet Arizasi va Hujjatlar (Track B) | Kelajak{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <!-- Header Banner -->
+  <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <div class="space-y-2">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/10 backdrop-blur rounded-full text-emerald-200 text-xs font-bold border border-white/10">
+        <i data-lucide="clipboard-check" class="w-3.5 h-3.5 text-emerald-300"></i>
+        <span>Track B • University & Grant Admissions</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+        Universitet Arizasi va Hujjatlar
+      </h1>
+      <p class="text-emerald-200 text-xs sm:text-sm max-w-xl leading-relaxed">
+        Xalqaro grantlar va universitetlar uchun motivatsion insho (SOP), tavsiyanomalar (LOR), extracurricular loyihalar va viza jarayoni vazifalari.
+      </p>
+    </div>
+
+    <!-- Documents Action -->
+    <a href="{% url 'documents:list' %}" class="px-6 py-3.5 bg-white hover:bg-slate-100 text-slate-900 text-xs sm:text-sm font-bold rounded-2xl shadow-lg transition flex items-center space-x-2 flex-shrink-0">
+      <i data-lucide="file-text" class="w-4 h-4 text-emerald-700"></i>
+      <span>Hujjatlar Menejeri</span>
+      <i data-lucide="arrow-right" class="w-4 h-4"></i>
+    </a>
+  </div>
+
+  <!-- Active Applications Overview Card -->
+  <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+      <div class="flex items-center space-x-2">
+        <i data-lucide="compass" class="w-4 h-4 text-emerald-600"></i>
+        <h2 class="text-sm font-bold text-slate-900">Kuzatilayotgan Dasturlar va Arizalar Holati</h2>
+      </div>
+      <a href="{% url 'programs:catalog' %}" class="text-xs font-bold text-emerald-600 hover:text-emerald-800">
+        Dasturlar katalogi ➔
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {% for app in tracked_programs %}
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] px-2 py-0.5 rounded-full font-bold {% if app.status == 'accepted' %}bg-emerald-100 text-emerald-800{% elif app.status == 'submitted' %}bg-blue-100 text-blue-800{% elif app.status == 'interview' %}bg-purple-100 text-purple-800{% elif app.status == 'rejected' %}bg-rose-100 text-rose-800{% else %}bg-emerald-100 text-emerald-800{% endif %}">
+                {{ app.get_status_display }}
+              </span>
+              <span class="text-[11px] text-slate-400">{{ app.program.country }}</span>
+            </div>
+            <h3 class="text-xs sm:text-sm font-bold text-slate-900 mt-2 line-clamp-1">
+              <a href="{% url 'programs:detail' app.program.id %}" class="hover:text-emerald-600">{{ app.program.name }}</a>
+            </h3>
+            <p class="text-[11px] text-slate-500 mt-0.5">Muddati: {{ app.program.deadline|default:"Belgilanmagan" }}</p>
+          </div>
+
+          <div class="pt-2 border-t border-slate-200/60 flex items-center justify-between">
+            <a href="{% url 'programs:detail' app.program.id %}" class="text-[11px] font-bold text-emerald-600 hover:text-emerald-800 flex items-center space-x-1">
+              <span>Holatni yangilash</span>
+              <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-span-3 p-4 text-center text-xs text-slate-500">
+          Hozircha tanlangan dasturlar yo'q. <a href="{% url 'programs:catalog' %}" class="text-emerald-600 font-bold underline">Dasturlar ro'yxatidan</a> qo'shing.
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Tasks Section -->
+  <div class="space-y-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+      <div class="flex items-center space-x-2">
+        <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
+        <h2 class="text-base font-black text-slate-900">Ariza va Hujjat Vazifalari</h2>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-xl">
+        <a href="{% url 'tasks:application_prep' %}?tab=today" class="px-3 py-1.5 rounded-lg text-xs font-bold transition {% if tab == 'today' %}bg-white text-emerald-600 shadow-xs{% else %}text-slate-600 hover:text-slate-900{% endif %}">
+          Bugungi
+        </a>
+        <a href="{% url 'tasks:application_prep' %}?tab=completed" class="px-3 py-1.5 rounded-lg text-xs font-bold transition {% if tab == 'completed' %}bg-white text-emerald-600 shadow-xs{% else %}text-slate-600 hover:text-slate-900{% endif %}">
+          Tugallangan
+        </a>
+        <a href="{% url 'tasks:application_prep' %}?tab=all" class="px-3 py-1.5 rounded-lg text-xs font-bold transition {% if tab == 'all' %}bg-white text-emerald-600 shadow-xs{% else %}text-slate-600 hover:text-slate-900{% endif %}">
+          Barchasi
+        </a>
+      </div>
+    </div>
+
+    <!-- Task Cards List -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {% for task in app_tasks %}
+        <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-emerald-200 transition">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-emerald-50 text-emerald-700">
+                {{ task.get_task_type_display }}
+              </span>
+              {% if task.completed %}
+                <span class="flex items-center space-x-1 text-emerald-600 text-xs font-bold">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>{{ task.score }} ball</span>
+                </span>
+              {% else %}
+                <span class="text-xs text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded-md">
+                  Kutilmoqda
+                </span>
+              {% endif %}
+            </div>
+
+            <h3 class="text-sm font-bold text-slate-900 leading-snug">
+              {{ task.content.title|default:task.get_task_type_display }}
+            </h3>
+            
+            {% if task.content.prompt %}
+              <p class="text-xs text-slate-500 mt-1 line-clamp-2">
+                {{ task.content.prompt }}
+              </p>
+            {% endif %}
+
+            {% if task.completed and task.ai_feedback %}
+              <div class="mt-3 p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-600 leading-relaxed">
+                <strong class="text-slate-800">AI Xulosasi:</strong> {{ task.ai_feedback|truncatewords:20 }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[11px] text-slate-400">{{ task.date|date:"d-M, Y" }}</span>
+            {% if task.completed %}
+              <a href="{% url 'tasks:result' task.id %}" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">
+                Tahlilni ko'rish
+              </a>
+            {% else %}
+              <a href="{% url 'tasks:detail' task.id %}" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center space-x-1">
+                <span>Vazifani bajarish</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-span-2 bg-white p-8 rounded-3xl border border-slate-200 text-center space-y-2">
+          <p class="text-xs text-slate-500">Ushbu bo'limda hozircha vazifalar mavjud emas.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Kalendar va Muddatlar — Kelajak AI Mentori{% endblock %}
 
@@ -16,17 +16,24 @@
       <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Arizalar topshirish muddatlari, muhim sanalar va rejalashtirish</p>
     </div>
 
-    <!-- Month Navigation -->
-    <div class="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-end">
-      <a href="{% url 'dashboard:calendar' %}?year={{ prev_year }}&month={{ prev_month }}" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition">
-        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+    <!-- Actions & Month Navigation -->
+    <div class="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-end flex-wrap gap-2">
+      <a href="{% url 'mock_exams:intro' %}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center space-x-1.5">
+        <i data-lucide="stopwatch" class="w-4 h-4"></i>
+        <span>Mock topshirish</span>
       </a>
-      <span class="text-sm font-bold text-slate-900 px-3 py-1 bg-slate-50 rounded-xl border border-slate-200 min-w-[120px] text-center">
-        {{ month_name }} {{ current_year }}
-      </span>
-      <a href="{% url 'dashboard:calendar' %}?year={{ next_year }}&month={{ next_month }}" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition">
-        <i data-lucide="chevron-right" class="w-4 h-4"></i>
-      </a>
+
+      <div class="flex items-center space-x-1">
+        <a href="{% url 'dashboard:calendar' %}?year={{ prev_year }}&month={{ prev_month }}" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition">
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </a>
+        <span class="text-xs sm:text-sm font-bold text-slate-900 px-3 py-1.5 bg-slate-50 rounded-xl border border-slate-200 min-w-[110px] text-center">
+          {{ month_name }} {{ current_year }}
+        </span>
+        <a href="{% url 'dashboard:calendar' %}?year={{ next_year }}&month={{ next_month }}" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition">
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </a>
+      </div>
     </div>
   </div>
 

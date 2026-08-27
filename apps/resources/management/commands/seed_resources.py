@@ -1,4 +1,4 @@
-﻿"""
+"""
 Seed command populating verified, expert guides for high school scholarship applicants.
 """
 from django.core.management.base import BaseCommand
@@ -113,6 +113,83 @@ Top universitetlar faqat "5" bahoga o'qiydigan o'quvchini emas, balki atrofiga i
    - Shaxsiy blog, podcast, ilova yoki ijtimoiy aksiyani yo'lga qo'ying.
 4. **Yetakchilik (Leadership):**
    - Maktab sardorlar kengashi, Yoshlar Ittifoqi yoki debat klublarida rahbarlik qiling.""",
+            },
+            {
+                "title": "IELTS Reading: True/False/Not Given va Skimming Strategiyasi (8.0+ Band)",
+                "category": "ielts_reading",
+                "summary": "Akademik matnlarni 20 daqiqada tahlil qilish, kalit so'zlarni parafraza qilish va chalg'ituvchi variantlarni aniqlash qoidalari.",
+                "content": """### 1. Skimming va Scanning nima?
+
+- **Skimming (Ko'z yugurtirish):** Matnning umumiy mazmuni va har bir xatboshining asosiy fikrini 2-3 daqiqada tushunib olish.
+- **Scanning (Kalit so'z qidirish):** Savoldagi sanalar, ismlar, ilmiy atamalar yoki raqamlarni matndan tezkor topish.
+
+---
+
+### 2. True / False / Not Given — Oltin Qoidalar:
+
+- **TRUE:** Matndagi fakt savoldagi ma'lumot bilan 100% bir xil ma'noni bersa (sinonimlar orqali).
+- **FALSE:** Matndagi fakt savoldagi ma'lumotga mutlaqo zid yoki teskari bo'lsa.
+- **NOT GIVEN:** Matnda ushbu fakt haqida umuman gapirilmagan bo'lsa yoki tasdiqlash uchun ma'lumot yetarli bo'lmasa (o'zingizdan fakt qo'shmang!).""",
+            },
+            {
+                "title": "IELTS Writing Task 2: 7.5+ Band Akademik Insho Strukturasi",
+                "category": "ielts_writing",
+                "summary": "Agree/Disagree, Discuss Both Views va Problem-Solution turlari uchun 4 paragraflik shablon, akademik linking words va argumentatsiya usullari.",
+                "content": """### 1. 4 Paragraflik Standart Insho Tuzilishi:
+
+1. **Introduction (Kirish — 40-50 so'z):**
+   - Paraphrase the prompt (Mavzuni sinonimlar bilan qayta yozish).
+   - Thesis statement (O'z shaxsiy pozitsiyangizni aniq ko'rsatish).
+2. **Body Paragraph 1 (1-Asosiy xatboshi — 90-100 so'z):**
+   - Topic sentence (Asosiy argument).
+   - Explanation & Reasoning (Mantiqiy tushuntirish — nima uchun?).
+   - Concrete Example (Aniq hayotiy yoki statistik misol).
+3. **Body Paragraph 2 (2-Asosiy xatboshi — 90-100 so'z):**
+   - Ikkinchi kuchli argument, izoh va natija.
+4. **Conclusion (Xulosa — 30-40 so'z):**
+   - Fikrlarni qisqa umumlashtirish (yangi g'oya qo'shilmaydi).""",
+            },
+            {
+                "title": "IELTS Listening: Section 3 & 4 Akademik Audio Tahlili",
+                "category": "ielts_listening",
+                "summary": "Spikerlar o'rtasidagi bahs, ma'ruzalardagi 'distractor' (chalg'ituvchi so'zlar) va imlo xatolaridan qochish choralari.",
+                "content": """### 1. Chalg'ituvchi (Distractor) So'zlar:
+
+Spikerlar ko'pincha biror ma'lumotni aytib, keyin tuzatadilar:
+- *"I'll take the 3 PM bus... actually, no, let's go at 4:30 PM."* (To'g'ri javob: 4:30).
+- *"Although we considered Option A, we finally decided on Option B."*
+
+---
+
+### 2. Oldindan O'qib Olish (Prediction):
+Audio boshlanishidan oldin berilgan 30 soniyadan unumli foydalaning:
+- Qaysi so'z turkumi (ot, fe'l, son, sifat) tushib qolganini oldindan taxmin qiling.""",
+            },
+            {
+                "title": "IELTS Speaking Part 2: 2 Daqiqalik Monolog Formulasi (PPF Metodi)",
+                "category": "ielts_speaking",
+                "summary": "Cue Card savollarida to'xtab qolmaslik, Past-Present-Future metodi orqali boy so'z boyligi va turli zamonlarni ko'rsatish.",
+                "content": """### 1. PPF (Past, Present, Future) Usuli:
+
+Cue card mavzusi bo'yicha 2 daqiqa tinimsiz gapirish uchun vaqt chizig'idan foydalaning:
+1. **Past (O'tmish):** Barchasi qanday boshlangan edi? Ilk taassurotlar.
+2. **Present (Hozirgi holat):** Hozir bu haqda nima deb o'ylaysiz va nima qilyapsiz?
+3. **Future (Kelajak):** Kelajakda bu qanday rivojlanadi yoki nima qilishni rejalashtiryapsiz?
+
+Bu usul sizga avtomatik ravishda turli grammatik zamonlarni (Past Simple, Present Perfect, Future Continuous) qo'llash imkonini beradi.""",
+            },
+            {
+                "title": "Grammatika: C1 Darajadagi Murakkab Gaplar va Akademik Bog'lovchilar",
+                "category": "grammar_vocab",
+                "summary": "Inversiya, shart mayllari (Conditionals), Cleft sentences va IELTS Writing/Speaking'da ballni oshiruvchi sintaktik tuzilmalar.",
+                "content": """### 1. Yuqori Band Uchun Grammatik Strukturalar:
+
+1. **Inversion (Inversiya):**
+   - *"Not only did the project reduce costs, but it also improved student engagement."*
+2. **Mixed Conditionals (Aralash shart mayli):**
+   - *"If I had not prepared thoroughly, I would not be studying abroad today."*
+3. **Cleft Sentences (Urg'u beruvchi gaplar):**
+   - *"It is their dedication that drives real innovation in modern education."*""",
             }
         ]
 

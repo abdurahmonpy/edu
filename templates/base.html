@@ -38,10 +38,49 @@
     .pb-safe {
       padding-bottom: env(safe-area-inset-bottom, 1rem);
     }
+
+    /* Page Enter Smooth Animation */
+    @keyframes pageFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-transition {
+      animation: pageFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Top Page Transition Progress Bar */
+    #top-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, #4f46e5, #818cf8, #38bdf8);
+      z-index: 9999;
+      transition: width 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    /* Smooth Hover & Click Effects */
+    .nav-item-animated {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-item-animated:hover i {
+      transform: scale(1.15);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
   </style>
   {% block extra_head %}{% endblock %}
 </head>
 <body class="min-h-full font-sans antialiased text-slate-900 bg-slate-50">
+  <div id="top-progress-bar"></div>
 
   {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}
     <!-- Desktop Persistent Left Sidebar (>= 640px) -->
@@ -67,11 +106,18 @@
             <span>Bosh sahifa</span>
           </a>
 
-          <!-- 2. Vazifalar -->
-          <a href="{% url 'tasks:list' %}"
-             class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs transition duration-150 {% if '/tasks/' in request.path %}bg-indigo-50 text-indigo-700 font-bold border-l-4 border-indigo-600 rounded-r-xl{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium{% endif %}">
-            <i data-lucide="clipboard-check" class="w-4 h-4 {% if '/tasks/' in request.path %}text-indigo-600{% else %}text-slate-500{% endif %}"></i>
-            <span>Vazifalar</span>
+          <!-- 2. Imtihon Tayyorgarligi (Track A) -->
+          <a href="{% url 'tasks:exam_prep' %}"
+             class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs transition duration-150 {% if '/tasks/exam-prep/' in request.path or '/mock-exams/' in request.path %}bg-indigo-50 text-indigo-700 font-bold border-l-4 border-indigo-600 rounded-r-xl{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium{% endif %}">
+            <i data-lucide="headphones" class="w-4 h-4 {% if '/tasks/exam-prep/' in request.path or '/mock-exams/' in request.path %}text-indigo-600{% else %}text-slate-500{% endif %}"></i>
+            <span>Imtihon Tayyorgarligi</span>
+          </a>
+
+          <!-- 3. Universitet Arizasi (Track B) -->
+          <a href="{% url 'tasks:application_prep' %}"
+             class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs transition duration-150 {% if '/tasks/application-prep/' in request.path %}bg-indigo-50 text-indigo-700 font-bold border-l-4 border-indigo-600 rounded-r-xl{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium{% endif %}">
+            <i data-lucide="clipboard-check" class="w-4 h-4 {% if '/tasks/application-prep/' in request.path %}text-indigo-600{% else %}text-slate-500{% endif %}"></i>
+            <span>Universitet Arizasi</span>
           </a>
 
           <!-- 3. AI Mentor -->
@@ -186,8 +232,8 @@
       {% include 'includes/messages.html' %}
     </div>
 
-    <!-- Main Application Content Area -->
-    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-4 md:py-8 {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}pb-20 sm:pb-8{% endif %}">
+    <!-- Main Application Content Area with Smooth Page Transition -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-4 md:py-8 page-transition {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}pb-20 sm:pb-8{% endif %}">
       {% block content %}
         {% if message %}
           <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 text-center">
@@ -219,7 +265,7 @@
     {% include 'includes/nav_bottom.html' %}
   {% endif %}
 
-  <!-- Fast, Safe Lucide Icon Initialization (Zero CPU Lag) -->
+  <!-- Fast, Safe Lucide Icon Initialization and Page Transition Progress Indicator -->
   <script>
     function initLucideIcons() {
       if (typeof lucide !== 'undefined' && lucide.createIcons) {
@@ -231,6 +277,35 @@
     } else {
       initLucideIcons();
     }
+
+    // Smooth Top Progress Bar on navigation clicks
+    document.addEventListener('DOMContentLoaded', function() {
+      const progressBar = document.getElementById('top-progress-bar');
+      const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript:"])');
+      
+      links.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          const href = link.getAttribute('href');
+          if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+            progressBar.style.opacity = '1';
+            progressBar.style.width = '35%';
+            setTimeout(function() {
+              progressBar.style.width = '75%';
+            }, 100);
+          }
+        });
+      });
+
+      window.addEventListener('pageshow', function() {
+        progressBar.style.width = '100%';
+        setTimeout(function() {
+          progressBar.style.opacity = '0';
+          setTimeout(function() {
+            progressBar.style.width = '0%';
+          }, 300);
+        }, 150);
+      });
+    });
   </script>
 
   {% block extra_js %}{% endblock %}
