@@ -24,6 +24,7 @@ ALLOWED_HOSTS = [host.strip() for host in os.getenv('DJANGO_ALLOWED_HOSTS', '*')
 
 # Application definition
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -183,9 +184,85 @@ LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'dashboard:index'
 LOGOUT_REDIRECT_URL = 'accounts:login'
 
-# Anthropic Claude API configuration
+# Anthropic Claude / OpenRouter API configuration
 ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY', '')
 ANTHROPIC_MODEL = os.getenv('ANTHROPIC_MODEL', 'claude-sonnet-4-6')
 
-# Trust & Safety
-DISCLAIMER_TEXT = "AI tavsiyasi — yakuniy qarorni oila va o'quvchi qabul qiladi."
+# Jazzmin Admin Configuration
+JAZZMIN_SETTINGS = {
+    "site_title": "Kelajak Admin",
+    "site_header": "Kelajak",
+    "site_brand": "Kelajak AI",
+    "site_logo_classes": "img-circle",
+    "welcome_sign": "Kelajak Boshqaruv Paneliga Xush Kelibsiz",
+    "copyright": "Kelajak Platformasi",
+    "search_model": ["accounts.User", "programs.Program", "programs.University", "documents.Document"],
+    "user_avatar": None,
+    "topmenu_links": [
+        {"name": "Bosh sahifa", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Saytga o'tish", "url": "/", "new_window": True},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "order_with_respect_to": ["accounts", "programs", "onboarding", "documents", "resources", "tasks", "study_plans", "mentor"],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "accounts.User": "fas fa-user-shield",
+        "accounts.Student": "fas fa-user-graduate",
+        "programs.Program": "fas fa-award",
+        "programs.University": "fas fa-university",
+        "programs.StudentProgram": "fas fa-bookmark",
+        "documents.Document": "fas fa-file-alt",
+        "resources.Resource": "fas fa-book-open",
+        "tasks.DailyTask": "fas fa-clipboard-check",
+        "study_plans.StudyPlan": "fas fa-calendar-check",
+        "mentor.MentorMessage": "fas fa-comment-dots",
+        "onboarding.TestCertificate": "fas fa-certificate",
+        "onboarding.DiagnosticResult": "fas fa-stethoscope",
+        "dashboard.ProgressLog": "fas fa-chart-line",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    "related_modal_active": True,
+    "custom_css": None,
+    "custom_js": None,
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+    "changeform_format": "horizontal_tabs",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-indigo",
+    "accent": "accent-indigo",
+    "navbar": "navbar-dark navbar-indigo",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-indigo",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": True,
+    "theme": "default",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-indigo",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}

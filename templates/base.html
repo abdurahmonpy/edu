@@ -168,8 +168,13 @@
 
     <!-- Mobile Top Navigation Bar (< 640px) -->
     {% include 'includes/nav_top.html' %}
+  {% elif '/onboarding/' in request.path %}
+    <!-- Minimal Clean Header for Onboarding Flow -->
+    {% include 'includes/nav_onboarding.html' %}
+  {% elif '/accounts/' in request.path or hide_header %}
+    <!-- No Header for Auth Pages (Register / Login) -->
   {% else %}
-    <!-- Public Header for unauthenticated / landing / auth pages -->
+    <!-- Public Header for unauthenticated landing and public catalog pages -->
     {% include 'includes/nav_public.html' %}
   {% endif %}
 
@@ -200,10 +205,10 @@
             <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-white"></i>
           </div>
           <span class="font-bold text-slate-800 text-sm">Kelajak</span>
-          <span>— O'zbekiston maktab o'quvchilari uchun AI ta'lim mentori</span>
+          <span>— O'zbekiston maktab o'quvchilari uchun AI ta'lim platformasi</span>
         </div>
         <div>
-          <span class="text-slate-600 font-medium">{{ DISCLAIMER_TEXT|default:"AI tavsiyasi — yakuniy qarorni oila va o'quvchi qabul qiladi." }}</span>
+          <span class="text-slate-400">© 2026 Kelajak EdTech. Barcha huquqlar himoyalangan.</span>
         </div>
       </div>
     </footer>
