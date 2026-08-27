@@ -74,7 +74,9 @@ class OnboardingStep1Form(forms.Form):
     target_program_type = forms.ChoiceField(
         choices=Student.PROGRAM_TYPE_CHOICES,
         label="Sizni qiziqtirgan dastur turi qanday?",
-        widget=forms.RadioSelect(attrs={'class': 'peer hidden'}),
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-800 text-xs font-semibold bg-white'
+        }),
         initial='grant',
         required=False,
     )
@@ -138,7 +140,9 @@ class OnboardingStep1Form(forms.Form):
         label="Byudjet imkoniyati / Afzallik",
         initial='toliq_grant',
         required=False,
-        widget=forms.RadioSelect(attrs={'class': 'peer hidden'})
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-800 text-xs font-semibold bg-white'
+        })
     )
 
     def clean_birth_year(self):
