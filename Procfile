@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py seed_programs && gunicorn config.wsgi:application --bind 0.0.0.0:
+web: bash start.sh
