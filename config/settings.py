@@ -99,6 +99,17 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+# Persistent Volume & Media settings
+DATA_DIR = Path(os.getenv('DATA_DIR', '/data'))
+if DATA_DIR.exists() and os.access(DATA_DIR, os.W_OK):
+    DEFAULT_SQLITE_PATH = DATA_DIR / 'db.sqlite3'
+    MEDIA_ROOT = DATA_DIR / 'media'
+else:
+    DEFAULT_SQLITE_PATH = BASE_DIR / 'db.sqlite3'
+    MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_URL = '/media/'
+
 # Database configuration: Dual-mode with PostgreSQL (Railway) / SQLite fallback
 DATABASE_URL = os.getenv('DATABASE_URL')
 if DATABASE_URL:
@@ -127,7 +138,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': DEFAULT_SQLITE_PATH,
             'OPTIONS': {'timeout': 20},
         }
     }
