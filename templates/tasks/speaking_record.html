@@ -30,13 +30,21 @@
                 <i data-lucide="square" class="w-4 h-4 fill-current"></i>
                 <span>Yakunlash & Yuborish</span>
             </button>
-            <button id="loadingBtn" disabled class="hidden px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-lg flex items-center space-x-2 opacity-80">
-                <i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>
-                <span>Tekshirilmoqda...</span>
-            </button>
         </div>
     </div>
 </div>
+
+<!-- Blur Overlay for Loading -->
+<div id="loadingOverlay" class="hidden fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-sm flex flex-col items-center justify-center">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center space-y-4 animate-pulse max-w-sm w-full mx-4 text-center">
+        <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center">
+            <i data-lucide="loader-2" class="w-8 h-8 animate-spin"></i>
+        </div>
+        <h3 class="text-xl font-black text-slate-900">AI Mentor Tekshirmoqda...</h3>
+        <p class="text-sm text-slate-500 font-medium">Iltimos, biroz kuting. Sizning javobingiz baholanmoqda.</p>
+    </div>
+</div>
+
 <div id="csrfTokenWrapper" style="display: none;">{% csrf_token %}</div>
 
 <script>
@@ -134,13 +142,8 @@
 
         async function submitAudio() {
             clearInterval(countdown);
-            stopRecordBtn.classList.add('hidden');
-            loadingBtn.classList.remove('hidden');
-            statusBadge.textContent = "Yuborilmoqda...";
-            statusBadge.classList.remove('animate-pulse');
-            statusBadge.classList.replace('bg-rose-100', 'bg-indigo-100');
-            statusBadge.classList.replace('text-rose-700', 'text-indigo-700');
-
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            
             const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
             const formData = new FormData();
             formData.append('audio', audioBlob, 'speaking_part2.webm');
@@ -159,12 +162,12 @@
                     window.location.href = result.redirect_url;
                 } else {
                     alert(result.error || "Xatolik yuz berdi");
-                    loadingBtn.classList.add('hidden');
+                    document.getElementById('loadingOverlay').classList.add('hidden');
                 }
             } catch (err) {
-                alert("Tarmoqda xatolik yuz berdi.");
+                alert("Tarmoqda xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.");
                 console.error(err);
-                loadingBtn.classList.add('hidden');
+                document.getElementById('loadingOverlay').classList.add('hidden');
             }
         }
 

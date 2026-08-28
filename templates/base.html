@@ -84,17 +84,20 @@
 
   {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}
     <!-- Desktop Persistent Left Sidebar (>= 640px) -->
-    <aside class="hidden sm:flex flex-col fixed left-0 top-0 h-screen w-60 bg-white border-r border-slate-200 z-30 justify-between">
+    <aside id="desktop-sidebar" class="hidden sm:flex flex-col fixed left-0 top-0 h-screen w-60 bg-white border-r border-slate-200 z-30 justify-between transition-transform duration-300">
       <!-- Top Section: Brand + Navigation -->
       <div class="flex flex-col flex-1 min-h-0">
         <!-- Brand Logo -->
-        <div class="h-16 flex items-center px-5 border-b border-slate-100 flex-shrink-0">
+        <div class="h-16 flex items-center justify-between px-5 border-b border-slate-100 flex-shrink-0">
           <a href="{% url 'dashboard:index' %}" class="flex items-center space-x-3 text-indigo-600 hover:opacity-90 transition">
             <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shadow-xs">
               <i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i>
             </div>
             <span class="text-xl font-extrabold text-slate-900 tracking-tight">Kelajak</span>
           </a>
+          <button id="close-sidebar-btn" class="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition" title="Menyuni yopish">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
         </div>
 
         <!-- Navigation List -->
@@ -225,8 +228,15 @@
   {% endif %}
 
   <!-- Main Layout Wrapper (Desktop offset sm:pl-60 only when sidebar is active) -->
-  <div class="min-h-screen flex flex-col {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}sm:pl-60{% endif %}">
+  <div id="main-content" class="min-h-screen flex flex-col {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}sm:pl-60{% endif %} transition-all duration-300">
     
+    <!-- Desktop Open Sidebar Button (Hidden initially) -->
+    {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}
+    <button id="open-sidebar-btn" class="hidden fixed top-4 left-4 z-40 p-2 bg-white rounded-xl shadow-md border border-slate-200 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition" title="Menyuni ochish">
+      <i data-lucide="menu" class="w-6 h-6"></i>
+    </button>
+    {% endif %}
+
     <!-- Flash Messages Banner Container -->
     <div class="max-w-6xl w-full mx-auto px-4 pt-3">
       {% include 'includes/messages.html' %}
@@ -305,6 +315,30 @@
           }, 300);
         }, 150);
       });
+
+      // Desktop Sidebar Toggle Logic
+      const closeBtn = document.getElementById('close-sidebar-btn');
+      const openBtn = document.getElementById('open-sidebar-btn');
+      const sidebar = document.getElementById('desktop-sidebar');
+      const mainContent = document.getElementById('main-content');
+
+      if (closeBtn && openBtn && sidebar && mainContent) {
+        closeBtn.addEventListener('click', () => {
+          sidebar.classList.add('-translate-x-full');
+          mainContent.classList.remove('sm:pl-60');
+          setTimeout(() => {
+            openBtn.classList.remove('hidden');
+            openBtn.classList.add('sm:block');
+          }, 300);
+        });
+
+        openBtn.addEventListener('click', () => {
+          sidebar.classList.remove('-translate-x-full');
+          mainContent.classList.add('sm:pl-60');
+          openBtn.classList.add('hidden');
+          openBtn.classList.remove('sm:block');
+        });
+      }
     });
   </script>
 
