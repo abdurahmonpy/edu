@@ -66,6 +66,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.up.railway.app',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+    'https://rahimovsuhbatlar.uz',
+    'https://*.rahimovsuhbatlar.uz',
 ]
 csrf_env = os.getenv('CSRF_TRUSTED_ORIGINS')
 if csrf_env:
