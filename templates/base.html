@@ -79,7 +79,7 @@
   </style>
   {% block extra_head %}{% endblock %}
 </head>
-<body class="min-h-full font-sans antialiased text-slate-900 bg-slate-50">
+<body class="min-h-full font-sans antialiased text-slate-900 bg-slate-50 overflow-x-hidden">
   <div id="top-progress-bar"></div>
 
   {% if request.user.is_authenticated and not hide_sidebar and not '/onboarding/' in request.path %}
