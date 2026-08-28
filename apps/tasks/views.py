@@ -336,21 +336,21 @@ def speaking_record_view(request, session_id):
 
 @login_required
 def speaking_submit_view(request, session_id):
-    "AJAX endpoint to receive audio, transcribe, evaluate, and save."
+    """AJAX endpoint to receive audio, transcribe, evaluate, and save."""
     if request.method != 'POST':
         return JsonResponse({'error': "Faqat POST so'rovlar qabul qilinadi."}, status=405)
         
-    session = get_object_or_404(SpeakingSession, id=session_id, student__user=request.user)
-    audio_file = request.FILES.get('audio')
-    
-    if not audio_file:
-        return JsonResponse({'error': 'Audio fayl topilmadi.'}, status=400)
-        
-    session.audio_file = audio_file
-    session.save()
-    
-    # Process audio
     try:
+        session = get_object_or_404(SpeakingSession, id=session_id, student__user=request.user)
+        audio_file = request.FILES.get('audio')
+        
+        if not audio_file:
+            return JsonResponse({'error': 'Audio fayl topilmadi.'}, status=400)
+            
+        session.audio_file = audio_file
+        session.save()
+        
+        # Process audio
         transcript = transcribe_audio(session.audio_file)
         session.transcript = transcript
         session.save()
@@ -364,7 +364,7 @@ def speaking_submit_view(request, session_id):
         return JsonResponse({'success': True, 'redirect_url': f"/tasks/speaking/result/{session.id}/"})
     except Exception as e:
         logger.error(f"Error processing speaking submission: {e}")
-        return JsonResponse({'error': "Xatolik yuz berdi. Iltimos qayta urinib ko'ring."}, status=500)
+        return JsonResponse({'error': f"Xatolik yuz berdi: {str(e)}"}, status=500)
 
 @login_required
 def speaking_result_view(request, session_id):
