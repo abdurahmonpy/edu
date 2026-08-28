@@ -348,14 +348,14 @@ class MockClaudeClient(ClaudeClient):
         )
 
 
-def get_claude_client(api_key: Optional[str] = None) -> ClaudeClient:
+def get_claude_client(api_key: Optional[str] = None, timeout: float = 45.0) -> ClaudeClient:
     """
     Factory returning ClaudeClient or MockClaudeClient depending on API key configuration.
     """
     key = api_key or os.getenv('ANTHROPIC_API_KEY', '') or getattr(settings, 'ANTHROPIC_API_KEY', '')
     if not key or key.strip().lower() in ('mock', 'test', 'offline', 'none', ''):
         return MockClaudeClient()
-    return ClaudeClient(api_key=key)
+    return ClaudeClient(api_key=key, timeout=timeout)
 
 
 def call_claude(
