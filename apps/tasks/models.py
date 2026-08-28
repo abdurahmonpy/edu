@@ -99,3 +99,73 @@ class DailyTask(models.Model):
     def __str__(self):
         status = "Bajarilgan" if self.completed else "Kutilmoqda"
         return f"{self.student.user.first_name} — {self.get_task_type_display()} ({self.date}) [{status}]"
+
+
+class SpeakingSession(models.Model):
+    """
+    Records a voice-based speaking practice session (e.g., IELTS Speaking).
+    """
+    PART_CHOICES = [
+        ('part1_intro', 'Part 1 (Introduction and Interview)'),
+        ('part2_cue_card', 'Part 2 (Cue Card Monologue)'),
+        ('part3_discussion', 'Part 3 (Two-way Discussion)'),
+    ]
+
+    student = models.ForeignKey(
+        'accounts.Student',
+        on_delete=models.CASCADE,
+        related_name='speaking_sessions',
+        verbose_name="O'quvchi"
+    )
+    part = models.CharField(
+        max_length=20,
+        choices=PART_CHOICES,
+        default='part2_cue_card',
+        verbose_name="Qism"
+    )
+    prompt_text = models.TextField(
+        verbose_name="Savol/Cue Card"
+    )
+    prep_time_seconds = models.IntegerField(
+        default=60,
+        verbose_name="Tayyorgarlik vaqti (soniya)"
+    )
+    speak_time_seconds = models.IntegerField(
+        default=120,
+        verbose_name="Gapirish vaqti (soniya)"
+    )
+    audio_file = models.FileField(
+        upload_to='speaking_audio/%Y/%m/',
+        null=True,
+        blank=True,
+        verbose_name="Audio yozuv"
+    )
+    transcript = models.TextField(
+        blank=True,
+        default="",
+        verbose_name="Transkript (Matn)"
+    )
+    ai_feedback = models.TextField(
+        blank=True,
+        default="",
+        verbose_name="AI baholashi"
+    )
+    band_score = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        null=True,
+        blank=True,
+        verbose_name="Band Score"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Yaratilgan vaqt"
+    )
+
+    class Meta:
+        verbose_name = "Speaking sessiyasi"
+        verbose_name_plural = "Speaking sessiyalari"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Speaking {self.get_part_display()} - {self.student.user.first_name} ({self.created_at.strftime('%Y-%m-%d')})"

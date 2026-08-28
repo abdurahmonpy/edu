@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% block title %}Speaking Practice - Record{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto py-10 px-4">
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden p-8 space-y-6">
+        
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <h2 class="text-xl font-black text-slate-900">Part 2: Cue Card</h2>
+            <div id="statusBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600">
+                Tayyorgarlik...
+            </div>
+        </div>
+
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-lg text-slate-800 leading-relaxed font-medium">
+            {{ session.prompt_text }}
+        </div>
+
+        <div class="flex flex-col items-center justify-center py-6 space-y-4">
+            <div id="timerDisplay" class="text-5xl font-black text-indigo-600 font-mono tracking-wider">
+                01:00
+            </div>
+            <p id="timerLabel" class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tayyorgarlik Vaqti</p>
+        </div>
+
+        <div class="flex justify-center pt-4">
+            <button id="skipPrepBtn" class="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition text-sm">
+                Tayyorgarlikni o'tkazib yuborish
+            </button>
+            <button id="stopRecordBtn" class="hidden px-8 py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl shadow-lg transition flex items-center space-x-2">
+                <i data-lucide="square" class="w-4 h-4 fill-current"></i>
+                <span>Yakunlash & Yuborish</span>
+            </button>
+            <button id="loadingBtn" disabled class="hidden px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-lg flex items-center space-x-2 opacity-80">
+                <i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>
+                <span>Tekshirilmoqda...</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const prepTime = {{ session.prep_time_seconds }};
+        const speakTime = {{ session.speak_time_seconds }};
+        const sessionId = {{ session.id }};
+        const submitUrl = "{% url 'tasks:speaking_submit' session.id %}";
+        const csrfToken = '{{ csrf_token }}';
+
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerLabel = document.getElementById('timerLabel');
+        const statusBadge = document.getElementById('statusBadge');
+        const skipPrepBtn = document.getElementById('skipPrepBtn');
+        const stopRecordBtn = document.getElementById('stopRecordBtn');
+        const loadingBtn = document.getElementById('loadingBtn');
+
+        let countdown;
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            return m + ':' + s;
+        }
+
+        function startPrep() {
+            let timeLeft = prepTime;
+            timerDisplay.textContent = formatTime(timeLeft);
+            
+            countdown = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = formatTime(timeLeft);
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    startRecording();
+                }
+            }, 1000);
+        }
+
+        async function startRecording() {
+            clearInterval(countdown);
+            skipPrepBtn.classList.add('hidden');
+            
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = submitAudio;
+
+                mediaRecorder.start();
+                isRecording = true;
+
+                // Update UI
+                stopRecordBtn.classList.remove('hidden');
+                statusBadge.textContent = "Yozilmoqda...";
+                statusBadge.classList.replace('bg-slate-100', 'bg-rose-100');
+                statusBadge.classList.replace('text-slate-600', 'text-rose-700');
+                statusBadge.classList.add('animate-pulse');
+                timerLabel.textContent = "Qolgan Vaqt";
+
+                let timeLeft = speakTime;
+                timerDisplay.textContent = formatTime(timeLeft);
+                
+                countdown = setInterval(() => {
+                    timeLeft--;
+                    timerDisplay.textContent = formatTime(timeLeft);
+                    if (timeLeft <= 0) {
+                        clearInterval(countdown);
+                        if(isRecording) stopRecording();
+                    }
+                }, 1000);
+
+            } catch (err) {
+                alert("Mikrofonga kirish imkoni bo'lmadi. Iltimos, ruxsat bering.");
+                console.error(err);
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                isRecording = false;
+            }
+        }
+
+        async function submitAudio() {
+            clearInterval(countdown);
+            stopRecordBtn.classList.add('hidden');
+            loadingBtn.classList.remove('hidden');
+            statusBadge.textContent = "Yuborilmoqda...";
+            statusBadge.classList.remove('animate-pulse');
+            statusBadge.classList.replace('bg-rose-100', 'bg-indigo-100');
+            statusBadge.classList.replace('text-rose-700', 'text-indigo-700');
+
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            const formData = new FormData();
+            formData.append('audio', audioBlob, 'speaking_part2.webm');
+
+            try {
+                const response = await fetch(submitUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    window.location.href = result.redirect_url;
+                } else {
+                    alert(result.error || "Xatolik yuz berdi");
+                    loadingBtn.classList.add('hidden');
+                }
+            } catch (err) {
+                alert("Tarmoqda xatolik yuz berdi.");
+                console.error(err);
+                loadingBtn.classList.add('hidden');
+            }
+        }
+
+        skipPrepBtn.addEventListener('click', startRecording);
+        stopRecordBtn.addEventListener('click', stopRecording);
+
+        // Init
+        startPrep();
+    });
+</script>
+{% endblock %}

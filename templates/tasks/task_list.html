@@ -100,7 +100,25 @@
 
   </div>
 
-  <!-- Tasks Section -->
+  {% if active_track == 'track_a' or active_track == 'all' %}
+  <!-- IELTS Speaking Practice Banner -->
+  <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center space-x-4">
+      <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
+        <i data-lucide="mic" class="w-6 h-6 text-white"></i>
+      </div>
+      <div>
+        <h3 class="text-xl font-black">IELTS Speaking Practice (Voice)</h3>
+        <p class="text-sm text-indigo-100 mt-1">Haqiqiy imtihon formatida ovozli mashq qiling va AI dan baho oling.</p>
+      </div>
+    </div>
+    <a href="{% url 'tasks:speaking_start' %}" class="px-6 py-3 bg-white text-indigo-700 hover:bg-slate-50 font-bold rounded-xl shadow-sm transition whitespace-nowrap">
+      Mashqni Boshlash
+    </a>
+  </div>
+  {% endif %}
+
+  <!-- Task Grid -->
   <div class="space-y-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       {% for task in tasks %}

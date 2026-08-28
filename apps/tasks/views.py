@@ -300,3 +300,74 @@ def application_prep_view(request):
         'app_guides': app_guides,
     }
     return render(request, 'tasks/application_prep.html', context)
+from django.http import JsonResponse
+from apps.tasks.models import SpeakingSession
+from apps.services.speaking_service import get_random_part2_prompt, transcribe_audio, evaluate_speaking
+
+@login_required
+def speaking_start_view(request):
+    "View to start a new speaking practice session (Part 2)."
+    student = getattr(request.user, 'student_profile', None)
+    if not student:
+        return redirect('onboarding:step_1')
+        
+    if request.method == 'POST':
+        prompt = get_random_part2_prompt()
+        session = SpeakingSession.objects.create(
+            student=student,
+            part='part2_cue_card',
+            prompt_text=prompt,
+            prep_time_seconds=60,
+            speak_time_seconds=120
+        )
+        return redirect('tasks:speaking_record', session_id=session.id)
+        
+    return render(request, 'tasks/speaking_start.html')
+
+@login_required
+def speaking_record_view(request, session_id):
+    "View to record audio for the speaking session."
+    session = get_object_or_404(SpeakingSession, id=session_id, student__user=request.user)
+    
+    if session.transcript or session.ai_feedback:
+        return redirect('tasks:speaking_result', session_id=session.id)
+        
+    return render(request, 'tasks/speaking_record.html', {'session': session})
+
+@login_required
+def speaking_submit_view(request, session_id):
+    "AJAX endpoint to receive audio, transcribe, evaluate, and save."
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Faqat POST so'rovlar qabul qilinadi.'}, status=405)
+        
+    session = get_object_or_404(SpeakingSession, id=session_id, student__user=request.user)
+    audio_file = request.FILES.get('audio')
+    
+    if not audio_file:
+        return JsonResponse({'error': 'Audio fayl topilmadi.'}, status=400)
+        
+    session.audio_file = audio_file
+    session.save()
+    
+    # Process audio
+    try:
+        transcript = transcribe_audio(session.audio_file)
+        session.transcript = transcript
+        session.save()
+        
+        band_score, ai_feedback = evaluate_speaking(transcript, session.prompt_text, session.speak_time_seconds)
+        
+        session.band_score = band_score
+        session.ai_feedback = ai_feedback
+        session.save()
+        
+        return JsonResponse({'success': True, 'redirect_url': f"/tasks/speaking/result/{session.id}/"})
+    except Exception as e:
+        logger.error(f"Error processing speaking submission: {e}")
+        return JsonResponse({'error': 'Xatolik yuz berdi. Iltimos qayta urinib ko'ring.'}, status=500)
+
+@login_required
+def speaking_result_view(request, session_id):
+    "View to display the speaking evaluation results."
+    session = get_object_or_404(SpeakingSession, id=session_id, student__user=request.user)
+    return render(request, 'tasks/speaking_result.html', {'session': session})
