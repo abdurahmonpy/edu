@@ -338,7 +338,7 @@ def speaking_record_view(request, session_id):
 def speaking_submit_view(request, session_id):
     "AJAX endpoint to receive audio, transcribe, evaluate, and save."
     if request.method != 'POST':
-        return JsonResponse({'error': 'Faqat POST so'rovlar qabul qilinadi.'}, status=405)
+        return JsonResponse({'error': "Faqat POST so'rovlar qabul qilinadi."}, status=405)
         
     session = get_object_or_404(SpeakingSession, id=session_id, student__user=request.user)
     audio_file = request.FILES.get('audio')
@@ -364,7 +364,7 @@ def speaking_submit_view(request, session_id):
         return JsonResponse({'success': True, 'redirect_url': f"/tasks/speaking/result/{session.id}/"})
     except Exception as e:
         logger.error(f"Error processing speaking submission: {e}")
-        return JsonResponse({'error': 'Xatolik yuz berdi. Iltimos qayta urinib ko'ring.'}, status=500)
+        return JsonResponse({'error': "Xatolik yuz berdi. Iltimos qayta urinib ko'ring."}, status=500)
 
 @login_required
 def speaking_result_view(request, session_id):
