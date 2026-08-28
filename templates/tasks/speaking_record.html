@@ -37,6 +37,7 @@
         </div>
     </div>
 </div>
+<div id="csrfTokenWrapper" style="display: none;">{% csrf_token %}</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -44,7 +45,7 @@
         const speakTime = {{ session.speak_time_seconds }};
         const sessionId = {{ session.id }};
         const submitUrl = "{% url 'tasks:speaking_submit' session.id %}";
-        const csrfToken = '{{ csrf_token }}';
+        const csrfToken = document.querySelector('#csrfTokenWrapper input[name="csrfmiddlewaretoken"]').value;
 
         const timerDisplay = document.getElementById('timerDisplay');
         const timerLabel = document.getElementById('timerLabel');
