@@ -5,7 +5,7 @@ import logging
 import random
 from typing import Dict, Any, Tuple
 from django.conf import settings
-from .anthropic_client import get_client
+from .anthropic_client import get_claude_client
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ def evaluate_speaking(transcript: str, prompt_text: str, speak_time_seconds: int
     if not transcript or not transcript.strip():
         return 0.0, "Kechirasiz, sizning ovozingiz (yoki matningiz) tushunarsiz. Iltimos, qaytadan urinib ko'ring."
 
-    client = get_client()
+    client = get_claude_client()
     
     system_prompt = """
 You are an expert IELTS Speaking examiner evaluating a student's Part 2 response.
