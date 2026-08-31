@@ -193,3 +193,54 @@ def document_delete_view(request, doc_id):
     return render(request, 'documents/document_confirm_delete.html', {
         'document': doc,
     })
+
+
+from apps.documents.models import PortfolioItem
+from apps.services.vision_service import evaluate_portfolio_image
+
+@login_required
+def portfolio_upload_view(request, doc_id):
+    student, _ = Student.objects.get_or_create(user=request.user)
+    doc = get_object_or_404(Document, id=doc_id, student=student)
+    
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        file = request.FILES.get('file')
+        medium = request.POST.get('medium', '')
+        
+        if title and file:
+            item = PortfolioItem.objects.create(
+                document=doc,
+                title=title,
+                description=description,
+                file=file,
+                medium=medium
+            )
+            messages.success(request, "Portfolio qismi muvaffaqiyatli yuklandi.")
+            return redirect('documents:portfolio_item_detail', item_id=item.id)
+            
+    return render(request, 'documents/portfolio_upload.html', {'document': doc})
+
+@login_required
+def portfolio_item_detail_view(request, item_id):
+    student, _ = Student.objects.get_or_create(user=request.user)
+    item = get_object_or_404(PortfolioItem, id=item_id, document__student=student)
+    return render(request, 'documents/portfolio_item_detail.html', {'item': item})
+
+@login_required
+def portfolio_evaluate_view(request, item_id):
+    student, _ = Student.objects.get_or_create(user=request.user)
+    item = get_object_or_404(PortfolioItem, id=item_id, document__student=student)
+    
+    if item.file:
+        try:
+            result = evaluate_portfolio_image(item.file.path, item.title, item.description)
+            item.ai_feedback = result.get('feedback', '')
+            item.save()
+            messages.success(request, "Portfolio AI (Vision) orqali tahlil qilindi!")
+        except Exception as e:
+            messages.error(request, f"Tahlil qilishda xatolik: {e}")
+            
+    return redirect('documents:portfolio_item_detail', item_id=item.id)
+

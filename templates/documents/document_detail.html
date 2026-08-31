@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}{{ document.title }} (v{{ document.version }}) — Kelajak{% endblock %}
 
@@ -98,6 +98,52 @@
           <i data-lucide="download" class="w-3.5 h-3.5 text-indigo-600"></i>
           <span>Yuklab olish</span>
         </a>
+      </div>
+    {% endif %}
+
+    <!-- Portfolio Items Section -->
+    {% if document.doc_type == 'portfolio' %}
+      <div class="mt-8 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+          <h2 class="text-lg font-bold text-slate-900">Portfolio qismlari (Ishlar)</h2>
+          <a href="{% url 'documents:portfolio_upload' document.id %}" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded-lg transition flex items-center space-x-1">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Yangi ish qo'shish</span>
+          </a>
+        </div>
+        
+        {% if document.portfolio_items.all %}
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {% for item in document.portfolio_items.all %}
+              <a href="{% url 'documents:portfolio_item_detail' item.id %}" class="group block bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="aspect-w-16 aspect-h-9 bg-slate-100 flex items-center justify-center">
+                  {% if item.file %}
+                    <img src="{{ item.file.url }}" alt="{{ item.title }}" class="object-cover w-full h-40">
+                  {% else %}
+                    <i data-lucide="image" class="w-8 h-8 text-slate-300"></i>
+                  {% endif %}
+                </div>
+                <div class="p-4">
+                  <h3 class="text-sm font-bold text-slate-900 truncate">{{ item.title }}</h3>
+                  <div class="mt-2 flex items-center justify-between">
+                    <span class="text-xs text-slate-500">{{ item.medium|default:"Medium" }}</span>
+                    {% if item.ai_feedback %}
+                      <span class="text-xs bg-emerald-50 text-emerald-700 font-semibold px-2 py-0.5 rounded">Tekshirilgan</span>
+                    {% else %}
+                      <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2 py-0.5 rounded">Tahlilsiz</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="p-8 bg-slate-50 border border-slate-200 border-dashed rounded-2xl text-center">
+            <i data-lucide="image" class="w-8 h-8 text-slate-300 mx-auto mb-3"></i>
+            <h3 class="text-sm font-bold text-slate-700">Hech qanday ish qo'shilmagan</h3>
+            <p class="text-xs text-slate-500 mt-1">Portfolioingizni to'ldirish uchun yangi ijodiy ishlaringizni yuklang.</p>
+          </div>
+        {% endif %}
       </div>
     {% endif %}
 

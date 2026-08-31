@@ -1,4 +1,4 @@
-﻿from django.urls import path
+from django.urls import path
 from . import views
 
 app_name = 'documents'
@@ -10,4 +10,9 @@ urlpatterns = [
     path('<int:doc_id>/edit/', views.document_edit_view, name='edit'),
     path('<int:doc_id>/ai-review/', views.document_ai_review_view, name='ai_review'),
     path('<int:doc_id>/delete/', views.document_delete_view, name='delete'),
+    
+    # Portfolio views
+    path('<int:doc_id>/portfolio/upload/', views.portfolio_upload_view, name='portfolio_upload'),
+    path('portfolio/<int:item_id>/', views.portfolio_item_detail_view, name='portfolio_item_detail'),
+    path('portfolio/<int:item_id>/evaluate/', views.portfolio_evaluate_view, name='portfolio_evaluate'),
 ]

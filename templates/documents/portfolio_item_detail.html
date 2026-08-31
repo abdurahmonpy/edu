@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ item.title }} - Portfolio tahlili{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    
+    <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">{{ item.title }}</h1>
+            <p class="mt-1 text-sm text-gray-500">
+                Bog'langan hujjat: <a href="{% url 'documents:detail' item.document.id %}" class="text-primary hover:underline">{{ item.document.title }}</a>
+            </p>
+        </div>
+        <div class="flex gap-3">
+            <form method="POST" action="{% url 'documents:portfolio_evaluate' item.id %}" onsubmit="showLoading(this)">
+                {% csrf_token %}
+                <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+                    <i data-lucide="sparkles" class="w-4 h-4 mr-2"></i>
+                    AI tahlilini boshlash (Vision)
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Asar rasmi -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
+            {% if item.file %}
+                <img src="{{ item.file.url }}" alt="{{ item.title }}" class="max-w-full h-auto rounded-lg object-contain" style="max-height: 600px;">
+            {% else %}
+                <div class="h-64 flex items-center justify-center text-gray-400">
+                    Rasm topilmadi
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Ma'lumot va Tahlil -->
+        <div class="space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Loyiha haqida</h3>
+                <dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
+                    <div class="sm:col-span-1">
+                        <dt class="text-sm font-medium text-gray-500">Medium</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ item.medium|default:"Kiritilmagan" }}</dd>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <dt class="text-sm font-medium text-gray-500">Tavsifi (Konsepsiya)</dt>
+                        <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap">{{ item.description|default:"Tavsif yo'q" }}</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl shadow-sm border border-indigo-100">
+                <h3 class="text-lg font-medium text-indigo-900 mb-4 flex items-center">
+                    <i data-lucide="bot" class="w-5 h-5 mr-2"></i>
+                    Claude 3.5 Vision Tahlili
+                </h3>
+                
+                {% if item.ai_feedback %}
+                    <div class="prose prose-sm prose-indigo max-w-none text-gray-800">
+                        {{ item.ai_feedback|linebreaks }}
+                    </div>
+                {% else %}
+                    <div class="text-center py-6">
+                        <p class="text-sm text-gray-500 mb-4">Sizning asaringiz hali AI tomonidan tekshirilmagan.</p>
+                        <p class="text-xs text-gray-400">Tepada "AI tahlilini boshlash" tugmasini bosing.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 hidden flex-col items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center max-w-sm text-center">
+        <i data-lucide="eye" class="w-12 h-12 text-indigo-600 animate-pulse mb-4"></i>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Vision AI ishlamoqda...</h3>
+        <p class="text-sm text-gray-500">Claude 3.5 Sonnet sizning asaringiz kompozitsiyasi, ranglari va g'oyasini tahlil qilmoqda. Bu taxminan 10-15 soniya vaqt oladi.</p>
+    </div>
+</div>
+
+<script>
+function showLoading(form) {
+    document.getElementById('loadingOverlay').classList.remove('hidden');
+    document.getElementById('loadingOverlay').classList.add('flex');
+}
+</script>
+{% endblock %}
