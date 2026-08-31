@@ -76,4 +76,4 @@ Student Transcript ({speak_time_seconds} seconds spoken):
         return band_score, feedback
     except Exception as e:
         logger.error(f"Error evaluating speaking: {e}")
-        return 0.0, "Baholash tizimida vaqtinchalik xatolik. Birozdan so'ng qayta urinib ko'ring."
+        return 0.0, f"Xatolik: {str(e)}"

@@ -346,6 +346,11 @@ def get_student_weakest_skill(student: Student) -> str:
     return weakest.skill
 
 
+def get_student_target_scope(student):
+    if hasattr(student, 'target_selection') and student.target_selection and student.target_selection.primary_program:
+        return student.target_selection.primary_program.scope
+    return 'international'
+
 def generate_daily_tasks_for_dual_track(
     student: Student,
     date_for_tasks: Optional[date] = None
@@ -368,6 +373,8 @@ def generate_daily_tasks_for_dual_track(
     # Offset based on date and student id for deterministic variation
     day_offset = (date_for_tasks - date(2026, 1, 1)).days + (student.id * 3)
 
+    scope = get_student_target_scope(student)
+    
     # Pick Track A task (prioritizing weakest skill if applicable)
     track_a_pool = CURATED_TRACK_A_TASKS
     if weakest_skill == 'grammar':
@@ -378,6 +385,29 @@ def generate_daily_tasks_for_dual_track(
         track_a_task = reading_pool[day_offset % len(reading_pool)] if reading_pool else track_a_pool[day_offset % len(track_a_pool)]
     else:
         track_a_task = track_a_pool[day_offset % len(track_a_pool)]
+
+    # If domestic, override Track A task with DTM logic (pseudo-task for now)
+    if scope == 'domestic':
+        track_a_task = (
+            'dtm_drill',
+            {
+                "title": "Track A (DTM): Ona Tili va Adabiyot (Majburiy Blok)",
+                "skill": "reading",
+                "difficulty": "Intermediate",
+                "instruction": "Quyidagi matnning asosiy g'oyasini toping (DTM standarti).",
+                "question": "Milliy qadriyatlar deganda nimani tushunasiz?",
+                "options": [
+                    {"key": "A", "text": "Faqat tarixiy yodgorliklar."},
+                    {"key": "B", "text": "Til, din, urf-odat va milliy o'zlikni anglatuvchi ma'naviy boyliklar."},
+                    {"key": "C", "text": "Iqtisodiy resurslar."},
+                    {"key": "D", "text": "G'arb madaniyati yutuqlari."}
+                ],
+                "correct_option": "B",
+                "explanation": "Milliy qadriyatlar xalqning ma'naviyati va tarixiy o'zligidir.",
+                "expected_outcome": "DTM majburiy blok testiga tayyorgarlik.",
+                "points": 100
+            }
+        )
 
     # Pick Track B task
     track_b_task = CURATED_TRACK_B_TASKS[(day_offset + 1) % len(CURATED_TRACK_B_TASKS)]
@@ -449,7 +479,7 @@ def grade_task_submission(task: DailyTask, student_answer: str) -> Dict[str, Any
     is_multiple_choice = bool(correct_option and 'options' in content)
 
     system_prompt = (
-        "Sen xalqaro grant va universitetlarga tayyorlovchi AI o'qituvchisan. "
+        "Sen xalqaro grant va universitetlarga (shuningdek, O'zbekiston ichidagi DTM va Ijodiy imtihonlarga) tayyorlovchi AI o'qituvchisan. "
         "O'quvchining vazifaga bergan javobini xolisona bahola va ENG MUHIMI unga xatosining "
         "sababini, qoidani va to'g'ri yondashuvni tushuntirib beruvchi 'ai_feedback' (Uzbek Latin) yoz.\n"
         "Muhim: ai_feedback faqat 'to'g'ri' yoki 'noto'g'ri' deb qolmasdan, nima uchun bundayligini tushuntirsin.\n"
