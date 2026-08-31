@@ -1,4 +1,4 @@
-﻿from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib import messages
@@ -39,14 +39,9 @@ def start_mock_exam_view(request, exam_type='ielts'):
         return redirect('onboarding:step_1')
 
     exam = create_mock_exam(student, exam_type)
-    first_section = exam.sections.order_by('order').first()
-
-    if first_section:
-        first_section.started_at = timezone.now()
-        first_section.status = 'in_progress'
-        first_section.save()
-        return redirect('mock_exams:section', exam_id=exam.id, section_id=first_section.id)
-
+    
+    # Part-by-part mode: Just redirect to intro, don't auto-start first section
+    messages.success(request, "Imtihon simulyatsiyasi yaratildi. Xohlagan bo'limingizni boshlashingiz mumkin.")
     return redirect('mock_exams:intro')
 
 
@@ -103,20 +98,10 @@ def submit_mock_section_view(request, exam_id, section_id):
     section.ended_at = timezone.now()
     section.save()
 
-    # Find next section in sequence
-    next_section = exam.sections.filter(order__gt=section.order).order_by('order').first()
-
-    if next_section:
-        next_section.started_at = timezone.now()
-        next_section.status = 'in_progress'
-        next_section.save()
-        messages.success(request, f"{section.get_section_type_display()} yakunlandi. Navbatdagi bo'lim boshlandi!")
-        return redirect('mock_exams:section', exam_id=exam.id, section_id=next_section.id)
-    else:
-        # All sections completed! Trigger AI evaluation
-        evaluate_ielts_mock_exam(exam)
-        messages.success(request, "Tabriklaymiz! IELTS Mock imtihoni yakunlandi va AI tomonidan baholandi.")
-        return redirect('mock_exams:results', exam_id=exam.id)
+    # Part-by-part mode: Do NOT automatically start the next section.
+    # Just redirect back to the intro/dashboard page.
+    messages.success(request, f"{section.get_section_type_display()} yakunlandi. Endi xohlagan vaqtingizda keyingi bo'limni boshlashingiz mumkin.")
+    return redirect('mock_exams:intro')
 
 
 @login_required
@@ -133,3 +118,27 @@ def mock_exam_result_view(request, exam_id):
         'exam': exam,
         'sections': sections,
     })
+
+@login_required
+@require_POST
+def start_section_view(request, exam_id, section_id):
+    student = getattr(request.user, 'student_profile', None)
+    exam = get_object_or_404(MockExam, id=exam_id, student=student, status='in_progress')
+    section = get_object_or_404(MockExamSection, id=section_id, mock_exam=exam, status='pending')
+
+    section.started_at = timezone.now()
+    section.status = 'in_progress'
+    section.save()
+    return redirect('mock_exams:section', exam_id=exam.id, section_id=section.id)
+
+@login_required
+@require_POST
+def finish_exam_view(request, exam_id):
+    student = getattr(request.user, 'student_profile', None)
+    exam = get_object_or_404(MockExam, id=exam_id, student=student, status='in_progress')
+    
+    # Mark any pending/in_progress as skipped or completed? Let's just evaluate as is.
+    # Trigger AI evaluation
+    evaluate_ielts_mock_exam(exam)
+    messages.success(request, "Imtihon yakunlandi va AI tomonidan baholandi.")
+    return redirect('mock_exams:results', exam_id=exam.id)

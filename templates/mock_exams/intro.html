@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}IELTS Mock Imtihon Simulyatori | Kelajak{% endblock %}
 
@@ -83,21 +83,69 @@
     </div>
   </div>
 
-  <!-- Start Exam Action -->
-  <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-    <div>
-      <h3 class="text-lg font-black text-slate-900">Tayyormisiz?</h3>
-      <p class="text-xs text-slate-500">Jami imtihon davomiyligi: ~2.5 soat (150 daqiqa)</p>
-    </div>
-    
-    <form method="post" action="{% url 'mock_exams:start' 'ielts' %}">
-      {% csrf_token %}
-      <button type="submit" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white text-sm font-extrabold rounded-2xl shadow-md shadow-indigo-200 transition flex items-center space-x-2">
-        <i data-lucide="play" class="w-4 h-4 fill-current"></i>
-        <span>Mock Imtihonni Boshlash</span>
-        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-      </button>
-    </form>
+  <!-- Start/Resume Exam Action -->
+  <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+    {% if active_exam %}
+      <div class="mb-4">
+        <h3 class="text-lg font-black text-slate-900">Faol imtihoningiz bor</h3>
+        <p class="text-xs text-slate-500">Qismma-qism ishlash rejimidasiz. Tugallanmagan bo'limlarni davom ettiring:</p>
+      </div>
+      <div class="space-y-3">
+        {% for section in active_exam.sections.all %}
+          <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+            <div>
+              <h4 class="text-sm font-bold text-slate-800">{{ section.get_section_type_display }}</h4>
+              <p class="text-xs text-slate-500">
+                Holat: 
+                <span class="font-semibold {% if section.status == 'completed' %}text-emerald-600{% elif section.status == 'in_progress' %}text-amber-600{% else %}text-slate-600{% endif %}">
+                  {{ section.get_status_display }}
+                </span>
+              </p>
+            </div>
+            {% if section.status == 'completed' %}
+              <div class="px-4 py-2 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-xl">Bajarildi</div>
+            {% elif section.status == 'in_progress' %}
+              <a href="{% url 'mock_exams:section' active_exam.id section.id %}" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-sm transition">Davom etish</a>
+            {% elif section.status == 'pending' %}
+              <!-- Allow starting only if it is the first pending one? Or any pending? Let's allow any pending -->
+              <form method="post" action="{% url 'mock_exams:start_section' active_exam.id section.id %}" style="margin: 0;">
+                {% csrf_token %}
+                <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-sm transition">Boshlash</button>
+              </form>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Finish Exam Button if all sections completed -->
+      {% if active_exam.status != 'completed' %}
+      <div class="mt-4 pt-4 border-t border-slate-200 text-right">
+          <form method="post" action="{% url 'mock_exams:finish_exam' active_exam.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition" onclick="return confirm('Imtihonni yakunlab, natijalarni hisoblaymizmi?');">
+                Imtihonni Yakunlash (AI Tahlil)
+              </button>
+          </form>
+      </div>
+      {% endif %}
+
+    {% else %}
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 class="text-lg font-black text-slate-900">Tayyormisiz?</h3>
+          <p class="text-xs text-slate-500">Qismma-qism (Reading alohida, Listening alohida) ishlash mumkin!</p>
+        </div>
+        
+        <form method="post" action="{% url 'mock_exams:start' 'ielts' %}">
+          {% csrf_token %}
+          <button type="submit" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white text-sm font-extrabold rounded-2xl shadow-md shadow-indigo-200 transition flex items-center space-x-2">
+            <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+            <span>Mock Imtihonni Yaratish</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+    {% endif %}
   </div>
 
   {% if past_exams %}

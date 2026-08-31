@@ -1,4 +1,4 @@
-﻿from django.urls import path
+from django.urls import path
 from . import views
 
 app_name = 'mock_exams'
@@ -8,5 +8,7 @@ urlpatterns = [
     path('start/<str:exam_type>/', views.start_mock_exam_view, name='start'),
     path('<int:exam_id>/section/<int:section_id>/', views.mock_exam_section_view, name='section'),
     path('<int:exam_id>/section/<int:section_id>/submit/', views.submit_mock_section_view, name='submit_section'),
+    path('<int:exam_id>/section/<int:section_id>/start/', views.start_section_view, name='start_section'),
+    path('<int:exam_id>/finish/', views.finish_exam_view, name='finish_exam'),
     path('<int:exam_id>/results/', views.mock_exam_result_view, name='results'),
 ]
