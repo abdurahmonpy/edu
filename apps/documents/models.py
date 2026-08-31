@@ -1,4 +1,4 @@
-﻿from django.db import models
+from django.db import models
 from apps.accounts.models import Student
 from apps.programs.models import Program
 
@@ -10,6 +10,7 @@ class Document(models.Model):
         ('recommendation', 'Tavsiyanoma (Recommendation Letter)'),
         ('transcript', 'Baholar tabeli (Academic Transcript)'),
         ('certificate', 'Sertifikat (IELTS / SAT / Boshqa)'),
+        ('portfolio', 'Portfolio (Art / Design / Architecture)'),
         ('other', 'Boshqa hujjat'),
     ]
 
@@ -83,3 +84,45 @@ class Document(models.Model):
 
     def __str__(self):
         return f"{self.title} (v{self.version}) — {self.get_doc_type_display()}"
+
+
+class PortfolioItem(models.Model):
+    document = models.ForeignKey(
+        Document,
+        on_delete=models.CASCADE,
+        related_name='portfolio_items',
+        verbose_name="Portfolio"
+    )
+    title = models.CharField(
+        max_length=255,
+        verbose_name="Asar/Loyiha nomi"
+    )
+    file = models.FileField(
+        upload_to='portfolio_items/',
+        verbose_name="Fayl (rasm/video/pdf)"
+    )
+    medium = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Muhit/Material (Medium)"
+    )
+    completion_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Tugatilgan sana"
+    )
+    description = models.TextField(
+        blank=True,
+        verbose_name="Loyiha tavsifi"
+    )
+    ai_feedback = models.TextField(
+        blank=True,
+        verbose_name="AI tahlili va tavsiyalari"
+    )
+
+    class Meta:
+        verbose_name = "Portfolio qismi"
+        verbose_name_plural = "Portfolio qismlari"
+    
+    def __str__(self):
+        return self.title

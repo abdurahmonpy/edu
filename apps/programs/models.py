@@ -73,6 +73,12 @@ class Program(models.Model):
         ('partial_grant', "Qisman Grant"),
         ('paid', "To'lovli"),
         ('exchange', "Almashinuv dasturi"),
+        ('application_system', "Qabul tizimi / Portal"),
+    ]
+
+    SCOPE_CHOICES = [
+        ('international', "Xalqaro"),
+        ('domestic', "O'zbekiston ichida"),
     ]
 
     university = models.ForeignKey(
@@ -86,6 +92,12 @@ class Program(models.Model):
     name = models.CharField(
         max_length=255,
         verbose_name="Dastur nomi"
+    )
+    scope = models.CharField(
+        max_length=20,
+        choices=SCOPE_CHOICES,
+        default='international',
+        verbose_name="Dastur miqyosi"
     )
     country = models.CharField(
         max_length=100,

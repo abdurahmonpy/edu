@@ -15,6 +15,12 @@ class Resource(models.Model):
         ('ielts_listening', "IELTS: Listening ko'nikmalari"),
         ('ielts_speaking', "IELTS: Speaking (Part 1-3)"),
         ('grammar_vocab', "Grammatika va lug'at boyligi"),
+        # Expanded Domains
+        ('dtm_prep', "DTM tayyorgarligi va yo'nalish tanlash"),
+        ('top_university_strategy', "TOP universitetlarga tayyorlash strategiyasi"),
+        ('portfolio_prep', "Portfolio tayyorlash (Art/Design)"),
+        ('europe_admissions', "Yevropa universitetlari (DAAD, Campus France, va boshqalar)"),
+        ('east_asia_admissions', "Osiyo (Koreya, Yaponiya, Xitoy) universitetlari"),
     ]
 
     title = models.CharField(
@@ -40,6 +46,12 @@ class Resource(models.Model):
         blank=True,
         related_name='resources',
         verbose_name="Tegishli grant dasturlari"
+    )
+    related_resources = models.ManyToManyField(
+        'self',
+        blank=True,
+        symmetrical=False,
+        verbose_name="Tegishli resurslar (o'qish ketma-ketligi)"
     )
     author_name = models.CharField(
         max_length=100,
