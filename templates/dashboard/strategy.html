@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mening Strategiyam (AI Counselor) - Kelajak{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-6 px-4 sm:px-6 space-y-8">
+  
+  <!-- Header -->
+  <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl p-8 text-white shadow-md relative overflow-hidden">
+    <div class="relative z-10">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/10 backdrop-blur rounded-full text-indigo-200 text-xs font-bold mb-3 border border-white/10">
+        <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span>AI School Counselor</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Shaxsiy Strategiya va Universitetlar</h1>
+      <p class="text-indigo-200 text-sm sm:text-base mt-3 max-w-2xl leading-relaxed">
+        Sizning barcha ko'rsatkichlaringiz ({{ student.english_level }}, {%- if student.grade -%}{{ student.grade }}-sinf{%- endif -%}, qiziqishlar) asosida AI tomonidan shakllantirilgan shaxsiy xarita va ehtimoliy universitetlar ro'yxati.
+      </p>
+    </div>
+    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- College List (Reach, Match, Safety) -->
+  <div>
+    <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center space-x-2">
+      <i data-lucide="building" class="w-6 h-6 text-indigo-600"></i>
+      <span>Universitetlar Ro'yxati (College List)</span>
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Reach -->
+      <div class="bg-amber-50 rounded-3xl p-6 border border-amber-200 shadow-sm flex flex-col">
+        <div class="flex items-center space-x-2 mb-4">
+          <i data-lucide="trending-up" class="w-5 h-5 text-amber-600"></i>
+          <h3 class="text-lg font-bold text-amber-900">Reach (Yuqori marra)</h3>
+        </div>
+        <p class="text-xs text-amber-800 mb-4 flex-1">Kirish raqobati yuqori, ammo a'lo darajadagi insho va tayyorgarlik bilan urinib ko'rsa bo'ladi (Match < 70%).</p>
+        <div class="space-y-3">
+          {% for school in reach_schools %}
+            <div class="bg-white p-3 rounded-2xl border border-amber-100 shadow-xs">
+              <h4 class="font-bold text-slate-900 text-sm">{{ school.program_name }}</h4>
+              <p class="text-xs text-slate-500 mt-1">{{ school.country }} • {{ school.type_display }}</p>
+              <div class="mt-2 flex items-center justify-between text-xs font-bold text-amber-700">
+                <span>Ehtimollik:</span>
+                <span>{{ school.match_percentage }}%</span>
+              </div>
+            </div>
+          {% empty %}
+            <p class="text-xs text-amber-600 font-medium bg-amber-100 p-2 rounded-xl">Mos keluvchi Reach dastur topilmadi.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Match -->
+      <div class="bg-blue-50 rounded-3xl p-6 border border-blue-200 shadow-sm flex flex-col">
+        <div class="flex items-center space-x-2 mb-4">
+          <i data-lucide="target" class="w-5 h-5 text-blue-600"></i>
+          <h3 class="text-lg font-bold text-blue-900">Match (Maqsadli)</h3>
+        </div>
+        <p class="text-xs text-blue-800 mb-4 flex-1">Sizning baholaringiz va profillaringiz ushbu dasturlar talabiga to'la javob beradi (Match 70-84%).</p>
+        <div class="space-y-3">
+          {% for school in match_schools %}
+            <div class="bg-white p-3 rounded-2xl border border-blue-100 shadow-xs">
+              <h4 class="font-bold text-slate-900 text-sm">{{ school.program_name }}</h4>
+              <p class="text-xs text-slate-500 mt-1">{{ school.country }} • {{ school.type_display }}</p>
+              <div class="mt-2 flex items-center justify-between text-xs font-bold text-blue-700">
+                <span>Ehtimollik:</span>
+                <span>{{ school.match_percentage }}%</span>
+              </div>
+            </div>
+          {% empty %}
+            <p class="text-xs text-blue-600 font-medium bg-blue-100 p-2 rounded-xl">Mos keluvchi Match dastur topilmadi.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Safety -->
+      <div class="bg-emerald-50 rounded-3xl p-6 border border-emerald-200 shadow-sm flex flex-col">
+        <div class="flex items-center space-x-2 mb-4">
+          <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
+          <h3 class="text-lg font-bold text-emerald-900">Safety (Kafolatlangan)</h3>
+        </div>
+        <p class="text-xs text-emerald-800 mb-4 flex-1">Sizning hozirgi ko'rsatkichingiz bu dasturlar uchun juda baland. Kirish imkoniyati yuqori (Match >= 85%).</p>
+        <div class="space-y-3">
+          {% for school in safety_schools %}
+            <div class="bg-white p-3 rounded-2xl border border-emerald-100 shadow-xs">
+              <h4 class="font-bold text-slate-900 text-sm">{{ school.program_name }}</h4>
+              <p class="text-xs text-slate-500 mt-1">{{ school.country }} • {{ school.type_display }}</p>
+              <div class="mt-2 flex items-center justify-between text-xs font-bold text-emerald-700">
+                <span>Ehtimollik:</span>
+                <span>{{ school.match_percentage }}%</span>
+              </div>
+            </div>
+          {% empty %}
+            <p class="text-xs text-emerald-600 font-medium bg-emerald-100 p-2 rounded-xl">Mos keluvchi Safety dastur topilmadi.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Study Plan Roadmap -->
+  {% if plan_data %}
+  <div class="pt-8 border-t border-slate-200">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold text-slate-900 flex items-center space-x-2">
+        <i data-lucide="map" class="w-6 h-6 text-indigo-600"></i>
+        <span>AI Yo'l Xaritasi (Roadmap)</span>
+      </h2>
+      <a href="{% url 'mentor:chat' %}" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm rounded-xl transition flex items-center space-x-2">
+        <i data-lucide="message-circle" class="w-4 h-4"></i>
+        <span>Rejani o'zgartirish</span>
+      </a>
+    </div>
+
+    <!-- Dual Track Summary -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="bg-purple-50 rounded-3xl p-6 border border-purple-100 shadow-xs">
+        <h3 class="text-purple-800 font-black text-lg mb-2">{{ track_a.title }}</h3>
+        <p class="text-sm text-purple-700 mb-4">Maksimal qaratilgan ko'nikma: <strong>{{ track_a.weakest_skill }}</strong></p>
+        <ul class="space-y-2 text-sm text-purple-900">
+          {% for milestone in track_a.milestones %}
+            <li class="flex items-start space-x-2">
+              <i data-lucide="check-circle" class="w-4 h-4 text-purple-500 mt-0.5"></i>
+              <span>{{ milestone }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="bg-emerald-50 rounded-3xl p-6 border border-emerald-100 shadow-xs">
+        <h3 class="text-emerald-800 font-black text-lg mb-2">{{ track_b.title }}</h3>
+        <p class="text-sm text-emerald-700 mb-4">Haftalik yuklama: <strong>{{ track_b.weekly_hours }} soat</strong></p>
+        <ul class="space-y-2 text-sm text-emerald-900">
+          {% for milestone in track_b.milestones %}
+            <li class="flex items-start space-x-2">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 mt-0.5"></i>
+              <span>{{ milestone }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Weekly Timeline -->
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="p-6 bg-slate-50 border-b border-slate-200">
+        <h3 class="font-bold text-slate-900">Haftama-hafta strategiya</h3>
+      </div>
+      <div class="divide-y divide-slate-100">
+        {% for week in weekly_schedule %}
+          <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 hover:bg-slate-50/50 transition">
+            <div class="w-24 flex-shrink-0">
+              <div class="inline-flex items-center justify-center px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-xs rounded-lg">
+                {{ week.week }}-hafta
+              </div>
+            </div>
+            <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div>
+                <p class="text-xs text-slate-500 font-bold uppercase mb-1">Track A (Test)</p>
+                <p class="text-slate-800 font-medium">{{ week.track_a_focus }}</p>
+              </div>
+              <div>
+                <p class="text-xs text-slate-500 font-bold uppercase mb-1">Track B (Portfolio)</p>
+                <p class="text-slate-800 font-medium">{{ week.track_b_focus }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

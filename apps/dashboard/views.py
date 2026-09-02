@@ -602,3 +602,41 @@ def stats_view(request):
         'heatmap_days': heatmap_days,
         'total_completed_tasks': total_completed_tasks,
     })
+
+@login_required
+def strategy_view(request):
+    """
+    AI School Counselor / Strategy Dashboard.
+    Shows the generated College List (Safety, Match, Reach) and the Study Plan (Roadmap).
+    """
+    from apps.services.matching_service import get_curated_recommendations
+    from apps.services.study_plan_service import get_active_study_plan
+    
+    student, _ = Student.objects.get_or_create(user=request.user)
+    
+    # 1. College List (Reach, Match, Safety)
+    recommendations = get_curated_recommendations(student, limit=6)
+    
+    # Categorize them
+    safety_schools = [r for r in recommendations if r['match_tier'] == 'safety']
+    match_schools = [r for r in recommendations if r['match_tier'] == 'target']
+    reach_schools = [r for r in recommendations if r['match_tier'] == 'reach']
+    
+    # 2. Roadmap / Study Plan
+    active_plan = get_active_study_plan(student)
+    plan_data = active_plan.generated_by_ai if active_plan else {}
+    track_a = plan_data.get('track_a', {})
+    track_b = plan_data.get('track_b', {})
+    weekly_schedule = plan_data.get('weekly_schedule', [])
+    
+    return render(request, 'dashboard/strategy.html', {
+        'student': student,
+        'safety_schools': safety_schools,
+        'match_schools': match_schools,
+        'reach_schools': reach_schools,
+        'active_plan': active_plan,
+        'plan_data': plan_data,
+        'track_a': track_a,
+        'track_b': track_b,
+        'weekly_schedule': weekly_schedule,
+    })
