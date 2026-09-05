@@ -1,12 +1,16 @@
-﻿<!-- Public Header for unauthenticated / landing / public pages -->
+{% load static %}
+<!-- Public Header for unauthenticated / landing / public pages -->
 <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
     <!-- Brand Logo -->
-    <a href="{% url 'home' %}" class="flex items-center space-x-3 text-indigo-600 hover:opacity-90 transition">
-      <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-sm">
-        <i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i>
+    <a href="{% url 'home' %}" class="flex items-center space-x-3 text-slate-900 hover:opacity-90 transition">
+      <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 overflow-hidden shadow-xs flex items-center justify-center p-0.5">
+        <img src="{% static 'images/unimentor_logo.png' %}" alt="UniMentor AI" class="w-full h-full object-contain scale-110">
       </div>
-      <span class="text-xl font-extrabold text-slate-900 tracking-tight">UniMentor</span>
+      <div class="flex items-center space-x-1.5">
+        <span class="text-xl font-extrabold text-slate-900 tracking-tight">UniMentor</span>
+        <span class="text-[10px] font-black uppercase px-1.5 py-0.5 rounded-md bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-xs">AI</span>
+      </div>
     </a>
 
     <!-- Public Nav Links -->
