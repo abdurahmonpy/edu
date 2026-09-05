@@ -97,22 +97,22 @@ def step_2_certificate_view(request):
 
                 try:
                     is_valid, age_in_days = certificate_service.check_certificate_validity(test_date)
+                    cert, is_valid_saved = certificate_service.process_and_save_certificate(
+                        student=student,
+                        cert_type=cert_type,
+                        test_date=test_date,
+                        overall_score=overall_score,
+                        section_scores=section_scores
+                    )
                 except Exception as e:
-                    messages.error(request, str(e))
+                    logger.error(f"Certificate processing error: {e}", exc_info=True)
+                    messages.error(request, f"Xatolik: {e}")
                     return render(request, 'onboarding/step_2_certificate.html', {
                         'form': form,
                         'student': student,
                         'step_number': 2,
                         'total_steps': 4,
                     })
-
-                cert, is_valid_saved = certificate_service.process_and_save_certificate(
-                    student=student,
-                    cert_type=cert_type,
-                    test_date=test_date,
-                    overall_score=overall_score,
-                    section_scores=section_scores
-                )
 
                 # Update student metadata fields if available
                 updated_fields = []
@@ -166,7 +166,7 @@ def step_2_certificate_view(request):
                 'test_date': latest_cert.test_date,
                 'overall_score': latest_cert.overall_score,
             }
-            if latest_cert.section_scores:
+            if latest_cert.section_scores and isinstance(latest_cert.section_scores, dict):
                 initial_data.update(latest_cert.section_scores)
         form = CertificateStepForm(initial=initial_data)
 

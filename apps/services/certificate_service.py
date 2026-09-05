@@ -424,41 +424,57 @@ def process_and_save_certificate(
         stored_section_scores['cefr_level'] = str(overall_score).strip().upper()
 
     # 1. Create or update TestCertificate
-    certificate, _ = TestCertificate.objects.update_or_create(
+    certificate = TestCertificate.objects.filter(
         student=student,
         certificate_type=normalized_model_type,
-        test_date=t_date,
-        defaults={
-            'overall_score': stored_overall,
-            'section_scores': stored_section_scores,
-            'is_valid': is_valid,
-            'verified_at': timezone.now() if is_valid else None
-        }
-    )
+        test_date=t_date
+    ).first()
+    if certificate:
+        certificate.overall_score = stored_overall
+        certificate.section_scores = stored_section_scores
+        certificate.is_valid = is_valid
+        certificate.verified_at = timezone.now() if is_valid else None
+        certificate.save()
+    else:
+        certificate = TestCertificate.objects.create(
+            student=student,
+            certificate_type=normalized_model_type,
+            test_date=t_date,
+            overall_score=stored_overall,
+            section_scores=stored_section_scores,
+            is_valid=is_valid,
+            verified_at=timezone.now() if is_valid else None
+        )
 
     # 2. If valid, populate SkillScores and ProgressLog
     if is_valid:
         for skill_name in SKILL_NAMES:
             score_val = skill_scores.get(skill_name, 70)
-            SkillScore.objects.update_or_create(
-                student=student,
-                skill=skill_name,
-                defaults={'current_score': score_val}
-            )
+            score_obj = SkillScore.objects.filter(student=student, skill=skill_name).first()
+            if score_obj:
+                score_obj.current_score = score_val
+                score_obj.save()
+            else:
+                SkillScore.objects.create(student=student, skill=skill_name, current_score=score_val)
 
         ready_score = round(sum(skill_scores[s] for s in SKILL_NAMES) / len(SKILL_NAMES))
         today = timezone.localdate()
         cert_display = certificate.get_certificate_type_display()
 
-        ProgressLog.objects.update_or_create(
-            student=student,
-            date=today,
-            defaults={
-                'overall_ready_score': ready_score,
-                'streak_count': 1,
-                'delta': f"Sertifikat tasdiqlandi ({cert_display}: {overall_score})"
-            }
-        )
+        log_obj = ProgressLog.objects.filter(student=student, date=today).first()
+        if log_obj:
+            log_obj.overall_ready_score = ready_score
+            log_obj.streak_count = max(log_obj.streak_count, 1)
+            log_obj.delta = f"Sertifikat tasdiqlandi ({cert_display}: {overall_score})"[:100]
+            log_obj.save()
+        else:
+            ProgressLog.objects.create(
+                student=student,
+                date=today,
+                overall_ready_score=ready_score,
+                streak_count=1,
+                delta=f"Sertifikat tasdiqlandi ({cert_display}: {overall_score})"[:100]
+            )
 
     logger.info(
         f"Processed certificate for student {student.id}: type={normalized_model_type}, "

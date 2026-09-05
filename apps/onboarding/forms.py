@@ -51,11 +51,44 @@ TARGET_FIELD_CHOICES = [
     ('education_humanities', "Pedagogika va Gumanitar Fanlar"),
 ]
 
+CAREER_CHOICES = [
+    ('', "Kelajak kasbingizni tanlang..."),
+    ("Software Engineer / Dasturchi", "Software Engineer / Dasturchi"),
+    ("Sun'iy intellekt (AI/ML) muhandisi", "Sun'iy intellekt (AI/ML) muhandisi"),
+    ("Data Scientist / Ma'lumotlar tahlilchisi", "Data Scientist / Ma'lumotlar tahlilchisi"),
+    ("Kiberxavfsizlik mutaxassisi (Cybersecurity)", "Kiberxavfsizlik mutaxassisi (Cybersecurity)"),
+    ("UI/UX va Mahsulot dizayneri", "UI/UX va Mahsulot dizayneri"),
+    ("Shifokor / Jarroh / Kardioxirurg", "Shifokor / Jarroh / Kardioxirurg"),
+    ("Biotibbiyot va Genetik tadqiqotchi", "Biotibbiyot va Genetik tadqiqotchi"),
+    ("Farmatsevtika va Tibbiy biotexnolog", "Farmatsevtika va Tibbiy biotexnolog"),
+    ("Investitsion bankir / Moliya tahlilchisi", "Investitsion bankir / Moliya tahlilchisi"),
+    ("Kompaniya boshqaruvchisi / Menejer (CEO)", "Kompaniya boshqaruvchisi / Menejer (CEO)"),
+    ("Biznes konsultatsiya va Strateg", "Biznes konsultatsiya va Strateg"),
+    ("Iqtisodchi va Ekonometrist", "Iqtisodchi va Ekonometrist"),
+    ("Robototexnika va Mexatronika muhandisi", "Robototexnika va Mexatronika muhandisi"),
+    ("Aerokosmik va Aviatsiya muhandisi", "Aerokosmik va Aviatsiya muhandisi"),
+    ("Arxitektor va Shaharsoz (Urbanist)", "Arxitektor va Shaharsoz (Urbanist)"),
+    ("Yashil energetika va Ekologiya muhandisi", "Yashil energetika va Ekologiya muhandisi"),
+    ("Xalqaro diplomat va Elchixona xodimi", "Xalqaro diplomat va Elchixona xodimi"),
+    ("Xalqaro huquqshunos va Korporativ advokat", "Xalqaro huquqshunos va Korporativ advokat"),
+    ("Universitet professori / Tadqiqotchi", "Universitet professori / Tadqiqotchi"),
+    ("Startap asoschisi / Texnologik tadbirkor", "Startap asoschisi / Texnologik tadbirkor"),
+    ("Boshqa soha mutaxassisi", "Boshqa soha mutaxassisi"),
+]
+
 
 class OnboardingStep1Form(forms.Form):
     """
     Step 1: Student academic intake, demographics, region, interests, and target programs.
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        initial_val = self.initial.get('target_career')
+        if initial_val:
+            existing_keys = [c[0] for c in self.fields['target_career'].choices]
+            if initial_val not in existing_keys:
+                self.fields['target_career'].choices = list(self.fields['target_career'].choices) + [(initial_val, initial_val)]
+
     grade = forms.TypedChoiceField(
         choices=Student.GRADE_CHOICES,
         coerce=int,
@@ -87,11 +120,17 @@ class OnboardingStep1Form(forms.Form):
         initial='beginner',
         required=False,
     )
-    birth_year = forms.IntegerField(
+    BIRTH_YEAR_CHOICES = [('', "Tug'ilgan yilni tanlang...")] + [
+        (y, f"{y}-yil") for y in range(2014, 1990, -1)
+    ]
+
+    birth_year = forms.TypedChoiceField(
+        choices=BIRTH_YEAR_CHOICES,
+        coerce=int,
+        empty_value=None,
         label="Tug'ilgan yilingiz",
         required=False,
-        widget=forms.NumberInput(attrs={
-            'placeholder': 'Masalan: 2008',
+        widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-800'
         })
     )
@@ -126,13 +165,12 @@ class OnboardingStep1Form(forms.Form):
             'class': 'w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-800'
         })
     )
-    target_career = forms.CharField(
-        max_length=150,
+    target_career = forms.ChoiceField(
+        choices=CAREER_CHOICES,
         label="Kelajak kasbingiz yoki asosiy maqsadingiz",
         required=False,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'Masalan: AI Engineer, Kardiolog, Moliya tahlilchisi...',
-            'class': 'w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-800'
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-slate-800'
         })
     )
     budget_preference = forms.ChoiceField(
@@ -222,7 +260,8 @@ class CertificateStepForm(forms.Form):
         required=False,
         widget=forms.DateInput(attrs={
             'type': 'date',
-            'class': 'w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-800'
+            'max': timezone.localdate().isoformat(),
+            'class': 'w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-slate-800'
         })
     )
     overall_score = forms.CharField(
