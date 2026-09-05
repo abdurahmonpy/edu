@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+  <rect width="640" height="480" fill="#fff"/>
+  <g transform="translate(320,240) rotate(-33.7)">
+    <path d="M-120,0 A120,120 0 0,1 120,0 A60,60 0 0,1 0,0 A60,60 0 0,0 -120,0" fill="#cd2e3a"/>
+    <path d="M120,0 A120,120 0 0,1 -120,0 A60,60 0 0,1 0,0 A60,60 0 0,0 120,0" fill="#0047a0"/>
+  </g>
+  <!-- Trigrams -->
+  <g fill="#000">
+    <rect x="130" y="110" width="12" height="60" rx="3" transform="rotate(-33 136 140)"/>
+    <rect x="150" y="110" width="12" height="60" rx="3" transform="rotate(-33 156 140)"/>
+    <rect x="170" y="110" width="12" height="60" rx="3" transform="rotate(-33 176 140)"/>
+    
+    <rect x="460" y="310" width="12" height="60" rx="3" transform="rotate(-33 466 340)"/>
+    <rect x="480" y="310" width="12" height="60" rx="3" transform="rotate(-33 486 340)"/>
+    <rect x="500" y="310" width="12" height="60" rx="3" transform="rotate(-33 506 340)"/>
+  </g>
+</svg>

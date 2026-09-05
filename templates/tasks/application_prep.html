@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Universitet Arizasi va Hujjatlar (Track B) | UniMentor{% endblock %}
 
@@ -35,8 +35,9 @@
         <i data-lucide="compass" class="w-4 h-4 text-emerald-600"></i>
         <h2 class="text-sm font-bold text-slate-900">Kuzatilayotgan Dasturlar va Arizalar Holati</h2>
       </div>
-      <a href="{% url 'programs:catalog' %}" class="text-xs font-bold text-emerald-600 hover:text-emerald-800">
-        Dasturlar katalogi ➔
+      <a href="{% url 'programs:catalog' %}" class="text-xs font-bold text-emerald-600 hover:text-emerald-800 inline-flex items-center space-x-1">
+        <span>Dasturlar katalogi</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
       </a>
     </div>
 

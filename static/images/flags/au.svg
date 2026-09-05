@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+  <rect width="640" height="480" fill="#00008b"/>
+  <g transform="scale(0.5)">
+    <path fill="#012169" d="M0 0h640v480H0z"/>
+    <path stroke="#fff" stroke-width="60" d="m0 0 640 480m0-480L0 480"/>
+    <path stroke="#c8102e" stroke-width="40" d="m0 0 640 480m0-480L0 480"/>
+    <path stroke="#fff" stroke-width="100" d="M320 0v480M0 240h640"/>
+    <path stroke="#c8102e" stroke-width="60" d="M320 0v480M0 240h640"/>
+  </g>
+  <!-- Commonwealth star & Southern Cross -->
+  <circle cx="160" cy="360" r="36" fill="#ffffff"/>
+  <circle cx="500" cy="140" r="14" fill="#ffffff"/>
+  <circle cx="560" cy="220" r="14" fill="#ffffff"/>
+  <circle cx="500" cy="360" r="14" fill="#ffffff"/>
+  <circle cx="440" cy="240" r="14" fill="#ffffff"/>
+  <circle cx="530" cy="280" r="8" fill="#ffffff"/>
+</svg>

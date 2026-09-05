@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+  <rect width="640" height="480" fill="#bd3d44"/>
+  <path stroke="#fff" stroke-width="37" d="M0,55H640M0,129H640M0,203H640M0,277H640M0,351H640M0,425H640"/>
+  <rect width="260" height="259" fill="#192f5d"/>
+  <g fill="#fff">
+    <g id="s5">
+      <g id="s2"><polygon points="26,18 29,26 37,26 31,31 33,39 26,34 19,39 21,31 15,26 23,26"/><polygon points="26,58 29,66 37,66 31,71 33,79 26,74 19,79 21,71 15,66 23,66"/></g>
+      <use href="#s2" y="80"/><use href="#s2" y="160"/>
+    </g>
+    <use href="#s5" x="40"/>
+    <use href="#s5" x="80"/>
+    <use href="#s5" x="120"/>
+    <use href="#s5" x="160"/>
+    <use href="#s5" x="200"/>
+  </g>
+</svg>

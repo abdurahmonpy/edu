@@ -123,8 +123,9 @@
 
             <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
               <span>{{ item.program.country }} ({{ item.program.get_type_display }})</span>
-              <a href="{% url 'programs:detail' item.program.id %}" class="text-orange-600 font-bold hover:underline">
-                Batafsil ➔
+              <a href="{% url 'programs:detail' item.program.id %}" class="text-orange-600 font-bold hover:underline inline-flex items-center space-x-1">
+                <span>Batafsil</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
               </a>
             </div>
           </div>

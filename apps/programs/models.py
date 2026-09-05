@@ -269,47 +269,55 @@ class Program(models.Model):
         return "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop"
 
     @property
-    def country_flag(self):
-        """Returns the appropriate country flag emoji."""
+    def country_code(self):
+        """Returns 2-letter country code for vector flag rendering."""
         c = (self.country or '').strip().lower()
-        flags = {
-            'buyuk britaniya': '🇬🇧',
-            'aqsh': '🇺🇸',
-            'germaniya': '🇩🇪',
-            'turkiya': '🇹🇷',
-            'janubiy koreya': '🇰🇷',
-            'koreya': '🇰🇷',
-            'yaponiya': '🇯🇵',
-            'japan': '🇯🇵',
-            "o'zbekiston": '🇺🇿',
-            'uzbekistan': '🇺🇿',
-            'kanada': '🇨🇦',
-            'avstraliya': '🇦🇺',
-            'niderlandiya': '🇳🇱',
-            'fransiya': '🇫🇷',
-            'france': '🇫🇷',
-            'xitoy': '🇨🇳',
-            'italiya': '🇮🇹',
-            'shveytsariya': '🇨🇭',
-            'shvetsiya': '🇸🇪',
-            'vengriya': '🇭🇺',
-            'singapur': '🇸🇬',
-            'baa': '🇦🇪',
-            'saudiya arabistoni': '🇸🇦',
-            'belgiya': '🇧🇪',
-            'gonkong': '🇭🇰',
-            'yangi zelandiya': '🇳🇿',
-            'finlyandiya': '🇫🇮',
-            'qatar': '🇶🇦',
-            'malayziya': '🇲🇾',
-            'polsha': '🇵🇱',
-            'avstriya': '🇦🇹',
-            'ispaniya': '🇪🇸',
+        codes = {
+            'buyuk britaniya': 'gb',
+            'aqsh': 'us',
+            'germaniya': 'de',
+            'turkiya': 'tr',
+            'janubiy koreya': 'kr',
+            'koreya': 'kr',
+            'yaponiya': 'jp',
+            'japan': 'jp',
+            "o'zbekiston": 'uz',
+            'uzbekistan': 'uz',
+            'kanada': 'ca',
+            'avstraliya': 'au',
+            'niderlandiya': 'nl',
+            'fransiya': 'fr',
+            'france': 'fr',
+            'xitoy': 'cn',
+            'italiya': 'it',
+            'shveytsariya': 'ch',
+            'shvetsiya': 'se',
+            'vengriya': 'hu',
+            'singapur': 'sg',
+            'baa': 'ae',
+            'saudiya arabistoni': 'sa',
+            'belgiya': 'be',
+            'gonkong': 'hk',
+            'yangi zelandiya': 'nz',
+            'finlyandiya': 'fi',
+            'qatar': 'qa',
+            'malayziya': 'my',
+            'polsha': 'pl',
+            'avstriya': 'at',
+            'ispaniya': 'es',
         }
-        for k, v in flags.items():
+        for k, v in codes.items():
             if k in c:
                 return v
-        return '🌍'
+        return 'world'
+
+    @property
+    def country_flag(self):
+        """Returns real vector SVG flag HTML instead of emoji."""
+        from django.utils.safestring import mark_safe
+        code = self.country_code
+        c_name = self.country or ""
+        return mark_safe(f'<img src="/static/images/flags/{code}.svg" class="w-4 h-3 inline-block rounded-[2px] object-cover shadow-sm align-middle" alt="{c_name}">')
 
     @property
     def parsed_details(self):

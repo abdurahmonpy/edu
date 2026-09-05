@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+  <rect width="160" height="480" fill="#ff0000"/>
+  <rect x="160" width="320" height="480" fill="#ffffff"/>
+  <rect x="480" width="160" height="480" fill="#ff0000"/>
+  <!-- Maple leaf -->
+  <path fill="#ff0000" d="M320,110 l16,42 40,-16 -12,42 46,14 -32,32 10,24 -44,-8 -6,64 -16,-3 -16,3 -6,-64 -44,8 10,-24 -32,-32 46,-14 -12,-42 40,16 z"/>
+</svg>

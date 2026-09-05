@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="46" fill="#1E3A8A" stroke="#F59E0B" stroke-width="3"/>
+  <circle cx="50" cy="50" r="38" fill="none" stroke="#60A5FA" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <!-- Central Big Star -->
+  <polygon points="50,22 55,34 68,34 57,43 61,56 50,48 39,56 43,43 32,34 45,34" fill="#F59E0B"/>
+  <text x="50" y="70" font-family="sans-serif" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">UGRAD</text>
+  <text x="50" y="80" font-family="sans-serif" font-size="5" font-weight="bold" fill="#93C5FD" text-anchor="middle">GLOBAL USA</text>
+</svg>

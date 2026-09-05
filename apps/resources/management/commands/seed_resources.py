@@ -38,11 +38,11 @@ Xalqaro grantlarda qabul komissiyasi minglab arizachilarning baholarini ko'radi.
 ---
 
 ### 3. Eng Ko'p Uchraydigan 5 Ta Xato:
-- ❌ Baholarni va diplomlarni shunchaki sanab o'tish (buning uchun rezyume bor).
-- ❌ Grammatik xatolarga beparvolik qilish.
-- ❌ Haddan tashqari umumlashgan gaplar yozish.
-- ❌ Boshqa birovning inshosini ko'chirish yoki AI matnini tahrirsiz qoldirish.
-- ❌ O'zbekistonga qaytish rejasini unutib qo'yish.""",
+- Baholarni va diplomlarni shunchaki sanab o'tish (buning uchun rezyume bor).
+- Grammatik xatolarga beparvolik qilish.
+- Haddan tashqari umumlashgan gaplar yozish.
+- Boshqa birovning inshosini ko'chirish yoki AI matnini tahrirsiz qoldirish.
+- O'zbekistonga qaytish rejasini unutib qo'yish.""",
             },
             {
                 "title": "Xalqaro Grant Intervyusidan Muvaffaqiyatli O'tish Sirlari",

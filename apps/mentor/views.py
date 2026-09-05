@@ -104,9 +104,9 @@ def chat_view(request):
             f"Men sizning raqamli **Maktab va Karyera Maslahatchingiz (AI School Counselor)** man. "
             f"Siz uchun tuzilgan **'Mening Strategiyam'** xaritasidan kelib chiqib, {program_display} maqsadiga yetishimiz uchun kelgusi oylar davomida siz bilan birga ishlaymiz.\n\n"
             f"Quyidagilar bo'yicha menga istalgan vaqtda murojaat qilishingiz mumkin:\n"
-            f"🎯 Universitet yoki grantlar ro'yxatini yangilash\n"
-            f"✍️ Motivatsion insho (SOP) va rezyumelarni tahlil qilish\n"
-            f"📅 Dedlaynlar va haftalik vazifalar bo'yicha maslahat\n\n"
+            f"- Universitet yoki grantlar ro'yxatini yangilash\n"
+            f"- Motivatsion insho (SOP) va rezyumelarni tahlil qilish\n"
+            f"- Dedlaynlar va haftalik vazifalar bo'yicha maslahat\n\n"
             f"Bugun qaysi masalani muhokama qilamiz?"
         )
         ai_msg = MentorMessage.objects.create(

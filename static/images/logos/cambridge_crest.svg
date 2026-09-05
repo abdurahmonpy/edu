@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="cambgrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D6083B"/>
+      <stop offset="100%" stop-color="#8A0021"/>
+    </linearGradient>
+  </defs>
+  <path d="M22,12 H78 V54 C78,76 50,90 50,90 C50,90 22,76 22,54 Z" fill="url(#cambgrad)" stroke="#ffffff" stroke-width="2.5"/>
+  <!-- Ermine Cross -->
+  <path d="M44,12 H56 V90 H44 Z M22,42 H78 V54 H22 Z" fill="#ffffff" opacity="0.95"/>
+  <!-- Center Academic Book -->
+  <rect x="42" y="42" width="16" height="12" rx="1.5" fill="#D6083B"/>
+  <text x="50" y="51" font-family="serif" font-size="6" font-weight="bold" fill="#ffffff" text-anchor="middle">C</text>
+  <!-- Golden Lions -->
+  <circle cx="34" cy="28" r="4" fill="#F59E0B"/>
+  <circle cx="66" cy="28" r="4" fill="#F59E0B"/>
+  <circle cx="34" cy="68" r="4" fill="#F59E0B"/>
+  <circle cx="66" cy="68" r="4" fill="#F59E0B"/>
+</svg>
