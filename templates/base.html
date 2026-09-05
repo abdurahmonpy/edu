@@ -22,16 +22,55 @@
         extend: {
           colors: {
             brand: {
-              50: '#fff7ed',
-              100: '#ffedd5',
+              50: '#fff5f0',
+              100: '#ffe8de',
+              200: '#ffd3bf',
+              300: '#ffb394',
+              400: '#ff8a5c',
+              500: '#ff6326', // Aniq logotipdagi elektro to'q-sariq rang
+              600: '#ff6326',
+              700: '#e54d12',
+              800: '#b83807',
+              900: '#7a240a',
+              charcoal: '#292929', // Aniq logotipdagi grafit qora
+            },
+            orange: {
+              50: '#fff5f0',
+              100: '#ffe8de',
               200: '#fed7aa',
               300: '#fdba74',
-              400: '#fb923c',
-              500: '#f97316',
-              600: '#ea580c',
-              700: '#c2410c',
-              800: '#9a3412',
+              400: '#ff8a5c',
+              500: '#ff6326', // Aniq logotipdagi elektro to'q-sariq rang
+              600: '#ff6326',
+              700: '#e54d12',
+              800: '#b83807',
               900: '#7c2d12',
+            },
+            indigo: {
+              50: '#fff5f0',
+              100: '#ffe8de',
+              200: '#ffd3bf',
+              300: '#ffb394',
+              400: '#ff8a5c',
+              500: '#ff6326',
+              600: '#ff6326',
+              700: '#e54d12',
+              800: '#292929',
+              900: '#1f1f1f',
+              950: '#18181b',
+            },
+            violet: {
+              50: '#fff5f0',
+              100: '#ffe8de',
+              200: '#ffd3bf',
+              300: '#ffb394',
+              400: '#ff8a5c',
+              500: '#ff6326',
+              600: '#ff6326',
+              700: '#e54d12',
+              800: '#292929',
+              900: '#1f1f1f',
+              950: '#18181b',
             }
           }
         }
@@ -40,6 +79,27 @@
   </script>
   
   <style>
+    :root {
+      --color-brand: #ff6326;
+      --color-brand-hover: #e54d12;
+      --color-brand-charcoal: #292929;
+    }
+    .bg-brand { background-color: #ff6326 !important; }
+    .text-brand { color: #ff6326 !important; }
+    .border-brand { border-color: #ff6326 !important; }
+
+    /* Universal logo palette alignment */
+    .text-indigo-600, .text-violet-600 { color: #ff6326 !important; }
+    .text-indigo-700, .text-violet-700 { color: #e54d12 !important; }
+    .text-indigo-800, .text-indigo-900 { color: #292929 !important; }
+    .bg-indigo-600, .bg-violet-600 { background-color: #ff6326 !important; }
+    .bg-indigo-700, .bg-violet-700 { background-color: #e54d12 !important; }
+    .bg-indigo-50, .bg-violet-50 { background-color: #fff5f0 !important; }
+    .bg-indigo-100, .bg-violet-100 { background-color: #ffe8de !important; }
+    .border-indigo-100, .border-violet-100 { border-color: #ffe8de !important; }
+    .border-indigo-200, .border-violet-200 { border-color: #ffd3bf !important; }
+    .border-indigo-500, .border-indigo-600 { border-color: #ff6326 !important; }
+    .ring-indigo-200, .ring-indigo-300 { --tw-ring-color: #ffd3bf !important; }
     /* Custom Scrollbar for better UX */
     ::-webkit-scrollbar {
       width: 6px;
@@ -63,7 +123,7 @@
       left: 0;
       width: 0%;
       height: 3px;
-      background: linear-gradient(90deg, #FF5722, #EA580C, #F97316);
+      background: linear-gradient(90deg, #FF6326, #FF8A5C, #292929);
       z-index: 99999;
       transition: width 0.2s ease, opacity 0.3s ease;
       opacity: 0;

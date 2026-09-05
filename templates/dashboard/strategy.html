@@ -7,24 +7,24 @@
 <div class="max-w-6xl mx-auto py-6 px-4 sm:px-6 space-y-8">
   
   <!-- Header -->
-  <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl p-8 text-white shadow-md relative overflow-hidden">
+  <div class="bg-gradient-to-r from-zinc-950 via-zinc-900 to-neutral-900 border border-zinc-800 rounded-3xl p-8 text-white shadow-md relative overflow-hidden">
     <div class="relative z-10">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/10 backdrop-blur rounded-full text-indigo-200 text-xs font-bold mb-3 border border-white/10">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/10 backdrop-blur rounded-full text-orange-300 text-xs font-bold mb-3 border border-white/10">
         <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-400"></i>
         <span>AI School Counselor</span>
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Shaxsiy Strategiya va Universitetlar</h1>
-      <p class="text-indigo-200 text-sm sm:text-base mt-3 max-w-2xl leading-relaxed">
+      <p class="text-zinc-300 text-sm sm:text-base mt-3 max-w-2xl leading-relaxed">
         Sizning barcha ko'rsatkichlaringiz ({{ student.english_level }}, {%- if student.grade -%}{{ student.grade }}-sinf{%- endif -%}, qiziqishlar) asosida AI tomonidan shakllantirilgan shaxsiy xarita va ehtimoliy universitetlar ro'yxati.
       </p>
     </div>
-    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"></div>
+    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-orange-500/15 rounded-full blur-3xl"></div>
   </div>
 
   <!-- College List (Reach, Match, Safety) -->
   <div>
     <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center space-x-2">
-      <i data-lucide="building" class="w-6 h-6 text-indigo-600"></i>
+      <i data-lucide="building" class="w-6 h-6 text-orange-600"></i>
       <span>Universitetlar Ro'yxati (College List)</span>
     </h2>
 
@@ -107,10 +107,10 @@
   <div class="pt-8 border-t border-slate-200">
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-2xl font-bold text-slate-900 flex items-center space-x-2">
-        <i data-lucide="map" class="w-6 h-6 text-indigo-600"></i>
+        <i data-lucide="map" class="w-6 h-6 text-orange-600"></i>
         <span>AI Yo'l Xaritasi (Roadmap)</span>
       </h2>
-      <a href="{% url 'mentor:chat' %}" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm rounded-xl transition flex items-center space-x-2">
+      <a href="{% url 'mentor:chat' %}" class="px-4 py-2 bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold text-sm rounded-xl transition flex items-center space-x-2">
         <i data-lucide="message-circle" class="w-4 h-4"></i>
         <span>Rejani o'zgartirish</span>
       </a>
@@ -118,13 +118,13 @@
 
     <!-- Dual Track Summary -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      <div class="bg-purple-50 rounded-3xl p-6 border border-purple-100 shadow-xs">
-        <h3 class="text-purple-800 font-black text-lg mb-2">{{ track_a.title }}</h3>
-        <p class="text-sm text-purple-700 mb-4">Maksimal qaratilgan ko'nikma: <strong>{{ track_a.weakest_skill }}</strong></p>
-        <ul class="space-y-2 text-sm text-purple-900">
+      <div class="bg-amber-50 rounded-3xl p-6 border border-amber-100 shadow-xs">
+        <h3 class="text-amber-900 font-black text-lg mb-2">{{ track_a.title }}</h3>
+        <p class="text-sm text-amber-800 mb-4">Maksimal qaratilgan ko'nikma: <strong>{{ track_a.weakest_skill }}</strong></p>
+        <ul class="space-y-2 text-sm text-amber-950">
           {% for milestone in track_a.milestones %}
             <li class="flex items-start space-x-2">
-              <i data-lucide="check-circle" class="w-4 h-4 text-purple-500 mt-0.5"></i>
+              <i data-lucide="check-circle" class="w-4 h-4 text-amber-600 mt-0.5"></i>
               <span>{{ milestone }}</span>
             </li>
           {% endfor %}
@@ -154,7 +154,7 @@
         {% for week in weekly_schedule %}
           <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 hover:bg-slate-50/50 transition">
             <div class="w-24 flex-shrink-0">
-              <div class="inline-flex items-center justify-center px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-xs rounded-lg">
+              <div class="inline-flex items-center justify-center px-3 py-1 bg-orange-100 text-orange-700 font-bold text-xs rounded-lg">
                 {{ week.week }}-hafta
               </div>
             </div>
