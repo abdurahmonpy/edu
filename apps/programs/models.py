@@ -212,7 +212,7 @@ class Program(models.Model):
 
         # 1. Iconic world scholarship programs
         if 'chevening' in name_lower:
-            return "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop"
+            return "https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?q=80&w=800&auto=format&fit=crop"
         if 'daad' in name_lower:
             return "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=800&auto=format&fit=crop"
         if 'ugrad' in name_lower:
@@ -266,7 +266,7 @@ class Program(models.Model):
         if 'baa' in country_lower or 'uae' in country_lower or 'dubai' in uni_name:
             return "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=800&auto=format&fit=crop"
 
-        return "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop"
+        return "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=800&auto=format&fit=crop"
 
     @property
     def country_code(self):
