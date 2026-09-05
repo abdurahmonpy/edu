@@ -193,12 +193,12 @@ ANTHROPIC_MODEL = os.getenv('ANTHROPIC_MODEL', 'claude-sonnet-4-6')
 
 # Jazzmin Admin Configuration
 JAZZMIN_SETTINGS = {
-    "site_title": "Kelajak Admin",
-    "site_header": "Kelajak",
-    "site_brand": "Kelajak AI",
+    "site_title": "UniMentor Admin",
+    "site_header": "UniMentor",
+    "site_brand": "UniMentor AI",
     "site_logo_classes": "img-circle",
-    "welcome_sign": "Kelajak Boshqaruv Paneliga Xush Kelibsiz",
-    "copyright": "Kelajak Platformasi",
+    "welcome_sign": "UniMentor Boshqaruv Paneliga Xush Kelibsiz",
+    "copyright": "UniMentor Platformasi",
     "search_model": ["accounts.User", "programs.Program", "programs.University", "documents.Document"],
     "user_avatar": None,
     "topmenu_links": [

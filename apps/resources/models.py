@@ -55,7 +55,7 @@ class Resource(models.Model):
     )
     author_name = models.CharField(
         max_length=100,
-        default="Kelajak Ekspertlar Guruhi",
+        default="UniMentor Ekspertlar Guruhi",
         verbose_name="Muallif / Ekspert"
     )
     created_at = models.DateTimeField(
