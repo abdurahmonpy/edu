@@ -137,6 +137,40 @@
       from { opacity: 0; transform: translateY(3px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Infinite Marquee Animation for Partners/Universities */
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee-infinite {
+      display: flex;
+      width: max-content;
+      animation: marqueeScroll 35s linear infinite;
+    }
+    .animate-marquee-infinite:hover {
+      animation-play-state: paused;
+    }
+
+    /* Interactive Card Hover & 3D Tilt Transitions */
+    .card-tilt-hover {
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .card-tilt-hover:hover {
+      transform: translateY(-8px) scale(1.02);
+      z-index: 20;
+    }
+
+    /* Neon Radial Glow Utility */
+    .neon-glow-blue {
+      box-shadow: 0 10px 30px -5px rgba(56, 189, 248, 0.45);
+    }
+    .neon-glow-orange {
+      box-shadow: 0 10px 30px -5px rgba(255, 99, 38, 0.45);
+    }
+    .neon-glow-purple {
+      box-shadow: 0 10px 30px -5px rgba(124, 102, 255, 0.45);
+    }
   </style>
   {% block extra_head %}{% endblock %}
 </head>
