@@ -20,7 +20,7 @@ def program_list_view(request):
     country_filter = request.GET.get('country', '').strip()
     type_filter = request.GET.get('type', '').strip()
 
-    programs = Program.objects.all().order_by('name')
+    programs = Program.objects.select_related('university').all().order_by('name')
 
     if country_filter:
         programs = programs.filter(country__icontains=country_filter)

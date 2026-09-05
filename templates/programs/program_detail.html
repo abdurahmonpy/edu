@@ -3,24 +3,49 @@
 {% block title %}{{ program.name }} | UniMentor{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto space-y-6">
+<div class="max-w-5xl mx-auto space-y-6">
 
-  <!-- Breadcrumb and Program Header -->
-  <div class="space-y-2">
-    <a href="{% url 'programs:catalog' %}" class="inline-flex items-center space-x-1 text-xs font-bold text-orange-600 hover:text-orange-800">
+  <!-- Breadcrumb and Return Link -->
+  <div class="flex items-center justify-between">
+    <a href="{% url 'programs:catalog' %}" class="inline-flex items-center space-x-1.5 text-xs font-bold text-orange-600 hover:text-orange-800 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-xs transition">
       <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-      <span>Barcha dasturlarga qaytish</span>
+      <span>Barcha grant va universitetlarga qaytish</span>
     </a>
-    <div class="flex items-center justify-between flex-wrap gap-2">
-      <div class="flex items-center space-x-2">
-        <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full {% if program.type == 'grant' %}bg-orange-100 text-orange-800{% elif program.type == 'exchange' %}bg-blue-100 text-blue-800{% else %}bg-amber-100 text-amber-800{% endif %}">
-          {{ program.get_type_display }}
+  </div>
+
+  <!-- Grand Hero Visual Banner with University Photo -->
+  <div class="relative h-64 sm:h-80 md:h-96 w-full rounded-3xl overflow-hidden shadow-lg bg-slate-950 flex flex-col justify-between p-6 sm:p-8">
+    <img
+      src="{{ program.cover_image }}"
+      alt="{{ program.name }}"
+      class="absolute inset-0 w-full h-full object-cover"
+    >
+    <!-- Rich gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-black/30"></div>
+
+    <!-- Top floating badges -->
+    <div class="relative z-10 flex items-center justify-between flex-wrap gap-2">
+      <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+        <span class="text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-xl backdrop-blur-md shadow-xs flex items-center space-x-1.5
+          {% if program.type == 'grant' %}bg-emerald-600 text-white
+          {% elif program.type == 'exchange' %}bg-blue-600 text-white
+          {% elif program.type == 'partial_grant' %}bg-amber-600 text-white
+          {% else %}bg-zinc-800 text-white{% endif %}">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>{{ program.get_type_display }}</span>
         </span>
-        <span class="text-xs text-slate-400">•</span>
-        <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full inline-flex items-center space-x-1">
-          <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i>
+
+        <span class="text-xs font-bold text-white bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/15 flex items-center space-x-1.5">
+          <span class="text-sm leading-none">{{ program.country_flag }}</span>
           <span>{{ program.country }}</span>
         </span>
+
+        {% if program.university and program.university.world_ranking %}
+          <span class="text-xs font-black text-amber-300 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-400/30 flex items-center space-x-1.5">
+            <i data-lucide="trophy" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>#{{ program.university.world_ranking }} QS Jahon Reytingi</span>
+          </span>
+        {% endif %}
       </div>
 
       <!-- Kuzatish (Track / Bookmark) Toggle Button -->
@@ -28,17 +53,98 @@
         type="button"
         onclick="toggleTrackProgramDetail({{ program.id }}, this)"
         id="detail-track-btn"
-        class="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition duration-150 {% if is_tracked %}bg-orange-100 text-orange-800 border border-orange-200{% else %}bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200{% endif %}"
+        class="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl backdrop-blur-md text-xs font-bold transition duration-150 shadow-sm
+          {% if is_tracked %}bg-orange-500 text-white border border-orange-400 shadow-orange-500/30{% else %}bg-black/60 hover:bg-black/80 text-white border border-white/20{% endif %}"
         title="Kuzatuvga qo'shish yoki olib tashlash"
       >
-        <i data-lucide="bookmark" class="w-4 h-4 {% if is_tracked %}fill-orange-600 text-orange-600{% else %}text-slate-500{% endif %}"></i>
+        <i data-lucide="bookmark" class="w-4 h-4 {% if is_tracked %}fill-white text-white{% else %}text-white{% endif %}"></i>
         <span id="detail-track-btn-label">{% if is_tracked %}Kuzatilmoqda{% else %}Kuzatish{% endif %}</span>
       </button>
     </div>
 
-    <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">
-      {{ program.name }}
-    </h1>
+    <!-- Bottom hero titles -->
+    <div class="relative z-10 space-y-2">
+      {% if program.university %}
+        <div class="flex items-center space-x-2 text-orange-300 font-bold text-xs sm:text-sm drop-shadow-sm">
+          <i data-lucide="building-2" class="w-4 h-4"></i>
+          <span>{{ program.university.name }}{% if program.university.city %} • {{ program.university.city }}{% endif %}</span>
+        </div>
+      {% else %}
+        <div class="flex items-center space-x-2 text-orange-300 font-bold text-xs sm:text-sm drop-shadow-sm">
+          <i data-lucide="award" class="w-4 h-4"></i>
+          <span>Xalqaro Hukumat va Jamg'arma Grant Dasturi</span>
+        </div>
+      {% endif %}
+
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight drop-shadow-md">
+        {{ program.name }}
+      </h1>
+    </div>
+  </div>
+
+  <!-- Key Highlight Stats Grid (4 Cards) -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+    
+    <!-- 1. Grant Qamrovi -->
+    <div class="p-4 rounded-3xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between space-y-2">
+      <div class="flex items-center space-x-2 text-emerald-800 font-bold text-xs uppercase tracking-wider">
+        <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+          <i data-lucide="gift" class="w-4 h-4"></i>
+        </div>
+        <span>Qamrovi</span>
+      </div>
+      <div>
+        <p class="text-sm font-black text-slate-900 leading-tight">
+          {{ program.parsed_details.coverage }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. Til Talabi -->
+    <div class="p-4 rounded-3xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between space-y-2">
+      <div class="flex items-center space-x-2 text-blue-800 font-bold text-xs uppercase tracking-wider">
+        <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center">
+          <i data-lucide="languages" class="w-4 h-4"></i>
+        </div>
+        <span>Til talabi</span>
+      </div>
+      <div>
+        <p class="text-sm font-black text-slate-900 leading-tight">
+          {{ program.parsed_details.language }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 3. Bosqich -->
+    <div class="p-4 rounded-3xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between space-y-2">
+      <div class="flex items-center space-x-2 text-orange-800 font-bold text-xs uppercase tracking-wider">
+        <div class="w-7 h-7 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center">
+          <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+        </div>
+        <span>Daraja</span>
+      </div>
+      <div>
+        <p class="text-sm font-black text-slate-900 leading-tight">
+          {{ program.parsed_details.degree }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 4. Deadline -->
+    <div class="p-4 rounded-3xl bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between space-y-2">
+      <div class="flex items-center space-x-2 text-amber-800 font-bold text-xs uppercase tracking-wider">
+        <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+          <i data-lucide="calendar-clock" class="w-4 h-4"></i>
+        </div>
+        <span>Muddati</span>
+      </div>
+      <div>
+        <p class="text-sm font-black text-slate-900 leading-tight">
+          {{ program.deadline|default:"Har yili ochiq" }}
+        </p>
+      </div>
+    </div>
+
   </div>
 
   <!-- Application Status Stepper & Tracker Card (for Authenticated Students) -->
@@ -50,8 +156,8 @@
             <i data-lucide="compass" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="text-sm font-black text-slate-900">Ariza Topshirish Holati</h3>
-            <p class="text-[11px] text-slate-500">Ushbu dastur bo'yicha shaxsiy jarayoningizni belgilang</p>
+            <h3 class="text-sm font-black text-slate-900">Ariza Topshirish Jarayoni (Shaxsiy tracker)</h3>
+            <p class="text-[11px] text-slate-500">Ushbu dastur bo'yicha o'z tayyorgarlik holatingizni belgilang</p>
           </div>
         </div>
 
@@ -97,9 +203,9 @@
 
         <div>
           <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
-            Shaxsiy izohlar (Login ID, Portal havolasi, talablar)
+            Shaxsiy izohlar (Login ID, Portal havolasi, tayyorgarlik eslatmalari)
           </label>
-          <input type="text" name="notes" value="{{ student_program.notes|default:'' }}" placeholder="Masalan: Portal login ID: 98124, Natija aprel oyida chiqadi" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-orange-500">
+          <input type="text" name="notes" value="{{ student_program.notes|default:'' }}" placeholder="Masalan: Portal login ID: 98124, insho 2-qoralamasi tayyor" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-orange-500">
         </div>
 
         <div class="flex justify-end pt-1">
@@ -111,88 +217,202 @@
       </form>
     </div>
   {% endif %}
+
+  <!-- Main Content Layout (2 Columns: Left details, Right sidebar) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
     
-    <!-- Deadline and Key Attributes -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-slate-100">
-      <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start space-x-3">
-        <div class="p-2 bg-orange-50 text-orange-600 rounded-xl mt-0.5">
-          <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+    <!-- Left Column (8 cols): Description, Requirements, Documents Checklist -->
+    <div class="lg:col-span-8 space-y-6">
+      
+      <!-- Program Description -->
+      {% if program.description %}
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs space-y-3">
+          <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+            <i data-lucide="info" class="w-4 h-4 text-orange-600"></i>
+            <span>Dastur Haqida Umumiy Ma'lumot</span>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+            {{ program.description }}
+          </p>
         </div>
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Topshirish muddati</span>
-          <div class="text-base font-bold text-slate-900 mt-0.5">
-            {{ program.deadline|default:"Belgilanmagan" }}
-          </div>
-        </div>
-      </div>
-
-      <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start space-x-3">
-        <div class="p-2 bg-orange-50 text-orange-600 rounded-xl mt-0.5">
-          <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Dastur turi</span>
-          <div class="text-base font-bold text-slate-900 mt-0.5">
-            {{ program.get_type_display }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Requirements Breakdown -->
-    <div class="space-y-3">
-      <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-        <i data-lucide="clipboard-check" class="w-5 h-5 text-orange-600"></i>
-        <span>Dastur Talablari</span>
-      </h2>
-      {% if program.requirements %}
-        <div class="divide-y divide-slate-100 border border-slate-100 rounded-2xl overflow-hidden">
-          {% for req_key, req_val in program.requirements.items %}
-            <div class="p-4 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between text-sm gap-1">
-              <span class="font-bold text-slate-700 capitalize">{{ req_key }}</span>
-              <span class="text-slate-600 sm:text-right">{{ req_val }}</span>
-            </div>
-          {% endfor %}
-        </div>
-      {% else %}
-        <p class="text-sm text-slate-500">Talablar rasmiy veb-saytda ko'rsatilgan.</p>
       {% endif %}
+
+      <!-- Academic & Eligibility Criteria -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs space-y-4">
+        <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2 pb-3 border-b border-slate-100">
+          <i data-lucide="award" class="w-4 h-4 text-orange-600"></i>
+          <span>Nomzodga Qo'yiladigan Asosiy Talablar</span>
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Til talabi -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Til bilish darajasi</span>
+            <p class="text-xs font-bold text-slate-900">{{ program.parsed_details.language }}</p>
+          </div>
+
+          <!-- Ta'lim bosqichi -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Ta'lim bosqichi</span>
+            <p class="text-xs font-bold text-slate-900">{{ program.parsed_details.degree }}</p>
+          </div>
+
+          <!-- GPA / Akademik baholar -->
+          {% if program.parsed_details.gpa %}
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Akademik o'zlashtirish (GPA)</span>
+              <p class="text-xs font-bold text-slate-900">{{ program.parsed_details.gpa }}</p>
+            </div>
+          {% endif %}
+
+          <!-- SAT balli agar mavjud bo'lsa -->
+          {% if program.parsed_details.sat %}
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Standardlashtirilgan test (SAT)</span>
+              <p class="text-xs font-bold text-slate-900">{{ program.parsed_details.sat }}</p>
+            </div>
+          {% endif %}
+
+          <!-- Ish tajribasi -->
+          {% if program.parsed_details.experience %}
+            <div class="sm:col-span-2 p-4 rounded-2xl bg-purple-50/70 border border-purple-100 space-y-1">
+              <span class="text-[11px] font-bold text-purple-600 uppercase tracking-wider block">Ish va jamoat tajribasi talabi</span>
+              <p class="text-xs font-bold text-purple-950">{{ program.parsed_details.experience }}</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Required Documents Checklist -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+            <i data-lucide="clipboard-check" class="w-4 h-4 text-orange-600"></i>
+            <span>Kerakli Hujjatlar Nazorat Ro'yxati</span>
+          </h2>
+          <span class="text-xs font-bold text-slate-400">{{ program.parsed_details.documents|length }} ta talab</span>
+        </div>
+
+        {% if program.parsed_details.documents %}
+          <div class="space-y-2.5">
+            {% for doc in program.parsed_details.documents %}
+              <div class="p-3.5 rounded-2xl bg-slate-50 hover:bg-orange-50/40 border border-slate-100 hover:border-orange-200 transition flex items-center space-x-3">
+                <div class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                </div>
+                <span class="text-xs font-bold text-slate-800">{{ doc }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-xs text-slate-500">Hujjatlar ro'yxati rasmiy qabul portalida ko'rsatilgan.</p>
+        {% endif %}
+      </div>
+
+      <!-- University Overview if connected -->
+      {% if program.university %}
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs space-y-4">
+          <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2 pb-3 border-b border-slate-100">
+            <i data-lucide="building" class="w-4 h-4 text-orange-600"></i>
+            <span>{{ program.university.name }} — Universitet Profili</span>
+          </h2>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-center">
+              <span class="text-[10px] uppercase font-bold text-slate-400 block">Jahon Reytingi</span>
+              <span class="text-sm font-black text-slate-900">{% if program.university.world_ranking %}#{{ program.university.world_ranking }}{% else %}Top 500{% endif %}</span>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-center">
+              <span class="text-[10px] uppercase font-bold text-slate-400 block">Shahar / Joylashuv</span>
+              <span class="text-sm font-black text-slate-900">{{ program.university.city|default:program.country }}</span>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-center col-span-2 sm:col-span-1">
+              <span class="text-[10px] uppercase font-bold text-slate-400 block">Qabul darajasi</span>
+              <span class="text-sm font-black text-slate-900">{% if program.university.acceptance_rate %}{{ program.university.acceptance_rate }}%{% else %}Raqobatli{% endif %}</span>
+            </div>
+          </div>
+
+          {% if program.university.description %}
+            <p class="text-xs text-slate-600 leading-relaxed pt-2">
+              {{ program.university.description }}
+            </p>
+          {% endif %}
+        </div>
+      {% endif %}
+
     </div>
 
-    <!-- Admin Verification Meta (R5 Requirement) -->
-    <div class="p-5 bg-orange-50/40 border border-orange-200 rounded-2xl space-y-2 text-xs text-slate-700">
-      <div class="font-bold text-orange-950 text-sm flex items-center space-x-1.5">
-        <i data-lucide="shield-check" class="w-4 h-4 text-orange-600"></i>
-        <span>Rasmiy Ma'lumot Tekshiruvi</span>
-      </div>
-      <p class="text-slate-600">
-        Ushbu dastur ma'lumotlari adminlarimiz tomonidan rasmiy veb-sayti orqali tekshirilgan.
-      </p>
-      <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-orange-200/60 text-xs">
-        <span>Oxirgi tekshirilgan sana: <strong>{{ program.last_verified_date|date:"d-F, Y" }}</strong></span>
-        <span>Moderator: <strong>{{ program.verified_by }}</strong></span>
-      </div>
-    </div>
+    <!-- Right Sidebar Column (4 cols): AI Mentor, Official Link, Verification Meta -->
+    <div class="lg:col-span-4 space-y-6">
+      
+      <!-- Primary Action Card -->
+      <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-xs space-y-4">
+        <h3 class="text-sm font-black text-slate-900">Ariza Topshirish</h3>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          Universitet yoki grant dasturining rasmiy sahifasiga o'ting va arizangizni topshiring.
+        </p>
 
-    <!-- Action Buttons -->
-    <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <a
-        href="{{ program.source_url }}"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="px-6 py-3.5 bg-orange-600 hover:bg-orange-700 text-white text-sm font-bold rounded-2xl shadow-md shadow-orange-200 transition text-center inline-flex items-center justify-center space-x-2"
-      >
-        <span>Rasmiy Saytga O'tish</span>
-        <i data-lucide="external-link" class="w-4 h-4"></i>
-      </a>
+        <a
+          href="{{ program.source_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full py-3.5 px-4 bg-orange-600 hover:bg-orange-700 active:scale-[0.99] text-white text-xs font-bold rounded-2xl shadow-md shadow-orange-500/20 transition flex items-center justify-center space-x-2 text-center"
+        >
+          <span>Rasmiy Saytga O'tish</span>
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+        </a>
+      </div>
 
-      <a
-        href="{% url 'mentor:chat' %}"
-        class="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold rounded-2xl transition text-center inline-flex items-center justify-center space-x-1.5"
-      >
-        <i data-lucide="message-circle" class="w-4 h-4 text-orange-600"></i>
-        <span>AI Mentordan so'rash</span>
-      </a>
+      <!-- AI Mentor Consultation Card -->
+      <div class="bg-gradient-to-br from-zinc-950 via-zinc-900 to-neutral-900 rounded-3xl p-6 text-white border border-zinc-800 shadow-md space-y-4 relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/15 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-xl bg-orange-600 text-white flex items-center justify-center">
+            <i data-lucide="bot" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-black text-white">AI Mentor Yordamchisi</h4>
+            <p class="text-[10px] text-zinc-400">Shaxsiy qabul bo'yicha maslahat</p>
+          </div>
+        </div>
+
+        <p class="text-xs text-zinc-300 leading-relaxed">
+          Ushbu dastur talablari, insho (motivation letter) yozish uslubi yoki tayyorgarlik rejasi bo'yicha AI Mentordan tavsiya oling.
+        </p>
+
+        <a
+          href="{% url 'mentor:chat' %}"
+          class="w-full py-3 px-4 bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-bold rounded-xl transition flex items-center justify-center space-x-1.5 text-center"
+        >
+          <i data-lucide="message-circle" class="w-3.5 h-3.5 text-orange-400"></i>
+          <span>Mentor bilan muhokama qilish</span>
+        </a>
+      </div>
+
+      <!-- Verification Meta Card (R5 Requirement) -->
+      <div class="bg-white rounded-3xl p-5 border border-slate-200/90 shadow-xs space-y-3 text-xs text-slate-600">
+        <div class="flex items-center space-x-2 text-emerald-700 font-bold">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+          <span>Rasmiy Ma'lumot Tekshiruvi</span>
+        </div>
+        <p class="text-[11px] text-slate-500 leading-relaxed">
+          Ushbu dastur ma'lumotlari adminlarimiz tomonidan rasmiy veb-sayt orqali to'liq tekshirilgan.
+        </p>
+        <div class="pt-2 border-t border-slate-100 space-y-1 text-[11px]">
+          <div class="flex justify-between">
+            <span class="text-slate-400">Oxirgi tekshirilgan:</span>
+            <strong class="text-slate-800">{{ program.last_verified_date|date:"d-F, Y" }}</strong>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Moderator:</span>
+            <strong class="text-slate-800">{{ program.verified_by }}</strong>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>

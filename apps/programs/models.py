@@ -48,6 +48,12 @@ class University(models.Model):
         default='',
         verbose_name="Universitet haqida"
     )
+    image_url = models.URLField(
+        max_length=500,
+        blank=True,
+        default='',
+        verbose_name="Universitet rasmi (Campus Photo)"
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Qo'shilgan vaqt"
@@ -167,6 +173,12 @@ class Program(models.Model):
         null=False,
         verbose_name="Oxirgi tekshirilgan sana"
     )
+    image_url = models.URLField(
+        max_length=500,
+        blank=True,
+        default='',
+        verbose_name="Dastur muqova rasmi (Cover Photo)"
+    )
     verified_by = models.CharField(
         max_length=150,
         default='admin',
@@ -180,6 +192,206 @@ class Program(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.country}) — {self.get_type_display()}"
+
+    @property
+    def cover_image(self):
+        """Returns the cover image URL with fallback to high-quality curated campus photography."""
+        return self.get_cover_image()
+
+    def get_cover_image(self):
+        if self.image_url and self.image_url.strip():
+            return self.image_url.strip()
+        if self.university and hasattr(self.university, 'image_url') and self.university.image_url and self.university.image_url.strip():
+            return self.university.image_url.strip()
+        return self._resolve_fallback_image()
+
+    def _resolve_fallback_image(self):
+        name_lower = (self.name or '').lower()
+        uni_name = (self.university.name.lower() if self.university else '')
+        country_lower = (self.country or '').lower()
+
+        # 1. Iconic world scholarship programs
+        if 'chevening' in name_lower:
+            return "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop"
+        if 'daad' in name_lower:
+            return "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=800&auto=format&fit=crop"
+        if 'ugrad' in name_lower:
+            return "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=800&auto=format&fit=crop"
+        if 'turkiya' in name_lower or 'turkiye' in name_lower or 'burslari' in name_lower:
+            return "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=800&auto=format&fit=crop"
+        if 'gks' in name_lower or 'koreya' in country_lower or 'korea' in country_lower or 'seoul' in uni_name:
+            return "https://images.unsplash.com/photo-1538485399081-7191377e8241?q=80&w=800&auto=format&fit=crop"
+        if 'mext' in name_lower or 'yaponiya' in country_lower or 'japan' in country_lower or 'tokyo' in uni_name:
+            return "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=800&auto=format&fit=crop"
+        if 'stipendium' in name_lower or 'vengriya' in country_lower or 'hungary' in country_lower:
+            return "https://images.unsplash.com/photo-1549877452-9c387954fbc2?q=80&w=800&auto=format&fit=crop"
+
+        # 2. Specific elite universities
+        if 'oxford' in uni_name or 'cambridge' in uni_name or 'imperial' in uni_name:
+            return "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800&auto=format&fit=crop"
+        if any(w in uni_name for w in ['harvard', 'mit', 'columbia', 'stanford', 'princeton', 'yale']):
+            return "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?q=80&w=800&auto=format&fit=crop"
+        if any(w in uni_name for w in ['toronto', 'mcgill', 'ubc', 'waterloo']):
+            return "https://images.unsplash.com/photo-1564981797816-1043664bf78d?q=80&w=800&auto=format&fit=crop"
+        if any(w in uni_name for w in ['melbourne', 'sydney', 'anu', 'queensland']):
+            return "https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?q=80&w=800&auto=format&fit=crop"
+        if any(w in uni_name for w in ['amsterdam', 'delft', 'erasmus', 'leiden']):
+            return "https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?q=80&w=800&auto=format&fit=crop"
+
+        # 3. Country-specific verified campus photography
+        if "o'zbekiston" in country_lower or "uzbekistan" in country_lower:
+            return "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop"
+        if 'buyuk britaniya' in country_lower or 'uk' in country_lower:
+            return "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=800&auto=format&fit=crop"
+        if 'germaniya' in country_lower or 'germany' in country_lower:
+            return "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=800&auto=format&fit=crop"
+        if 'aqsh' in country_lower or 'usa' in country_lower:
+            return "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=800&auto=format&fit=crop"
+        if 'turkiya' in country_lower or 'turkey' in country_lower:
+            return "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=800&auto=format&fit=crop"
+        if 'kanada' in country_lower or 'canada' in country_lower:
+            return "https://images.unsplash.com/photo-1564981797816-1043664bf78d?q=80&w=800&auto=format&fit=crop"
+        if 'avstraliya' in country_lower or 'australia' in country_lower:
+            return "https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?q=80&w=800&auto=format&fit=crop"
+        if 'shveytsariya' in country_lower or 'switzerland' in country_lower:
+            return "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?q=80&w=800&auto=format&fit=crop"
+        if 'fransiya' in country_lower or 'france' in country_lower:
+            return "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800&auto=format&fit=crop"
+        if 'xitoy' in country_lower or 'china' in country_lower:
+            return "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=800&auto=format&fit=crop"
+        if 'italiya' in country_lower or 'italy' in country_lower:
+            return "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=800&auto=format&fit=crop"
+        if 'singapur' in country_lower or 'singapore' in country_lower:
+            return "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=800&auto=format&fit=crop"
+        if 'baa' in country_lower or 'uae' in country_lower or 'dubai' in uni_name:
+            return "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=800&auto=format&fit=crop"
+
+        return "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop"
+
+    @property
+    def country_flag(self):
+        """Returns the appropriate country flag emoji."""
+        c = (self.country or '').strip().lower()
+        flags = {
+            'buyuk britaniya': '🇬🇧',
+            'aqsh': '🇺🇸',
+            'germaniya': '🇩🇪',
+            'turkiya': '🇹🇷',
+            'janubiy koreya': '🇰🇷',
+            'koreya': '🇰🇷',
+            'yaponiya': '🇯🇵',
+            'japan': '🇯🇵',
+            "o'zbekiston": '🇺🇿',
+            'uzbekistan': '🇺🇿',
+            'kanada': '🇨🇦',
+            'avstraliya': '🇦🇺',
+            'niderlandiya': '🇳🇱',
+            'fransiya': '🇫🇷',
+            'france': '🇫🇷',
+            'xitoy': '🇨🇳',
+            'italiya': '🇮🇹',
+            'shveytsariya': '🇨🇭',
+            'shvetsiya': '🇸🇪',
+            'vengriya': '🇭🇺',
+            'singapur': '🇸🇬',
+            'baa': '🇦🇪',
+            'saudiya arabistoni': '🇸🇦',
+            'belgiya': '🇧🇪',
+            'gonkong': '🇭🇰',
+            'yangi zelandiya': '🇳🇿',
+            'finlyandiya': '🇫🇮',
+            'qatar': '🇶🇦',
+            'malayziya': '🇲🇾',
+            'polsha': '🇵🇱',
+            'avstriya': '🇦🇹',
+            'ispaniya': '🇪🇸',
+        }
+        for k, v in flags.items():
+            if k in c:
+                return v
+        return '🌍'
+
+    @property
+    def parsed_details(self):
+        """
+        Parses requirements and database fields into a structured, elegant dictionary
+        ready for template rendering without raw JSON syntax.
+        """
+        reqs = self.requirements or {}
+
+        # 1. Degree level
+        degree = reqs.get('sinf_daraja', '')
+        if not degree:
+            if 'magistr' in self.name.lower():
+                degree = "Magistratura bosqichi"
+            elif any(w in self.name.lower() for w in ['bakalavr', 'bachelor', 'bsc', 'b.tech', 'undergraduate']):
+                degree = "Bakalavriat bosqichi"
+            elif self.type == 'exchange':
+                degree = "Talabalar almashinuvi"
+            else:
+                degree = "Bakalavriat va Magistratura"
+
+        # 2. Language Requirement
+        lang = reqs.get('til_talabi', '')
+        if not lang:
+            if self.min_ielts:
+                lang = f"IELTS {self.min_ielts}+"
+            elif reqs.get('IELTS'):
+                lang = f"IELTS {reqs.get('IELTS')}+"
+            elif reqs.get('TOPIK'):
+                lang = f"TOPIK {reqs.get('TOPIK')}"
+            else:
+                lang = "IELTS 6.0+ yoki ekvivalent"
+
+        # 3. Grant Coverage
+        cov = reqs.get('qamrovi', '')
+        if not cov:
+            if self.type == 'grant' or self.grant_coverage == 'toliq_grant':
+                cov = "To'liq 100% grant: Kontrakt to'lovi, turar joy va oylik stipendiya"
+            elif self.type == 'partial_grant' or self.grant_coverage == 'qisman_grant':
+                cov = "Qisman grant: 50% dan 100% gacha kontrakt to'lovi chegirmasi"
+            elif self.type == 'exchange':
+                cov = "To'liq qoplanadi: Aviachipta, o'qish to'lovi va turar joy"
+            else:
+                cov = "To'lovli dastur / Universitet ichki grantlari mavjud"
+
+        # 4. Clean documents list
+        raw_docs = reqs.get('hujjatlar', [])
+        clean_docs = []
+        if isinstance(raw_docs, str):
+            import ast
+            try:
+                raw_docs = ast.literal_eval(raw_docs)
+            except Exception:
+                raw_docs = [raw_docs]
+        if isinstance(raw_docs, list):
+            for d in raw_docs:
+                clean_d = str(d).strip().strip("[]'\"")
+                if clean_d:
+                    clean_docs.append(clean_d)
+
+        # 5. Experience
+        experience = reqs.get('ish_tajribasi', '')
+
+        # 6. GPA
+        gpa = reqs.get('akademik_baho', '')
+        if not gpa and self.min_gpa:
+            gpa = f"GPA {self.min_gpa}+"
+
+        # 7. SAT
+        sat = ''
+        if self.min_sat:
+            sat = f"SAT {self.min_sat}+"
+
+        return {
+            'degree': degree,
+            'language': lang,
+            'coverage': cov,
+            'documents': clean_docs,
+            'experience': experience,
+            'gpa': gpa,
+            'sat': sat,
+        }
 
     def clean(self):
         super().clean()
