@@ -593,6 +593,19 @@ def stats_view(request):
             'is_today': (day_date == today),
         })
 
+    # 4. Weekly scores for the 7-day mini chart
+    day_labels_uz = ['Du', 'Se', 'Chor', 'Pay', 'Ju', 'Sha', 'Yak']
+    weekly_scores = []
+    for i in range(7):
+        day_date = today - timedelta(days=6 - i)
+        log = student.progress_logs.filter(date=day_date).order_by('-created_at').first()
+        score = log.overall_ready_score if log else ready_score
+        weekly_scores.append({
+            'label': day_labels_uz[day_date.weekday()],
+            'score': score,
+            'inverted': 100 - score,  # SVG y-axis: 0 is top, so invert
+        })
+
     return render(request, 'dashboard/stats.html', {
         'student': student,
         'skills_data': skills_data,
@@ -601,6 +614,7 @@ def stats_view(request):
         'logs': logs,
         'heatmap_days': heatmap_days,
         'total_completed_tasks': total_completed_tasks,
+        'weekly_scores': weekly_scores,
     })
 
 @login_required

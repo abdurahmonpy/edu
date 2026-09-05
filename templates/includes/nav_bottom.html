@@ -15,25 +15,27 @@
       <span class="text-[9px] leading-tight">Imtihon</span>
     </a>
 
-    <!-- 3. Universitet Arizasi -->
-    <a href="{% url 'tasks:application_prep' %}" 
-       class="flex flex-col items-center justify-center py-1 text-center transition {% if '/tasks/application-prep/' in request.path %}text-orange-600 font-bold{% else %}text-slate-500 hover:text-slate-800{% endif %}">
-      <i data-lucide="clipboard-check" class="w-4 h-4 mb-1"></i>
-      <span class="text-[9px] leading-tight">Arizalar</span>
-    </a>
-
-    <!-- 4. AI Mentor -->
+    <!-- 3. AI Mentor (markazda, kattaroq) -->
     <a href="{% url 'mentor:chat' %}" 
        class="flex flex-col items-center justify-center py-1 text-center transition {% if '/mentor/' in request.path %}text-orange-600 font-bold{% else %}text-slate-500 hover:text-slate-800{% endif %}">
-      <i data-lucide="message-circle" class="w-4 h-4 mb-1"></i>
-      <span class="text-[9px] leading-tight">AI Mentor</span>
+      <div class="w-10 h-10 rounded-2xl {% if '/mentor/' in request.path %}bg-orange-600{% else %}bg-zinc-900{% endif %} flex items-center justify-center -mt-4 shadow-md border-2 border-white">
+        <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
+      </div>
+      <span class="text-[9px] leading-tight mt-1">AI Mentor</span>
     </a>
 
-    <!-- 5. Dasturlar -->
+    <!-- 4. Dasturlar -->
     <a href="{% url 'programs:catalog' %}" 
        class="flex flex-col items-center justify-center py-1 text-center transition {% if '/programs/' in request.path %}text-orange-600 font-bold{% else %}text-slate-500 hover:text-slate-800{% endif %}">
       <i data-lucide="graduation-cap" class="w-4 h-4 mb-1"></i>
       <span class="text-[9px] leading-tight">Dasturlar</span>
+    </a>
+
+    <!-- 5. Profil -->
+    <a href="{% url 'accounts:profile' %}" 
+       class="flex flex-col items-center justify-center py-1 text-center transition {% if '/accounts/profile/' in request.path %}text-orange-600 font-bold{% else %}text-slate-500 hover:text-slate-800{% endif %}">
+      <i data-lucide="user" class="w-4 h-4 mb-1"></i>
+      <span class="text-[9px] leading-tight">Profil</span>
     </a>
 
   </div>

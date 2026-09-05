@@ -32,29 +32,104 @@
     </div>
   </div>
 
-  <!-- 5 Skills Breakdown Matrix -->
+  <!-- 5 Skills Ring Charts -->
   <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
     <h2 class="text-sm font-bold text-slate-900 flex items-center space-x-2">
-      <i data-lucide="target" class="w-4 h-4 text-indigo-600"></i>
+      <i data-lucide="target" class="w-4 h-4 text-orange-600"></i>
       <span>5 Asosiy Ko'nikma Balari (0–100)</span>
     </h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
       {% for skill in skills_data %}
-        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 flex flex-col justify-between">
-          <div class="space-y-1">
-            <span class="text-xs font-bold text-slate-700 block">{{ skill.label }}</span>
-            <div class="text-2xl font-black text-indigo-600">{{ skill.score }}<span class="text-xs font-normal text-slate-400">/100</span></div>
+        {% with circ=282 %}
+        <div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <!-- SVG Ring Chart -->
+          <div class="relative w-20 h-20">
+            <svg viewBox="0 0 100 100" class="w-full h-full -rotate-90">
+              <!-- Background track -->
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#e2e8f0" stroke-width="10"/>
+              <!-- Filled arc — stroke-dasharray = score% of 251.2 (2*pi*40) -->
+              <circle cx="50" cy="50" r="40" fill="none"
+                stroke="#ff6326"
+                stroke-width="10"
+                stroke-linecap="round"
+                stroke-dasharray="{{ skill.score|floatformat:1 }} 251.2"
+                style="stroke-dasharray: calc({{ skill.score }} * 2.512) 251.2"
+                class="transition-all duration-700"/>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span class="text-lg font-black text-slate-900 leading-none">{{ skill.score }}</span>
+              <span class="text-[9px] font-semibold text-slate-400">/100</span>
+            </div>
           </div>
-
-          <!-- Progress Bar -->
-          <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-            <div class="bg-indigo-600 h-2 rounded-full transition-all duration-500" style="width: {{ skill.score }}%"></div>
-          </div>
+          <span class="text-[11px] font-bold text-slate-700 text-center leading-tight">{{ skill.label }}</span>
         </div>
+        {% endwith %}
       {% endfor %}
     </div>
   </div>
+
+  <!-- 7-Day Ready Score Mini Chart -->
+  {% if weekly_scores %}
+  <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="text-sm font-bold text-slate-900 flex items-center space-x-2">
+        <i data-lucide="trending-up" class="w-4 h-4 text-orange-600"></i>
+        <span>O'tgan 7 kunda Ready Score o'zgarishi</span>
+      </h2>
+      <span class="text-xs text-slate-400">Shu haftaning dinamikasi</span>
+    </div>
+    <div class="overflow-x-auto">
+      <div class="min-w-[300px] relative h-28">
+        <svg viewBox="0 0 420 112" class="w-full h-full" preserveAspectRatio="none">
+          <!-- Grid lines -->
+          <line x1="0" y1="28" x2="420" y2="28" stroke="#f1f5f9" stroke-width="1"/>
+          <line x1="0" y1="56" x2="420" y2="56" stroke="#f1f5f9" stroke-width="1"/>
+          <line x1="0" y1="84" x2="420" y2="84" stroke="#f1f5f9" stroke-width="1"/>
+          <!-- Fill under the line -->
+          <polyline
+            points="{% for ws in weekly_scores %}{{ forloop.counter0|floatformat:0 }}{% widthratio forloop.counter0 1 60 %},{% widthratio ws.score 100 112 %} {% endfor %}"
+            fill="none" stroke="none"/>
+          <!-- Gradient fill -->
+          <defs>
+            <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ff6326" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#ff6326" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- Area polygon -->
+          <polygon
+            points="0,112 {% for ws in weekly_scores %}{% widthratio forloop.counter0 6 420 %},{% widthratio ws.inverted 100 112 %} {% endfor %}420,112"
+            fill="url(#lineGrad)"/>
+          <!-- Line -->
+          <polyline
+            points="{% for ws in weekly_scores %}{% widthratio forloop.counter0 6 420 %},{% widthratio ws.inverted 100 112 %} {% endfor %}"
+            fill="none" stroke="#ff6326" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <!-- Dots -->
+          {% for ws in weekly_scores %}
+          <circle cx="{% widthratio forloop.counter0 6 420 %}" cy="{% widthratio ws.inverted 100 112 %}" r="4" fill="#ff6326" stroke="white" stroke-width="2"/>
+          {% endfor %}
+        </svg>
+        <!-- Day labels -->
+        <div class="absolute bottom-0 left-0 right-0 flex justify-between px-1">
+          {% for ws in weekly_scores %}
+          <div class="flex flex-col items-center">
+            <span class="text-[9px] font-semibold text-slate-400 mt-1">{{ ws.label }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- Score labels row -->
+    <div class="grid grid-cols-7 gap-1 text-center">
+      {% for ws in weekly_scores %}
+      <div class="text-[10px] font-bold {% if forloop.last %}text-orange-600{% else %}text-slate-500{% endif %}">
+        {{ ws.score }}%
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
 
   <!-- GitHub-style 84-Day Activity Heatmap -->
   <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
