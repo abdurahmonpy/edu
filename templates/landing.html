@@ -69,9 +69,54 @@
 
       </div>
 
-      <!-- Right Column: GIF -->
-      <div class="lg:col-span-5 flex justify-center items-center">
-        <img src="{% static 'images/rockgif.gif' %}" alt="AI Mentor Preview" class="w-full max-w-md h-auto">
+      <!-- Right Column: Bespoke 3D Hero Showcase -->
+      <div class="lg:col-span-5 relative flex justify-center items-center">
+        <!-- Ambient Glow behind artwork -->
+        <div class="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 via-amber-400/15 to-transparent rounded-[40px] blur-2xl -z-10"></div>
+
+        <!-- Main Card Frame -->
+        <div class="relative w-full max-w-lg bg-white p-3 sm:p-4 rounded-[32px] border border-slate-200/80 shadow-2xl shadow-orange-500/10">
+          <div class="relative rounded-[24px] overflow-hidden border border-slate-100 bg-slate-50">
+            <img src="{% static 'images/unimentor_hero_showcase.jpg' %}" alt="UniMentor AI 3D Showcase" class="w-full h-auto object-cover transform hover:scale-[1.02] transition duration-500">
+            
+            <!-- Gradient Overlay bottom for contrast -->
+            <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
+            
+            <!-- Bottom pill inside visual -->
+            <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs px-3 py-2 rounded-xl bg-slate-900/70 backdrop-blur-md border border-white/10">
+              <div class="flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span class="font-bold">24/7 AI Mentor Faol</span>
+              </div>
+              <span class="font-mono text-[11px] text-orange-300 font-bold">100% Shaxsiy Reja</span>
+            </div>
+          </div>
+
+          <!-- Floating Badge Top Left: Streak -->
+          <div class="absolute -top-3 -left-3 sm:-left-4 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-orange-100 shadow-xl flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center p-1">
+              <img src="{% static 'images/icons/icon_streak_fire.svg' %}" class="w-full h-full" alt="Streak">
+            </div>
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Kunlik Intizom</p>
+              <p class="text-xs font-black text-slate-900">14 Kunlik Streak 🔥</p>
+            </div>
+          </div>
+
+          <!-- Floating Badge Bottom Right: Scholarship -->
+          <div class="absolute -bottom-3 -right-3 sm:-right-4 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-slate-200 shadow-xl flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center p-1">
+              <img src="{% static 'images/icons/icon_scholarship_shield.svg' %}" class="w-full h-full" alt="Grant">
+            </div>
+            <div>
+              <div class="flex items-center space-x-1.5">
+                <span class="text-xs font-black text-slate-900">Global UGRAD</span>
+                <span class="text-[10px] font-black text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-md">100% Grant</span>
+              </div>
+              <p class="text-[11px] font-medium text-slate-500">Tayyorlik: <strong class="text-orange-600 font-black">95% Ready</strong></p>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -312,9 +357,9 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       
       <!-- Step 1 Card -->
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-orange-300 transition duration-200">
-        <div class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center">
-          <i data-lucide="clipboard-check" class="w-7 h-7"></i>
+      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-orange-300 transition duration-200 group">
+        <div class="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 shadow-xs group-hover:scale-105 transition">
+          <img src="{% static 'images/icons/icon_ai_brain.svg' %}" class="w-full h-full" alt="AI Diagnostika">
         </div>
         <div class="space-y-1">
           <span class="text-xs font-black text-orange-600 uppercase tracking-wider">1-Qadam</span>
@@ -326,12 +371,12 @@
       </div>
 
       <!-- Step 2 Card -->
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-violet-300 transition duration-200">
-        <div class="w-14 h-14 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center">
-          <i data-lucide="layers" class="w-7 h-7"></i>
+      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-orange-300 transition duration-200 group">
+        <div class="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 shadow-xs group-hover:scale-105 transition">
+          <img src="{% static 'images/icons/icon_dual_track.svg' %}" class="w-full h-full" alt="Dual Track">
         </div>
         <div class="space-y-1">
-          <span class="text-xs font-black text-violet-600 uppercase tracking-wider">2-Qadam</span>
+          <span class="text-xs font-black text-orange-600 uppercase tracking-wider">2-Qadam</span>
           <h3 class="text-lg font-black text-slate-900">Dual-Track Shaxsiy O'quv Rejasi</h3>
         </div>
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -340,12 +385,12 @@
       </div>
 
       <!-- Step 3 Card -->
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-emerald-300 transition duration-200">
-        <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-          <i data-lucide="trophy" class="w-7 h-7"></i>
+      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-orange-300 transition duration-200 group">
+        <div class="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 shadow-xs group-hover:scale-105 transition">
+          <img src="{% static 'images/icons/icon_ielts_target.svg' %}" class="w-full h-full" alt="Kunlik Mashqlar">
         </div>
         <div class="space-y-1">
-          <span class="text-xs font-black text-emerald-600 uppercase tracking-wider">3-Qadam</span>
+          <span class="text-xs font-black text-orange-600 uppercase tracking-wider">3-Qadam</span>
           <h3 class="text-lg font-black text-slate-900">Kunlik Mashqlar va Mock Imtihonlar</h3>
         </div>
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -354,12 +399,76 @@
       </div>
 
     </div>
+
+    <!-- Dual-Track 3D Visual Showcase Banner -->
+    <div class="mt-8 bg-gradient-to-br from-slate-950 via-[#1e1c1b] to-zinc-900 rounded-[32px] p-6 sm:p-10 border border-zinc-800 text-white shadow-2xl relative overflow-hidden">
+      <!-- Background ambient glow -->
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+        <!-- Left: Details -->
+        <div class="lg:col-span-6 space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-black uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+            <span>UniMentor Innovatsiyasi</span>
+          </div>
+          
+          <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight">
+            Dual-Track Reja: Imtihon va Universitet Hujjatlari parallel ketadi
+          </h3>
+          
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            Ko'p o'quvchilar avval faqat IELTS o'qib, grant arizalariga kech qolishadi. UniMentor AI sizga ikkala yo'nalishni bir vaqtda, ortiqcha yuklamasiz rejalashtirib beradi.
+          </p>
+          
+          <div class="space-y-3 pt-2">
+            <!-- Track A Feature -->
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-start space-x-3.5">
+              <div class="w-10 h-10 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center shrink-0">
+                <span class="text-orange-400 font-black text-sm">A</span>
+              </div>
+              <div class="space-y-0.5">
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-sm font-bold text-white">Track A — Imtihonlar (IELTS / SAT / CEFR)</h4>
+                  <span class="text-[10px] bg-orange-500 text-white px-2 py-0.5 rounded-full font-bold">Har kuni</span>
+                </div>
+                <p class="text-xs text-zinc-400">Har kungi 15 daqiqalik drilllar, zaif ko'nikmalarni kuchaytirish va to'liq vaqtli Mock simulyatorlar.</p>
+              </div>
+            </div>
+
+            <!-- Track B Feature -->
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-start space-x-3.5">
+              <div class="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
+                <span class="text-zinc-200 font-black text-sm">B</span>
+              </div>
+              <div class="space-y-0.5">
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-sm font-bold text-white">Track B — Universitet Hujjatlari & Grantlar</h4>
+                  <span class="text-[10px] bg-zinc-700 text-zinc-200 px-2 py-0.5 rounded-full font-bold">Haftalik</span>
+                </div>
+                <p class="text-xs text-zinc-400">Insho yozish (Personal Statement, SOP), tavsiyanomalar olish, portfolioni boyitish va arizalarni kuzatish.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: 3D Illustration -->
+        <div class="lg:col-span-6 flex justify-center">
+          <div class="relative w-full max-w-md bg-zinc-900/90 p-3 rounded-3xl border border-zinc-700/80 shadow-2xl overflow-hidden group">
+            <img src="{% static 'images/unimentor_dual_track.jpg' %}" alt="Dual-Track Roadmap 3D" class="w-full h-auto rounded-2xl object-cover transform group-hover:scale-105 transition duration-500">
+            <div class="absolute bottom-5 left-5 right-5 p-3 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/10 text-center">
+              <p class="text-xs font-bold text-orange-300">Barcha harakatlar bitta nishonga: 100% Grant & Universitet Qabuli 🎯</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
 
   <!-- ================= KEY FEATURES GRID (MENTOR) ================= -->
   <section id="mentor" class="pt-6 border-t border-slate-200">
-    <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+    <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
       <span class="text-xs font-bold text-orange-600 uppercase tracking-wider bg-orange-50 px-3.5 py-1 rounded-full border border-orange-100">
         Shaxsiy AI Mentor & Imkoniyatlar
       </span>
@@ -371,12 +480,62 @@
       </p>
     </div>
 
+    <!-- AI Mentor 3D Workspace Showcase Banner -->
+    <div class="mb-10 bg-white rounded-[32px] p-6 sm:p-10 border border-slate-200 shadow-xl relative overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <!-- Left Column: 3D Illustration -->
+        <div class="lg:col-span-6 flex justify-center order-2 lg:order-1">
+          <div class="relative w-full max-w-md bg-orange-50/50 p-3 rounded-3xl border border-orange-100 shadow-lg overflow-hidden group">
+            <img src="{% static 'images/unimentor_ai_mentor.jpg' %}" alt="AI Essay & Application Mentor 3D" class="w-full h-auto rounded-2xl object-cover transform group-hover:scale-105 transition duration-500">
+            <!-- Floating badge on image -->
+            <div class="absolute top-6 left-6 px-3.5 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span class="text-xs font-black text-slate-900">Insho Tahlili: A+ Baho</span>
+            </div>
+            <div class="absolute bottom-6 right-6 px-3.5 py-1.5 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700 text-white text-xs font-bold flex items-center space-x-2 shadow-lg">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-orange-400"></i>
+              <span>Grammar & Logic 100%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Features -->
+        <div class="lg:col-span-6 space-y-5 order-1 lg:order-2">
+          <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-700 text-xs font-black uppercase tracking-wider">
+            <div class="w-4 h-4">
+              <img src="{% static 'images/icons/icon_essay_review.svg' %}" class="w-full h-full" alt="Insho Tahlili">
+            </div>
+            <span>24/7 Shaxsiy Konsultant</span>
+          </div>
+
+          <h3 class="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
+            Insholaringizni xalqaro qabul komissiyasi standartida tahlil qiling
+          </h3>
+
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Oddiy grammatika tekshiruvchilaridan farqli o'laroq, UniMentor AI sizning shaxsiy hikoyangiz, liderlik tajribangiz va grant talablariga mosligini to'liq ko'rib chiqadi.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div class="p-3.5 rounded-2xl bg-orange-50/50 border border-orange-100 flex items-start space-x-2.5">
+              <div class="w-6 h-6 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center shrink-0 font-black text-xs">✓</div>
+              <p class="text-xs text-slate-700 font-medium leading-relaxed"><strong>STAR Metodologiyasi:</strong> Harakat va natijalaringizni aniq ko'rsatib beradi.</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-orange-50/50 border border-orange-100 flex items-start space-x-2.5">
+              <div class="w-6 h-6 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center shrink-0 font-black text-xs">✓</div>
+              <p class="text-xs text-slate-700 font-medium leading-relaxed"><strong>Plagiat & Klichyelar:</strong> Shaxsiy ovozingizni saqlagan holda ifodani kuchaytiradi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       
       <!-- Feature 1 -->
-      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-orange-300 transition">
-        <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center">
-          <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-orange-300 transition group">
+        <div class="w-13 h-13 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 group-hover:scale-105 transition">
+          <img src="{% static 'images/icons/icon_ai_brain.svg' %}" class="w-9 h-9" alt="5 Ko'nikma">
         </div>
         <h3 class="font-black text-slate-900 text-base">5 Ko'nikma Diagnostikasi</h3>
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -385,9 +544,9 @@
       </div>
 
       <!-- Feature 2 -->
-      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-amber-300 transition">
-        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
-          <i data-lucide="stopwatch" class="w-6 h-6"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-orange-300 transition group">
+        <div class="w-13 h-13 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 group-hover:scale-105 transition">
+          <img src="{% static 'images/icons/icon_ielts_target.svg' %}" class="w-9 h-9" alt="IELTS Target">
         </div>
         <h3 class="font-black text-slate-900 text-base">IELTS Mock Exam Simulator</h3>
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -396,9 +555,9 @@
       </div>
 
       <!-- Feature 3 -->
-      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-violet-300 transition">
-        <div class="w-12 h-12 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center">
-          <i data-lucide="bot" class="w-6 h-6"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-orange-300 transition group">
+        <div class="w-13 h-13 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 group-hover:scale-105 transition">
+          <img src="{% static 'images/icons/icon_essay_review.svg' %}" class="w-9 h-9" alt="AI Insho">
         </div>
         <h3 class="font-black text-slate-900 text-base">24/7 Shaxsiy AI Mentor</h3>
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -407,9 +566,9 @@
       </div>
 
       <!-- Feature 4 -->
-      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-emerald-300 transition">
-        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-          <i data-lucide="send" class="w-6 h-6"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-orange-300 transition group">
+        <div class="w-13 h-13 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 group-hover:scale-105 transition">
+          <img src="{% static 'images/icons/icon_dual_track.svg' %}" class="w-9 h-9" alt="Dual Track">
         </div>
         <h3 class="font-black text-slate-900 text-base">Ariza Holati Tracker (8 Bosqich)</h3>
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -418,9 +577,9 @@
       </div>
 
       <!-- Feature 5 -->
-      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-rose-300 transition">
-        <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center">
-          <i data-lucide="flame" class="w-6 h-6"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-orange-300 transition group">
+        <div class="w-13 h-13 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 group-hover:scale-105 transition">
+          <img src="{% static 'images/icons/icon_streak_fire.svg' %}" class="w-9 h-9" alt="Streak Flame">
         </div>
         <h3 class="font-black text-slate-900 text-base">Ready Score & Motivatsion Odat</h3>
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -429,9 +588,9 @@
       </div>
 
       <!-- Feature 6 -->
-      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-blue-300 transition">
-        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
-          <i data-lucide="shield-check" class="w-6 h-6"></i>
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-xs space-y-3 hover:border-orange-300 transition group">
+        <div class="w-13 h-13 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 group-hover:scale-105 transition">
+          <img src="{% static 'images/icons/icon_scholarship_shield.svg' %}" class="w-9 h-9" alt="Grant Shield">
         </div>
         <h3 class="font-black text-slate-900 text-base">100% Tasdiqlangan Grantlar Bazasi</h3>
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">

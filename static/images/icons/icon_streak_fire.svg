@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" class="w-full h-full">
+  <defs>
+    <linearGradient id="um_flame_outer" x1="0%" y1="0%" x2="0%" x2="100%">
+      <stop offset="0%" stop-color="#FF8A5C" />
+      <stop offset="100%" stop-color="#FF6326" />
+    </linearGradient>
+    <linearGradient id="um_flame_inner" x1="0%" y1="0%" x2="0%" x2="100%">
+      <stop offset="0%" stop-color="#FFF176" />
+      <stop offset="100%" stop-color="#FFA726" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="20" fill="#FFF5F0" />
+  <rect x="1" y="1" width="62" height="62" rx="19" stroke="#FF6326" stroke-opacity="0.2" stroke-width="1.5" />
+  <path d="M32 12C32 12 39 21 39 27C39 30 37 32 35 34C37 36 41 38 41 42C41 47 37 51 32 51C27 51 23 47 23 42C23 37 26 34 28 31C26 29 25 27 25 25C25 19 32 12 32 12Z" fill="url(#um_flame_outer)" />
+  <path d="M32 28C32 28 36 33 36 37C36 40 34 43 32 43C30 43 28 40 28 37C28 33 32 28 32 28Z" fill="url(#um_flame_inner)" />
+  <circle cx="46" cy="22" r="2" fill="#FF6326" />
+  <circle cx="18" cy="28" r="1.5" fill="#FFA726" />
+</svg>

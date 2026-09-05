@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" class="w-full h-full">
+  <defs>
+    <linearGradient id="um_shield_grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A5C" />
+      <stop offset="100%" stop-color="#FF6326" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="20" fill="#FFF5F0" />
+  <rect x="1" y1="1" width="62" height="62" rx="19" stroke="#FF6326" stroke-opacity="0.2" stroke-width="1.5" />
+  <path d="M32 14L46 19V31C46 40 40 47 32 50C24 47 18 40 18 31V19L32 14Z" fill="url(#um_shield_grad)" />
+  <path d="M32 17L43 21V31C43 38.5 38.2 44.5 32 47.2C25.8 44.5 21 38.5 21 31V21L32 17Z" fill="#292929" />
+  <path d="M27 31L31 35L38 27" stroke="#FF6326" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

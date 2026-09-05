@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" class="w-full h-full">
+  <defs>
+    <linearGradient id="um_grad_orange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A5C" />
+      <stop offset="100%" stop-color="#FF6326" />
+    </linearGradient>
+    <linearGradient id="um_grad_dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A3A3A" />
+      <stop offset="100%" stop-color="#212121" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="20" fill="#FFF5F0" />
+  <rect x="1" y1="1" width="62" height="62" rx="19" stroke="#FF6326" stroke-opacity="0.2" stroke-width="1.5" />
+  <path d="M32 16L12 25L32 34L52 25L32 16Z" fill="url(#um_grad_orange)" />
+  <path d="M44 29.5V38C44 42 38.6 46 32 46C25.4 46 20 42 20 38V29.5L32 35L44 29.5Z" fill="url(#um_grad_dark)" />
+  <path d="M47 27.5V36.5C47 37.5 46.5 38.5 45.5 39" stroke="#FF8A5C" stroke-width="2.5" stroke-linecap="round" />
+  <circle cx="45.5" cy="40" r="2" fill="#FF6326" />
+  <path d="M32 20L33.5 24.5L38 26L33.5 27.5L32 32L30.5 27.5L26 26L30.5 24.5L32 20Z" fill="#FFFFFF" />
+  <circle cx="16" cy="17" r="2" fill="#FF6326" />
+  <circle cx="49" cy="17" r="2.5" fill="#FF8A5C" />
+</svg>
