@@ -285,6 +285,22 @@ class Student(models.Model):
         except Exception:
             return 0
 
+    @property
+    def age(self):
+        from django.utils import timezone
+        today = timezone.localdate()
+        if self.birth_date:
+            try:
+                birthday = self.birth_date.replace(year=today.year)
+            except ValueError:
+                birthday = self.birth_date.replace(year=today.year, month=2, day=28)
+            if birthday > today:
+                return today.year - self.birth_date.year - 1
+            return today.year - self.birth_date.year
+        elif self.birth_year:
+            return today.year - self.birth_year
+        return None
+
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver

@@ -6,438 +6,470 @@
 {% block content %}
 <div class="space-y-16 md:space-y-24 py-4 md:py-8">
 
-  <!-- HERO SECTION -->
-  <section class="relative overflow-hidden pt-4 pb-8 md:py-12">
+  <!-- ================= HERO SECTION (Linear / Stripe Tier-1 Product UI) ================= -->
+  <section class="relative pt-2 pb-6 md:py-10">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
       
-      <!-- Left Column: Copy & CTAs -->
-      <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+      <!-- Left Column: Value Proposition & CTAs -->
+      <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
         
-        <!-- Top Pill Badge -->
-        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 border border-orange-200/80 text-orange-700 text-xs font-extrabold tracking-wide uppercase shadow-xs">
-          <i data-lucide="sparkles" class="w-4 h-4 text-orange-600 animate-pulse"></i>
-          <span>O'zbekiston maktab o'quvchilari uchun 1-raqamli AI ta'lim platformasi</span>
+        <!-- Top Minimalist Pill Badge -->
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200/90 text-zinc-800 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>9–11 sinf o'quvchilari uchun maxsus</span>
         </div>
 
-        <!-- Main Title -->
-        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
-          Xorijiy universitetlar va <span class="bg-clip-text text-transparent bg-gradient-to-r from-orange-600 via-amber-500 to-orange-700">katta grantlarga</span> AI bilan kiring
+        <!-- Main Headline -->
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-zinc-900 tracking-tight leading-[1.12]">
+          Xorijiy universitetlar va <span class="text-orange-600">katta grantlarga</span> shaxsiy AI tizimi bilan kiring
         </h1>
 
         <!-- Subtitle -->
-        <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
-          Statik kitoblar va qimmat repetitorlardan charchadingizmi? UniMentor AI sizga har kuni <strong>Dual-Track reja</strong> (IELTS/SAT tayyorgarligi + Universitet arizasi) tuzadi, insholaringizni tahlil qiladi va to'liq grant yutishingizga yordam beradi.
+        <p class="text-base sm:text-lg text-zinc-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+          UniMentor — har kuni <strong>Dual-Track reja</strong> (IELTS/SAT test drilllari va universitet grant arizalari) tuzib beruvchi, insholaringizni xalqaro qabul komissiyasi mezonlarida tahrir qiluvchi shaxsiy AI mentor.
         </p>
 
         <!-- CTA Buttons -->
         <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
-          <a href="{% url 'accounts:register' %}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-orange-600 hover:bg-orange-700 active:scale-[0.99] text-white text-base font-bold rounded-2xl shadow-xl shadow-orange-200 transition duration-150 space-x-2 group">
-            <i data-lucide="compass" class="w-5 h-5"></i>
+          <a href="{% url 'accounts:register' %}" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 bg-orange-600 hover:bg-orange-700 active:scale-[0.99] text-white text-sm font-semibold rounded-xl shadow-xs transition duration-150 space-x-2 group">
+            <i data-lucide="compass" class="w-4 h-4"></i>
             <span>Diagnostika va Reja Olish</span>
-            <i data-lucide="arrow-right" class="w-5 h-5 transition-transform group-hover:translate-x-1"></i>
+            <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5"></i>
           </a>
-          <a href="{% url 'programs:catalog' %}" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-4 bg-white hover:bg-slate-50 active:scale-[0.99] text-slate-800 text-base font-bold rounded-2xl border border-slate-200 shadow-xs transition duration-150 space-x-2">
-            <i data-lucide="graduation-cap" class="w-5 h-5 text-orange-600"></i>
-            <span>Universitetlar & Grantlar</span>
+          <a href="{% url 'programs:catalog' %}" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 bg-white hover:bg-zinc-50 active:scale-[0.99] text-zinc-800 text-sm font-semibold rounded-xl border border-zinc-200 shadow-xs transition duration-150 space-x-2">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-zinc-500"></i>
+            <span>225+ Grantlar Katalogi</span>
           </a>
         </div>
 
         <!-- Social Proof Stats Row -->
-        <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200/80 text-left">
+        <div class="pt-6 grid grid-cols-3 gap-4 border-t border-zinc-200 text-left">
           <div class="space-y-0.5">
-            <div class="flex items-center space-x-1.5 text-slate-900 font-black text-base sm:text-lg">
-              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+            <div class="flex items-center space-x-1.5 text-zinc-900 font-bold text-sm sm:text-base">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
               <span>100% Bepul</span>
             </div>
-            <p class="text-xs text-slate-500 font-medium">Boshlang'ich diagnostika</p>
+            <p class="text-xs text-zinc-500">Boshlang'ich diagnostika</p>
           </div>
           <div class="space-y-0.5">
-            <div class="flex items-center space-x-1.5 text-slate-900 font-black text-base sm:text-lg">
-              <i data-lucide="flame" class="w-4 h-4 text-amber-500 flex-shrink-0"></i>
+            <div class="flex items-center space-x-1.5 text-zinc-900 font-bold text-sm sm:text-base">
+              <i data-lucide="flame" class="w-4 h-4 text-orange-600 flex-shrink-0"></i>
               <span>Duolingo Uslubi</span>
             </div>
-            <p class="text-xs text-slate-500 font-medium">Kunlik odat va streak</p>
+            <p class="text-xs text-zinc-500">Kunlik streak va intizom</p>
           </div>
           <div class="space-y-0.5">
-            <div class="flex items-center space-x-1.5 text-slate-900 font-black text-base sm:text-lg">
-              <i data-lucide="bot" class="w-4 h-4 text-orange-600 flex-shrink-0"></i>
+            <div class="flex items-center space-x-1.5 text-zinc-900 font-bold text-sm sm:text-base">
+              <i data-lucide="bot" class="w-4 h-4 text-zinc-700 flex-shrink-0"></i>
               <span>24/7 AI Mentor</span>
             </div>
-            <p class="text-xs text-slate-500 font-medium">Shaxsiy yo'l-yo'riq</p>
+            <p class="text-xs text-zinc-500">Insho va arizalar tahlili</p>
           </div>
         </div>
 
       </div>
 
-      <!-- Right Column: Bespoke 3D Hero Showcase -->
-      <div class="lg:col-span-5 relative flex justify-center items-center">
-        <!-- Ambient Glow behind artwork -->
-        <div class="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 via-amber-400/15 to-transparent rounded-[40px] blur-2xl -z-10"></div>
+      <!-- Right Column: Authentic Product UI Window Mockup (NO 3D AI cartoon) -->
+      <div class="lg:col-span-6 relative flex justify-center items-center">
+        <!-- Crisp Application Window Frame -->
+        <div class="w-full max-w-xl bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden text-left">
+          
+          <!-- Window Titlebar with Dots -->
+          <div class="px-4 py-3 bg-zinc-50 border-b border-zinc-200 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-zinc-300"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-zinc-300"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-zinc-300"></span>
+              <span class="ml-2 text-xs font-mono font-medium text-zinc-500">unimentor.app/dashboard</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Faol Reja</span>
+              </span>
+            </div>
+          </div>
 
-        <!-- Main Card Frame -->
-        <div class="relative w-full max-w-lg bg-white p-3 sm:p-4 rounded-[32px] border border-slate-200/80 shadow-2xl shadow-orange-500/10">
-          <div class="relative rounded-[24px] overflow-hidden border border-slate-100 bg-slate-50">
-            <img src="{% static 'images/unimentor_hero_showcase.jpg' %}" alt="UniMentor AI 3D Showcase" class="w-full h-auto object-cover transform hover:scale-[1.02] transition duration-500">
+          <!-- Inside Window Workspace -->
+          <div class="p-5 space-y-4 bg-zinc-50/50">
             
-            <!-- Gradient Overlay bottom for contrast -->
-            <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
-            
-            <!-- Bottom pill inside visual -->
-            <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs px-3 py-2 rounded-xl bg-slate-900/70 backdrop-blur-md border border-white/10">
+            <!-- Student Header Profile Strip -->
+            <div class="bg-white p-3.5 rounded-xl border border-zinc-200 flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-zinc-900 text-white flex items-center justify-center font-bold text-sm">
+                  AK
+                </div>
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <h4 class="text-xs sm:text-sm font-bold text-zinc-900">Azizbek Karimov</h4>
+                    <span class="text-[10px] bg-zinc-100 text-zinc-700 px-1.5 py-0.5 rounded font-medium">10-sinf</span>
+                  </div>
+                  <p class="text-[11px] text-zinc-500 flex items-center space-x-1 mt-0.5">
+                    <i data-lucide="target" class="w-3 h-3 text-orange-600"></i>
+                    <span>Maqsad: Global UGRAD & DAAD</span>
+                  </p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Ready Score</span>
+                <p class="text-lg font-extrabold text-orange-600">82%</p>
+              </div>
+            </div>
+
+            <!-- Dual-Track Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              
+              <!-- Track A Card: Imtihonlar -->
+              <div class="bg-white p-3.5 rounded-xl border border-zinc-200 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 border border-orange-200 px-2 py-0.5 rounded">
+                    Track A • Imtihon
+                  </span>
+                  <span class="text-[11px] font-bold text-emerald-600 flex items-center space-x-1">
+                    <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                    <span>Bajarildi</span>
+                  </span>
+                </div>
+                <div>
+                  <h5 class="text-xs font-bold text-zinc-900">IELTS Reading: T/F/NG Drill</h5>
+                  <p class="text-[11px] text-zinc-500 mt-0.5">Natija: 9/10 to'g'ri javob</p>
+                </div>
+                <div class="p-2 bg-zinc-50 rounded-lg border border-zinc-100 text-[11px] text-zinc-600 space-y-1">
+                  <p class="font-semibold text-zinc-800 flex items-center space-x-1">
+                    <i data-lucide="sparkles" class="w-3 h-3 text-orange-600"></i>
+                    <span>AI Xato Tahlili:</span>
+                  </p>
+                  <p class="italic text-[10px]">"4-savolda matndagi 'rarely' va savoldagi 'never' so'zlari qarama-qarshi edi."</p>
+                </div>
+              </div>
+
+              <!-- Track B Card: Universitet Arizasi -->
+              <div class="bg-white p-3.5 rounded-xl border border-zinc-200 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-700 bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded">
+                    Track B • Ariza
+                  </span>
+                  <span class="text-[11px] font-bold text-amber-600 flex items-center space-x-1">
+                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                    <span>Ko'rib chiqilmoqda</span>
+                  </span>
+                </div>
+                <div>
+                  <h5 class="text-xs font-bold text-zinc-900">Personal Statement (1-qoralama)</h5>
+                  <p class="text-[11px] text-zinc-500 mt-0.5">Common App 650 so'z</p>
+                </div>
+                <div class="p-2 bg-zinc-50 rounded-lg border border-zinc-100 text-[11px] text-zinc-600 space-y-1">
+                  <p class="font-semibold text-zinc-800 flex items-center space-x-1">
+                    <i data-lucide="file-check" class="w-3 h-3 text-emerald-600"></i>
+                    <span>AI Tavsiyasi:</span>
+                  </p>
+                  <p class="italic text-[10px]">"STAR metodida liderlik yutug'ingizni sonlar bilan isbotlang (masalan, 15 nafar jamoa)."</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Bottom Status Footer Inside Mockup -->
+            <div class="px-3.5 py-2.5 bg-white rounded-xl border border-zinc-200 flex items-center justify-between text-xs">
               <div class="flex items-center space-x-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span class="font-bold">24/7 AI Mentor Faol</span>
+                <i data-lucide="flame" class="w-4 h-4 text-orange-600"></i>
+                <span class="font-bold text-zinc-800">14 kunlik uzluksiz streak</span>
               </div>
-              <span class="font-mono text-[11px] text-orange-300 font-bold">100% Shaxsiy Reja</span>
+              <span class="text-[11px] text-zinc-500">Keyingi topshiriq: Ertaga 09:00</span>
             </div>
+
           </div>
 
-          <!-- Floating Badge Top Left: Streak -->
-          <div class="absolute -top-3 -left-3 sm:-left-4 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-orange-100 shadow-xl flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center p-1">
-              <img src="{% static 'images/icons/icon_streak_fire.svg' %}" class="w-full h-full" alt="Streak">
-            </div>
-            <div>
-              <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Kunlik Intizom</p>
-              <p class="text-xs font-black text-slate-900">14 Kunlik Streak</p>
-            </div>
-          </div>
-
-          <!-- Floating Badge Bottom Right: Scholarship -->
-          <div class="absolute -bottom-3 -right-3 sm:-right-4 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-slate-200 shadow-xl flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center p-1">
-              <img src="{% static 'images/icons/icon_scholarship_shield.svg' %}" class="w-full h-full" alt="Grant">
-            </div>
-            <div>
-              <div class="flex items-center space-x-1.5">
-                <span class="text-xs font-black text-slate-900">Global UGRAD</span>
-                <span class="text-[10px] font-black text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-md">100% Grant</span>
-              </div>
-              <p class="text-[11px] font-medium text-slate-500">Tayyorlik: <strong class="text-orange-600 font-black">95% Ready</strong></p>
-            </div>
-          </div>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ================= LOGO MARQUEE / PARTNERS & UNIVERSITIES RIBBON (Reference Image 5) ================= -->
+  <!-- ================= LOGO RIBBON / UNIVERSITIES & GRANTS (Linear / Stripe Style) ================= -->
   <section class="py-2">
-    <div class="relative overflow-hidden rounded-[28px] bg-gradient-to-r from-slate-950 via-[#0a48b3] to-[#0066ff] p-5 sm:p-6 shadow-2xl border border-blue-900/40 neon-glow-blue">
-      <!-- Glow decoration -->
-      <div class="absolute -left-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
-      <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-orange-500/20 rounded-full blur-2xl pointer-events-none"></div>
-
-      <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-white/15">
-        <div class="flex items-center space-x-2 text-white">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider">
-            Nufuzli Universitetlar va Xalqaro Grant Dasturlari Hamkorligi
+    <div class="rounded-2xl bg-zinc-50 border border-zinc-200/80 p-5 sm:p-6">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-zinc-200/80">
+        <div class="flex items-center space-x-2 text-zinc-800">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-700">
+            O'zbekiston o'quvchilari qabul qilinadigan nufuzli dasturlar va xalqaro universitetlar
           </h4>
         </div>
-        <span class="text-[11px] font-bold text-blue-100 bg-white/15 px-3 py-1 rounded-full backdrop-blur-md self-start sm:self-auto">
+        <span class="text-[11px] font-semibold text-zinc-600 bg-white border border-zinc-200 px-3 py-1 rounded-lg self-start sm:self-auto">
           225+ Dunyo va O'zbekiston OTMlari
         </span>
       </div>
 
-      <!-- Infinite Marquee Track -->
-      <div class="overflow-hidden relative [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-        <div class="animate-marquee-infinite space-x-3.5 py-1">
+      <!-- Infinite Marquee Track (Clean white tiles with crisp 1px borders) -->
+      <div class="overflow-hidden relative [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+        <div class="animate-marquee-infinite space-x-3 py-1">
           <!-- Item 1: Harvard -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/harvard_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Harvard">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/harvard_crest.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="Harvard">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Harvard University</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">Harvard University</p>
+              <p class="text-[10px] text-zinc-500 font-medium flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/us.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="US">
                 Ivy League • AQSh
               </p>
             </div>
           </div>
           <!-- Item 2: DAAD -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/daad_logo.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="DAAD">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/daad_logo.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="DAAD">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">DAAD Scholarship</p>
-              <p class="text-[10px] text-emerald-600 font-black flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">DAAD Scholarship</p>
+              <p class="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/de.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="DE">
                 100% To'liq Grant
               </p>
             </div>
           </div>
           <!-- Item 3: Oxford -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/oxford_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Oxford">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/oxford_crest.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="Oxford">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">University of Oxford</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">University of Oxford</p>
+              <p class="text-[10px] text-zinc-500 font-medium flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/gb.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="UK">
                 Buyuk Britaniya
               </p>
             </div>
           </div>
           <!-- Item 4: Global UGRAD -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/ugrad_badge.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="UGRAD">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/ugrad_badge.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="UGRAD">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Global UGRAD</p>
-              <p class="text-[10px] text-orange-600 font-black flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">Global UGRAD</p>
+              <p class="text-[10px] text-orange-600 font-semibold flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/us.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="US">
                 AQSh Davlat Departamenti
               </p>
             </div>
           </div>
           <!-- Item 5: MIT -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/mit_seal.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="MIT">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/mit_seal.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="MIT">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">MIT Technology</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">MIT Technology</p>
+              <p class="text-[10px] text-zinc-500 font-medium flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/us.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="US">
                 Top #1 CS • AQSh
               </p>
             </div>
           </div>
           <!-- Item 6: Chevening -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/chevening_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Chevening">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/chevening_crest.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="Chevening">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Chevening Grant</p>
-              <p class="text-[10px] text-emerald-600 font-black flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">Chevening Grant</p>
+              <p class="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/gb.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="UK">
                 100% Stipendiya
               </p>
             </div>
           </div>
           <!-- Item 7: Türkiye Bursları -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/turkiye_burslari.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Turkiye Burslari">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/turkiye_burslari.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="Turkiye Burslari">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Türkiye Bursları</p>
-              <p class="text-[10px] text-red-600 font-black flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">Türkiye Bursları</p>
+              <p class="text-[10px] text-zinc-600 font-semibold flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/tr.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="TR">
                 Bakalavr & Magistratura
               </p>
             </div>
           </div>
           <!-- Item 8: Cambridge -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/cambridge_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Cambridge">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/cambridge_crest.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="Cambridge">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Cambridge University</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">Cambridge University</p>
+              <p class="text-[10px] text-zinc-500 font-medium flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/gb.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="UK">
                 Russell Group
               </p>
             </div>
           </div>
           <!-- Item 9: Seoul National -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/snu_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="SNU">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/snu_crest.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="SNU">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Seoul National (SNU)</p>
-              <p class="text-[10px] text-blue-600 font-black flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">Seoul National (SNU)</p>
+              <p class="text-[10px] text-zinc-600 font-semibold flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/kr.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="KR">
                 GKS To'liq Grant
               </p>
             </div>
           </div>
           <!-- Item 10: Westminster Tashkent -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/wiut_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="WIUT">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/wiut_crest.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="WIUT">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">WIUT Toshkent</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">WIUT Toshkent</p>
+              <p class="text-[10px] text-zinc-500 font-medium flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/uz.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="UZ">
                 Xalqaro Standart
               </p>
             </div>
           </div>
 
-          <!-- DUPLICATE SET FOR SMOOTH INFINITE 100% MARQUEE LOOP -->
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/harvard_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Harvard">
+          <!-- REPEAT SET FOR SEAMLESS INFINITE LOOP -->
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/harvard_crest.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="Harvard">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Harvard University</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">Harvard University</p>
+              <p class="text-[10px] text-zinc-500 font-medium flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/us.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="US">
                 Ivy League • AQSh
               </p>
             </div>
           </div>
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/daad_logo.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="DAAD">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/daad_logo.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="DAAD">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">DAAD Scholarship</p>
-              <p class="text-[10px] text-emerald-600 font-black flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">DAAD Scholarship</p>
+              <p class="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/de.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="DE">
                 100% To'liq Grant
               </p>
             </div>
           </div>
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/oxford_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Oxford">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/oxford_crest.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="Oxford">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">University of Oxford</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">University of Oxford</p>
+              <p class="text-[10px] text-zinc-500 font-medium flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/gb.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="UK">
                 Buyuk Britaniya
               </p>
             </div>
           </div>
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/ugrad_badge.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="UGRAD">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/ugrad_badge.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="UGRAD">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Global UGRAD</p>
-              <p class="text-[10px] text-orange-600 font-black flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">Global UGRAD</p>
+              <p class="text-[10px] text-orange-600 font-semibold flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/us.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="US">
                 AQSh Davlat Departamenti
               </p>
             </div>
           </div>
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/mit_seal.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="MIT">
+          <div class="flex items-center space-x-3 bg-white px-3.5 py-2 rounded-xl border border-zinc-200/90 shadow-2xs min-w-[200px] flex-shrink-0">
+            <img src="{% static 'images/logos/mit_seal.svg' %}" class="w-7 h-7 rounded-lg object-contain" alt="MIT">
             <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">MIT Technology</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
+              <p class="text-xs font-bold text-zinc-900 leading-tight">MIT Technology</p>
+              <p class="text-[10px] text-zinc-500 font-medium flex items-center gap-1 mt-0.5">
                 <img src="{% static 'images/flags/us.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="US">
                 Top #1 CS • AQSh
               </p>
             </div>
           </div>
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/chevening_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Chevening">
-            <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Chevening Grant</p>
-              <p class="text-[10px] text-emerald-600 font-black flex items-center gap-1.5 mt-0.5">
-                <img src="{% static 'images/flags/gb.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="UK">
-                100% Stipendiya
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/turkiye_burslari.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Turkiye Burslari">
-            <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Türkiye Bursları</p>
-              <p class="text-[10px] text-red-600 font-black flex items-center gap-1.5 mt-0.5">
-                <img src="{% static 'images/flags/tr.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="TR">
-                Bakalavr & Magistratura
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/cambridge_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="Cambridge">
-            <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Cambridge University</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
-                <img src="{% static 'images/flags/gb.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="UK">
-                Russell Group
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/snu_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="SNU">
-            <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">Seoul National (SNU)</p>
-              <p class="text-[10px] text-blue-600 font-black flex items-center gap-1.5 mt-0.5">
-                <img src="{% static 'images/flags/kr.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="KR">
-                GKS To'liq Grant
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl shadow-md min-w-[210px] flex-shrink-0 hover:scale-105 transition">
-            <img src="{% static 'images/logos/wiut_crest.svg' %}" class="w-9 h-9 rounded-xl object-contain drop-shadow" alt="WIUT">
-            <div>
-              <p class="text-xs font-black text-slate-900 leading-tight">WIUT Toshkent</p>
-              <p class="text-[10px] text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
-                <img src="{% static 'images/flags/uz.svg' %}" class="w-3.5 h-2.5 rounded-[2px] object-cover" alt="UZ">
-                Xalqaro Standart
-              </p>
-            </div>
-          </div>
         </div>
       </div>
+
     </div>
   </section>
-
-  <!-- ================= 4 COLORFUL TILTED BENEFIT CARDS (Reference Image 1) ================= -->
-  <section class="pt-4">
+  <!-- ================= 4 CLEAN VALUE PROPOSITION CARDS (Linear / SaaS Style) ================= -->
+  <section class="pt-2">
     <div class="text-center max-w-2xl mx-auto mb-8 space-y-2">
-      <span class="text-xs font-bold text-orange-600 uppercase tracking-wider bg-orange-50 px-3.5 py-1 rounded-full border border-orange-100">
+      <span class="text-xs font-bold text-zinc-700 uppercase tracking-wider bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
         UniMentor Afzalliklari
       </span>
-      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">
         Nega o'quvchilar UniMentor'ni tanlashadi?
       </h2>
-      <p class="text-sm text-slate-500">
-        Repetitorga millionlar sarflamasdan, xalqaro ta'limga kafolatli qadam qo'ying
+      <p class="text-sm text-zinc-500">
+        Repetitorlarga millionlar sarflamasdan, xalqaro ta'lim va grantlarga tizimli tayyorlaning
       </p>
     </div>
 
-    <!-- 4 Tilted Cards Grid / Row -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
+    <!-- 4 Structured Feature Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
       
-      <!-- Card 1: Sky Blue -->
-      <div class="bg-[#40b5f5] text-white p-7 sm:p-8 rounded-[32px] shadow-xl flex flex-col justify-between min-h-[300px] card-tilt-hover relative overflow-hidden group">
+      <!-- Card 1: Dual-Track -->
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col justify-between space-y-4">
         <div class="space-y-3">
-          <h3 class="text-2xl font-black leading-tight tracking-tight">Individual ta'lim</h3>
-          <p class="text-xs sm:text-sm text-sky-100 font-medium leading-relaxed">
-            AI diagnostika orqali kuchli va zaif ko'nikmalaringiz aniqlanadi va faqat sizga kerakli darslar beriladi.
+          <div class="flex items-center justify-between">
+            <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800">
+              <i data-lucide="layers" class="w-5 h-5 text-orange-600"></i>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 border border-orange-200/60 px-2 py-0.5 rounded-md">
+              Dual-Track
+            </span>
+          </div>
+          <h3 class="text-base font-bold text-zinc-900 leading-tight">Dual-Track Tayyorgarlik</h3>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            IELTS/SAT testlariga tayyorlanish bilan birga grant arizalari, insholar va portfolio parallel boshqariladi.
           </p>
         </div>
-        <div class="pt-6">
-          <div class="w-14 h-14 rounded-full bg-white shadow-lg flex items-center justify-center p-2.5 group-hover:scale-110 transition">
-            <img src="{% static 'images/icons/icon_ai_brain.svg' %}" class="w-full h-full" alt="Individual ta'lim">
-          </div>
+        <div class="pt-3 border-t border-zinc-100 flex items-center text-xs font-semibold text-orange-600">
+          <span>Test + Ariza bir vaqtda</span>
         </div>
       </div>
 
-      <!-- Card 2: Indigo / Purple -->
-      <div class="bg-[#7866f0] text-white p-7 sm:p-8 rounded-[32px] shadow-xl flex flex-col justify-between min-h-[300px] card-tilt-hover relative overflow-hidden group">
+      <!-- Card 2: AI Essay Review -->
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col justify-between space-y-4">
         <div class="space-y-3">
-          <h3 class="text-2xl font-black leading-tight tracking-tight">Mutaxassislar bilan interaktiv onlayn darslar</h3>
-          <p class="text-xs sm:text-sm text-indigo-100 font-medium leading-relaxed">
-            Har bir topshiriqqa darhol tushuntirish, insholarni qayta ishlash va imtihon simulyatsiyasi.
+          <div class="flex items-center justify-between">
+            <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800">
+              <i data-lucide="file-check-2" class="w-5 h-5 text-zinc-800"></i>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-700 bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded-md">
+              Qabul Standarti
+            </span>
+          </div>
+          <h3 class="text-base font-bold text-zinc-900 leading-tight">Haqiqiy AI Insho Tahlili</h3>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Oddiy imlo tekshiruvchilaridan farqli o'laroq, shaxsiy hikoyangizni STAR metodida kuchaytiradi va qabul mezonlarida tahrirlaydi.
           </p>
         </div>
-        <div class="pt-6">
-          <div class="w-14 h-14 rounded-full bg-white shadow-lg flex items-center justify-center p-2.5 group-hover:scale-110 transition">
-            <img src="{% static 'images/icons/icon_cursor_click.svg' %}" class="w-full h-full" alt="AI Onlayn Darslar">
-          </div>
+        <div class="pt-3 border-t border-zinc-100 flex items-center text-xs font-semibold text-zinc-700">
+          <span>STAR metodologiyasi</span>
         </div>
       </div>
 
-      <!-- Card 3: Electric Orange (Tilted signature card!) -->
-      <div class="bg-[#ff6326] text-white p-7 sm:p-8 rounded-[32px] shadow-2xl flex flex-col justify-between min-h-[300px] card-tilt-hover relative overflow-hidden group transform lg:-rotate-2 hover:rotate-0 transition duration-300 ring-4 ring-orange-300/40">
+      <!-- Card 3: Daily Habit -->
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col justify-between space-y-4">
         <div class="space-y-3">
-          <span class="inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white">
-            Asosiy Reja
-          </span>
-          <h3 class="text-2xl font-black leading-tight tracking-tight">Darslar tugaganda so'ng sertifikat va portfolio</h3>
-          <p class="text-xs sm:text-sm text-orange-100 font-medium leading-relaxed">
-            IELTS/SAT test tayyorgarligi bilan birga universitet arizalari, insholar va tavsiyanomalar parallel boshqariladi.
+          <div class="flex items-center justify-between">
+            <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800">
+              <i data-lucide="flame" class="w-5 h-5 text-orange-600"></i>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 border border-orange-200/60 px-2 py-0.5 rounded-md">
+              Duolingo Uslubi
+            </span>
+          </div>
+          <h3 class="text-base font-bold text-zinc-900 leading-tight">Kunlik 15 Daqiqa & Streak</h3>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Har kuni faqat zaif ko'nikmalaringiz bo'yicha qisqa mashqlar, Ready Score ko'rsatkichi va uzluksiz intizom shakllantirish.
           </p>
         </div>
-        <div class="pt-6">
-          <div class="w-14 h-14 rounded-full bg-white shadow-lg flex items-center justify-center p-2.5 group-hover:scale-110 transition">
-            <img src="{% static 'images/icons/icon_diploma_scroll.svg' %}" class="w-full h-full" alt="Sertifikat va Portfolio">
-          </div>
+        <div class="pt-3 border-t border-zinc-100 flex items-center text-xs font-semibold text-orange-600">
+          <span>Ready Score & Streak</span>
         </div>
       </div>
 
-      <!-- Card 4: Emerald Green -->
-      <div class="bg-[#2ecc71] text-white p-7 sm:p-8 rounded-[32px] shadow-xl flex flex-col justify-between min-h-[300px] card-tilt-hover relative overflow-hidden group">
+      <!-- Card 4: Verified Grants -->
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col justify-between space-y-4">
         <div class="space-y-3">
-          <h3 class="text-2xl font-black leading-tight tracking-tight">Ishga va grantga kirishga yordam</h3>
-          <p class="text-xs sm:text-sm text-emerald-100 font-medium leading-relaxed">
-            AQSh, Yevropa va Osiyoning nufuzli to'liq moliyalashtiriluvchi grant dasturlariga to'liq tayyorlov va hujjat topshirish.
+          <div class="flex items-center justify-between">
+            <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800">
+              <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+              100% Grantlar
+            </span>
+          </div>
+          <h3 class="text-base font-bold text-zinc-900 leading-tight">225+ Tasdiqlangan Dasturlar</h3>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Global UGRAD, DAAD, Chevening, Türkiye Bursları va boshqa grantlarning aniq talablari, deadline va rasmiy manbalari.
           </p>
         </div>
-        <div class="pt-6">
-          <div class="w-14 h-14 rounded-full bg-white shadow-lg flex items-center justify-center p-2.5 group-hover:scale-110 transition">
-            <img src="{% static 'images/icons/icon_briefcase_grant.svg' %}" class="w-full h-full" alt="Grant va Ishga Yordam">
-          </div>
+        <div class="pt-3 border-t border-zinc-100 flex items-center text-xs font-semibold text-emerald-700">
+          <span>Rasmiy qabul muddatlari</span>
         </div>
       </div>
 
@@ -445,38 +477,38 @@
   </section>
 
   <!-- ================= TOP STUDY ABROAD DESTINATIONS GALLERY ================= -->
-  <section id="universities" class="pt-6 border-t border-slate-200">
+  <section id="universities" class="pt-6 border-t border-zinc-200">
     <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
-      <span class="text-xs font-bold text-orange-600 uppercase tracking-wider bg-orange-50 px-3.5 py-1 rounded-full border border-orange-100">
+      <span class="text-xs font-bold text-zinc-700 uppercase tracking-wider bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
         225+ Dunyo va Mahalliy Universitetlar
       </span>
-      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">
         Qaysi davlatda ta'lim olmoqchisiz?
       </h2>
-      <p class="text-sm text-slate-500">
+      <p class="text-sm text-zinc-500">
         UniMentor AI har bir davlatning qabul standartlari va stipendiya talablariga moslashtirilgan
       </p>
     </div>
 
     <!-- Country Cards Grid with High-Res Photography -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       
       <!-- Card 1: USA -->
-      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-orange-300 transition duration-300 flex flex-col">
+      <div class="group bg-white rounded-2xl border border-zinc-200/90 shadow-2xs overflow-hidden hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col">
         <div class="relative h-44 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=700&auto=format&fit=crop" alt="AQSh Universitetlari" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
-          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
-            <img src="{% static 'images/flags/us.svg' %}" class="w-4 h-3 rounded-[2px] object-cover shadow-2xs" alt="USA">
+          <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=700&auto=format&fit=crop" alt="AQSh Universitetlari" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-2.5 py-1 bg-white/95 backdrop-blur-md rounded-lg text-xs font-bold text-zinc-900 flex items-center space-x-1.5 shadow-2xs border border-zinc-200/40">
+            <img src="{% static 'images/flags/us.svg' %}" class="w-4 h-3 rounded-[2px] object-cover" alt="USA">
             <span>AQSh</span>
           </div>
           <div class="absolute bottom-3 left-3 text-white">
-            <h3 class="text-lg font-black leading-tight">Global UGRAD & Ivy League</h3>
+            <h3 class="text-base font-bold leading-tight">Global UGRAD & Ivy League</h3>
             <p class="text-xs text-orange-200">To'liq moliyalashtiriluvchi grantlar</p>
           </div>
         </div>
         <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-          <div class="text-xs text-slate-600 space-y-1.5">
+          <div class="text-xs text-zinc-600 space-y-1.5">
             <div class="flex items-center space-x-2">
               <i data-lucide="check" class="w-3.5 h-3.5 text-orange-600"></i>
               <span>O'qish, yotoqxona va oylik stipendiya</span>
@@ -486,9 +518,9 @@
               <span>SAT & TOEFL / IELTS sertifikatlari talabi</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="font-bold text-orange-600">Muddat: Har yili dekabr</span>
-            <a href="{% url 'programs:catalog' %}?country=AQSh" class="font-bold text-slate-700 hover:text-orange-600 flex items-center space-x-1">
+          <div class="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-zinc-500">Muddat: Har yili dekabr</span>
+            <a href="{% url 'programs:catalog' %}?country=AQSh" class="font-semibold text-orange-600 hover:text-orange-700 flex items-center space-x-1">
               <span>Grantlar</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
@@ -497,21 +529,21 @@
       </div>
 
       <!-- Card 2: UK -->
-      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-orange-300 transition duration-300 flex flex-col">
+      <div class="group bg-white rounded-2xl border border-zinc-200/90 shadow-2xs overflow-hidden hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col">
         <div class="relative h-44 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?q=80&w=800&auto=format&fit=crop" alt="Buyuk Britaniya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
-          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
-            <img src="{% static 'images/flags/gb.svg' %}" class="w-4 h-3 rounded-[2px] object-cover shadow-2xs" alt="UK">
+          <img src="https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?q=80&w=800&auto=format&fit=crop" alt="Buyuk Britaniya" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-2.5 py-1 bg-white/95 backdrop-blur-md rounded-lg text-xs font-bold text-zinc-900 flex items-center space-x-1.5 shadow-2xs border border-zinc-200/40">
+            <img src="{% static 'images/flags/gb.svg' %}" class="w-4 h-3 rounded-[2px] object-cover" alt="UK">
             <span>Buyuk Britaniya</span>
           </div>
           <div class="absolute bottom-3 left-3 text-white">
-            <h3 class="text-lg font-black leading-tight">Chevening & Foundation</h3>
-            <p class="text-xs text-orange-200">Oxford, Cambridge, Russell Group</p>
+            <h3 class="text-base font-bold leading-tight">Chevening & Russell Group</h3>
+            <p class="text-xs text-orange-200">Oxford, Cambridge va London OTMlari</p>
           </div>
         </div>
         <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-          <div class="text-xs text-slate-600 space-y-1.5">
+          <div class="text-xs text-zinc-600 space-y-1.5">
             <div class="flex items-center space-x-2">
               <i data-lucide="check" class="w-3.5 h-3.5 text-orange-600"></i>
               <span>100% O'qish to'lovi va viza xarajatlari</span>
@@ -521,9 +553,9 @@
               <span>IELTS 7.0+ va kuchli liderlik inshosi</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="font-bold text-orange-600">Muddat: Noyabr oyi</span>
-            <a href="{% url 'programs:catalog' %}?country=Buyuk+Britaniya" class="font-bold text-slate-700 hover:text-orange-600 flex items-center space-x-1">
+          <div class="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-zinc-500">Muddat: Noyabr oyi</span>
+            <a href="{% url 'programs:catalog' %}?country=Buyuk+Britaniya" class="font-semibold text-orange-600 hover:text-orange-700 flex items-center space-x-1">
               <span>Grantlar</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
@@ -532,21 +564,21 @@
       </div>
 
       <!-- Card 3: Germany -->
-      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-orange-300 transition duration-300 flex flex-col">
+      <div class="group bg-white rounded-2xl border border-zinc-200/90 shadow-2xs overflow-hidden hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col">
         <div class="relative h-44 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=700&auto=format&fit=crop" alt="Germaniya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
-          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
-            <img src="{% static 'images/flags/de.svg' %}" class="w-4 h-3 rounded-[2px] object-cover shadow-2xs" alt="Germany">
+          <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=700&auto=format&fit=crop" alt="Germaniya" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-2.5 py-1 bg-white/95 backdrop-blur-md rounded-lg text-xs font-bold text-zinc-900 flex items-center space-x-1.5 shadow-2xs border border-zinc-200/40">
+            <img src="{% static 'images/flags/de.svg' %}" class="w-4 h-3 rounded-[2px] object-cover" alt="Germany">
             <span>Germaniya</span>
           </div>
           <div class="absolute bottom-3 left-3 text-white">
-            <h3 class="text-lg font-black leading-tight">DAAD & Davlat Universitetlari</h3>
+            <h3 class="text-base font-bold leading-tight">DAAD & Davlat Universitetlari</h3>
             <p class="text-xs text-orange-200">Kontrakt to'lovisiz bepul ta'lim</p>
           </div>
         </div>
         <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-          <div class="text-xs text-slate-600 space-y-1.5">
+          <div class="text-xs text-zinc-600 space-y-1.5">
             <div class="flex items-center space-x-2">
               <i data-lucide="check" class="w-3.5 h-3.5 text-orange-600"></i>
               <span>Davlat universitetlarida 0€ ta'lim to'lovi</span>
@@ -556,9 +588,9 @@
               <span>Oylik 934€ stipendiya imkoniyati</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="font-bold text-orange-600">Muddat: Oktyabr - Noyabr</span>
-            <a href="{% url 'programs:catalog' %}?country=Germaniya" class="font-bold text-slate-700 hover:text-orange-600 flex items-center space-x-1">
+          <div class="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-zinc-500">Muddat: Oktyabr - Noyabr</span>
+            <a href="{% url 'programs:catalog' %}?country=Germaniya" class="font-semibold text-orange-600 hover:text-orange-700 flex items-center space-x-1">
               <span>Grantlar</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
@@ -567,21 +599,21 @@
       </div>
 
       <!-- Card 4: Turkey -->
-      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-orange-300 transition duration-300 flex flex-col">
+      <div class="group bg-white rounded-2xl border border-zinc-200/90 shadow-2xs overflow-hidden hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col">
         <div class="relative h-44 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=700&auto=format&fit=crop" alt="Turkiya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
-          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
-            <img src="{% static 'images/flags/tr.svg' %}" class="w-4 h-3 rounded-[2px] object-cover shadow-2xs" alt="Turkey">
+          <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=700&auto=format&fit=crop" alt="Turkiya" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-2.5 py-1 bg-white/95 backdrop-blur-md rounded-lg text-xs font-bold text-zinc-900 flex items-center space-x-1.5 shadow-2xs border border-zinc-200/40">
+            <img src="{% static 'images/flags/tr.svg' %}" class="w-4 h-3 rounded-[2px] object-cover" alt="Turkey">
             <span>Turkiya</span>
           </div>
           <div class="absolute bottom-3 left-3 text-white">
-            <h3 class="text-lg font-black leading-tight">Türkiye Bursları</h3>
+            <h3 class="text-base font-bold leading-tight">Türkiye Bursları</h3>
             <p class="text-xs text-orange-200">Eng ommabop to'liq stipendiya</p>
           </div>
         </div>
         <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-          <div class="text-xs text-slate-600 space-y-1.5">
+          <div class="text-xs text-zinc-600 space-y-1.5">
             <div class="flex items-center space-x-2">
               <i data-lucide="check" class="w-3.5 h-3.5 text-orange-600"></i>
               <span>O'qish, bepul yotoqxona, ovqatlanish va sug'urta</span>
@@ -591,9 +623,9 @@
               <span>Turk tili kursi va bepul aviachipta</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="font-bold text-orange-600">Muddat: 10-yanvar — 20-fevral</span>
-            <a href="{% url 'programs:catalog' %}?country=Turkiya" class="font-bold text-slate-700 hover:text-orange-600 flex items-center space-x-1">
+          <div class="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-zinc-500">Muddat: 10-yanvar — 20-fevral</span>
+            <a href="{% url 'programs:catalog' %}?country=Turkiya" class="font-semibold text-orange-600 hover:text-orange-700 flex items-center space-x-1">
               <span>Grantlar</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
@@ -602,21 +634,21 @@
       </div>
 
       <!-- Card 5: South Korea -->
-      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-orange-300 transition duration-300 flex flex-col">
+      <div class="group bg-white rounded-2xl border border-zinc-200/90 shadow-2xs overflow-hidden hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col">
         <div class="relative h-44 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1538485399081-7191377e8241?q=80&w=700&auto=format&fit=crop" alt="Janubiy Koreya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
-          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
-            <img src="{% static 'images/flags/kr.svg' %}" class="w-4 h-3 rounded-[2px] object-cover shadow-2xs" alt="South Korea">
+          <img src="https://images.unsplash.com/photo-1538485399081-7191377e8241?q=80&w=700&auto=format&fit=crop" alt="Janubiy Koreya" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-2.5 py-1 bg-white/95 backdrop-blur-md rounded-lg text-xs font-bold text-zinc-900 flex items-center space-x-1.5 shadow-2xs border border-zinc-200/40">
+            <img src="{% static 'images/flags/kr.svg' %}" class="w-4 h-3 rounded-[2px] object-cover" alt="South Korea">
             <span>Janubiy Koreya</span>
           </div>
           <div class="absolute bottom-3 left-3 text-white">
-            <h3 class="text-lg font-black leading-tight">GKS / KGSP Granti</h3>
+            <h3 class="text-base font-bold leading-tight">GKS / KGSP Granti</h3>
             <p class="text-xs text-orange-200">SKY Universitetlari (Seoul Nat, Korea, Yonsei)</p>
           </div>
         </div>
         <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-          <div class="text-xs text-slate-600 space-y-1.5">
+          <div class="text-xs text-zinc-600 space-y-1.5">
             <div class="flex items-center space-x-2">
               <i data-lucide="check" class="w-3.5 h-3.5 text-orange-600"></i>
               <span>100% Kontrakt + 1,000,000 KRW oylik stipendiya</span>
@@ -626,9 +658,9 @@
               <span>1 yillik bepul koreys tili tayyorlov kursi</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="font-bold text-orange-600">Muddat: Sentyabr - Oktyabr</span>
-            <a href="{% url 'programs:catalog' %}?country=Janubiy+Koreya" class="font-bold text-slate-700 hover:text-orange-600 flex items-center space-x-1">
+          <div class="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-zinc-500">Muddat: Sentyabr - Oktyabr</span>
+            <a href="{% url 'programs:catalog' %}?country=Janubiy+Koreya" class="font-semibold text-orange-600 hover:text-orange-700 flex items-center space-x-1">
               <span>Grantlar</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
@@ -637,21 +669,21 @@
       </div>
 
       <!-- Card 6: Japan -->
-      <div class="group bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:shadow-xl hover:border-orange-300 transition duration-300 flex flex-col">
+      <div class="group bg-white rounded-2xl border border-zinc-200/90 shadow-2xs overflow-hidden hover:border-zinc-300 hover:shadow-xs transition duration-150 flex flex-col">
         <div class="relative h-44 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=700&auto=format&fit=crop" alt="Yaponiya" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
-          <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-black text-slate-900 flex items-center space-x-1.5 shadow-xs">
-            <img src="{% static 'images/flags/jp.svg' %}" class="w-4 h-3 rounded-[2px] object-cover shadow-2xs" alt="Japan">
+          <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=700&auto=format&fit=crop" alt="Yaponiya" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent"></div>
+          <div class="absolute top-3 left-3 px-2.5 py-1 bg-white/95 backdrop-blur-md rounded-lg text-xs font-bold text-zinc-900 flex items-center space-x-1.5 shadow-2xs border border-zinc-200/40">
+            <img src="{% static 'images/flags/jp.svg' %}" class="w-4 h-3 rounded-[2px] object-cover" alt="Japan">
             <span>Yaponiya</span>
           </div>
           <div class="absolute bottom-3 left-3 text-white">
-            <h3 class="text-lg font-black leading-tight">MEXT Davlat Granti</h3>
+            <h3 class="text-base font-bold leading-tight">MEXT Davlat Granti</h3>
             <p class="text-xs text-orange-200">Tokyo, Kyoto va Osaka Universitetlari</p>
           </div>
         </div>
         <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-          <div class="text-xs text-slate-600 space-y-1.5">
+          <div class="text-xs text-zinc-600 space-y-1.5">
             <div class="flex items-center space-x-2">
               <i data-lucide="check" class="w-3.5 h-3.5 text-orange-600"></i>
               <span>To'liq grant va oylik 120,000¥ stipendiya</span>
@@ -661,9 +693,9 @@
               <span>Elchixona orqali imtihon va intervyu</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="font-bold text-orange-600">Muddat: May oyi</span>
-            <a href="{% url 'programs:catalog' %}?country=Yaponiya" class="font-bold text-slate-700 hover:text-orange-600 flex items-center space-x-1">
+          <div class="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-zinc-500">Muddat: May oyi</span>
+            <a href="{% url 'programs:catalog' %}?country=Yaponiya" class="font-semibold text-orange-600 hover:text-orange-700 flex items-center space-x-1">
               <span>Grantlar</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
@@ -674,163 +706,163 @@
     </div>
   </section>
 
-  <!-- ================= POPULAR TRACKS & COURSES GRID (Reference Image 2) ================= -->
-  <section id="tracks" class="pt-6 border-t border-slate-200">
+  <!-- ================= POPULAR TRACKS & COURSES GRID ================= -->
+  <section id="tracks" class="pt-6 border-t border-zinc-200">
     <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
-      <span class="text-xs font-bold text-orange-600 uppercase tracking-wider bg-orange-50 px-3.5 py-1 rounded-full border border-orange-100">
+      <span class="text-xs font-bold text-zinc-700 uppercase tracking-wider bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
         Ommabop Yo'nalishlar
       </span>
-      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
-        Tayyorgarlik kurslari va dasturlar
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">
+        Tayyorgarlik kurslari va grant dasturlari
       </h2>
-      <p class="text-sm text-slate-500">
-        Har bir yo'nalish bo'yicha AI mentorlik, shaxsiy topshiriqlar va amaliy sinovlar
+      <p class="text-sm text-zinc-500">
+        Har bir yo'nalish bo'yicha shaxsiy AI mentorlik, test mashqlari va qabul strategiyasi
       </p>
     </div>
 
-    <!-- 3-Column Modern Grid with Squircles and Pills (Reference Image 2) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+    <!-- 3-Column Modern Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
       
       <!-- Item 1 -->
-      <a href="{% url 'accounts:register' %}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-lg hover:border-orange-300 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3.5 min-w-0">
-          <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-100 p-2 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <img src="{% static 'images/icons/icon_prompt_ai.svg' %}" class="w-full h-full" alt="Prompt AI">
+      <a href="{% url 'accounts:register' %}" class="bg-white p-4 rounded-xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex items-center justify-between group">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 p-2 flex items-center justify-center shrink-0">
+            <i data-lucide="bot" class="w-5 h-5 text-orange-600"></i>
           </div>
           <div class="min-w-0">
-            <h4 class="text-sm sm:text-base font-black text-slate-900 truncate group-hover:text-orange-600 transition">Prompt Injinering & AI</h4>
-            <p class="text-[11px] text-slate-500 font-medium truncate">AI vositalaridan unumli foydalanish</p>
+            <h4 class="text-sm font-bold text-zinc-900 truncate group-hover:text-orange-600 transition">Shaxsiy AI Mentorlik</h4>
+            <p class="text-[11px] text-zinc-500 truncate">24/7 qabul bo'yicha maslahat</p>
           </div>
         </div>
-        <span class="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg shrink-0 ml-2 border border-indigo-100">
-          Kurs
-        </span>
-      </a>
-
-      <!-- Item 2 -->
-      <a href="{% url 'accounts:register' %}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-lg hover:border-orange-300 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3.5 min-w-0">
-          <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-100 p-2 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <img src="{% static 'images/icons/icon_ai_brain.svg' %}" class="w-full h-full" alt="AI Mentorlik">
-          </div>
-          <div class="min-w-0">
-            <h4 class="text-sm sm:text-base font-black text-slate-900 truncate group-hover:text-orange-600 transition">Shaxsiy AI Mentorlik</h4>
-            <p class="text-[11px] text-slate-500 font-medium truncate">Katta maqsadlarga yo'naltirish</p>
-          </div>
-        </div>
-        <span class="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg shrink-0 ml-2 border border-indigo-100">
+        <span class="text-[11px] font-semibold text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200/60 shrink-0 ml-2">
           Mentorlik
         </span>
       </a>
 
-      <!-- Item 3 -->
-      <a href="{% url 'programs:catalog' %}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-lg hover:border-orange-300 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3.5 min-w-0">
-          <div class="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 p-2 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <img src="{% static 'images/icons/icon_scholarship_shield.svg' %}" class="w-full h-full" alt="Global UGRAD">
+      <!-- Item 2 -->
+      <a href="{% url 'programs:catalog' %}" class="bg-white p-4 rounded-xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex items-center justify-between group">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 p-2 flex items-center justify-center shrink-0">
+            <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
           </div>
           <div class="min-w-0">
-            <h4 class="text-sm sm:text-base font-black text-slate-900 truncate group-hover:text-orange-600 transition">Global UGRAD AQSh</h4>
-            <p class="text-[11px] text-slate-500 font-medium truncate">100% grantli almashinuv dasturi</p>
+            <h4 class="text-sm font-bold text-zinc-900 truncate group-hover:text-orange-600 transition">Global UGRAD AQSh</h4>
+            <p class="text-[11px] text-zinc-500 truncate">100% grantli almashinuv dasturi</p>
           </div>
         </div>
-        <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg shrink-0 ml-2 border border-emerald-100">
+        <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0 ml-2">
           Grant
         </span>
       </a>
 
-      <!-- Item 4 -->
-      <a href="{% url 'accounts:register' %}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-lg hover:border-orange-300 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3.5 min-w-0">
-          <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 p-2 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <img src="{% static 'images/icons/icon_ielts_target.svg' %}" class="w-full h-full" alt="IELTS Bootcamp">
+      <!-- Item 3 -->
+      <a href="{% url 'accounts:register' %}" class="bg-white p-4 rounded-xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex items-center justify-between group">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 p-2 flex items-center justify-center shrink-0">
+            <i data-lucide="target" class="w-5 h-5 text-orange-600"></i>
           </div>
           <div class="min-w-0">
-            <h4 class="text-sm sm:text-base font-black text-slate-900 truncate group-hover:text-orange-600 transition">IELTS 8.0+ Bootcamp</h4>
-            <p class="text-[11px] text-slate-500 font-medium truncate">Listening, Reading, Writing, Speaking</p>
+            <h4 class="text-sm font-bold text-zinc-900 truncate group-hover:text-orange-600 transition">IELTS 7.5+ Bootcamp</h4>
+            <p class="text-[11px] text-zinc-500 truncate">Listening, Reading, Writing, Speaking</p>
           </div>
         </div>
-        <span class="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg shrink-0 ml-2 border border-indigo-100">
-          Kurs
-        </span>
-      </a>
-
-      <!-- Item 5 -->
-      <a href="{% url 'accounts:register' %}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-lg hover:border-orange-300 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3.5 min-w-0">
-          <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 p-2 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <img src="{% static 'images/icons/icon_rocket_launch.svg' %}" class="w-full h-full" alt="Digital SAT">
-          </div>
-          <div class="min-w-0">
-            <h4 class="text-sm sm:text-base font-black text-slate-900 truncate group-hover:text-orange-600 transition">Digital SAT Tayyorgarlik</h4>
-            <p class="text-[11px] text-slate-500 font-medium truncate">1450+ ball olish strategiyalari</p>
-          </div>
-        </div>
-        <span class="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg shrink-0 ml-2 border border-indigo-100">
+        <span class="text-[11px] font-semibold text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200/60 shrink-0 ml-2">
           Imtihon
         </span>
       </a>
 
-      <!-- Item 6 -->
-      <a href="{% url 'programs:catalog' %}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-lg hover:border-orange-300 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3.5 min-w-0">
-          <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 p-2 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <img src="{% static 'images/icons/icon_briefcase_grant.svg' %}" class="w-full h-full" alt="DAAD Germaniya">
+      <!-- Item 4 -->
+      <a href="{% url 'accounts:register' %}" class="bg-white p-4 rounded-xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex items-center justify-between group">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 p-2 flex items-center justify-center shrink-0">
+            <i data-lucide="zap" class="w-5 h-5 text-zinc-800"></i>
           </div>
           <div class="min-w-0">
-            <h4 class="text-sm sm:text-base font-black text-slate-900 truncate group-hover:text-orange-600 transition">DAAD Germaniya Qabuli</h4>
-            <p class="text-[11px] text-slate-500 font-medium truncate">Bepul Yevropa davlat universitetlari</p>
+            <h4 class="text-sm font-bold text-zinc-900 truncate group-hover:text-orange-600 transition">Digital SAT 1450+</h4>
+            <p class="text-[11px] text-zinc-500 truncate">Math & Reading-Writing strategiyasi</p>
           </div>
         </div>
-        <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg shrink-0 ml-2 border border-emerald-100">
+        <span class="text-[11px] font-semibold text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200/60 shrink-0 ml-2">
+          Imtihon
+        </span>
+      </a>
+
+      <!-- Item 5 -->
+      <a href="{% url 'programs:catalog' %}" class="bg-white p-4 rounded-xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex items-center justify-between group">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 p-2 flex items-center justify-center shrink-0">
+            <i data-lucide="graduation-cap" class="w-5 h-5 text-emerald-600"></i>
+          </div>
+          <div class="min-w-0">
+            <h4 class="text-sm font-bold text-zinc-900 truncate group-hover:text-orange-600 transition">DAAD Germaniya Grantlari</h4>
+            <p class="text-[11px] text-zinc-500 truncate">Bepul Yevropa davlat universitetlari</p>
+          </div>
+        </div>
+        <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0 ml-2">
           Grant
         </span>
       </a>
 
-      <!-- Item 7 -->
-      <a href="{% url 'accounts:register' %}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-lg hover:border-orange-300 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3.5 min-w-0">
-          <div class="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 p-2 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <img src="{% static 'images/icons/icon_essay_review.svg' %}" class="w-full h-full" alt="Insho STAR">
+      <!-- Item 6 -->
+      <a href="{% url 'accounts:register' %}" class="bg-white p-4 rounded-xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex items-center justify-between group">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 p-2 flex items-center justify-center shrink-0">
+            <i data-lucide="file-edit" class="w-5 h-5 text-orange-600"></i>
           </div>
           <div class="min-w-0">
-            <h4 class="text-sm sm:text-base font-black text-slate-900 truncate group-hover:text-orange-600 transition">Insho & Motivation Letter</h4>
-            <p class="text-[11px] text-slate-500 font-medium truncate">STAR usulida kuchli esse yozish</p>
+            <h4 class="text-sm font-bold text-zinc-900 truncate group-hover:text-orange-600 transition">Insho & Motivation Letter</h4>
+            <p class="text-[11px] text-zinc-500 truncate">STAR usulida professional esse</p>
           </div>
         </div>
-        <span class="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg shrink-0 ml-2 border border-indigo-100">
+        <span class="text-[11px] font-semibold text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200/60 shrink-0 ml-2">
           Insho
         </span>
       </a>
 
-      <!-- Item 8 -->
-      <a href="{% url 'accounts:register' %}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-lg hover:border-orange-300 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3.5 min-w-0">
-          <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 p-2 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <img src="{% static 'images/icons/icon_diploma_scroll.svg' %}" class="w-full h-full" alt="Common App">
+      <!-- Item 7 -->
+      <a href="{% url 'accounts:register' %}" class="bg-white p-4 rounded-xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex items-center justify-between group">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 p-2 flex items-center justify-center shrink-0">
+            <i data-lucide="clipboard-check" class="w-5 h-5 text-zinc-800"></i>
           </div>
           <div class="min-w-0">
-            <h4 class="text-sm sm:text-base font-black text-slate-900 truncate group-hover:text-orange-600 transition">Common App & Portfolio</h4>
-            <p class="text-[11px] text-slate-500 font-medium truncate">Arizalarni xatosiz to'ldirish kursi</p>
+            <h4 class="text-sm font-bold text-zinc-900 truncate group-hover:text-orange-600 transition">Common App & Portfolio</h4>
+            <p class="text-[11px] text-zinc-500 truncate">Hujjatlarni xatosiz topshirish</p>
           </div>
         </div>
-        <span class="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg shrink-0 ml-2 border border-indigo-100">
-          Kurs
+        <span class="text-[11px] font-semibold text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200/60 shrink-0 ml-2">
+          Ariza
+        </span>
+      </a>
+
+      <!-- Item 8 -->
+      <a href="{% url 'programs:catalog' %}" class="bg-white p-4 rounded-xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex items-center justify-between group">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 p-2 flex items-center justify-center shrink-0">
+            <i data-lucide="award" class="w-5 h-5 text-emerald-600"></i>
+          </div>
+          <div class="min-w-0">
+            <h4 class="text-sm font-bold text-zinc-900 truncate group-hover:text-orange-600 transition">Türkiye Bursları Granti</h4>
+            <p class="text-[11px] text-zinc-500 truncate">To'liq moliyalashtiriluvchi ta'lim</p>
+          </div>
+        </div>
+        <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0 ml-2">
+          Grant
         </span>
       </a>
 
       <!-- Item 9 -->
-      <a href="{% url 'programs:catalog' %}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-lg hover:border-orange-300 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3.5 min-w-0">
-          <div class="w-12 h-12 rounded-2xl bg-zinc-900 p-2 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <img src="{% static 'images/icons/icon_scholarship_shield.svg' %}" class="w-full h-full" alt="Turkiya">
+      <a href="{% url 'programs:catalog' %}" class="bg-white p-4 rounded-xl border border-zinc-200/90 shadow-2xs hover:border-zinc-300 hover:shadow-xs transition duration-150 flex items-center justify-between group">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 p-2 flex items-center justify-center shrink-0">
+            <i data-lucide="book-open" class="w-5 h-5 text-zinc-800"></i>
           </div>
           <div class="min-w-0">
-            <h4 class="text-sm sm:text-base font-black text-slate-900 truncate group-hover:text-orange-600 transition">Türkiye Bursları To'liq Grant</h4>
-            <p class="text-[11px] text-slate-500 font-medium truncate">Turkiya nufuzli universitetlari</p>
+            <h4 class="text-sm font-bold text-zinc-900 truncate group-hover:text-orange-600 transition">Chevening Grant (Buyuk Britaniya)</h4>
+            <p class="text-[11px] text-zinc-500 truncate">100% stipendiya va viza xarajati</p>
           </div>
         </div>
-        <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg shrink-0 ml-2 border border-emerald-100">
+        <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0 ml-2">
           Grant
         </span>
       </a>
@@ -839,110 +871,107 @@
   </section>
 
   <!-- ================= HOW IT WORKS SECTION ================= -->
-  <section id="how-it-works" class="pt-6 border-t border-slate-200">
-    <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-      <span class="text-xs font-bold text-orange-600 uppercase tracking-wider bg-orange-50 px-3.5 py-1 rounded-full border border-orange-100">
-        3 Bosqichli Strategiya
+  <section id="how-it-works" class="pt-6 border-t border-zinc-200">
+    <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
+      <span class="text-xs font-bold text-zinc-700 uppercase tracking-wider bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
+        3 Bosqichli Tizim
       </span>
-      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">
         Platforma qanday ishlaydi?
       </h2>
-      <p class="text-sm text-slate-500">
-        Katta natijalar har kungi intizom va to'g'ri tizimdan boshlanadi
+      <p class="text-sm text-zinc-500">
+        Katta natijalar har kungi intizom va aniq tizimdan boshlanadi
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       
       <!-- Step 1 Card -->
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-orange-300 transition duration-200 group">
-        <div class="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 shadow-xs group-hover:scale-105 transition">
-          <img src="{% static 'images/icons/icon_ai_brain.svg' %}" class="w-full h-full" alt="AI Diagnostika">
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs space-y-3 hover:border-zinc-300 transition duration-150">
+        <div class="w-11 h-11 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center">
+          <i data-lucide="compass" class="w-5 h-5 text-orange-600"></i>
         </div>
         <div class="space-y-1">
-          <span class="text-xs font-black text-orange-600 uppercase tracking-wider">1-Qadam</span>
-          <h3 class="text-lg font-black text-slate-900">AI Diagnostika va Sertifikat Tahlili</h3>
+          <span class="text-xs font-bold text-orange-600 uppercase tracking-wider">1-Qadam</span>
+          <h3 class="text-base font-bold text-zinc-900">Diagnostika va Sertifikat Tahlili</h3>
         </div>
-        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          Reading, Writing, Listening, Speaking va Grammar bo'yicha 5 ta asosiy ko'nikmangiz 0–100 shkalada aniqlanadi yoki IELTS/SAT sertifikatlaringiz yaroqliligi tekshiriladi.
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          Reading, Writing, Listening, Speaking va Grammar bo'yicha bilim darajangiz 0–100 shkalada aniqlanadi yoki mavjud sertifikatingiz yaroqliligi tekshiriladi.
         </p>
       </div>
 
       <!-- Step 2 Card -->
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-orange-300 transition duration-200 group">
-        <div class="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 shadow-xs group-hover:scale-105 transition">
-          <img src="{% static 'images/icons/icon_dual_track.svg' %}" class="w-full h-full" alt="Dual Track">
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs space-y-3 hover:border-zinc-300 transition duration-150">
+        <div class="w-11 h-11 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center">
+          <i data-lucide="layers" class="w-5 h-5 text-zinc-800"></i>
         </div>
         <div class="space-y-1">
-          <span class="text-xs font-black text-orange-600 uppercase tracking-wider">2-Qadam</span>
-          <h3 class="text-lg font-black text-slate-900">Dual-Track Shaxsiy O'quv Rejasi</h3>
+          <span class="text-xs font-bold text-orange-600 uppercase tracking-wider">2-Qadam</span>
+          <h3 class="text-base font-bold text-zinc-900">Dual-Track Shaxsiy O'quv Rejasi</h3>
         </div>
-        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          AI sizga 8 oygacha bo'lgan 2 yo'nalishli reja tuzadi: <strong>Track A</strong> (IELTS/SAT test drilllari) va <strong>Track B</strong> (Insho, Extracurricular va Universitet arizalari).
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          AI sizga 8 oygacha bo'lgan 2 yo'nalishli reja tuzadi: <strong>Track A</strong> (IELTS/SAT test drilllari) va <strong>Track B</strong> (Insho, portfolio va qabul arizalari).
         </p>
       </div>
 
       <!-- Step 3 Card -->
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs relative space-y-4 hover:border-orange-300 transition duration-200 group">
-        <div class="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center p-2.5 shadow-xs group-hover:scale-105 transition">
-          <img src="{% static 'images/icons/icon_ielts_target.svg' %}" class="w-full h-full" alt="Kunlik Mashqlar">
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs space-y-3 hover:border-zinc-300 transition duration-150">
+        <div class="w-11 h-11 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center">
+          <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600"></i>
         </div>
         <div class="space-y-1">
-          <span class="text-xs font-black text-orange-600 uppercase tracking-wider">3-Qadam</span>
-          <h3 class="text-lg font-black text-slate-900">Kunlik Mashqlar va Mock Imtihonlar</h3>
+          <span class="text-xs font-bold text-orange-600 uppercase tracking-wider">3-Qadam</span>
+          <h3 class="text-base font-bold text-zinc-900">Kunlik Mashqlar va Mock Imtihonlar</h3>
         </div>
-        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          Har kuni 2-3 ta qisqa mashqni bajaring, xatolaringizga batafsil AI izohini oling, to'liq vaqtli Mock simulyatsiyasini topshirib, 100% grantga tayyor bo'ling.
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          Har kuni 2-3 ta qisqa mashqni bajaring, xatolaringizga batafsil AI tushuntirishini oling va to'liq vaqtli Mock simulyatorida qatnashing.
         </p>
       </div>
 
     </div>
 
-    <!-- Dual-Track 3D Visual Showcase Banner -->
-    <div class="mt-8 bg-gradient-to-br from-slate-950 via-[#1e1c1b] to-zinc-900 rounded-[32px] p-6 sm:p-10 border border-zinc-800 text-white shadow-2xl relative overflow-hidden">
-      <!-- Background ambient glow -->
-      <div class="absolute -right-16 -top-16 w-80 h-80 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
-      
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+    <!-- Dual-Track Architecture Showcase (Clean Solid Dark Surface, NO Blur Blobs) -->
+    <div class="mt-8 bg-zinc-950 rounded-2xl p-6 sm:p-10 border border-zinc-800 text-white shadow-md">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <!-- Left: Details -->
         <div class="lg:col-span-6 space-y-5">
-          <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-black uppercase tracking-wider">
-            <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-            <span>UniMentor Innovatsiyasi</span>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-orange-400 text-xs font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+            <span>UniMentor Metodologiyasi</span>
           </div>
           
-          <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight">
-            Dual-Track Reja: Imtihon va Universitet Hujjatlari parallel ketadi
+          <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
+            Dual-Track Reja: Imtihon va Grant Arizalari parallel ketadi
           </h3>
           
-          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
-            Ko'p o'quvchilar avval faqat IELTS o'qib, grant arizalariga kech qolishadi. UniMentor AI sizga ikkala yo'nalishni bir vaqtda, ortiqcha yuklamasiz rejalashtirib beradi.
+          <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+            O'quvchilarning 80% qismi avval faqat IELTS o'qib, grant arizalariga kech qolishadi. UniMentor AI ikkala yo'nalishni bir vaqtda, ortiqcha yuklamasiz rejalashtirib beradi.
           </p>
           
-          <div class="space-y-3 pt-2">
+          <div class="space-y-3 pt-1">
             <!-- Track A Feature -->
-            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-start space-x-3.5">
-              <div class="w-10 h-10 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center shrink-0">
-                <span class="text-orange-400 font-black text-sm">A</span>
+            <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex items-start space-x-3.5">
+              <div class="w-8 h-8 rounded-lg bg-orange-600/20 border border-orange-500/30 flex items-center justify-center shrink-0">
+                <span class="text-orange-400 font-bold text-xs">A</span>
               </div>
               <div class="space-y-0.5">
                 <div class="flex items-center space-x-2">
-                  <h4 class="text-sm font-bold text-white">Track A — Imtihonlar (IELTS / SAT / CEFR)</h4>
-                  <span class="text-[10px] bg-orange-500 text-white px-2 py-0.5 rounded-full font-bold">Har kuni</span>
+                  <h4 class="text-xs sm:text-sm font-semibold text-white">Track A — Imtihonlar (IELTS / SAT / CEFR)</h4>
+                  <span class="text-[10px] bg-orange-600 text-white px-2 py-0.5 rounded font-semibold">Har kuni</span>
                 </div>
-                <p class="text-xs text-zinc-400">Har kungi 15 daqiqalik drilllar, zaif ko'nikmalarni kuchaytirish va to'liq vaqtli Mock simulyatorlar.</p>
+                <p class="text-xs text-zinc-400">Har kungi 15 daqiqalik drilllar, zaif ko'nikmalarni kuchaytirish va Mock simulyatorlar.</p>
               </div>
             </div>
 
             <!-- Track B Feature -->
-            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-start space-x-3.5">
-              <div class="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-                <span class="text-zinc-200 font-black text-sm">B</span>
+            <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex items-start space-x-3.5">
+              <div class="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
+                <span class="text-zinc-300 font-bold text-xs">B</span>
               </div>
               <div class="space-y-0.5">
                 <div class="flex items-center space-x-2">
-                  <h4 class="text-sm font-bold text-white">Track B — Universitet Hujjatlari & Grantlar</h4>
-                  <span class="text-[10px] bg-zinc-700 text-zinc-200 px-2 py-0.5 rounded-full font-bold">Haftalik</span>
+                  <h4 class="text-xs sm:text-sm font-semibold text-white">Track B — Universitet Hujjatlari & Grantlar</h4>
+                  <span class="text-[10px] bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded font-semibold">Haftalik</span>
                 </div>
                 <p class="text-xs text-zinc-400">Insho yozish (Personal Statement, SOP), tavsiyanomalar olish, portfolioni boyitish va arizalarni kuzatish.</p>
               </div>
@@ -950,14 +979,43 @@
           </div>
         </div>
 
-        <!-- Right: 3D Illustration -->
+        <!-- Right: Authentic Interactive Dual-Track Roadmap UI Mockup -->
         <div class="lg:col-span-6 flex justify-center">
-          <div class="relative w-full max-w-md bg-zinc-900/90 p-3 rounded-3xl border border-zinc-700/80 shadow-2xl overflow-hidden group">
-            <img src="{% static 'images/unimentor_dual_track.jpg' %}" alt="Dual-Track Roadmap 3D" class="w-full h-auto rounded-2xl object-cover transform group-hover:scale-105 transition duration-500">
-            <div class="absolute bottom-5 left-5 right-5 p-3 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/10 text-center">
-              <p class="text-xs font-bold text-orange-300 flex items-center justify-center space-x-1.5">
-                <span>Barcha harakatlar bitta nishonga: 100% Grant & Universitet Qabuli</span>
-              </p>
+          <div class="w-full max-w-md bg-zinc-900 rounded-xl border border-zinc-800 p-4 space-y-3">
+            <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+              <span class="text-xs font-bold text-zinc-300">8 Oylik Roadmap Simulyatsiyasi</span>
+              <span class="text-[11px] font-mono text-orange-400">Avgust — Mart</span>
+            </div>
+            
+            <!-- Milestone 1 -->
+            <div class="p-3 rounded-lg bg-zinc-950 border border-zinc-800/80 space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-white">1–2 Oylar: Diagnostika & Baza</span>
+                <span class="text-[10px] font-semibold text-emerald-400 bg-emerald-950 px-1.5 py-0.5 rounded border border-emerald-800/50">Tugallangan</span>
+              </div>
+              <p class="text-[11px] text-zinc-400">IELTS 6.5 ball darajasi aniqlandi. 5 ta maqsadli universitet tanlandi.</p>
+            </div>
+
+            <!-- Milestone 2 -->
+            <div class="p-3 rounded-lg bg-zinc-950 border border-orange-500/30 space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-orange-400">3–4 Oylar: Insho & SAT Testi</span>
+                <span class="text-[10px] font-semibold text-orange-300 bg-orange-950/80 px-1.5 py-0.5 rounded border border-orange-800/50">Hozirgi bosqich</span>
+              </div>
+              <p class="text-[11px] text-zinc-400">STAR uslubidagi 650 so'zli Common App inshosi 2-qoralamada tekshirilmoqda.</p>
+            </div>
+
+            <!-- Milestone 3 -->
+            <div class="p-3 rounded-lg bg-zinc-950 border border-zinc-800/80 space-y-1.5 opacity-70">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-zinc-300">5–8 Oylar: Grant Arizalari & Intervyu</span>
+                <span class="text-[10px] font-semibold text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">Rejalashtirilgan</span>
+              </div>
+              <p class="text-[11px] text-zinc-400">Global UGRAD va DAAD arizalari topshiriladi, mock intervyular o'tkaziladi.</p>
+            </div>
+
+            <div class="pt-2 text-center">
+              <span class="text-[11px] font-medium text-zinc-400">Barcha harakatlar bitta maqsadga: 100% Grant</span>
             </div>
           </div>
         </div>
@@ -966,191 +1024,211 @@
   </section>
 
 
-  <!-- ================= KEY FEATURES GRID (MENTOR) ================= -->
-  <section id="mentor" class="pt-6 border-t border-slate-200">
+  <!-- ================= KEY FEATURES GRID (MENTOR & ESSAY INSPECTOR) ================= -->
+  <section id="mentor" class="pt-6 border-t border-zinc-200">
     <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
-      <span class="text-xs font-bold text-orange-600 uppercase tracking-wider bg-orange-50 px-3.5 py-1 rounded-full border border-orange-100">
+      <span class="text-xs font-bold text-zinc-700 uppercase tracking-wider bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
         Shaxsiy AI Mentor & Imkoniyatlar
       </span>
-      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">
         Nega aynan UniMentor AI Mentori?
       </h2>
-      <p class="text-sm text-slate-500">
+      <p class="text-sm text-zinc-500">
         Xorijda o'qish orzuingizni bosqichma-bosqich haqiqiy natijaga aylantiruvchi vositalar
       </p>
     </div>
 
-    <!-- AI Mentor 3D Workspace Showcase Banner -->
-    <div class="mb-10 bg-white rounded-[32px] p-6 sm:p-10 border border-slate-200 shadow-xl relative overflow-hidden">
+    <!-- AI Mentor Essay Review Inspector Mockup -->
+    <div class="mb-10 bg-white rounded-2xl p-6 sm:p-10 border border-zinc-200/90 shadow-sm">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <!-- Left Column: 3D Illustration -->
-        <div class="lg:col-span-6 flex justify-center order-2 lg:order-1">
-          <div class="relative w-full max-w-md bg-orange-50/50 p-3 rounded-3xl border border-orange-100 shadow-lg overflow-hidden group">
-            <img src="{% static 'images/unimentor_ai_mentor.jpg' %}" alt="AI Essay & Application Mentor 3D" class="w-full h-auto rounded-2xl object-cover transform group-hover:scale-105 transition duration-500">
-            <!-- Floating badge on image -->
-            <div class="absolute top-6 left-6 px-3.5 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <span class="text-xs font-black text-slate-900">Insho Tahlili: A+ Baho</span>
+        
+        <!-- Left Column: Realistic Essay Editor & AI Review Inspector UI -->
+        <div class="lg:col-span-6 order-2 lg:order-1">
+          <div class="w-full bg-zinc-50 rounded-xl border border-zinc-200 overflow-hidden shadow-2xs">
+            <!-- Inspector Header -->
+            <div class="px-4 py-2.5 bg-white border-b border-zinc-200 flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <i data-lucide="file-text" class="w-4 h-4 text-orange-600"></i>
+                <span class="text-xs font-bold text-zinc-800">Common App Essay (Personal Statement)</span>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-500">650 so'z</span>
             </div>
-            <div class="absolute bottom-6 right-6 px-3.5 py-1.5 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700 text-white text-xs font-bold flex items-center space-x-2 shadow-lg">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-orange-400"></i>
-              <span>Grammar & Logic 100%</span>
+
+            <!-- Student Essay Excerpt -->
+            <div class="p-4 space-y-3 text-xs leading-relaxed text-zinc-700 bg-white">
+              <p>
+                "During my tenure as the leader of our high school science club in Tashkent, <span class="bg-amber-100 text-amber-900 px-1 py-0.5 rounded border-b-2 border-amber-400 font-medium">I organized multiple workshops to help younger students learn computer programming</span>."
+              </p>
+            </div>
+
+            <!-- AI Inspection Feedback Panel -->
+            <div class="p-4 bg-zinc-50 border-t border-zinc-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span class="text-xs font-bold text-zinc-900">Claude AI Tahlili: STAR Metodologiyasi</span>
+                </div>
+                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  92% Moslik
+                </span>
+              </div>
+
+              <!-- Recommendation Card -->
+              <div class="p-3 bg-white rounded-lg border border-zinc-200 space-y-1.5 text-[11px]">
+                <div class="flex items-center space-x-1.5 text-orange-600 font-bold">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span>Tavsiya qilingan yaxshilanish:</span>
+                </div>
+                <p class="text-zinc-600 leading-relaxed">
+                  "Umumiy gaplar o'rniga aniq o'lchanadigan natijani yozing: masalan, <em>'15 nafar o'quvchiga Python asoslarini o'rgatdim va ular 3 ta mustaqil loyiha yaratishdi'</em>."
+                </p>
+              </div>
+
+              <div class="flex items-center justify-between text-[11px] text-zinc-500 pt-1">
+                <span>Grammatika va uslub: <strong class="text-zinc-800">Xatosiz</strong></span>
+                <span>Plagiat: <strong class="text-emerald-600">0% (Toza)</strong></span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Right Column: Features -->
+        <!-- Right Column: Features Description -->
         <div class="lg:col-span-6 space-y-5 order-1 lg:order-2">
-          <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-700 text-xs font-black uppercase tracking-wider">
-            <div class="w-4 h-4">
-              <img src="{% static 'images/icons/icon_essay_review.svg' %}" class="w-full h-full" alt="Insho Tahlili">
-            </div>
-            <span>24/7 Shaxsiy Konsultant</span>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-800 text-xs font-semibold">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Qabul Komissiyasi Standarti</span>
           </div>
 
-          <h3 class="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
-            Insholaringizni xalqaro qabul komissiyasi standartida tahlil qiling
+          <h3 class="text-2xl sm:text-3xl font-bold text-zinc-900 tracking-tight leading-tight">
+            Insholaringizni xalqaro qabul komissiyasi mezonlarida tahlil qiling
           </h3>
 
-          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Oddiy grammatika tekshiruvchilaridan farqli o'laroq, UniMentor AI sizning shaxsiy hikoyangiz, liderlik tajribangiz va grant talablariga mosligini to'liq ko'rib chiqadi.
+          <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+            Oddiy imlo tekshiruvchilaridan farqli o'laroq, UniMentor AI sizning shaxsiy hikoyangiz, liderlik tajribangiz va grant talablariga mosligini to'liq ko'rib chiqadi.
           </p>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <div class="p-3.5 rounded-2xl bg-orange-50/50 border border-orange-100 flex items-start space-x-2.5">
-              <div class="w-6 h-6 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center shrink-0">
-                <i data-lucide="check" class="w-3.5 h-3.5 text-orange-700 stroke-[3]"></i>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div class="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200 space-y-1">
+              <div class="flex items-center space-x-2 text-zinc-900 font-bold text-xs">
+                <i data-lucide="check" class="w-4 h-4 text-orange-600"></i>
+                <span>STAR Metodologiyasi</span>
               </div>
-              <p class="text-xs text-slate-700 font-medium leading-relaxed"><strong>STAR Metodologiyasi:</strong> Harakat va natijalaringizni aniq ko'rsatib beradi.</p>
+              <p class="text-xs text-zinc-500 leading-relaxed">Harakat va natijalaringizni aniq faktlar bilan ko'rsatib beradi.</p>
             </div>
-            <div class="p-3.5 rounded-2xl bg-orange-50/50 border border-orange-100 flex items-start space-x-2.5">
-              <div class="w-6 h-6 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center shrink-0">
-                <i data-lucide="check" class="w-3.5 h-3.5 text-orange-700 stroke-[3]"></i>
+            <div class="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200 space-y-1">
+              <div class="flex items-center space-x-2 text-zinc-900 font-bold text-xs">
+                <i data-lucide="check" class="w-4 h-4 text-orange-600"></i>
+                <span>Ovoz va Autentiklik</span>
               </div>
-              <p class="text-xs text-slate-700 font-medium leading-relaxed"><strong>Plagiat & Klichyelar:</strong> Shaxsiy ovozingizni saqlagan holda ifodani kuchaytiradi.</p>
+              <p class="text-xs text-zinc-500 leading-relaxed">Shaxsiy ovozingizni saqlagan holda ifodani kuchaytiradi.</p>
             </div>
           </div>
         </div>
+
       </div>
     </div>
 
-    <!-- Bento Grid Feature System (Reference Image 3) -->
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+    <!-- Clean Bento Grid Feature System -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
       
-      <!-- Block 01 (Large Purple Card - Left) -->
-      <div class="md:col-span-12 lg:col-span-6 bg-[#7866f0] text-white p-7 sm:p-9 rounded-[32px] shadow-xl flex flex-col justify-between card-tilt-hover relative overflow-hidden min-h-[320px] group">
-        <div class="space-y-4">
-          <div class="flex items-center space-x-3">
-            <span class="w-9 h-9 rounded-full border-2 border-white/60 text-white font-black text-xs flex items-center justify-center">01</span>
-            <h3 class="text-2xl font-black">Shaxsiy AI Ta'lim</h3>
-          </div>
-          <p class="text-xs sm:text-sm text-indigo-100 font-medium leading-relaxed max-w-md">
-            UniMentor — chegarasiz ta'lim olish platformasi. Qayerda bo'lishingizdan qat'iy nazar: uydami yo maktabda, ertami yo kechqurun, 0-100 shkala bo'yicha shaxsiy bilim olasiz va zaif ko'nikmalaringizni to'g'irlab borasiz.
-          </p>
-        </div>
-        <!-- 3D Generated Cursor Illustration in bottom right -->
-        <div class="self-end mt-4 flex items-center space-x-3">
-          <span class="text-[11px] font-bold text-indigo-200 bg-white/10 px-3 py-1 rounded-full backdrop-blur-md">1-Bosqich: Interaktiv</span>
-          <img src="{% static 'images/unimentor_cursor_3d.jpg' %}" alt="3D Cursor AI" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shadow-2xl border-2 border-white/30 transform group-hover:scale-105 group-hover:rotate-3 transition duration-300">
-        </div>
-      </div>
-
-      <!-- Block 02 (Sky Blue Card - Right Top) -->
-      <div class="md:col-span-6 lg:col-span-6 bg-[#38bdf8] text-white p-7 sm:p-8 rounded-[32px] shadow-xl flex flex-col justify-between card-tilt-hover relative overflow-hidden group">
+      <!-- Card 01: Adaptive Diagnostic (Col 7) -->
+      <div class="md:col-span-12 lg:col-span-7 bg-white p-6 sm:p-7 rounded-2xl border border-zinc-200/90 shadow-2xs flex flex-col justify-between space-y-4 hover:border-zinc-300 transition duration-150">
         <div class="space-y-3">
-          <div class="flex items-center space-x-3">
-            <span class="w-9 h-9 rounded-full border-2 border-white/60 text-white font-black text-xs flex items-center justify-center">02</span>
-            <h3 class="text-xl sm:text-2xl font-black">Nazariya va Amaliyot</h3>
-          </div>
-          <p class="text-xs sm:text-sm text-sky-100 font-medium leading-relaxed">
-            Darsliklar nazariy va amaliy mashqlardan iborat. Har bir dars so'ngida berilgan topshiriqlarni amalga oshirish orqali bilimlaringizni amalda mustahkamlab borasiz.
-          </p>
-        </div>
-        <div class="self-end mt-2">
-          <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center p-2">
-            <img src="{% static 'images/icons/icon_ielts_target.svg' %}" class="w-full h-full" alt="Amaliyot">
-          </div>
-        </div>
-      </div>
-
-      <!-- Block 03 (Warm Yellow Card - Right Middle) -->
-      <div class="md:col-span-6 lg:col-span-6 bg-[#f7d047] text-slate-900 p-7 sm:p-8 rounded-[32px] shadow-xl flex flex-col justify-between card-tilt-hover relative overflow-hidden group">
-        <div class="space-y-3">
-          <div class="flex items-center space-x-3">
-            <span class="w-9 h-9 rounded-full border-2 border-slate-900/60 text-slate-900 font-black text-xs flex items-center justify-center">03</span>
-            <h3 class="text-xl sm:text-2xl font-black">Doimiy 24/7 Qo'llab-quvvatlov</h3>
-          </div>
-          <p class="text-xs sm:text-sm text-slate-800 font-semibold leading-relaxed">
-            Sizga vazifalaringizni tekshirib, savollaringizga javob berib borish uchun yordamchi AI mentor beriladi. Platforma texnik supporti 24/7 xizmat ko'rsatadi.
-          </p>
-        </div>
-        <div class="self-end mt-2">
-          <div class="w-12 h-12 rounded-xl bg-slate-900/10 flex items-center justify-center p-2">
-            <img src="{% static 'images/icons/icon_essay_review.svg' %}" class="w-full h-full" alt="Mentor">
-          </div>
-        </div>
-      </div>
-
-      <!-- Block 05 (Emerald Green - Left Middle) -->
-      <div class="md:col-span-6 lg:col-span-6 bg-[#2ecc71] text-white p-7 sm:p-8 rounded-[32px] shadow-xl flex flex-col justify-between card-tilt-hover relative overflow-hidden group">
-        <div class="space-y-3">
-          <div class="flex items-center space-x-3">
-            <span class="w-9 h-9 rounded-full border-2 border-white/60 text-white font-black text-xs flex items-center justify-center">05</span>
-            <h3 class="text-xl sm:text-2xl font-black">Networking & Hamjamiyat</h3>
-          </div>
-          <p class="text-xs sm:text-sm text-emerald-100 font-medium leading-relaxed">
-            Iqtidorli talabalar bilan muloqot, yopiq masterklasslar, xalqaro grant g'oliblari bilan ovozli chatlar va motivatsion muhit.
-          </p>
-        </div>
-        <div class="self-end mt-2">
-          <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center p-2">
-            <img src="{% static 'images/icons/icon_streak_fire.svg' %}" class="w-full h-full" alt="Hamjamiyat">
-          </div>
-        </div>
-      </div>
-
-      <!-- Block 04 (Large Coral/Orange Card - Right Bottom with Generated 3D Rocket!) -->
-      <div class="md:col-span-12 lg:col-span-6 bg-[#ff6326] text-white p-7 sm:p-9 rounded-[32px] shadow-2xl flex flex-col justify-between card-tilt-hover relative overflow-hidden min-h-[320px] group neon-glow-orange">
-        <div class="space-y-4">
-          <div class="flex items-center space-x-3">
-            <span class="w-9 h-9 rounded-full border-2 border-white/60 text-white font-black text-xs flex items-center justify-center">04</span>
-            <h3 class="text-2xl font-black">Tajribali Ustozlar & 100% Grant</h3>
-          </div>
-          <p class="text-xs sm:text-sm text-orange-100 font-medium leading-relaxed max-w-md">
-            UniMentor barcha algoritmlari uzoq yillik xalqaro tajribaga ega ekspertlar, Harvard va DAAD stipendiatlari tavsiyalari asosida yaratilgan.
-          </p>
-        </div>
-        <!-- 3D Generated Rocket Graphic in bottom right -->
-        <div class="self-end mt-4 flex items-center space-x-3">
-          <span class="text-xs font-black uppercase tracking-wider bg-white/20 px-3 py-1.5 rounded-full text-white flex items-center space-x-1.5">
-            <img src="{% static 'images/icons/icon_rocket_launch.svg' %}" class="w-3.5 h-3.5 inline-block" alt="Launch">
-            <span>100% Grantga Parvoz</span>
-          </span>
-          <img src="{% static 'images/unimentor_rocket_3d.jpg' %}" alt="3D Rocket Blast" class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl object-cover shadow-2xl border-2 border-white/40 ring-4 ring-white/15 transform group-hover:scale-110 group-hover:-translate-y-2 transition duration-300">
-        </div>
-      </div>
-
-      <!-- Block 06 (Full width Glowing Banner with Generated 3D Certificate & Target) -->
-      <div class="md:col-span-12 bg-gradient-to-r from-slate-950 via-[#181528] to-slate-900 text-white p-7 sm:p-8 rounded-[32px] shadow-2xl border border-purple-900/40 flex flex-col lg:flex-row items-center justify-between gap-6 card-tilt-hover relative overflow-hidden group neon-glow-purple">
-        <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-5 text-center sm:text-left">
-          <img src="{% static 'images/unimentor_cert_glow.jpg' %}" alt="Glowing 3D Certificate" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover shadow-2xl border border-cyan-400/40 shrink-0">
-          <div class="space-y-2 max-w-xl">
-            <div class="flex items-center justify-center sm:justify-start space-x-3">
-              <span class="w-8 h-8 rounded-full border-2 border-cyan-400 text-cyan-300 font-black text-xs flex items-center justify-center">06</span>
-              <h3 class="text-xl sm:text-2xl font-black text-white">Sertifikat va Ready Score Portfoliosi</h3>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+              <div class="w-9 h-9 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800 font-mono text-xs font-bold">
+                01
+              </div>
+              <h3 class="text-lg font-bold text-zinc-900">Adaptiv AI Diagnostika</h3>
             </div>
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Diagnostika va Mock imtihonlarni topshirib, 100% rasmiy tasdiqlangan UniMentor sertifikatiga hamda xalqaro standartdagi qabul portfoliosiga ega bo'ling.
-            </p>
+            <span class="text-[10px] font-semibold text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200/60">
+              0–100 Shkala
+            </span>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+            Reading, Writing, Listening, Speaking va Grammar bo'yicha kuchli va zaif ko'nikmalaringiz aniqlanadi. Faqat sizga kerakli darslar va mashqlar tavsiya qilinadi.
+          </p>
+        </div>
+        
+        <!-- Mini Skills Bar Preview -->
+        <div class="pt-3 border-t border-zinc-100 grid grid-cols-3 gap-2 text-xs">
+          <div class="p-2 bg-zinc-50 rounded-lg border border-zinc-100">
+            <span class="text-[10px] text-zinc-500">Reading</span>
+            <p class="font-bold text-zinc-800">85/100</p>
+          </div>
+          <div class="p-2 bg-zinc-50 rounded-lg border border-zinc-100">
+            <span class="text-[10px] text-zinc-500">Grammar</span>
+            <p class="font-bold text-orange-600">62/100 (Zaif)</p>
+          </div>
+          <div class="p-2 bg-zinc-50 rounded-lg border border-zinc-100">
+            <span class="text-[10px] text-zinc-500">Writing</span>
+            <p class="font-bold text-zinc-800">78/100</p>
           </div>
         </div>
-        <div class="flex items-center space-x-4 shrink-0">
-          <img src="{% static 'images/unimentor_target_glow.jpg' %}" alt="Target Radar" class="w-16 h-16 rounded-2xl object-cover shadow-xl border border-orange-500/40 hidden xl:block">
-          <a href="{% url 'accounts:register' %}" class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-black text-sm rounded-2xl shadow-xl shadow-orange-950/60 transition flex items-center space-x-2 group-hover:scale-105">
-            <span>Diagnostikadan O'tish</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </a>
+      </div>
+
+      <!-- Card 02: 24/7 AI Mentor Chat (Col 5) -->
+      <div class="md:col-span-12 lg:col-span-5 bg-white p-6 sm:p-7 rounded-2xl border border-zinc-200/90 shadow-2xs flex flex-col justify-between space-y-4 hover:border-zinc-300 transition duration-150">
+        <div class="space-y-3">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-9 h-9 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800 font-mono text-xs font-bold">
+              02
+            </div>
+            <h3 class="text-lg font-bold text-zinc-900">24/7 Shaxsiy AI Mentor</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+            Universitet tanlash, stipendiya talablari, viza jarayoni va qabul mezonlari bo'yicha istalgan savolingizga tasdiqlangan manbalar asosida javob oling.
+          </p>
         </div>
+        <div class="pt-3 border-t border-zinc-100 flex items-center space-x-2 text-xs text-orange-600 font-semibold">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span>Har bir burilishda yo'l-yo'riq</span>
+        </div>
+      </div>
+
+      <!-- Card 03: Mock Simulators (Col 4) -->
+      <div class="md:col-span-6 lg:col-span-4 bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs flex flex-col justify-between space-y-3 hover:border-zinc-300 transition duration-150">
+        <div class="space-y-2">
+          <div class="flex items-center space-x-2">
+            <span class="w-7 h-7 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-700 text-xs font-mono font-bold">03</span>
+            <h4 class="text-sm font-bold text-zinc-900">Mock Imtihonlar</h4>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Haqiqiy IELTS va SAT bosimi ostida to'liq vaqtli sinovlar va daqiqalik tahlillar.
+          </p>
+        </div>
+        <span class="text-[11px] font-semibold text-zinc-500">Taymer & Avtomatik Baholash</span>
+      </div>
+
+      <!-- Card 04: Consistency Streak (Col 4) -->
+      <div class="md:col-span-6 lg:col-span-4 bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs flex flex-col justify-between space-y-3 hover:border-zinc-300 transition duration-150">
+        <div class="space-y-2">
+          <div class="flex items-center space-x-2">
+            <span class="w-7 h-7 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-700 text-xs font-mono font-bold">04</span>
+            <h4 class="text-sm font-bold text-zinc-900">Uzluksiz Intizom</h4>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Duolingo uslubida streak va Ready Score ko'rsatkichi har kuni ta'lim odatini mustahkamlaydi.
+          </p>
+        </div>
+        <span class="text-[11px] font-semibold text-orange-600 flex items-center space-x-1">
+          <i data-lucide="flame" class="w-3.5 h-3.5"></i>
+          <span>Streak & Ready Score</span>
+        </span>
+      </div>
+
+      <!-- Card 05: Official Portfolio (Col 4) -->
+      <div class="md:col-span-12 lg:col-span-4 bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs flex flex-col justify-between space-y-3 hover:border-zinc-300 transition duration-150">
+        <div class="space-y-2">
+          <div class="flex items-center space-x-2">
+            <span class="w-7 h-7 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-700 text-xs font-mono font-bold">05</span>
+            <h4 class="text-sm font-bold text-zinc-900">Tasdiqlangan Portfolio</h4>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Tayyorgarlik natijalari qabul komissiyalari va grantlar uchun rasmiy sertifikatga aylanadi.
+          </p>
+        </div>
+        <span class="text-[11px] font-semibold text-emerald-700">100% Rasmiy Sertifikat</span>
       </div>
 
     </div>
@@ -1158,62 +1236,62 @@
 
 
   <!-- ================= POPULAR PROGRAMS PREVIEW ================= -->
-  <section id="programs" class="pt-6 border-t border-slate-200">
+  <section id="programs" class="pt-6 border-t border-zinc-200">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
       <div>
-        <span class="text-xs font-bold text-orange-600 uppercase tracking-wider bg-orange-50 px-3.5 py-1 rounded-full border border-orange-100">
+        <span class="text-xs font-bold text-zinc-700 uppercase tracking-wider bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
           Tasdiqlangan Grantlar
         </span>
-        <h2 class="text-2xl sm:text-4xl font-black text-slate-900 mt-2">Mashhur Xalqaro Grant Dasturlari</h2>
-        <p class="text-sm text-slate-500 mt-1">O'zbekiston yoshlari uchun to'liq moliyalashtiriluvchi stipendiya va almashinuv dasturlari</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight mt-2">Mashhur Xalqaro Grant Dasturlari</h2>
+        <p class="text-sm text-zinc-500 mt-1">O'zbekiston yoshlari uchun to'liq moliyalashtiriluvchi stipendiya va almashinuv dasturlari</p>
       </div>
-      <a href="{% url 'programs:catalog' %}" class="px-5 py-2.5 bg-orange-50 hover:bg-orange-100 text-orange-700 text-xs font-black rounded-xl transition flex items-center space-x-1.5 border border-orange-200">
-        <span>Barcha dasturlarni ko'rish</span>
-        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      <a href="{% url 'programs:catalog' %}" class="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold rounded-xl transition flex items-center space-x-1.5 border border-zinc-200">
+        <span>Barcha dasturlar</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
       </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {% for prog in programs %}
-        <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs flex flex-col justify-between hover:shadow-xl hover:border-orange-300 transition duration-200">
+        <div class="bg-white rounded-2xl border border-zinc-200/90 p-6 shadow-2xs flex flex-col justify-between hover:border-zinc-300 hover:shadow-xs transition duration-150">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
-              <span class="px-3 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-full">
+              <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-800 text-xs font-semibold rounded-md border border-zinc-200/60">
                 {{ prog.country }}
               </span>
-              <span class="text-xs font-bold {% if prog.type == 'grant' %}text-emerald-600{% else %}text-orange-600{% endif %} uppercase">
+              <span class="text-xs font-bold {% if prog.type == 'grant' %}text-emerald-700 bg-emerald-50 border border-emerald-200/60{% else %}text-orange-700 bg-orange-50 border border-orange-200/60{% endif %} px-2 py-0.5 rounded-md uppercase">
                 {{ prog.get_type_display }}
               </span>
             </div>
             
-            <h3 class="text-lg font-black text-slate-900">{{ prog.name }}</h3>
+            <h3 class="text-base font-bold text-zinc-900 leading-snug">{{ prog.name }}</h3>
             
-            <div class="space-y-2 text-xs text-slate-600">
+            <div class="space-y-1.5 text-xs text-zinc-600">
               <div class="flex items-center space-x-2">
-                <i data-lucide="calendar-clock" class="w-4 h-4 text-slate-400"></i>
+                <i data-lucide="calendar" class="w-3.5 h-3.5 text-zinc-400"></i>
                 <span>Muddati: <strong>{{ prog.deadline|date:"d-F, Y"|default:"Har yili" }}</strong></span>
               </div>
               <div class="flex items-center space-x-2">
-                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i>
-                <span>Rasmiy tekshirilgan sana: {{ prog.last_verified_date|date:"d.m.Y" }}</span>
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Tasdiqlangan: {{ prog.last_verified_date|date:"d.m.Y" }}</span>
               </div>
             </div>
           </div>
 
-          <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-            <a href="{{ prog.source_url }}" target="_blank" rel="noopener" class="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center space-x-1">
+          <div class="mt-5 pt-3.5 border-t border-zinc-100 flex items-center justify-between">
+            <a href="{{ prog.source_url }}" target="_blank" rel="noopener" class="text-xs font-semibold text-zinc-500 hover:text-zinc-800 flex items-center space-x-1">
               <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
               <span>Rasmiy sayt</span>
             </a>
-            <a href="{% url 'programs:detail' prog.id %}" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-xl shadow-xs shadow-orange-200 transition flex items-center space-x-1">
+            <a href="{% url 'programs:detail' prog.id %}" class="px-3.5 py-1.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold rounded-lg shadow-2xs transition flex items-center space-x-1">
               <span>Batafsil</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              <i data-lucide="arrow-right" class="w-3 h-3"></i>
             </a>
           </div>
         </div>
       {% empty %}
-        <div class="col-span-full p-8 bg-white rounded-3xl border border-slate-200 text-center">
-          <p class="text-slate-500 text-sm">Dasturlar ro'yxati yuklanmoqda...</p>
+        <div class="col-span-full p-8 bg-white rounded-2xl border border-zinc-200 text-center">
+          <p class="text-zinc-500 text-sm">Dasturlar ro'yxati yuklanmoqda...</p>
         </div>
       {% endfor %}
     </div>
@@ -1221,89 +1299,89 @@
 
 
   <!-- ================= TESTIMONIALS / STUDENT SUCCESS STORIES ================= -->
-  <section class="pt-6 border-t border-slate-200">
-    <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-      <span class="text-xs font-bold text-orange-600 uppercase tracking-wider bg-orange-50 px-3.5 py-1 rounded-full border border-orange-100">
+  <section class="pt-6 border-t border-zinc-200">
+    <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
+      <span class="text-xs font-bold text-zinc-700 uppercase tracking-wider bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
         O'quvchilar Fikrlari
       </span>
-      <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">
         UniMentor AI bilan grant yutgan talabalar
       </h2>
-      <p class="text-sm text-slate-500">
+      <p class="text-sm text-zinc-500">
         Haqiqiy o'quvchilar tajribasi va erishilgan yutuqlar
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       
       <!-- Testimonial 1 -->
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-orange-200 transition">
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs flex flex-col justify-between space-y-4 hover:border-zinc-300 transition duration-150">
         <div class="space-y-3">
-          <div class="flex items-center space-x-1 text-amber-400">
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          <div class="flex items-center space-x-1 text-amber-500">
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
           </div>
-          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+          <p class="text-xs sm:text-sm text-zinc-700 leading-relaxed">
             "Global UGRAD uchun insho yozishda eng ko'p qiynalgan edim. AI Mentor har bir xatboshimdagi kamchiliklarni ko'rsatib, STAR metodida qayta yozishimga yordam berdi. Natijada 100% grant yutdim!"
           </p>
         </div>
 
-        <div class="flex items-center space-x-3 pt-3 border-t border-slate-100">
-          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=120&auto=format&fit=crop" alt="Javohir" class="w-11 h-11 rounded-2xl object-cover border border-slate-200">
+        <div class="flex items-center space-x-3 pt-3 border-t border-zinc-100">
+          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=120&auto=format&fit=crop" alt="Javohir" class="w-10 h-10 rounded-xl object-cover border border-zinc-200">
           <div>
-            <h4 class="text-xs sm:text-sm font-black text-slate-900">Javohir Rustamov</h4>
-            <p class="text-[11px] text-orange-600 font-bold">Global UGRAD Finalisti • AQSh</p>
+            <h4 class="text-xs sm:text-sm font-bold text-zinc-900">Javohir Rustamov</h4>
+            <p class="text-[11px] text-orange-600 font-semibold">Global UGRAD Finalisti • AQSh</p>
           </div>
         </div>
       </div>
 
       <!-- Testimonial 2 -->
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-orange-200 transition">
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs flex flex-col justify-between space-y-4 hover:border-zinc-300 transition duration-150">
         <div class="space-y-3">
-          <div class="flex items-center space-x-1 text-amber-400">
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          <div class="flex items-center space-x-1 text-amber-500">
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
           </div>
-          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+          <p class="text-xs sm:text-sm text-zinc-700 leading-relaxed">
             "IELTS Mock Simulator bo'limi ajoyib! Haqiqiy imtihondek taymer bilan ishlaydi. 3 marta mock topshirib, xatolarimni to'g'irlaganimdan so'ng rasmiy imtihonda 8.0 Band oldim."
           </p>
         </div>
 
-        <div class="flex items-center space-x-3 pt-3 border-t border-slate-100">
-          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=120&auto=format&fit=crop" alt="Zuhra" class="w-11 h-11 rounded-2xl object-cover border border-slate-200">
+        <div class="flex items-center space-x-3 pt-3 border-t border-zinc-100">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=120&auto=format&fit=crop" alt="Zuhra" class="w-10 h-10 rounded-xl object-cover border border-zinc-200">
           <div>
-            <h4 class="text-xs sm:text-sm font-black text-slate-900">Zuhra Aliyeva</h4>
-            <p class="text-[11px] text-orange-600 font-bold">IELTS 8.0 • DAAD Stipendiyasi</p>
+            <h4 class="text-xs sm:text-sm font-bold text-zinc-900">Zuhra Aliyeva</h4>
+            <p class="text-[11px] text-orange-600 font-semibold">IELTS 8.0 • DAAD Stipendiyasi</p>
           </div>
         </div>
       </div>
 
       <!-- Testimonial 3 -->
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-orange-200 transition">
+      <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs flex flex-col justify-between space-y-4 hover:border-zinc-300 transition duration-150">
         <div class="space-y-3">
-          <div class="flex items-center space-x-1 text-amber-400">
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          <div class="flex items-center space-x-1 text-amber-500">
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
           </div>
-          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+          <p class="text-xs sm:text-sm text-zinc-700 leading-relaxed">
             "Kunlik streak va Ready Score meni har kuni o'qishga majbur qildi. Ariza tracker orqali 4 ta universitet arizasini adashmasdan vaqtida topshirdim va 2 tasidan to'liq qabul oldim."
           </p>
         </div>
 
-        <div class="flex items-center space-x-3 pt-3 border-t border-slate-100">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=120&auto=format&fit=crop" alt="Bekzod" class="w-11 h-11 rounded-2xl object-cover border border-slate-200">
+        <div class="flex items-center space-x-3 pt-3 border-t border-zinc-100">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=120&auto=format&fit=crop" alt="Bekzod" class="w-10 h-10 rounded-xl object-cover border border-zinc-200">
           <div>
-            <h4 class="text-xs sm:text-sm font-black text-slate-900">Bekzod Toshmatov</h4>
-            <p class="text-[11px] text-orange-600 font-bold">Türkiye Bursları G'olibi</p>
+            <h4 class="text-xs sm:text-sm font-bold text-zinc-900">Bekzod Toshmatov</h4>
+            <p class="text-[11px] text-orange-600 font-semibold">Türkiye Bursları G'olibi</p>
           </div>
         </div>
       </div>
@@ -1312,28 +1390,24 @@
   </section>
 
 
-  <!-- ================= CTA BANNER ================= -->
-  <section class="bg-gradient-to-br from-zinc-950 via-zinc-900 to-slate-900 border border-zinc-800 rounded-3xl p-8 sm:p-14 text-white shadow-2xl text-center space-y-6 relative overflow-hidden">
-    <!-- Glow circle decoration -->
-    <div class="absolute -top-24 -right-24 w-80 h-80 bg-orange-500/20 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-amber-500/20 rounded-full blur-3xl"></div>
-
-    <div class="relative z-10 max-w-2xl mx-auto space-y-5">
-      <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-white/10 backdrop-blur rounded-full text-orange-300 text-xs font-bold border border-white/10">
+  <!-- ================= CTA BANNER (Solid Dark Surface, NO Blur Circles) ================= -->
+  <section class="bg-zinc-950 border border-zinc-800 rounded-2xl p-8 sm:p-14 text-white shadow-md text-center space-y-6">
+    <div class="max-w-2xl mx-auto space-y-4">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 bg-zinc-900 rounded-full text-zinc-300 text-xs font-semibold border border-zinc-800">
         <i data-lucide="zap" class="w-3.5 h-3.5 text-orange-400"></i>
         <span>Kelajagingiz sari ilk qadamni qo'ying</span>
       </div>
 
-      <h2 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-        Xorijda bepul ta'lim olish orzuingizni reallikka aylantiring
+      <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+        Xorijda bepul ta'lim olish maqsadini reallikka aylantiring
       </h2>
-      <p class="text-zinc-300 text-xs sm:text-base leading-relaxed max-w-xl mx-auto">
-        3 daqiqalik bepul diagnostikadan o'ting, o'z bilim darajangizni aniqlang va AI tuzgan shaxsiy o'quv rejangizga ega bo'ling.
+      <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed max-w-xl mx-auto">
+        3 daqiqalik bepul diagnostikadan o'ting, bilim darajangizni aniqlang va AI tuzgan shaxsiy Dual-Track rejangizga ega bo'ling.
       </p>
-      <div class="pt-3">
-        <a href="{% url 'accounts:register' %}" class="inline-flex items-center justify-center px-9 py-4 bg-orange-600 text-white hover:bg-orange-700 active:scale-[0.99] text-base font-black rounded-2xl shadow-xl shadow-orange-950/40 transition duration-150 space-x-2">
+      <div class="pt-2">
+        <a href="{% url 'accounts:register' %}" class="inline-flex items-center justify-center px-8 py-3.5 bg-orange-600 text-white hover:bg-orange-700 active:scale-[0.99] text-sm font-semibold rounded-xl shadow-xs transition duration-150 space-x-2">
           <span>Ro'yxatdan o'tish (100% Bepul)</span>
-          <i data-lucide="arrow-right" class="w-5 h-5 text-white"></i>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
         </a>
       </div>
     </div>

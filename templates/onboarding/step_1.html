@@ -77,10 +77,10 @@
           {% endif %}
         </div>
 
-        <!-- 2. Hudud va Tug'ilgan yil -->
+        <!-- 2. Hudud va Tug'ilgan sana -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label class="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5">
               Hudud / Viloyat *
             </label>
             {{ form.region }}
@@ -90,12 +90,16 @@
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Tug'ilgan yilingiz
+            <label class="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+              <span>Tug'ilgan sana *</span>
+              <span class="text-[11px] text-orange-600 font-bold normal-case">maksimal 39 yoshgacha</span>
             </label>
-            {{ form.birth_year }}
-            {% if form.birth_year.errors %}
-              <p class="text-xs text-rose-600 mt-1 font-medium">{{ form.birth_year.errors.0 }}</p>
+            {{ form.birth_date }}
+            <p id="birthDateError" class="hidden text-xs text-rose-600 mt-1 font-medium"></p>
+            {% if form.birth_date.errors %}
+              <p class="text-xs text-rose-600 mt-1 font-medium">{{ form.birth_date.errors.0 }}</p>
+            {% else %}
+              <p id="birthDateHint" class="text-[11px] text-zinc-500 mt-1">Kalendardan sanani tanlang (kun.oy.yil)</p>
             {% endif %}
           </div>
         </div>
@@ -278,7 +282,72 @@
   let currentStep = 1;
   const totalSteps = 3;
 
+  function checkBirthDate() {
+    const input = document.querySelector('input[name="birth_date"]');
+    const errEl = document.getElementById('birthDateError');
+    const hintEl = document.getElementById('birthDateHint');
+    if (!input || !input.value) return true;
+
+    const parts = input.value.split('-');
+    if (parts.length === 3) {
+      const bYear = parseInt(parts[0], 10);
+      const bMonth = parseInt(parts[1], 10) - 1;
+      const bDay = parseInt(parts[2], 10);
+      const bDate = new Date(bYear, bMonth, bDay);
+      const today = new Date();
+
+      if (bDate > today) {
+        if (errEl) {
+          errEl.innerText = "Tug'ilgan sana kelajakda bo'lishi mumkin emas.";
+          errEl.classList.remove('hidden');
+        }
+        if (hintEl) hintEl.classList.add('hidden');
+        input.classList.add('border-rose-500');
+        return false;
+      }
+
+      let age = today.getFullYear() - bYear;
+      const m = today.getMonth() - bMonth;
+      if (m < 0 || (m === 0 && today.getDate() < bDay)) {
+        age--;
+      }
+
+      if (age > 39) {
+        if (errEl) {
+          errEl.innerText = "Yoshingiz " + age + " da. Dasturlarda qatnashish uchun maksimal yosh 39 yoshgacha bo'lishi kerak.";
+          errEl.classList.remove('hidden');
+        }
+        if (hintEl) hintEl.classList.add('hidden');
+        input.classList.add('border-rose-500');
+        return false;
+      }
+
+      if (age < 10) {
+        if (errEl) {
+          errEl.innerText = "Iltimos, haqiqiy tug'ilgan sanangizni kiriting (kamida 10 yosh).";
+          errEl.classList.remove('hidden');
+        }
+        if (hintEl) hintEl.classList.add('hidden');
+        input.classList.add('border-rose-500');
+        return false;
+      }
+    }
+
+    if (errEl) errEl.classList.add('hidden');
+    if (hintEl) hintEl.classList.remove('hidden');
+    input.classList.remove('border-rose-500');
+    return true;
+  }
+
   function goToStep(stepNumber) {
+    if (currentStep === 1 && stepNumber > 1) {
+      if (!checkBirthDate()) {
+        const input = document.querySelector('input[name="birth_date"]');
+        if (input) input.focus();
+        return;
+      }
+    }
+
     // Hide all steps
     document.querySelectorAll('.wizard-panel').forEach(el => el.classList.add('hidden'));
 
@@ -317,6 +386,11 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+    const bDateInput = document.querySelector('input[name="birth_date"]');
+    if (bDateInput) {
+      bDateInput.addEventListener('change', checkBirthDate);
+      bDateInput.addEventListener('input', checkBirthDate);
+    }
     if (window.lucide) {
       lucide.createIcons();
     }

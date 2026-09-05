@@ -152,24 +152,13 @@
       animation-play-state: paused;
     }
 
-    /* Interactive Card Hover & 3D Tilt Transitions */
-    .card-tilt-hover {
-      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Subtle Card Hover Transitions */
+    .card-subtle-hover {
+      transition: all 0.2s ease-in-out;
     }
-    .card-tilt-hover:hover {
-      transform: translateY(-8px) scale(1.02);
-      z-index: 20;
-    }
-
-    /* Neon Radial Glow Utility */
-    .neon-glow-blue {
-      box-shadow: 0 10px 30px -5px rgba(56, 189, 248, 0.45);
-    }
-    .neon-glow-orange {
-      box-shadow: 0 10px 30px -5px rgba(255, 99, 38, 0.45);
-    }
-    .neon-glow-purple {
-      box-shadow: 0 10px 30px -5px rgba(124, 102, 255, 0.45);
+    .card-subtle-hover:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
     }
   </style>
   {% block extra_head %}{% endblock %}

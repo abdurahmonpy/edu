@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}IELTS Mock Natijasi — Band {{ exam.overall_band_score }} | UniMentor{% endblock %}
 
@@ -6,60 +6,59 @@
 <div class="max-w-4xl mx-auto py-6 px-4 sm:px-6 space-y-8">
 
   <!-- Hero Result Banner -->
-  <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl p-8 sm:p-12 text-white shadow-lg text-center relative overflow-hidden">
-    <div class="relative z-10 space-y-4">
-      <span class="px-3.5 py-1 bg-white/10 backdrop-blur rounded-full text-indigo-200 text-xs font-bold border border-white/10 inline-block">
+  <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-8 sm:p-10 text-white shadow-xs text-center">
+    <div class="space-y-4">
+      <span class="px-3 py-1 bg-zinc-800/80 border border-zinc-700/80 rounded-full text-zinc-300 text-xs font-semibold inline-block">
         IELTS Academic Mock Simulyatsiyasi Natijasi
       </span>
 
-      <div class="py-4">
-        <div class="inline-flex flex-col items-center justify-center w-36 h-36 rounded-full bg-gradient-to-tr from-indigo-500 to-emerald-400 text-white shadow-2xl border-4 border-white/20">
-          <span class="text-4xl sm:text-5xl font-black tracking-tight">{{ exam.overall_band_score|default:"6.0" }}</span>
-          <span class="text-xs uppercase font-bold tracking-widest text-indigo-100 mt-1">Band Score</span>
+      <div class="py-3">
+        <div class="inline-flex flex-col items-center justify-center w-32 h-32 rounded-2xl bg-zinc-900 border border-zinc-700/80 text-white shadow-xs">
+          <span class="text-4xl sm:text-5xl font-extrabold tracking-tight text-orange-500">{{ exam.overall_band_score|default:"6.0" }}</span>
+          <span class="text-[11px] uppercase font-bold tracking-wider text-zinc-400 mt-1">Band Score</span>
         </div>
       </div>
 
-      <h1 class="text-xl sm:text-2xl font-black">
+      <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
         Tabriklaymiz, mock imtihonini muvaffaqiyatli yakunladingiz!
       </h1>
-      <p class="text-indigo-200 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+      <p class="text-zinc-400 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
         {{ exam.ai_summary_feedback }}
       </p>
 
       <!-- Ready Score Sync Alert -->
-      <div class="inline-flex items-center space-x-2 px-4 py-2 bg-emerald-500/20 border border-emerald-400/30 rounded-2xl text-emerald-300 text-xs font-bold">
+      <div class="inline-flex items-center space-x-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400 text-xs font-semibold">
         <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i>
         <span>Natijangiz umumiy ko'nikma ballaringiz va Ready Score ga muvaffaqiyatli qo'shildi!</span>
       </div>
     </div>
-    <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl"></div>
   </div>
 
   <!-- Per-Section Breakdown Cards -->
   <div class="space-y-4">
-    <h2 class="text-lg font-black text-slate-900 flex items-center space-x-2">
-      <i data-lucide="bar-chart-2" class="w-5 h-5 text-indigo-600"></i>
+    <h2 class="text-lg font-bold text-zinc-900 flex items-center space-x-2">
+      <i data-lucide="bar-chart-2" class="w-5 h-5 text-orange-600"></i>
       <span>Bo'limlar bo'yicha tahlil</span>
     </h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       {% for sec in sections %}
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-4">
+        <div class="bg-white p-6 rounded-2xl border border-zinc-200/90 shadow-2xs flex flex-col justify-between space-y-4">
           <div>
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <span class="text-xs font-bold text-zinc-500 uppercase tracking-wider">
                 {{ sec.get_section_type_display }}
               </span>
-              <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-black rounded-lg">
+              <span class="px-2.5 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-orange-200/60">
                 Band {{ sec.section_score|default:"—" }}
               </span>
             </div>
-            <p class="text-xs text-slate-600 leading-relaxed">
+            <p class="text-xs text-zinc-600 leading-relaxed">
               {{ sec.ai_feedback|default:"Bo'lim yakunlangan." }}
             </p>
           </div>
 
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+          <div class="pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-400">
             <span>Holat:</span>
             <span class="text-emerald-600 font-bold">Tugallandi</span>
           </div>
@@ -69,8 +68,8 @@
   </div>
 
   <!-- Mandatory Practice Estimate Disclaimer -->
-  <div class="p-4 bg-slate-100 rounded-2xl border border-slate-200 text-slate-600 text-xs leading-relaxed flex items-start space-x-3">
-    <i data-lucide="info" class="w-4 h-4 text-slate-500 flex-shrink-0 mt-0.5"></i>
+  <div class="p-4 bg-zinc-50 rounded-2xl border border-zinc-200/80 text-zinc-600 text-xs leading-relaxed flex items-start space-x-3">
+    <i data-lucide="info" class="w-4 h-4 text-zinc-500 flex-shrink-0 mt-0.5"></i>
     <p>
       <strong>Taxminiy natija:</strong> Ushbu ball rasmiy imtihon markazi sertifikati emas, balki sun'iy intellekt tomonidan baholangan amaliyot ko'rsatkichidir. U sizning kuchli va zaif tomonlaringizni aniqlab, o'quv rejangizni optimallashtirishga xizmat qiladi.
     </p>
@@ -78,11 +77,11 @@
 
   <!-- Actions -->
   <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-    <a href="{% url 'dashboard:index' %}" class="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-xs transition text-center text-xs flex items-center justify-center space-x-2">
+    <a href="{% url 'dashboard:index' %}" class="w-full sm:w-auto px-7 py-3 bg-zinc-900 hover:bg-zinc-800 text-white font-bold rounded-xl shadow-xs transition text-center text-xs flex items-center justify-center space-x-2">
       <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
       <span>Boshqaruv paneliga qaytish</span>
     </a>
-    <a href="{% url 'mock_exams:intro' %}" class="w-full sm:w-auto px-8 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition text-center text-xs flex items-center justify-center space-x-2">
+    <a href="{% url 'mock_exams:intro' %}" class="w-full sm:w-auto px-7 py-3 bg-white hover:bg-zinc-50 text-zinc-700 font-bold rounded-xl border border-zinc-200 transition text-center text-xs flex items-center justify-center space-x-2">
       <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
       <span>Yangi Mock topshirish</span>
     </a>

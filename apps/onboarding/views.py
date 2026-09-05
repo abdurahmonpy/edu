@@ -50,8 +50,11 @@ def step_1_view(request):
             initial_data['target_program_type'] = student.target_program_type
         if student.english_level:
             initial_data['english_level'] = student.english_level
-        if student.birth_year:
-            initial_data['birth_year'] = student.birth_year
+        if student.birth_date:
+            initial_data['birth_date'] = student.birth_date
+        elif student.birth_year:
+            from datetime import date
+            initial_data['birth_date'] = date(student.birth_year, 1, 1)
         if student.region:
             initial_data['region'] = student.region
         if student.city:

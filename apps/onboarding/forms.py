@@ -4,7 +4,7 @@ Forms for multi-step onboarding wizard:
 - CertificateStepForm: Language & standardized test certificate validation (IELTS, TOEFL, SAT, DET, CEFR).
 - TimelineStepForm: Dual-Track study plan duration (1-8 months) and target test date.
 """
-from datetime import date
+from datetime import date, timedelta
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
@@ -89,6 +89,17 @@ class OnboardingStep1Form(forms.Form):
             if initial_val not in existing_keys:
                 self.fields['target_career'].choices = list(self.fields['target_career'].choices) + [(initial_val, initial_val)]
 
+        today = timezone.localdate()
+        try:
+            earliest_date = date(today.year - 40, today.month, today.day) + timedelta(days=1)
+        except ValueError:
+            earliest_date = date(today.year - 40, today.month, 28) + timedelta(days=1)
+
+        self.fields['birth_date'].widget.attrs.update({
+            'min': earliest_date.isoformat(),
+            'max': today.isoformat(),
+        })
+
     grade = forms.TypedChoiceField(
         choices=Student.GRADE_CHOICES,
         coerce=int,
@@ -120,18 +131,13 @@ class OnboardingStep1Form(forms.Form):
         initial='beginner',
         required=False,
     )
-    BIRTH_YEAR_CHOICES = [('', "Tug'ilgan yilni tanlang...")] + [
-        (y, f"{y}-yil") for y in range(2014, 1990, -1)
-    ]
-
-    birth_year = forms.TypedChoiceField(
-        choices=BIRTH_YEAR_CHOICES,
-        coerce=int,
-        empty_value=None,
-        label="Tug'ilgan yilingiz",
+    birth_date = forms.DateField(
+        label="Tug'ilgan sana",
         required=False,
-        widget=forms.Select(attrs={
-            'class': 'w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-slate-800'
+        widget=forms.DateInput(attrs={
+            'type': 'date',
+            'class': 'w-full px-4 py-3 rounded-xl border border-zinc-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-zinc-900 bg-white font-medium text-sm',
+            'placeholder': 'YYYY-MM-DD',
         })
     )
     region = forms.ChoiceField(
@@ -183,12 +189,28 @@ class OnboardingStep1Form(forms.Form):
         })
     )
 
-    def clean_birth_year(self):
-        year = self.cleaned_data.get('birth_year')
-        if year:
-            if year < 1990 or year > timezone.localdate().year:
-                raise ValidationError("Iltimos, haqiqiy tug'ilgan yilni kiriting.")
-        return year
+    def clean_birth_date(self):
+        bdate = self.cleaned_data.get('birth_date')
+        if bdate:
+            today = timezone.localdate()
+            if bdate > today:
+                raise ValidationError("Tug'ilgan sana kelajakda bo'lishi mumkin emas.")
+
+            try:
+                birthday = bdate.replace(year=today.year)
+            except ValueError:
+                birthday = bdate.replace(year=today.year, month=2, day=28)
+
+            if birthday > today:
+                age = today.year - bdate.year - 1
+            else:
+                age = today.year - bdate.year
+
+            if age > 39:
+                raise ValidationError("Kechirasiz, platformada ro'yxatdan o'tish va dasturlarda qatnashish uchun maksimal yosh 39 yoshgacha bo'lishi kerak.")
+            if age < 10:
+                raise ValidationError("Iltimos, haqiqiy tug'ilgan sanani kiriting (kamida 10 yosh).")
+        return bdate
 
     def clean_grade(self):
         grade = self.cleaned_data.get('grade')
@@ -212,8 +234,9 @@ class OnboardingStep1Form(forms.Form):
             student.target_program_type = cd['target_program_type']
         if 'english_level' in cd and cd['english_level']:
             student.english_level = cd['english_level']
-        if 'birth_year' in cd and cd['birth_year']:
-            student.birth_year = cd['birth_year']
+        if 'birth_date' in cd and cd['birth_date']:
+            student.birth_date = cd['birth_date']
+            student.birth_year = cd['birth_date'].year
         if 'region' in cd and cd['region']:
             student.region = cd['region']
         if 'city' in cd and cd['city'] is not None:
