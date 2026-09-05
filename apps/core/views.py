@@ -1,4 +1,4 @@
-﻿"""
+"""
 Core views: Landing page and public index.
 """
 from django.shortcuts import render, redirect
@@ -14,8 +14,6 @@ def landing_page_view(request):
         student = getattr(request.user, 'student_profile', None)
         if student and student.onboarding_completed:
             return redirect('dashboard:index')
-        elif student and not student.onboarding_completed:
-            return redirect('onboarding:step_1')
 
     # Fetch verified programs to display on landing page
     programs = Program.objects.all()[:6]
