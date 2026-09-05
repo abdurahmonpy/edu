@@ -7,13 +7,13 @@
 
   <!-- Breadcrumb and Program Header -->
   <div class="space-y-2">
-    <a href="{% url 'programs:catalog' %}" class="inline-flex items-center space-x-1 text-xs font-bold text-indigo-600 hover:text-indigo-800">
+    <a href="{% url 'programs:catalog' %}" class="inline-flex items-center space-x-1 text-xs font-bold text-orange-600 hover:text-orange-800">
       <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
       <span>Barcha dasturlarga qaytish</span>
     </a>
     <div class="flex items-center justify-between flex-wrap gap-2">
       <div class="flex items-center space-x-2">
-        <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full {% if program.type == 'grant' %}bg-indigo-100 text-indigo-800{% elif program.type == 'exchange' %}bg-blue-100 text-blue-800{% else %}bg-purple-100 text-purple-800{% endif %}">
+        <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full {% if program.type == 'grant' %}bg-orange-100 text-orange-800{% elif program.type == 'exchange' %}bg-blue-100 text-blue-800{% else %}bg-amber-100 text-amber-800{% endif %}">
           {{ program.get_type_display }}
         </span>
         <span class="text-xs text-slate-400">•</span>
@@ -28,10 +28,10 @@
         type="button"
         onclick="toggleTrackProgramDetail({{ program.id }}, this)"
         id="detail-track-btn"
-        class="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition duration-150 {% if is_tracked %}bg-indigo-100 text-indigo-800 border border-indigo-200{% else %}bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200{% endif %}"
+        class="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition duration-150 {% if is_tracked %}bg-orange-100 text-orange-800 border border-orange-200{% else %}bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200{% endif %}"
         title="Kuzatuvga qo'shish yoki olib tashlash"
       >
-        <i data-lucide="bookmark" class="w-4 h-4 {% if is_tracked %}fill-indigo-700 text-indigo-700{% else %}text-slate-500{% endif %}"></i>
+        <i data-lucide="bookmark" class="w-4 h-4 {% if is_tracked %}fill-orange-600 text-orange-600{% else %}text-slate-500{% endif %}"></i>
         <span id="detail-track-btn-label">{% if is_tracked %}Kuzatilmoqda{% else %}Kuzatish{% endif %}</span>
       </button>
     </div>
@@ -46,7 +46,7 @@
     <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-4">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
         <div class="flex items-center space-x-2">
-          <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
             <i data-lucide="compass" class="w-4 h-4"></i>
           </div>
           <div>
@@ -56,7 +56,7 @@
         </div>
 
         {% if student_program %}
-          <span class="px-3 py-1 rounded-full text-xs font-extrabold {% if student_program.status == 'accepted' %}bg-emerald-100 text-emerald-800{% elif student_program.status == 'submitted' %}bg-blue-100 text-blue-800{% elif student_program.status == 'interview' %}bg-purple-100 text-purple-800{% elif student_program.status == 'rejected' %}bg-rose-100 text-rose-800{% else %}bg-indigo-100 text-indigo-800{% endif %}">
+          <span class="px-3 py-1 rounded-full text-xs font-extrabold {% if student_program.status == 'accepted' %}bg-emerald-100 text-emerald-800{% elif student_program.status == 'submitted' %}bg-blue-100 text-blue-800{% elif student_program.status == 'interview' %}bg-purple-100 text-purple-800{% elif student_program.status == 'rejected' %}bg-rose-100 text-rose-800{% else %}bg-orange-100 text-orange-800{% endif %}">
             {{ student_program.get_status_display }}
           </span>
         {% else %}
@@ -71,7 +71,7 @@
             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
               Joriy holat
             </label>
-            <select name="status" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500">
+            <select name="status" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-orange-500">
               {% for val, label in status_choices %}
                 <option value="{{ val }}" {% if student_program and student_program.status == val %}selected{% endif %}>
                   {{ label }}
@@ -84,14 +84,14 @@
             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
               Topshirilgan sana
             </label>
-            <input type="date" name="submitted_at" value="{{ student_program.submitted_at|date:'Y-m-d'|default:'' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-indigo-500">
+            <input type="date" name="submitted_at" value="{{ student_program.submitted_at|date:'Y-m-d'|default:'' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-orange-500">
           </div>
 
           <div>
             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
               Qaror / Natija sanasi
             </label>
-            <input type="date" name="decision_at" value="{{ student_program.decision_at|date:'Y-m-d'|default:'' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-indigo-500">
+            <input type="date" name="decision_at" value="{{ student_program.decision_at|date:'Y-m-d'|default:'' }}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-orange-500">
           </div>
         </div>
 
@@ -99,11 +99,11 @@
           <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
             Shaxsiy izohlar (Login ID, Portal havolasi, talablar)
           </label>
-          <input type="text" name="notes" value="{{ student_program.notes|default:'' }}" placeholder="Masalan: Portal login ID: 98124, Natija aprel oyida chiqadi" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-indigo-500">
+          <input type="text" name="notes" value="{{ student_program.notes|default:'' }}" placeholder="Masalan: Portal login ID: 98124, Natija aprel oyida chiqadi" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-orange-500">
         </div>
 
         <div class="flex justify-end pt-1">
-          <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center space-x-1">
+          <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center space-x-1">
             <i data-lucide="check" class="w-3.5 h-3.5"></i>
             <span>Holatni saqlash</span>
           </button>
@@ -115,7 +115,7 @@
     <!-- Deadline and Key Attributes -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-slate-100">
       <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start space-x-3">
-        <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl mt-0.5">
+        <div class="p-2 bg-orange-50 text-orange-600 rounded-xl mt-0.5">
           <i data-lucide="calendar-clock" class="w-5 h-5"></i>
         </div>
         <div>
@@ -127,7 +127,7 @@
       </div>
 
       <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start space-x-3">
-        <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl mt-0.5">
+        <div class="p-2 bg-orange-50 text-orange-600 rounded-xl mt-0.5">
           <i data-lucide="graduation-cap" class="w-5 h-5"></i>
         </div>
         <div>
@@ -142,7 +142,7 @@
     <!-- Requirements Breakdown -->
     <div class="space-y-3">
       <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-        <i data-lucide="clipboard-check" class="w-5 h-5 text-indigo-600"></i>
+        <i data-lucide="clipboard-check" class="w-5 h-5 text-orange-600"></i>
         <span>Dastur Talablari</span>
       </h2>
       {% if program.requirements %}
@@ -160,15 +160,15 @@
     </div>
 
     <!-- Admin Verification Meta (R5 Requirement) -->
-    <div class="p-5 bg-indigo-50/50 border border-indigo-200 rounded-2xl space-y-2 text-xs text-slate-700">
-      <div class="font-bold text-indigo-900 text-sm flex items-center space-x-1.5">
-        <i data-lucide="shield-check" class="w-4 h-4 text-indigo-600"></i>
+    <div class="p-5 bg-orange-50/40 border border-orange-200 rounded-2xl space-y-2 text-xs text-slate-700">
+      <div class="font-bold text-orange-950 text-sm flex items-center space-x-1.5">
+        <i data-lucide="shield-check" class="w-4 h-4 text-orange-600"></i>
         <span>Rasmiy Ma'lumot Tekshiruvi</span>
       </div>
       <p class="text-slate-600">
         Ushbu dastur ma'lumotlari adminlarimiz tomonidan rasmiy veb-sayti orqali tekshirilgan.
       </p>
-      <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-indigo-200/60 text-xs">
+      <div class="pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-orange-200/60 text-xs">
         <span>Oxirgi tekshirilgan sana: <strong>{{ program.last_verified_date|date:"d-F, Y" }}</strong></span>
         <span>Moderator: <strong>{{ program.verified_by }}</strong></span>
       </div>
@@ -180,7 +180,7 @@
         href="{{ program.source_url }}"
         target="_blank"
         rel="noopener noreferrer"
-        class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-2xl shadow-md transition text-center inline-flex items-center justify-center space-x-2"
+        class="px-6 py-3.5 bg-orange-600 hover:bg-orange-700 text-white text-sm font-bold rounded-2xl shadow-md shadow-orange-200 transition text-center inline-flex items-center justify-center space-x-2"
       >
         <span>Rasmiy Saytga O'tish</span>
         <i data-lucide="external-link" class="w-4 h-4"></i>
@@ -190,7 +190,7 @@
         href="{% url 'mentor:chat' %}"
         class="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold rounded-2xl transition text-center inline-flex items-center justify-center space-x-1.5"
       >
-        <i data-lucide="message-circle" class="w-4 h-4 text-indigo-600"></i>
+        <i data-lucide="message-circle" class="w-4 h-4 text-orange-600"></i>
         <span>AI Mentordan so'rash</span>
       </a>
     </div>
@@ -238,17 +238,17 @@
         const icon = btn.querySelector('i[data-lucide="bookmark"]');
 
         if (data.is_tracked) {
-          btn.className = 'inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition duration-150 bg-indigo-100 text-indigo-800 border border-indigo-200';
+          btn.className = 'inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition duration-150 bg-orange-100 text-orange-800 border border-orange-200';
           if (labelSpan) labelSpan.textContent = 'Kuzatilmoqda';
           if (icon) {
-            icon.classList.add('fill-indigo-700', 'text-indigo-700');
+            icon.classList.add('fill-orange-600', 'text-orange-600');
             icon.classList.remove('text-slate-500');
           }
         } else {
           btn.className = 'inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition duration-150 bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200';
           if (labelSpan) labelSpan.textContent = 'Kuzatish';
           if (icon) {
-            icon.classList.remove('fill-indigo-700', 'text-indigo-700');
+            icon.classList.remove('fill-orange-600', 'text-orange-600');
             icon.classList.add('text-slate-500');
           }
         }

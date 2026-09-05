@@ -8,8 +8,8 @@
   <!-- Header -->
   <div class="flex flex-col md:flex-row md:items-center justify-between bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm gap-4">
     <div>
-      <div class="inline-flex items-center space-x-2 text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">
-        <i data-lucide="graduation-cap" class="w-4 h-4 text-indigo-600"></i>
+      <div class="inline-flex items-center space-x-2 text-xs font-bold text-orange-700 uppercase tracking-wider mb-1">
+        <i data-lucide="graduation-cap" class="w-4 h-4 text-orange-600"></i>
         <span>Rasmiy Dasturlar Katalogi</span>
         <span>•</span>
         <span>Jami: {{ total_count }} ta tasdiqlangan</span>
@@ -23,8 +23,8 @@
     </div>
 
     <div>
-      <a href="{% url 'mentor:chat' %}" class="px-5 py-3 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-bold text-xs rounded-2xl border border-indigo-200 transition inline-flex items-center space-x-1.5">
-        <i data-lucide="message-circle" class="w-4 h-4"></i>
+      <a href="{% url 'mentor:chat' %}" class="px-5 py-3 bg-orange-50 text-orange-700 hover:bg-orange-100 font-bold text-xs rounded-2xl border border-orange-200 transition inline-flex items-center space-x-1.5">
+        <i data-lucide="message-circle" class="w-4 h-4 text-orange-600"></i>
         <span>AI Mentor bilan tanlash</span>
       </a>
     </div>
@@ -43,7 +43,7 @@
           Davlat
         </label>
         <div class="relative">
-          <select id="filter-country" onchange="filterPrograms()" class="w-full pl-3 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 appearance-none">
+          <select id="filter-country" onchange="filterPrograms()" class="w-full pl-3 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 appearance-none">
             <option value="">Barcha davlatlar</option>
             {% for c in available_countries %}
               {% if c %}
@@ -63,7 +63,7 @@
           Topshirish oyi
         </label>
         <div class="relative">
-          <select id="filter-month" onchange="filterPrograms()" class="w-full pl-3 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 appearance-none">
+          <select id="filter-month" onchange="filterPrograms()" class="w-full pl-3 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 appearance-none">
             <option value="">Barcha oylar</option>
             <option value="yanvar">Yanvar</option>
             <option value="fevral">Fevral</option>
@@ -90,7 +90,7 @@
           Qidirish
         </label>
         <div class="relative">
-          <input type="text" id="filter-search" oninput="filterPrograms()" placeholder="Dastur nomi yoki kalit so'z..." class="w-full pl-8 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+          <input type="text" id="filter-search" oninput="filterPrograms()" placeholder="Dastur nomi yoki kalit so'z..." class="w-full pl-8 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-slate-400">
             <i data-lucide="search" class="w-3.5 h-3.5"></i>
           </div>
@@ -102,7 +102,7 @@
     <!-- Program Type Toggle Buttons -->
     <div class="pt-2 border-t border-slate-100 flex items-center space-x-2 overflow-x-auto text-xs">
       <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-1 flex-shrink-0">Dastur turi:</span>
-      <button type="button" onclick="setTypeFilter('')" id="type-btn-all" class="type-filter-btn px-3.5 py-1.5 rounded-xl font-bold bg-indigo-600 text-white shadow-xs transition">
+      <button type="button" onclick="setTypeFilter('')" id="type-btn-all" class="type-filter-btn px-3.5 py-1.5 rounded-xl font-bold bg-orange-600 text-white shadow-xs transition">
         Barchasi
       </button>
       <button type="button" onclick="setTypeFilter('grant')" id="type-btn-grant" class="type-filter-btn px-3.5 py-1.5 rounded-xl font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
@@ -131,7 +131,7 @@
           <!-- Type and Country Badges + Track Bookmark Toggle (R3) -->
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center space-x-2">
-              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full {% if prog.type == 'grant' %}bg-indigo-100 text-indigo-800{% elif prog.type == 'exchange' %}bg-blue-100 text-blue-800{% else %}bg-purple-100 text-purple-800{% endif %}">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full {% if prog.type == 'grant' %}bg-orange-100 text-orange-800{% elif prog.type == 'exchange' %}bg-blue-100 text-blue-800{% else %}bg-amber-100 text-amber-800{% endif %}">
                 {{ prog.get_type_display }}
               </span>
               <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full inline-flex items-center space-x-1">
@@ -144,10 +144,10 @@
             <button
               type="button"
               onclick="toggleTrackProgram({{ prog.id }}, this)"
-              class="track-btn inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition duration-150 {% if prog.is_tracked %}bg-indigo-100 text-indigo-800 border border-indigo-200{% else %}bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200{% endif %}"
+              class="track-btn inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition duration-150 {% if prog.is_tracked %}bg-orange-100 text-orange-800 border border-orange-200{% else %}bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200{% endif %}"
               title="Kuzatuvga qo'shish yoki olib tashlash"
             >
-              <i data-lucide="bookmark" class="w-3.5 h-3.5 {% if prog.is_tracked %}fill-indigo-700 text-indigo-700{% else %}text-slate-500{% endif %}"></i>
+              <i data-lucide="bookmark" class="w-3.5 h-3.5 {% if prog.is_tracked %}fill-orange-600 text-orange-600{% else %}text-slate-500{% endif %}"></i>
               <span class="track-btn-label">{% if prog.is_tracked %}Kuzatilmoqda{% else %}Kuzatish{% endif %}</span>
             </button>
           </div>
@@ -172,7 +172,7 @@
               <strong class="text-slate-700 block mb-1">Asosiy talablar:</strong>
               {% for req_key, req_val in prog.requirements.items %}
                 <div class="flex items-start space-x-1">
-                  <span class="text-indigo-600 font-bold">•</span>
+                  <span class="text-orange-600 font-bold">•</span>
                   <span><strong>{{ req_key }}:</strong> {{ req_val }}</span>
                 </div>
               {% endfor %}
@@ -184,7 +184,7 @@
         <div class="pt-4 border-t border-slate-100 space-y-2 text-xs">
           <div class="flex items-center justify-between text-slate-500">
             <span class="flex items-center space-x-1">
-              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-orange-600"></i>
               <span>Tekshirilgan sana:</span>
               <strong class="text-slate-700">{{ prog.last_verified_date|date:"d-M-Y" }}</strong>
             </span>
@@ -195,7 +195,7 @@
               href="{{ prog.source_url }}"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-indigo-700 hover:text-indigo-900 font-bold inline-flex items-center space-x-1 hover:underline"
+              class="text-orange-700 hover:text-orange-900 font-bold inline-flex items-center space-x-1 hover:underline"
             >
               <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
               <span>Rasmiy manba</span>
@@ -224,7 +224,7 @@
   <div id="no-filter-results" class="hidden text-center py-12 bg-white rounded-3xl border border-slate-200 text-slate-500 space-y-2">
     <i data-lucide="filter" class="w-10 h-10 text-slate-300 mx-auto"></i>
     <p class="font-medium">Tanlangan mezonlar bo'yicha dasturlar topilmadi.</p>
-    <button type="button" onclick="resetFilters()" class="text-xs font-bold text-indigo-600 hover:underline">
+    <button type="button" onclick="resetFilters()" class="text-xs font-bold text-orange-600 hover:underline">
       Filtrlarni tozalash
     </button>
   </div>
@@ -247,7 +247,7 @@
     const activeId = typeVal === '' ? 'type-btn-all' : 'type-btn-' + typeVal;
     const activeBtn = document.getElementById(activeId);
     if (activeBtn) {
-      activeBtn.className = 'type-filter-btn px-3.5 py-1.5 rounded-xl font-bold bg-indigo-600 text-white shadow-xs transition';
+      activeBtn.className = 'type-filter-btn px-3.5 py-1.5 rounded-xl font-bold bg-orange-600 text-white shadow-xs transition';
     }
 
     filterPrograms();
@@ -334,17 +334,17 @@
         const icon = btn.querySelector('i[data-lucide="bookmark"]');
 
         if (data.is_tracked) {
-          btn.className = 'track-btn inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition duration-150 bg-indigo-100 text-indigo-800 border border-indigo-200';
+          btn.className = 'track-btn inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition duration-150 bg-orange-100 text-orange-800 border border-orange-200';
           if (labelSpan) labelSpan.textContent = 'Kuzatilmoqda';
           if (icon) {
-            icon.classList.add('fill-indigo-700', 'text-indigo-700');
+            icon.classList.add('fill-orange-600', 'text-orange-600');
             icon.classList.remove('text-slate-500');
           }
         } else {
           btn.className = 'track-btn inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition duration-150 bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200';
           if (labelSpan) labelSpan.textContent = 'Kuzatish';
           if (icon) {
-            icon.classList.remove('fill-indigo-700', 'text-indigo-700');
+            icon.classList.remove('fill-orange-600', 'text-orange-600');
             icon.classList.add('text-slate-500');
           }
         }
