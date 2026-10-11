@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Englify.uz — onlayn ingliz tili o‘quv markazi</title>
+<meta name="description" content="Englify: ingliz tilini zamonaviy metodlar yordamida onlayn o‘rganing.">
+<meta name="theme-color" content="#0A93F5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5FB}
+a{color:inherit;text-decoration:none}
+a.nav:hover{color:#0A82EA}
+html{scroll-behavior:smooth}
+input,select,button{font-family:inherit}
+.row{scrollbar-width:thin}
+
+/* ---------- ANIMATSIYALAR ---------- */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes floatA{0%,100%{transform:rotate(-10deg) translateY(0)}50%{transform:rotate(-7deg) translateY(-16px)}}
+@keyframes floatB{0%,100%{transform:rotate(8deg) translateY(0)}50%{transform:rotate(5deg) translateY(-14px)}}
+@keyframes blob{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(255,255,255,.75)}100%{box-shadow:0 0 0 24px rgba(255,255,255,0)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes pop{from{opacity:0;transform:translateY(34px) scale(.93)}to{opacity:1;transform:none}}
+@keyframes nudge{0%,84%,100%{transform:translateY(0)}89%{transform:translateY(-7px)}94%{transform:translateY(0)}97%{transform:translateY(-3px)}}
+@keyframes popBtn{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
+
+/* hero: sahifa yuklanganda ketma-ket paydo bo'lish */
+#top h1{animation:fadeUp .8s .05s both}
+#top p{animation:fadeUp .8s .18s both}
+#top form{animation:fadeUp .8s .32s both}
+#top [style*="#3DA2F6"]{animation:blob 6s ease-in-out infinite}
+#top [style*="right: 2%; bottom: 0"]{animation:fadeUp .9s .4s both}
+[style*="rotate(-10deg)"]{animation:floatA 6s ease-in-out infinite}
+[style*="rotate(8deg)"]{animation:floatB 6.5s ease-in-out infinite}
+[style*="background: #C9BBFF"]{animation:slideIn .6s .7s both}
+[style*="background: #FFA84A"]{animation:slideIn .6s .9s both}
+[style*="background: #5BE39B"]{animation:slideIn .6s 1.1s both}
+button[aria-label^="Videoni"]{animation:ring 2s ease-out infinite}
+
+/* skroll bo'yicha paydo bo'lish (JS holatiga bog'langan) */
+.rv>section>div{opacity:0;transform:translateY(46px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv>#top>div{opacity:1;transform:none}
+.rv[data-seen~="2"]>section:nth-of-type(2)>div,
+.rv[data-seen~="3"]>section:nth-of-type(3)>div,
+.rv[data-seen~="4"]>section:nth-of-type(4)>div,
+.rv[data-seen~="5"]>section:nth-of-type(5)>div,
+.rv[data-seen~="6"]>section:nth-of-type(6)>div,
+.rv[data-seen~="7"]>section:nth-of-type(7)>div,
+.rv[data-seen~="8"]>section:nth-of-type(8)>div,
+.rv[data-seen~="9"]>section:nth-of-type(9)>div,
+.rv[data-seen~="10"]>section:nth-of-type(10)>div,
+.rv[data-seen~="11"]>section:nth-of-type(11)>div{opacity:1;transform:none}
+
+/* kartalar: bo'lim ko'ringanda birin-ketin chiqadi, hover'da ko'tariladi */
+.rv[data-seen~="2"]>section:nth-of-type(2) .hov,
+.rv[data-seen~="5"]>section:nth-of-type(5) .hov,
+.rv[data-seen~="6"]>section:nth-of-type(6) .hov,
+.rv[data-seen~="7"]>section:nth-of-type(7) .hov,
+.rv[data-seen~="8"]>section:nth-of-type(8) .hov,
+.rv[data-seen~="10"]>section:nth-of-type(10) .hov{animation:pop .7s cubic-bezier(.2,.8,.2,1) both}
+.hov:nth-child(2){animation-delay:.08s!important}
+.hov:nth-child(3){animation-delay:.16s!important}
+.hov:nth-child(4){animation-delay:.24s!important}
+.hov:nth-child(5){animation-delay:.32s!important}
+.hov:nth-child(6){animation-delay:.4s!important}
+.hov{transition:translate .25s cubic-bezier(.2,.8,.2,1),rotate .25s,scale .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s}
+.hov:hover{translate:0 -8px;rotate:-1.2deg}
+
+/* natijalar va izohlar: o'zi aylanmaydi, strelka/barmoq bilan suriladi; faqat hover animatsiyasi */
+.mq{overflow:hidden;padding:18px 0 28px;-webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent)}
+.mt{display:flex;gap:24px;padding-right:24px;width:max-content;animation:marquee 50s linear infinite}
+.mt.rev{animation-direction:reverse}
+.mq:hover .mt{animation-play-state:paused}
+.hovc{transition:translate .3s cubic-bezier(.2,.8,.2,1),scale .3s cubic-bezier(.2,.8,.2,1),rotate .3s,box-shadow .3s;cursor:pointer}
+.hovc:hover{translate:0 -12px;scale:1.05;rotate:-1deg;box-shadow:0 22px 40px rgba(20,40,120,.3)!important}
+.rv>#natijalar>div,.rv>#izohlar>div{opacity:1;transform:none}
+
+/* 3D yashil tugmalar */
+[style*="repeating-linear-gradient(115deg"]{transition:transform .15s,filter .15s,border-bottom-width .15s}
+[style*="repeating-linear-gradient(115deg"]:hover{transform:translateY(-3px);filter:brightness(1.05)}
+[style*="repeating-linear-gradient(115deg"]:active{transform:translateY(3px);border-bottom-width:2px!important}
+a[style*="repeating-linear-gradient(115deg"]{animation:nudge 3.4s ease-in-out infinite}
+a[style*="repeating-linear-gradient(115deg"]:hover{animation:none}
+[data-sent="yes"]{animation:popBtn .5s ease}
+a[href="#ilova"]{transition:transform .15s}
+a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
+
+/* telefon: ixcham menyu (logo + tugma, pastda suriladigan havolalar) */
+@media (max-width:720px){
+  .nhead{border-radius:28px!important;padding:12px 14px!important;gap:6px 12px!important}
+  .nhead .nlogo{order:1;font-size:26px!important}
+  .nhead .nbtn{order:2;font-size:15px!important;padding:9px 18px!important;border-bottom-width:3px!important}
+  .nhead nav{order:3;width:100%;flex-wrap:nowrap!important;overflow-x:auto;gap:4px 22px!important;font-size:16px!important;scrollbar-width:none}
+  .nhead nav::-webkit-scrollbar{display:none}
+  .nhead nav a{white-space:nowrap;padding:6px 0!important}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body style="margin:0">
+<div class="rv" data-seen="" style="--sky: #0A82EA; --ink: #2A0B5C; --violet: #6B3FD8; --mint: #35F59A; --mintdk: #17C877; --line: #DDE3FF; background: #F3F5FB; color: #2A0B5C; font-family: 'Outfit', system-ui, sans-serif; font-size: 18px; line-height: 1.5; width: 100%; box-sizing: border-box; overflow-x: hidden">
+
+  <!-- FLOATING NAV -->
+  <div style="position: sticky; top: 0; height: 0; z-index: 30">
+    <div id="prog" style="position: absolute; left: 0; top: 0; height: 5px; width: 0%; background: #35F59A; transition: width .12s linear" aria-hidden="true"></div>
+    <div style="max-width: 1000px; margin: 0 auto; padding: 18px 20px 0; box-sizing: border-box">
+      <header id="nhead" class="nhead" style="background: #fff; border-radius: 999px; padding: 12px 14px 12px 28px; transition: padding .3s ease; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; box-shadow: 0 5px 0 rgba(30,30,90,0.14), 0 14px 30px rgba(20,40,120,0.18)">
+        <a href="#top" class="nlogo" style="font-weight: 800; font-size: 32px; letter-spacing: -0.03em; color: #5B2BC4; text-shadow: 2px 2px 0 #E7DDFF; transform: skewX(-6deg); display: inline-block; line-height: 1">Englify</a>
+        <nav style="display: flex; flex-wrap: wrap; gap: 4px 30px; font-weight: 700; font-size: 18px">
+          <a class="nav" href="#maktab" style="padding: 10px 0">Maktab haqida</a>
+          <a class="nav" href="#tariflar" style="padding: 10px 0">Tariflar</a>
+          <a class="nav" href="#aloqa" style="padding: 10px 0">Aloqa</a>
+          <a class="nav" href="#natijalar" style="padding: 10px 0">Natijalar</a>
+        </nav>
+        <a href="app.html" class="nbtn" style="background: var(--sky); color: #fff; font-weight: 700; font-size: 19px; padding: 14px 28px; border-radius: 999px; border-bottom: 4px solid #0861B5">Student App</a>
+      </header>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  
+
+  <!-- STUDENT STORIES -->
+  <section id="top" style="background: var(--sky); color: #fff; padding: 150px 0 72px; position: relative">
+    <div style="max-width: 1140px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px 40px">
+      <div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+        <h1 style="margin: 0; font-weight: 800; font-size: clamp(44px, 7vw, 88px); line-height: 1; letter-spacing: -0.03em">General English</h1>
+        <p style="margin: 0; font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.25; max-width: 520px; text-wrap: balance">Ingliz tilini zamonaviy metodlar yordamida tez va samarali o‘rganing</p>
+
+        <form onsubmit="return false" style="margin-top: 22px; background: #fff; color: var(--ink); border-radius: 32px; padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 6px 0 rgba(10,60,160,0.25); max-width: 480px">
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="f-name" style="font-weight: 700; font-size: 18px; padding-left: 10px">Ismingiz va Familiyangiz</label>
+            <input id="f-name" type="text" placeholder="Ismingiz va Familiyangiz" style="height: 60px; box-sizing: border-box; border: 2px solid #D6DCF0; border-bottom-width: 4px; border-radius: 16px; padding: 0 18px; font-size: 18px; font-weight: 600; color: var(--ink)">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="f-phone" style="font-weight: 700; font-size: 18px; padding-left: 10px">Telefon raqamingiz</label>
+            <div style="display: flex; align-items: stretch; height: 60px; border: 2px solid #D6DCF0; border-bottom-width: 4px; border-radius: 16px; overflow: hidden">
+              <select aria-label="Davlat kodi" style="border: 0; border-right: 2px solid #D6DCF0; padding: 0 10px; font-size: 18px; font-weight: 600; color: var(--ink); background: #fff"><option>UZ</option></select>
+              <input id="f-phone" type="tel" value="+998" style="flex: 1; min-width: 0; border: 0; padding: 0 16px; font-size: 18px; font-weight: 700; color: var(--ink)">
+            </div>
+          </div>
+          <button type="button" id="send" data-sent="no" style="height: 62px; border: 0; border-bottom: 5px solid var(--mintdk); border-radius: 16px; background: repeating-linear-gradient(115deg, #35F59A 0 30px, #55FFB0 30px 60px); color: var(--ink); font-weight: 800; font-size: 21px; cursor: pointer">Ro‘yxatdan o‘tish</button>
+          <div style="text-align: center; font-size: 14px; font-weight: 600">Tugmani bosish orqali siz <a href="#top" style="color: var(--sky); text-decoration: underline">ommaviy offertamizga</a> rozilik bildirasiz!</div>
+        </form>
+      </div>
+
+      <!-- teacher + phone visual -->
+      <div style="flex: 1 1 440px; min-width: 0; display: flex; justify-content: center">
+        <div style="position: relative; width: 100%; max-width: 540px; height: 560px">
+          <div style="position: absolute; right: 0; bottom: 0; width: 82%; height: 92%; border-radius: 50%; background: #3DA2F6" aria-hidden="true"></div>
+          <div style="position: absolute; right: 2%; bottom: 0; width: 66%; height: 94%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end">
+            <svg viewBox="0 0 200 260" width="100%" height="100%" aria-hidden="true" preserveAspectRatio="xMidYMax meet"><ellipse cx="100" cy="82" rx="46" ry="54" fill="#1F5FAE"></ellipse><path d="M0 260c0-62 40-96 100-96s100 34 100 96z" fill="#1F5FAE"></path></svg>
+            <span style="position: absolute; bottom: 28px; background: #fff; color: var(--ink); font-weight: 700; font-size: 15px; padding: 6px 14px; border-radius: 999px">[O‘QITUVCHI RASMI]</span>
+          </div>
+          <!-- phone -->
+          <div style="position: absolute; left: 0; top: 70px; width: 210px; height: 420px; background: #14172B; border-radius: 38px; padding: 8px; box-sizing: border-box; transform: rotate(-10deg); box-shadow: 0 20px 40px rgba(10,40,120,0.35)">
+            <div style="width: 100%; height: 100%; border-radius: 30px; background: #D5EEFF; padding: 22px 12px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px; color: var(--ink)">
+              <div style="font-weight: 700; font-size: 12px">Salom, [Ism]</div>
+              <div style="background: #C9BBFF; border-radius: 14px; padding: 12px; height: 92px; box-sizing: border-box; font-weight: 800; font-size: 15px; display: flex; align-items: flex-end">Zoom darslar</div>
+              <div style="background: #FFA84A; border-radius: 14px; padding: 12px; font-weight: 700; font-size: 12px; height: 56px; box-sizing: border-box">Uy vazifalari</div>
+              <div style="background: #5BE39B; border-radius: 14px; padding: 12px; font-weight: 700; font-size: 12px; height: 44px; box-sizing: border-box">Yangi so‘zlar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section style="background: #fff; padding: 72px 0 80px">
+    <h2 style="margin: 0; text-align: center; font-weight: 800; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; height: 123px">O‘quvchilarimiz hikoyalari</h2><div style="max-width: 1140px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 36px; width: 991px; height: 597px">
+      
+      <div class="row" style="display: flex; gap: 24px; overflow-x: auto; padding: 6px 4px 18px; scroll-snap-type: x mandatory">
+        
+          <div class="hov" style="flex: none; width: 224px; height: 400px; border-radius: 30px; position: relative; overflow: hidden; scroll-snap-align: start">
+            <div style="position: absolute; inset: 0; background: #F3C9A0"></div>
+            <svg viewBox="0 0 200 260" width="224" height="400" style="position: absolute; left: 0; bottom: 0" aria-hidden="true" preserveAspectRatio="xMidYMax slice"><ellipse cx="100" cy="112" rx="38" ry="46" fill="#8A5A3C"></ellipse><path d="M10 260c0-56 36-84 90-84s90 28 90 84z" fill="#8A5A3C"></path></svg>
+            <button type="button" aria-label="Videoni ko‘rish" style="position: absolute; left: 50%; top: 42%; transform: translate(-50%,-50%); width: 68px; height: 68px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.85); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="#6B7280" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg></button>
+            <span style="position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 20px; padding: 8px 24px; border-radius: 999px; white-space: nowrap">[Ism]</span>
+          </div>
+        
+          <div class="hov" style="flex: none; width: 224px; height: 400px; border-radius: 30px; position: relative; overflow: hidden; scroll-snap-align: start">
+            <div style="position: absolute; inset: 0; background: #C3D4F0"></div>
+            <svg viewBox="0 0 200 260" width="224" height="400" style="position: absolute; left: 0; bottom: 0" aria-hidden="true" preserveAspectRatio="xMidYMax slice"><ellipse cx="100" cy="112" rx="38" ry="46" fill="#3B4F7A"></ellipse><path d="M10 260c0-56 36-84 90-84s90 28 90 84z" fill="#3B4F7A"></path></svg>
+            <button type="button" aria-label="Videoni ko‘rish" style="position: absolute; left: 50%; top: 42%; transform: translate(-50%,-50%); width: 68px; height: 68px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.85); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="#6B7280" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg></button>
+            <span style="position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 20px; padding: 8px 24px; border-radius: 999px; white-space: nowrap">[Ism]</span>
+          </div>
+        
+          <div class="hov" style="flex: none; width: 224px; height: 400px; border-radius: 30px; position: relative; overflow: hidden; scroll-snap-align: start">
+            <div style="position: absolute; inset: 0; background: #EBD3D3"></div>
+            <svg viewBox="0 0 200 260" width="224" height="400" style="position: absolute; left: 0; bottom: 0" aria-hidden="true" preserveAspectRatio="xMidYMax slice"><ellipse cx="100" cy="112" rx="38" ry="46" fill="#8A5A63"></ellipse><path d="M10 260c0-56 36-84 90-84s90 28 90 84z" fill="#8A5A63"></path></svg>
+            <button type="button" aria-label="Videoni ko‘rish" style="position: absolute; left: 50%; top: 42%; transform: translate(-50%,-50%); width: 68px; height: 68px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.85); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="#6B7280" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg></button>
+            <span style="position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 20px; padding: 8px 24px; border-radius: 999px; white-space: nowrap">[Ism]</span>
+          </div>
+        
+          <div class="hov" style="flex: none; width: 224px; height: 400px; border-radius: 30px; position: relative; overflow: hidden; scroll-snap-align: start">
+            <div style="position: absolute; inset: 0; background: #BEDACD"></div>
+            <svg viewBox="0 0 200 260" width="224" height="400" style="position: absolute; left: 0; bottom: 0" aria-hidden="true" preserveAspectRatio="xMidYMax slice"><ellipse cx="100" cy="112" rx="38" ry="46" fill="#3F6A58"></ellipse><path d="M10 260c0-56 36-84 90-84s90 28 90 84z" fill="#3F6A58"></path></svg>
+            <button type="button" aria-label="Videoni ko‘rish" style="position: absolute; left: 50%; top: 42%; transform: translate(-50%,-50%); width: 68px; height: 68px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.85); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="#6B7280" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg></button>
+            <span style="position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 20px; padding: 8px 24px; border-radius: 999px; white-space: nowrap">[Ism]</span>
+          </div>
+        
+      </div>
+    </div>
+  </section><section id="natijalar" style="background: #F3F5FB; padding: 80px 0 40px">
+    <div style="max-width: 1140px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 32px">
+      <h2 style="margin: 0; text-align: center; font-weight: 800; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em">O‘quvchilarimizning natijalari</h2>
+      <div class="mq"><div class="mt">
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #F7F0DA; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[SERTIFIKAT RASMI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #F7F0DA; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[SERTIFIKAT RASMI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #F7F0DA; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[SERTIFIKAT RASMI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #FFFFFF; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[IELTS NATIJASI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #FFFFFF; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[IELTS NATIJASI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #E3EBDD; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[IELTS NATIJASI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #F7F0DA; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[SERTIFIKAT RASMI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #F7F0DA; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[SERTIFIKAT RASMI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #F7F0DA; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[SERTIFIKAT RASMI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #FFFFFF; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[IELTS NATIJASI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #FFFFFF; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[IELTS NATIJASI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 224px; height: 320px; border-radius: 18px; background: #E3EBDD; box-shadow: 0 8px 20px rgba(30,30,90,0.14); position: relative; padding: 16px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 9px">
+            <div style="text-align: center; font-weight: 700; font-size: 11px; color: #6B6A5A">[IELTS NATIJASI]</div>
+            <div style="display: flex; gap: 8px; align-items: flex-start">
+              <div style="flex: 1; display: flex; flex-direction: column; gap: 6px"><div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 80%; background: #CFCAB5; border-radius: 4px"></div><div style="height: 7px; width: 60%; background: #CFCAB5; border-radius: 4px"></div></div>
+              <div style="width: 46px; height: 58px; background: #BEB9A4; border-radius: 4px"></div>
+            </div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px"><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div><div style="height: 28px; background: #D9D4C0; border-radius: 4px"></div></div>
+            <div style="height: 7px; width: 70%; background: #CFCAB5; border-radius: 4px"></div>
+            <div style="height: 7px; background: #CFCAB5; border-radius: 4px"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 16px; padding: 7px 18px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.12)">[F.I.SH.]</span>
+          </div>
+        
+      </div></div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="izohlar" style="background: #fff; padding: 72px 0 80px">
+    <div style="max-width: 1140px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 32px">
+      <h2 style="margin: 0; text-align: center; font-weight: 800; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em">O‘quvchilarning izohlari</h2>
+      <div class="mq"><div class="mt rev" style="gap: 16px; padding-right: 16px">
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #161B2C; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #2F6FD0; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #2F6FD0; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #2A3350"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #EFF7EA; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #CDEFB6; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #CDEFB6; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #FFFFFF"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #1B1E28; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #2C3140"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #2C3140"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #3F5F8F; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #2C3140"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #3F5F8F; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #2C3140"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #E9EEE3; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #D3EBBE; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #D3EBBE; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #FFFFFF"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #161B2C; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #2F6FD0; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #2F6FD0; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #2A3350"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #161B2C; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #2F6FD0; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #2F6FD0; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #2A3350"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #EFF7EA; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #CDEFB6; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #CDEFB6; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #FFFFFF"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #1B1E28; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #2C3140"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #2C3140"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #3F5F8F; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #2C3140"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #3F5F8F; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #2C3140"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #E9EEE3; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #D3EBBE; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #FFFFFF"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #D3EBBE; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #FFFFFF"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+          <div class="hovc" style="flex: none; width: 190px; height: 400px; border: 2px solid var(--sky); border-radius: 10px; background: #161B2C; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; position: relative">
+            <div style="width: 70%; height: 34px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 82%; height: 56px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 60%; height: 30px; border-radius: 10px; background: #2F6FD0; align-self: flex-end"></div>
+            <div style="width: 78%; height: 70px; border-radius: 10px; background: #2A3350"></div>
+            <div style="width: 50%; height: 30px; border-radius: 10px; background: #2F6FD0; align-self: flex-end"></div>
+            <div style="width: 84%; height: 44px; border-radius: 10px; background: #2A3350"></div>
+            <span style="position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: #fff; color: var(--ink); font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 999px; white-space: nowrap">[IZOH SKRINSHOTI]</span>
+          </div>
+        
+      </div></div>
+    </div>
+  </section>
+
+  <!-- OPPORTUNITIES -->
+  <section style="background: #F3F5FB; padding: 88px 0 80px">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 40px">
+      <div style="text-align: center; display: flex; flex-direction: column; gap: 8px">
+        <h2 style="margin: 0; font-weight: 800; font-size: clamp(32px, 4.4vw, 52px); letter-spacing: -0.02em">Imkoniyatlar — ajoyib!</h2>
+        <p style="margin: 0; font-weight: 700; font-size: clamp(20px, 2.4vw, 26px)">Kursni tugatgandan keyingi natijalaringiz ham qiziqmi?!</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 20px">
+        
+          <div class="hov" style="background: #fff; border: 3px solid #64D43F; border-radius: 24px; padding: 22px 24px; font-weight: 600; font-size: 18px; line-height: 1.4; min-height: 110px; box-sizing: border-box; display: flex; align-items: center">Filmlarni subtitrsiz, seriallarni asl tilida tushuna boshlaysiz.</div>
+        
+          <div class="hov" style="background: #fff; border: 3px solid #8E96E8; border-radius: 24px; padding: 22px 24px; font-weight: 600; font-size: 18px; line-height: 1.4; min-height: 110px; box-sizing: border-box; display: flex; align-items: center">Ingliz tili orqali chet el universitetlariga grant yutish imkoniyati ochiladi.</div>
+        
+          <div class="hov" style="background: #fff; border: 3px solid #2F7BEA; border-radius: 24px; padding: 22px 24px; font-weight: 600; font-size: 18px; line-height: 1.4; min-height: 110px; box-sizing: border-box; display: flex; align-items: center">Xorijiy kompaniyalar bilan hamkorlik qilib, yuqori maoshli ish topasiz.</div>
+        
+          <div class="hov" style="background: #fff; border: 3px solid #FF9A3D; border-radius: 24px; padding: 22px 24px; font-weight: 600; font-size: 18px; line-height: 1.4; min-height: 110px; box-sizing: border-box; display: flex; align-items: center">Talaffuzingiz tiniqlashadi va gapirishdan uyalmaysiz.</div>
+        
+          <div class="hov" style="background: #fff; border: 3px solid #FF6A55; border-radius: 24px; padding: 22px 24px; font-weight: 600; font-size: 18px; line-height: 1.4; min-height: 110px; box-sizing: border-box; display: flex; align-items: center">Yangi, zamonaviy metodlarni sinab ko‘rib, o‘rganishning o‘z yo‘lingizni topasiz.</div>
+        
+          <div class="hov" style="background: #fff; border: 3px solid #F2B705; border-radius: 24px; padding: 22px 24px; font-weight: 600; font-size: 18px; line-height: 1.4; min-height: 110px; box-sizing: border-box; display: flex; align-items: center">Sayohatda va chet elda o‘zingizni erkin va ishonchli his qilasiz.</div>
+        
+      </div>
+      <a href="#top" style="display: block; text-align: center; padding: 20px; border-radius: 18px; border-bottom: 5px solid var(--mintdk); background: repeating-linear-gradient(115deg, #35F59A 0 30px, #55FFB0 30px 60px); font-weight: 800; font-size: 22px">Ishtirok etish!</a>
+    </div>
+  </section>
+
+  <!-- WHAT AWAITS -->
+  <section id="maktab" style="background: #fff; padding: 88px 0 80px">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 40px">
+      <h2 style="margin: 0; text-align: center; font-weight: 800; font-size: clamp(32px, 4.4vw, 52px); letter-spacing: -0.02em">Sizni nima kutmoqda?</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 22px">
+        
+          <div class="hov" style="background: #fff; border: 2px solid var(--line); border-radius: 26px; padding: 26px; box-shadow: 0 0 0 6px #F1F4FF; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 14px">
+              <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #BFE6FF; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A0B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.9 6.7 19.7l1.1-5.9L3.5 9.7l5.9-.8z"></path></svg></span>
+              <h3 style="margin: 0; font-weight: 800; font-size: 22px; line-height: 1.2">Onlayn format</h3>
+            </div>
+            <p style="margin: 0; font-weight: 500; font-size: 17px; color: #46346F">Dunyoning istalgan nuqtasidan 24/7 ilovaga kirish imkoniyati. Darslarni o‘zingizga qulay vaqtga moslashtirasiz.</p>
+          </div>
+        
+          <div class="hov" style="background: #fff; border: 2px solid var(--line); border-radius: 26px; padding: 26px; box-shadow: 0 0 0 6px #F1F4FF; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 14px">
+              <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #FFD9A8; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A0B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.9 6.7 19.7l1.1-5.9L3.5 9.7l5.9-.8z"></path></svg></span>
+              <h3 style="margin: 0; font-weight: 800; font-size: 22px; line-height: 1.2">Uy vazifasi bo‘yicha doimiy fikr-mulohaza</h3>
+            </div>
+            <p style="margin: 0; font-weight: 500; font-size: 17px; color: #46346F">Zoom darslari 2 ta o‘qituvchi bilan: Grammatika va Speaking alohida. Savollarga javob berilib, tavsiyalar beriladi.</p>
+          </div>
+        
+          <div class="hov" style="background: #fff; border: 2px solid var(--line); border-radius: 26px; padding: 26px; box-shadow: 0 0 0 6px #F1F4FF; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 14px">
+              <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #C9F3E0; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A0B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.9 6.7 19.7l1.1-5.9L3.5 9.7l5.9-.8z"></path></svg></span>
+              <h3 style="margin: 0; font-weight: 800; font-size: 22px; line-height: 1.2">Guruhlar</h3>
+            </div>
+            <p style="margin: 0; font-weight: 500; font-size: 17px; color: #46346F">O‘rtacha 14–16 ta o‘quvchidan iborat guruhlarda jonli onlayn darslar o‘tadi, o‘quvchilar bir-biriga yordam beradi.</p>
+          </div>
+        
+          <div class="hov" style="background: #fff; border: 2px solid var(--line); border-radius: 26px; padding: 26px; box-shadow: 0 0 0 6px #F1F4FF; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 14px">
+              <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #FFE79A; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A0B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.9 6.7 19.7l1.1-5.9L3.5 9.7l5.9-.8z"></path></svg></span>
+              <h3 style="margin: 0; font-weight: 800; font-size: 22px; line-height: 1.2">Sertifikatlar</h3>
+            </div>
+            <p style="margin: 0; font-weight: 500; font-size: 17px; color: #46346F">Har bir daraja tugagach sertifikat olish imkoniyati bor. Sertifikat darajasi amaliy bilimingizga mos keladi.</p>
+          </div>
+        
+          <div class="hov" style="background: #fff; border: 2px solid var(--line); border-radius: 26px; padding: 26px; box-shadow: 0 0 0 6px #F1F4FF; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 14px">
+              <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #D9CCFF; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A0B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.9 6.7 19.7l1.1-5.9L3.5 9.7l5.9-.8z"></path></svg></span>
+              <h3 style="margin: 0; font-weight: 800; font-size: 22px; line-height: 1.2">Interaktiv platforma va shaxsiy akkaunt</h3>
+            </div>
+            <p style="margin: 0; font-weight: 500; font-size: 17px; color: #46346F">Video darslar, yangi so‘zlar jadvali, uy vazifalari va natijalar mobil ilovada bir joyda.</p>
+          </div>
+        
+          <div class="hov" style="background: #fff; border: 2px solid var(--line); border-radius: 26px; padding: 26px; box-shadow: 0 0 0 6px #F1F4FF; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 14px">
+              <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #FFC9D0; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A0B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.9 6.7 19.7l1.1-5.9L3.5 9.7l5.9-.8z"></path></svg></span>
+              <h3 style="margin: 0; font-weight: 800; font-size: 22px; line-height: 1.2">Haqiqiy amerikancha darslar</h3>
+            </div>
+            <p style="margin: 0; font-weight: 500; font-size: 17px; color: #46346F">Videolar amerikalik maktab muhitida suratga olingan. Serial ko‘rinishidagi qisqa videodarslar: [5–10] daqiqa.</p>
+          </div>
+        
+      </div>
+      <a href="#top" style="display: block; text-align: center; padding: 20px; border-radius: 18px; border-bottom: 5px solid var(--mintdk); background: repeating-linear-gradient(115deg, #35F59A 0 30px, #55FFB0 30px 60px); font-weight: 800; font-size: 22px">Ishtirok etish!</a>
+    </div>
+  </section>
+
+  <!-- AUDIENCE -->
+  <section style="background: #F3F5FB; padding: 88px 0 80px">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 40px">
+      <h2 style="margin: 0; font-weight: 800; font-size: clamp(32px, 4.4vw, 52px); letter-spacing: -0.02em">Kurslarimiz aynan siz uchun</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px">
+        
+          <div class="hov" style="background: #FFD98A; border: 2px solid #F2BE57; border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 10px; min-height: 190px; box-sizing: border-box">
+            <h3 style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.15">Abituriyentlar</h3>
+            <p style="margin: 0; font-weight: 500; font-size: 16px; line-height: 1.45">Davlat va chet el universitetlari, litsey va boshqa o‘quv muassasalari imtihonlariga ingliz tilidan tayyorlanuvchilar uchun.</p>
+          </div>
+        
+          <div class="hov" style="background: #BBFFA0; border: 2px solid #8EE46E; border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 10px; min-height: 190px; box-sizing: border-box">
+            <h3 style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.15">Havaskorlar</h3>
+            <p style="margin: 0; font-weight: 500; font-size: 16px; line-height: 1.45">Yangi til va madaniyatlarni o‘rganishga qiziquvchi sayohatchilar, poliglotlar uchun.</p>
+          </div>
+        
+          <div class="hov" style="background: #A9CCFF; border: 2px solid #7DAAF0; border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 10px; min-height: 190px; box-sizing: border-box">
+            <h3 style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.15">Ma’lum kasb egalari</h3>
+            <p style="margin: 0; font-weight: 500; font-size: 16px; line-height: 1.45">Qo‘shimcha til bilish orqali o‘z karyerasida o‘sishni reja qilayotgan xodimlar uchun.</p>
+          </div>
+        
+          <div class="hov" style="background: #D6D1F5; border: 2px solid #B7AEEA; border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 10px; min-height: 190px; box-sizing: border-box">
+            <h3 style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.15">Maktab o‘quvchilari</h3>
+            <p style="margin: 0; font-weight: 500; font-size: 16px; line-height: 1.45">Ingliz tilini o‘rganib, darsdan bo‘sh vaqtlarini samarali o‘tkazishni xohlovchi o‘quvchilar uchun.</p>
+          </div>
+        
+          <div class="hov" style="background: #DDBBFF; border: 2px solid #C493F5; border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 10px; min-height: 190px; box-sizing: border-box">
+            <h3 style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.15">Talabalar</h3>
+            <p style="margin: 0; font-weight: 500; font-size: 16px; line-height: 1.45">Darslardan tashqari zamonaviy kasblarni o‘rganib, moliyaviy erkinlikka erishmoqchi bo‘lgan yoshlar uchun.</p>
+          </div>
+        
+          <div class="hov" style="background: #FFF08A; border: 2px solid #EBD84E; border-radius: 26px; padding: 26px; display: flex; flex-direction: column; gap: 10px; min-height: 190px; box-sizing: border-box">
+            <h3 style="margin: 0; font-weight: 800; font-size: 26px; line-height: 1.15">Chet eldagi yurtdoshlarimiz</h3>
+            <p style="margin: 0; font-weight: 500; font-size: 16px; line-height: 1.45">Ishlash yoki o‘qish maqsadida chet elga ketgan, kundalik muloqot uchun ingliz tiliga ehtiyoji bor insonlar uchun.</p>
+          </div>
+        
+      </div>
+      <a href="#top" style="display: block; text-align: center; padding: 20px; border-radius: 18px; border-bottom: 5px solid var(--mintdk); background: repeating-linear-gradient(115deg, #35F59A 0 30px, #55FFB0 30px 60px); font-weight: 800; font-size: 22px">Ishtirok etish!</a>
+    </div>
+  </section>
+
+  <!-- MENTORS -->
+  <section style="background: #fff; padding: 88px 0 100px">
+    <div style="max-width: 1140px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 36px">
+      <div style="text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center">
+        <h2 style="margin: 0; font-weight: 800; font-size: clamp(32px, 4.4vw, 52px); letter-spacing: -0.02em">Mentorlarimiz</h2>
+        <p style="margin: 0; font-weight: 700; font-size: 21px; max-width: 640px; text-wrap: balance">Bizning maktab — ingliz tilini oson va qiziqarli o‘rganish uchun ajoyib joy! Tajribali o‘qituvchilar yordamida maqsadingizga tezroq erishasiz.</p>
+      </div>
+      <div class="row" style="display: flex; gap: 18px; overflow-x: auto; padding: 6px 4px 18px; justify-content: flex-start">
+        
+          <div class="hov" style="flex: none; width: 250px; height: 420px; border-radius: 22px; background: #7CC8F5; position: relative; overflow: hidden">
+            <div style="position: absolute; left: -10px; top: 24px; font-family: 'Bebas Neue', sans-serif; font-size: 120px; line-height: 0.9; color: rgba(255,255,255,0.22); transform: rotate(-12deg); white-space: nowrap" aria-hidden="true">ENGLIFY</div>
+            <svg viewBox="0 0 200 260" width="250" height="300" style="position: absolute; left: 0; top: 30px" aria-hidden="true" preserveAspectRatio="xMidYMax meet"><ellipse cx="100" cy="92" rx="38" ry="46" fill="rgba(20,20,40,0.55)"></ellipse><path d="M20 260c0-54 34-80 80-80s80 26 80 80z" fill="rgba(20,20,40,0.55)"></path></svg>
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 58%; background: linear-gradient(to bottom, rgba(0,0,0,0), #000 62%)"></div>
+            <div style="position: absolute; left: 0; right: 0; bottom: 18px; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #fff">
+              <div style="font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1; letter-spacing: 0.01em">MR. [ISM]</div>
+              <div style="font-size: 15px; font-weight: 500">English Instructor</div>
+              <div style="margin-top: 6px; background: #9AD5FA; color: #14142B; font-weight: 700; font-size: 12px; padding: 3px 12px; border-radius: 6px">Teaching Experience: [N]+ years</div>
+              <div style="background: #9AD5FA; color: #14142B; font-weight: 700; font-size: 12px; padding: 3px 12px; border-radius: 6px">Certifications: IELTS [X.X]</div>
+            </div>
+          </div>
+        
+          <div class="hov" style="flex: none; width: 250px; height: 420px; border-radius: 22px; background: #E04747; position: relative; overflow: hidden">
+            <div style="position: absolute; left: -10px; top: 24px; font-family: 'Bebas Neue', sans-serif; font-size: 120px; line-height: 0.9; color: rgba(255,255,255,0.22); transform: rotate(-12deg); white-space: nowrap" aria-hidden="true">ENGLIFY</div>
+            <svg viewBox="0 0 200 260" width="250" height="300" style="position: absolute; left: 0; top: 30px" aria-hidden="true" preserveAspectRatio="xMidYMax meet"><ellipse cx="100" cy="92" rx="38" ry="46" fill="rgba(20,20,40,0.55)"></ellipse><path d="M20 260c0-54 34-80 80-80s80 26 80 80z" fill="rgba(20,20,40,0.55)"></path></svg>
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 58%; background: linear-gradient(to bottom, rgba(0,0,0,0), #000 62%)"></div>
+            <div style="position: absolute; left: 0; right: 0; bottom: 18px; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #fff">
+              <div style="font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1; letter-spacing: 0.01em">MR. [ISM]</div>
+              <div style="font-size: 15px; font-weight: 500">English Instructor</div>
+              <div style="margin-top: 6px; background: #F18B8B; color: #14142B; font-weight: 700; font-size: 12px; padding: 3px 12px; border-radius: 6px">Teaching Experience: [N]+ years</div>
+              <div style="background: #F18B8B; color: #14142B; font-weight: 700; font-size: 12px; padding: 3px 12px; border-radius: 6px">Certifications: IELTS [X.X]</div>
+            </div>
+          </div>
+        
+          <div class="hov" style="flex: none; width: 250px; height: 420px; border-radius: 22px; background: #F5B52E; position: relative; overflow: hidden">
+            <div style="position: absolute; left: -10px; top: 24px; font-family: 'Bebas Neue', sans-serif; font-size: 120px; line-height: 0.9; color: rgba(255,255,255,0.22); transform: rotate(-12deg); white-space: nowrap" aria-hidden="true">ENGLIFY</div>
+            <svg viewBox="0 0 200 260" width="250" height="300" style="position: absolute; left: 0; top: 30px" aria-hidden="true" preserveAspectRatio="xMidYMax meet"><ellipse cx="100" cy="92" rx="38" ry="46" fill="rgba(20,20,40,0.55)"></ellipse><path d="M20 260c0-54 34-80 80-80s80 26 80 80z" fill="rgba(20,20,40,0.55)"></path></svg>
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 58%; background: linear-gradient(to bottom, rgba(0,0,0,0), #000 62%)"></div>
+            <div style="position: absolute; left: 0; right: 0; bottom: 18px; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #fff">
+              <div style="font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1; letter-spacing: 0.01em">MR. [ISM]</div>
+              <div style="font-size: 15px; font-weight: 500">English Instructor</div>
+              <div style="margin-top: 6px; background: #F9CF6A; color: #14142B; font-weight: 700; font-size: 12px; padding: 3px 12px; border-radius: 6px">Teaching Experience: [N]+ years</div>
+              <div style="background: #F9CF6A; color: #14142B; font-weight: 700; font-size: 12px; padding: 3px 12px; border-radius: 6px">Certifications: IELTS [X.X]</div>
+            </div>
+          </div>
+        
+          <div class="hov" style="flex: none; width: 250px; height: 420px; border-radius: 22px; background: #7FE0F2; position: relative; overflow: hidden">
+            <div style="position: absolute; left: -10px; top: 24px; font-family: 'Bebas Neue', sans-serif; font-size: 120px; line-height: 0.9; color: rgba(255,255,255,0.22); transform: rotate(-12deg); white-space: nowrap" aria-hidden="true">ENGLIFY</div>
+            <svg viewBox="0 0 200 260" width="250" height="300" style="position: absolute; left: 0; top: 30px" aria-hidden="true" preserveAspectRatio="xMidYMax meet"><ellipse cx="100" cy="92" rx="38" ry="46" fill="rgba(20,20,40,0.55)"></ellipse><path d="M20 260c0-54 34-80 80-80s80 26 80 80z" fill="rgba(20,20,40,0.55)"></path></svg>
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 58%; background: linear-gradient(to bottom, rgba(0,0,0,0), #000 62%)"></div>
+            <div style="position: absolute; left: 0; right: 0; bottom: 18px; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #fff">
+              <div style="font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1; letter-spacing: 0.01em">MR. [ISM]</div>
+              <div style="font-size: 15px; font-weight: 500">English Instructor</div>
+              <div style="margin-top: 6px; background: #A4ECF8; color: #14142B; font-weight: 700; font-size: 12px; padding: 3px 12px; border-radius: 6px">Teaching Experience: [N]+ years</div>
+              <div style="background: #A4ECF8; color: #14142B; font-weight: 700; font-size: 12px; padding: 3px 12px; border-radius: 6px">Certifications: IELTS [X.X]</div>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section id="ilova" style="position: relative; background: var(--sky); color: #fff; margin-top: 0">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" width="100%" height="90" style="display: block; position: absolute; top: -1px; left: 0" aria-hidden="true"><path d="M0 0h1440v28C1100 100 520 90 0 56z" fill="#fff"></path></svg>
+    <div style="max-width: 1140px; margin: 0 auto; padding: 150px 24px 130px; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
+      <div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 22px; max-width: 560px">
+        <div style="font-weight: 800; font-size: 64px; letter-spacing: -0.03em; line-height: 1; color: #fff; text-shadow: 3px 3px 0 #5B2BC4; transform: skewX(-6deg); align-self: flex-start">Englify</div>
+        <p style="margin: 0; font-weight: 700; font-size: 20px; line-height: 1.45">Englify — ingliz tilini o‘rganish uchun mo‘ljallangan maxsus ilova bo‘lib, so‘z boyligi, grammatika va talaffuzni yaxshilashga yordam beradi. Interaktiv darslar, mini-o‘yinlar, Zoom darslari va moslashuvchan mashqlar darslarni samarali o‘zlashtirishga ko‘maklashadi.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px">
+          <div style="background: #fff; color: var(--ink); border-radius: 18px; border-bottom: 4px solid #C9CFF0; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start"><span style="font-weight: 700; font-size: 16px; color: var(--sky)">App Store</span><div style="width: 100px; height: 100px; background: repeating-conic-gradient(#14142B 0 25%, #fff 0 50%) 0 0/20px 20px; border-radius: 6px" role="img" aria-label="[QR-KOD]"></div></div>
+          <div style="background: #fff; color: var(--ink); border-radius: 18px; border-bottom: 4px solid #C9CFF0; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start"><span style="font-weight: 700; font-size: 16px; color: var(--sky)">Google Play</span><div style="width: 100px; height: 100px; background: repeating-conic-gradient(#14142B 0 25%, #fff 0 50%) 0 0/20px 20px; border-radius: 6px" role="img" aria-label="[QR-KOD]"></div></div>
+        </div>
+      </div>
+      <div style="flex: 1 1 360px; min-width: 0; display: flex; justify-content: center">
+        <div style="width: 250px; height: 500px; background: #14172B; border-radius: 42px; padding: 9px; box-sizing: border-box; transform: rotate(8deg); box-shadow: 0 24px 48px rgba(10,40,120,0.4)">
+          <div style="width: 100%; height: 100%; border-radius: 34px; background: #D5EEFF; padding: 26px 14px 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; color: var(--ink)">
+            <div style="font-weight: 700; font-size: 13px">Hi, [Ism]!</div>
+            <div style="background: #C9BBFF; border-radius: 16px; padding: 14px; height: 120px; box-sizing: border-box; font-weight: 800; font-size: 17px; display: flex; align-items: flex-end">Zoom events</div>
+            <div style="background: #FFA84A; border-radius: 16px; padding: 14px; height: 74px; box-sizing: border-box; font-weight: 700; font-size: 14px">Leaderboard</div>
+            <div style="background: #5BE39B; border-radius: 16px; padding: 14px; height: 60px; box-sizing: border-box; font-weight: 700; font-size: 14px">Yangi so‘zlar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" width="100%" height="90" style="display: block; position: absolute; bottom: -1px; left: 0" aria-hidden="true"><path d="M0 90V50C380 10 1000 20 1440 70v20z" fill="#F3F5FB"></path></svg>
+  </section>
+
+  <!-- PRICING -->
+  <section id="tariflar" style="background: #F3F5FB; padding: 60px 0 80px">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 40px">
+      <h2 style="margin: 0; text-align: center; font-weight: 800; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em; text-wrap: balance">Hamma uchun qulay tarif turlari va narxlar</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 24px; align-items: stretch">
+        <div class="hov" style="background: #fff; border: 2px solid var(--line); border-radius: 30px; padding: 32px; display: flex; flex-direction: column; gap: 18px">
+          <h3 style="margin: 0; font-weight: 800; font-size: 28px">Standart</h3>
+          <div style="font-weight: 800; font-size: 44px; letter-spacing: -0.02em">[NARX] <span style="font-size: 18px; font-weight: 600; color: #5C4B85">so‘m / oy</span></div>
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-weight: 500; flex: 1">
+            <li>Jonli Zoom darslari</li>
+            <li>Ilovadagi video darslar</li>
+            <li>Uy vazifasi tekshiruvi</li>
+          </ul>
+          <a href="#top" style="text-align: center; padding: 16px; border-radius: 16px; border-bottom: 5px solid var(--mintdk); background: repeating-linear-gradient(115deg, #35F59A 0 30px, #55FFB0 30px 60px); font-weight: 800; font-size: 20px">Tanlash</a>
+        </div>
+        <div class="hov" style="background: var(--violet); color: #fff; border-radius: 30px; padding: 32px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 8px 0 #4A24A8">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px"><h3 style="margin: 0; font-weight: 800; font-size: 28px">Premium</h3><span style="background: #FFE15A; color: var(--ink); font-weight: 700; font-size: 14px; padding: 5px 12px; border-radius: 999px">Ommabop</span></div>
+          <div style="font-weight: 800; font-size: 44px; letter-spacing: -0.02em">[NARX] <span style="font-size: 18px; font-weight: 600; color: #E3DAFF">so‘m / oy</span></div>
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-weight: 500; flex: 1">
+            <li>Standart tarifdagi hammasi</li>
+            <li>2 ta o‘qituvchi: Grammatika va Speaking</li>
+            <li>Sertifikat olish imkoniyati</li>
+          </ul>
+          <a href="#top" style="text-align: center; padding: 16px; border-radius: 16px; border-bottom: 5px solid var(--mintdk); background: repeating-linear-gradient(115deg, #35F59A 0 30px, #55FFB0 30px 60px); color: var(--ink); font-weight: 800; font-size: 20px">Tanlash</a>
+        </div>
+        <div class="hov" style="background: #fff; border: 2px solid var(--line); border-radius: 30px; padding: 32px; display: flex; flex-direction: column; gap: 18px">
+          <h3 style="margin: 0; font-weight: 800; font-size: 28px">Individual</h3>
+          <div style="font-weight: 800; font-size: 44px; letter-spacing: -0.02em">[NARX] <span style="font-size: 18px; font-weight: 600; color: #5C4B85">so‘m / oy</span></div>
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-weight: 500; flex: 1">
+            <li>Faqat siz va mentor</li>
+            <li>Shaxsiy dastur va jadval</li>
+            <li>IELTS yoki suhbat yo‘nalishi</li>
+          </ul>
+          <a href="#top" style="text-align: center; padding: 16px; border-radius: 16px; border-bottom: 5px solid var(--mintdk); background: repeating-linear-gradient(115deg, #35F59A 0 30px, #55FFB0 30px 60px); font-weight: 800; font-size: 20px">Tanlash</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="background: #fff; padding: 80px 0">
+    <div style="max-width: 860px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 32px">
+      <h2 style="margin: 0; text-align: center; font-weight: 800; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.02em">Ko‘p beriladigan savollar</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        
+          <div style="background: #F3F5FB; border: 2px solid var(--line); border-radius: 22px; padding: 0 22px">
+            <button class="faqb" aria-expanded="false" style="width: 100%; min-height: 64px; background: none; border: 0; padding: 16px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; cursor: pointer; font-weight: 700; font-size: 20px; color: #2A0B5C">
+              <span>Darajam past bo‘lsa ham boshlay olamanmi?</span>
+              <span style="flex: none; width: 34px; height: 34px; border-radius: 50%; background: #6B3FD8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; line-height: 1" aria-hidden="true">+</span>
+            </button>
+            
+              <p hidden style="margin: 0 0 20px; font-weight: 500; color: #46346F">Ha. Birinchi bosqichda darajangiz aniqlanadi va sizni noldan boshlaydigan guruhga qo‘shamiz.</p>
+            
+          </div>
+        
+          <div style="background: #F3F5FB; border: 2px solid var(--line); border-radius: 22px; padding: 0 22px">
+            <button class="faqb" aria-expanded="false" style="width: 100%; min-height: 64px; background: none; border: 0; padding: 16px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; cursor: pointer; font-weight: 700; font-size: 20px; color: #2A0B5C">
+              <span>Darslar qaysi platformada o‘tadi?</span>
+              <span style="flex: none; width: 34px; height: 34px; border-radius: 50%; background: #6B3FD8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; line-height: 1" aria-hidden="true">+</span>
+            </button>
+            
+              <p hidden style="margin: 0 0 20px; font-weight: 500; color: #46346F">Darslar Zoom orqali jonli o‘tadi, video darslar va vazifalar Englify ilovasida joylashgan.</p>
+            
+          </div>
+        
+          <div style="background: #F3F5FB; border: 2px solid var(--line); border-radius: 22px; padding: 0 22px">
+            <button class="faqb" aria-expanded="false" style="width: 100%; min-height: 64px; background: none; border: 0; padding: 16px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; cursor: pointer; font-weight: 700; font-size: 20px; color: #2A0B5C">
+              <span>Darsni o‘tkazib yuborsam nima bo‘ladi?</span>
+              <span style="flex: none; width: 34px; height: 34px; border-radius: 50%; background: #6B3FD8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; line-height: 1" aria-hidden="true">+</span>
+            </button>
+            
+              <p hidden style="margin: 0 0 20px; font-weight: 500; color: #46346F">Darsni ilovadan qayta ko‘rishingiz mumkin. [SHARTLARNI TEKSHIRING]</p>
+            
+          </div>
+        
+          <div style="background: #F3F5FB; border: 2px solid var(--line); border-radius: 22px; padding: 0 22px">
+            <button class="faqb" aria-expanded="false" style="width: 100%; min-height: 64px; background: none; border: 0; padding: 16px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; cursor: pointer; font-weight: 700; font-size: 20px; color: #2A0B5C">
+              <span>To‘lov qanday amalga oshiriladi?</span>
+              <span style="flex: none; width: 34px; height: 34px; border-radius: 50%; background: #6B3FD8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; line-height: 1" aria-hidden="true">+</span>
+            </button>
+            
+              <p hidden style="margin: 0 0 20px; font-weight: 500; color: #46346F">To‘lov usullari: [Payme / Click / bank kartasi].</p>
+            
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / FOOTER -->
+  <footer id="aloqa" style="background: var(--ink); color: #fff">
+    <div style="max-width: 1140px; margin: 0 auto; padding: 64px 24px; display: flex; flex-wrap: wrap; gap: 36px 60px; justify-content: space-between">
+      <div style="display: flex; flex-direction: column; gap: 14px; max-width: 420px">
+        <div style="font-weight: 800; font-size: 44px; letter-spacing: -0.03em; line-height: 1; transform: skewX(-6deg); align-self: flex-start; text-shadow: 3px 3px 0 #5B2BC4">Englify</div>
+        <p style="margin: 0; font-weight: 500; font-size: 17px; color: #D9CFF5">Ingliz tilini zamonaviy metodlar yordamida tez va samarali o‘rganing. englify.uz</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-weight: 600; font-size: 18px">
+        <span style="font-weight: 800; font-size: 22px; color: #FFE15A">Aloqa</span>
+        <span>Telefon: [+998 __ ___ __ __]</span>
+        <span>Telegram: [@englify]</span>
+        <span>Instagram: [@englify.uz]</span>
+        <span>Manzil: [MANZIL]</span>
+      </div>
+    </div>
+  </footer>
+</div>
+<script>
+(function(){
+  var prog=document.getElementById('prog'), head=document.getElementById('nhead'), rv=document.querySelector('.rv');
+  var padTop='12px 14px 12px 28px', padSm='7px 10px 7px 22px', compact=false;
+  function onScroll(){
+    var d=document.documentElement, max=d.scrollHeight-d.clientHeight, y=window.pageYOffset||d.scrollTop;
+    if(max<200) return;
+    prog.style.width=Math.min(100,Math.max(0,Math.round(y/max*100)))+'%';
+    var c=y>24;
+    if(c!==compact){ compact=c; head.style.padding=c?padSm:padTop; }
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  // Bo'limlar ko'ringanda paydo bo'lishi
+  var secs=[].slice.call(document.querySelectorAll('.rv > section')), seen={};
+  function push(){ rv.setAttribute('data-seen',Object.keys(seen).join(' ')); }
+  if('IntersectionObserver' in window && secs.length){
+    var io=new IntersectionObserver(function(es){
+      var ch=false;
+      es.forEach(function(e){ if(e.isIntersecting){ var i=secs.indexOf(e.target)+1; if(!seen[i]){seen[i]=true;ch=true;} io.unobserve(e.target);} });
+      if(ch) push();
+    },{threshold:.1,rootMargin:'0px 0px -6% 0px'});
+    secs.forEach(function(s){io.observe(s);});
+  } else { secs.forEach(function(s,i){seen[i+1]=true;}); push(); }
+
+  // FAQ
+  document.querySelectorAll('.faqb').forEach(function(b){
+    b.addEventListener('click',function(){
+      var card=b.parentNode, open=b.getAttribute('aria-expanded')==='true';
+      document.querySelectorAll('.faqb').forEach(function(o){
+        o.setAttribute('aria-expanded','false'); o.lastElementChild.textContent='+';
+        var p=o.parentNode.querySelector('p'); if(p) p.hidden=true;
+      });
+      if(!open){ b.setAttribute('aria-expanded','true'); b.lastElementChild.textContent='−'; var p=card.querySelector('p'); if(p) p.hidden=false; }
+    });
+  });
+
+  // Forma
+  var btn=document.getElementById('send'), t;
+  btn.addEventListener('click',function(){
+    btn.textContent='Yuborildi! Tez orada bog‘lanamiz'; btn.setAttribute('data-sent','yes');
+    clearTimeout(t);
+    t=setTimeout(function(){ btn.textContent='Ro‘yxatdan o‘tish'; btn.setAttribute('data-sent','no'); },3200);
+  });
+})();
+</script>
+</body>
+</html>
