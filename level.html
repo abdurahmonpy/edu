@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Englify Darajalar (Levels)</title>
+<meta name="description" content="Englify o'quv dasturi CEFR darajalari va darajani aniqlash testi.">
+<meta name="theme-color" content="#6B3FD8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky: #0A93F5;
+  --purple: #6B3FD8;
+  --purple-dark: #4A24A6;
+  --ink: #2A0B5C;
+  --bg: #F3F5FB;
+  --border: #E6E8F2;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+
+.p3 {
+  box-shadow: 0 5px 0 var(--d, #4A24A6);
+  transition: transform .12s, box-shadow .12s;
+  cursor: pointer;
+}
+.p3:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--d, #4A24A6); }
+.p3:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--d, #4A24A6); }
+
+.container {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+
+.level-card {
+  background: #fff;
+  border: 2px solid #E6E8F2;
+  border-radius: 28px;
+  padding: 24px 26px;
+  box-shadow: 0 6px 0 #DDE3FF;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transition: all .2s;
+}
+.level-card.active {
+  border-color: #6B3FD8;
+  background: #FAF9FF;
+  box-shadow: 0 8px 0 #C7BCF5;
+}
+.level-card.locked {
+  opacity: .75;
+  background: #F8F9FC;
+}
+
+/* Quiz Option */
+.quiz-opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 2px solid #E4E8F7;
+  border-radius: 18px;
+  padding: 14px 20px;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all .15s;
+  margin-bottom: 10px;
+}
+.quiz-opt:hover {
+  border-color: #6B3FD8;
+  background: #F7F5FE;
+}
+.quiz-opt.selected {
+  border-color: #6B3FD8;
+  background: #EFEBFB;
+  color: #552ABF;
+}
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header style="background: #fff; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 20">
+    <div style="max-width: 1060px; margin: 0 auto; height: 72px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between">
+      <div style="display: flex; align-items: center; gap: 14px">
+        <a href="app.html#resurslar" class="p3" style="--d: #D1D5E8; display: flex; align-items: center; gap: 8px; background: #ECEFFA; padding: 9px 18px; border-radius: 999px; font-weight: 700; font-size: 15px; color: var(--ink)">
+          &larr; Resurslar
+        </a>
+        <h1 style="margin: 0; font-weight: 800; font-size: clamp(20px, 4vw, 26px); color: var(--ink)">
+          🏆 CEFR Darajalari
+        </h1>
+      </div>
+
+      <div>
+        <span style="background: #EFEBFB; border: 2px solid #D5C9F8; border-radius: 999px; padding: 6px 16px; font-weight: 800; font-size: 16px; color: var(--purple)">
+          Joriy: A1 Starter
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <!-- Hero Banner -->
+    <div style="background: linear-gradient(135deg, #BDB6F8, #7D7EFA); color: #fff; border-radius: 36px; padding: 32px clamp(20px, 5vw, 40px); box-shadow: 0 8px 0 #5859D6; margin-bottom: 34px">
+      <div style="max-width: 680px">
+        <span style="background: rgba(255,255,255,0.22); border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .08em">O'quv yo'li</span>
+        <h2 style="margin: 12px 0 10px; font-weight: 800; font-size: clamp(26px, 5.5vw, 40px); line-height: 1.15">Noldan C1 gacha bo'lgan rivojlanish bosqichlari</h2>
+        <p style="margin: 0 0 20px; font-size: 17px; opacity: .9; line-height: 1.4">Har bir darajada yangi lug'atlar, grammatik mavzular va sertifikatlar sizni kutmoqda.</p>
+        <button onclick="scrollToQuiz()" class="p3" style="--d: #38158A; background: #fff; color: #582ABF; border: 0; border-radius: 16px; padding: 12px 26px; font-weight: 800; font-size: 16px">
+          🎯 Darajani aniqlash testini topshirish
+        </button>
+      </div>
+    </div>
+
+    <!-- Levels Roadmap -->
+    <h3 style="font-weight: 800; font-size: 24px; margin: 0 0 18px; color: var(--ink)">O'quv bosqichlari</h3>
+    
+    <div style="display: flex; flex-direction: column; gap: 18px; margin-bottom: 46px">
+      
+      <!-- A1 -->
+      <div class="level-card active">
+        <div style="width: 64px; height: 64px; border-radius: 20px; background: #6B3FD8; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 26px; flex-shrink: 0">
+          A1
+        </div>
+        <div style="flex: 1; min-width: 0">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px">
+            <h4 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">Starter &bull; Boshlang'ich</h4>
+            <span style="background: #2ED573; color: #fff; border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 13px">Hozir o'qilmoqda</span>
+          </div>
+          <p style="margin: 6px 0 12px; font-size: 15px; color: #6A5A92">Salomlashish, asosiy so'zlar, oila, raqamlar va oddiy kundalik gaplar.</p>
+          <div style="display: flex; align-items: center; gap: 12px">
+            <div style="flex: 1; height: 10px; background: #E6E8F2; border-radius: 99px; overflow: hidden">
+              <div style="width: 4%; height: 100%; background: #6B3FD8; border-radius: 99px"></div>
+            </div>
+            <span style="font-weight: 800; font-size: 14px; color: #6B3FD8">4%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- A2 -->
+      <div class="level-card locked">
+        <div style="width: 64px; height: 64px; border-radius: 20px; background: #C9C3FA; color: #5B2BC4; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 26px; flex-shrink: 0">
+          A2
+        </div>
+        <div style="flex: 1; min-width: 0">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px">
+            <h4 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">Elementary &bull; Oddiy muloqot</h4>
+            <span style="background: #E4E8F7; color: #7F87A7; border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 13px">🔒 500 ball kerak</span>
+          </div>
+          <p style="margin: 6px 0 0; font-size: 15px; color: #6A5A92">Xaridlar, sayohat, o'tmishdagi hodisalar, ob-havo va rejalashtirish.</p>
+        </div>
+      </div>
+
+      <!-- B1 -->
+      <div class="level-card locked">
+        <div style="width: 64px; height: 64px; border-radius: 20px; background: #E6E8F2; color: #8F95B2; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 26px; flex-shrink: 0">
+          B1
+        </div>
+        <div style="flex: 1; min-width: 0">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px">
+            <h4 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">Pre-Intermediate &bull; O'rta bosqich</h4>
+            <span style="background: #E4E8F7; color: #7F87A7; border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 13px">🔒 1500 ball kerak</span>
+          </div>
+          <p style="margin: 6px 0 0; font-size: 15px; color: #6A5A92">Erkin fikr bildirish, kitoblar o'qish, kinolar tomosha qilish va insho yozish.</p>
+        </div>
+      </div>
+
+      <!-- B2 -->
+      <div class="level-card locked">
+        <div style="width: 64px; height: 64px; border-radius: 20px; background: #E6E8F2; color: #8F95B2; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 26px; flex-shrink: 0">
+          B2
+        </div>
+        <div style="flex: 1; min-width: 0">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px">
+            <h4 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">Intermediate &bull; Ishonchli nutq</h4>
+            <span style="background: #E4E8F7; color: #7F87A7; border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 13px">🔒 3000 ball kerak</span>
+          </div>
+          <p style="margin: 6px 0 0; font-size: 15px; color: #6A5A92">IELTS 6.0-6.5 darajasi, murakkab grammatika, ravon bahs-munozaralar.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Placement Quiz Section -->
+    <div id="quizSection" style="background: #fff; border: 2px solid #E4E8F7; border-radius: 36px; padding: clamp(20px, 4vw, 36px); box-shadow: 0 8px 0 #DDE2F2">
+      <div style="margin-bottom: 24px">
+        <h3 style="margin: 0; font-weight: 800; font-size: 26px; color: var(--ink)">🎯 Darajani aniqlash testi (Placement Test)</h3>
+        <p style="margin: 6px 0 0; color: #7F87A7; font-size: 15px">Qisqa 3 ta savolga javob bering va bilim darajangizni aniqlang.</p>
+      </div>
+
+      <div id="quizContainer">
+        <div id="qNumber" style="font-weight: 800; font-size: 14px; color: #6B3FD8; margin-bottom: 6px">1-SAVOL (3 tadan)</div>
+        <div id="qText" style="font-weight: 800; font-size: 20px; color: var(--ink); margin-bottom: 18px">"She ______ to school every morning." nuqtalar o'rniga to'g'ri so'zni tanlang:</div>
+
+        <div id="optionsContainer">
+          <button class="quiz-opt" onclick="selectQuizAnswer(0)">A) go</button>
+          <button class="quiz-opt" onclick="selectQuizAnswer(1)">B) goes</button>
+          <button class="quiz-opt" onclick="selectQuizAnswer(2)">C) going</button>
+          <button class="quiz-opt" onclick="selectQuizAnswer(3)">D) wented</button>
+        </div>
+      </div>
+
+      <div id="quizResult" style="display: none; text-align: center; padding: 20px 0">
+        <div style="font-size: 54px; margin-bottom: 10px">🎓</div>
+        <h4 style="margin: 0; font-weight: 800; font-size: 26px; color: var(--ink)">Sizning tavsiya etilgan darajangiz: <span id="resLevel" style="color: #6B3FD8">A1 Starter</span></h4>
+        <p id="resDesc" style="color: #6A5A92; font-size: 16px; max-width: 500px; margin: 10px auto 24px">Siz uchun eng yaxshi boshlanish — Starter Unit 1.1 darslari!</p>
+        <a href="dars.html" class="p3" style="--d: #4A24A6; display: inline-block; background: #6B3FD8; color: #fff; padding: 14px 32px; border-radius: 18px; font-weight: 800; font-size: 17px">
+          Darsga o'tish &rarr;
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+function scrollToQuiz() {
+  document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+const questions = [
+  {
+    q: '"She ______ to school every morning." Nuqtalar o\'rniga to\'g\'ri so\'zni tanlang:',
+    opts: ['A) go', 'B) goes', 'C) going', 'D) wented'],
+    correct: 1
+  },
+  {
+    q: '"I don\'t have ______ money in my wallet." Qaysi so\'z mos keladi?',
+    opts: ['A) some', 'B) many', 'C) any', 'D) a'],
+    correct: 2
+  },
+  {
+    q: '"Yesterday, we ______ a great movie at the cinema."',
+    opts: ['A) see', 'B) saw', 'C) seen', 'D) was seeing'],
+    correct: 1
+  }
+];
+
+let curQ = 0;
+let score = 0;
+
+function selectQuizAnswer(optIdx) {
+  if (optIdx === questions[curQ].correct) {
+    score++;
+  }
+
+  curQ++;
+  if (curQ < questions.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function loadQuestion() {
+  const qData = questions[curQ];
+  document.getElementById('qNumber').textContent = `${curQ + 1}-SAVOL (${questions.length} tadan)`;
+  document.getElementById('qText').textContent = qData.q;
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  qData.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = () => selectQuizAnswer(idx);
+    container.appendChild(btn);
+  });
+}
+
+function showResult() {
+  document.getElementById('quizContainer').style.display = 'none';
+  const resEl = document.getElementById('quizResult');
+  resEl.style.display = 'block';
+
+  const resLevel = document.getElementById('resLevel');
+  const resDesc = document.getElementById('resDesc');
+
+  if (score >= 3) {
+    resLevel.textContent = 'A2 Elementary';
+    resDesc.textContent = 'Ajoyib natija! Boshlang\'ich bilimlaringiz mustahkam. Elementary darslariga tayyorsiz!';
+  } else {
+    resLevel.textContent = 'A1 Starter';
+    resDesc.textContent = 'Siz uchun hozirgi A1 Starter darslari (Unit 1.1) ayni muddao. Darsni hoziroq davom ettiring!';
+  }
+}
+</script>
+</body>
+</html>

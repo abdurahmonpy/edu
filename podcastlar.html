@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Englify Podkastlar (Audio Podcasts)</title>
+<meta name="description" content="Englify ingliz tili podkastlari: eshitish ko'nikmasi (listening) uchun audio darslar va transkriptlar.">
+<meta name="theme-color" content="#587CF9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky: #0A93F5;
+  --blue: #587CF9;
+  --blue-dark: #375BD1;
+  --ink: #2A0B5C;
+  --bg: #F3F5FB;
+  --border: #E6E8F2;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 120px;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+
+.p3 {
+  box-shadow: 0 5px 0 var(--d, #375BD1);
+  transition: transform .12s, box-shadow .12s;
+  cursor: pointer;
+}
+.p3:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--d, #375BD1); }
+.p3:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--d, #375BD1); }
+
+.container {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+.podcast-item {
+  background: #fff;
+  border: 2px solid #E6E8F2;
+  border-radius: 24px;
+  padding: 20px 24px;
+  box-shadow: 0 5px 0 #DDE3FF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.podcast-item:hover {
+  transform: translateY(-3px);
+  border-color: #587CF9;
+  box-shadow: 0 8px 0 #BDCFFC;
+}
+.podcast-item.playing {
+  border-color: #587CF9;
+  background: #F4F7FF;
+}
+
+/* Floating Audio Player */
+.player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 2px solid var(--border);
+  box-shadow: 0 -8px 24px rgba(20,40,120,0.08);
+  padding: 16px 24px;
+  z-index: 50;
+}
+.player-wrap {
+  max-width: 1060px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header style="background: #fff; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 20">
+    <div style="max-width: 1060px; margin: 0 auto; height: 72px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between">
+      <div style="display: flex; align-items: center; gap: 14px">
+        <a href="app.html#resurslar" class="p3" style="--d: #D1D5E8; display: flex; align-items: center; gap: 8px; background: #ECEFFA; padding: 9px 18px; border-radius: 999px; font-weight: 700; font-size: 15px; color: var(--ink)">
+          &larr; Resurslar
+        </a>
+        <h1 style="margin: 0; font-weight: 800; font-size: clamp(20px, 4vw, 26px); color: var(--ink)">
+          🎙️ Podkastlar (Audio)
+        </h1>
+      </div>
+
+      <div>
+        <span style="background: #EEF2FF; border: 2px solid #C8D6FF; border-radius: 999px; padding: 6px 16px; font-weight: 800; font-size: 16px; color: var(--blue)">
+          5 ta epizod
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <!-- Hero Banner -->
+    <div style="background: linear-gradient(110deg, #587CF9, #9A3FEF); color: #fff; border-radius: 36px; padding: 32px clamp(20px, 5vw, 40px); box-shadow: 0 8px 0 #4622B3; margin-bottom: 34px">
+      <div style="max-width: 660px">
+        <span style="background: rgba(255,255,255,0.22); border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .08em">Listening &bull; Tinglab tushunish</span>
+        <h2 style="margin: 12px 0 10px; font-weight: 800; font-size: clamp(26px, 5.5vw, 40px); line-height: 1.15">Haqiqiy jonli ingliz tili podkastlari</h2>
+        <p style="margin: 0; font-size: 17px; opacity: .9; line-height: 1.4">Har kuni 5 daqiqa tinglang, quloqni o'rgating va nutqingizni tabiiy talaffuz bilan boyiting.</p>
+      </div>
+    </div>
+
+    <!-- Podcast List -->
+    <h3 style="font-weight: 800; font-size: 24px; margin: 0 0 18px; color: var(--ink)">Epizodlar to'plami</h3>
+    
+    <div style="display: flex; flex-direction: column; gap: 14px" id="podList">
+      
+      <!-- Ep 1 -->
+      <div class="podcast-item" onclick="playEpisode(0)" id="ep-0">
+        <div style="display: flex; align-items: center; gap: 18px">
+          <div style="width: 54px; height: 54px; border-radius: 18px; background: #587CF9; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0">
+            ▶️
+          </div>
+          <div>
+            <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 1: How to introduce yourself like a native</div>
+            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Salomlashish va o'zini tanishtirishning jonli iboralari &bull; A1-A2</div>
+          </div>
+        </div>
+        <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
+          ⏱️ 3:15
+        </div>
+      </div>
+
+      <!-- Ep 2 -->
+      <div class="podcast-item" onclick="playEpisode(1)" id="ep-1">
+        <div style="display: flex; align-items: center; gap: 18px">
+          <div style="width: 54px; height: 54px; border-radius: 18px; background: #9A3FEF; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0">
+            ▶️
+          </div>
+          <div>
+            <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 2: 10 Common English Mistakes and how to avoid them</div>
+            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Ko'p uchraydigan 10 ta grammatik xato va ularning yechimi &bull; A2-B1</div>
+          </div>
+        </div>
+        <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
+          ⏱️ 4:40
+        </div>
+      </div>
+
+      <!-- Ep 3 -->
+      <div class="podcast-item" onclick="playEpisode(2)" id="ep-2">
+        <div style="display: flex; align-items: center; gap: 18px">
+          <div style="width: 54px; height: 54px; border-radius: 18px; background: #2ED573; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0">
+            ▶️
+          </div>
+          <div>
+            <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 3: Ordering Food at a Restaurant</div>
+            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Restoranda ovqat buyurtma qilish va hisob so'rash &bull; A1</div>
+          </div>
+        </div>
+        <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
+          ⏱️ 2:50
+        </div>
+      </div>
+
+      <!-- Ep 4 -->
+      <div class="podcast-item" onclick="playEpisode(3)" id="ep-3">
+        <div style="display: flex; align-items: center; gap: 18px">
+          <div style="width: 54px; height: 54px; border-radius: 18px; background: #FF7A3D; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0">
+            ▶️
+          </div>
+          <div>
+            <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 4: Job Interview — Tell Me About Yourself</div>
+            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Ish suhbatida o'zingiz haqingizda muvaffaqiyatli gapirish &bull; B1-B2</div>
+          </div>
+        </div>
+        <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
+          ⏱️ 5:10
+        </div>
+      </div>
+
+      <!-- Ep 5 -->
+      <div class="podcast-item" onclick="playEpisode(4)" id="ep-4">
+        <div style="display: flex; align-items: center; gap: 18px">
+          <div style="width: 54px; height: 54px; border-radius: 18px; background: #0A93F5; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0">
+            ▶️
+          </div>
+          <div>
+            <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 5: Travel English — At the Airport & Check-in</div>
+            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Aeroportda ro'yxatdan o'tish va parvoz qoidalari &bull; A2</div>
+          </div>
+        </div>
+        <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
+          ⏱️ 3:45
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Transcript Box -->
+    <div style="margin-top: 36px; background: #fff; border: 2px solid #E6E8F2; border-radius: 30px; padding: 26px; box-shadow: 0 6px 0 #DDE3FF">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px">
+        <h4 style="margin: 0; font-weight: 800; font-size: 20px; color: var(--ink)">📝 Epizod transkripti (Matni):</h4>
+        <span style="font-size: 13px; color: #7F87A7">Ingliz tilida</span>
+      </div>
+      <div id="transcriptText" style="font-size: 16px; line-height: 1.8; color: #4A4E69; background: #F8FAFD; border-radius: 20px; padding: 20px; border: 1px solid #E2E7F5">
+        Boshlash uchun yuqoridagi epizodlardan birini tanlang va tinglang!
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Player Bar -->
+  <div class="player-bar">
+    <div class="player-wrap">
+      <div style="display: flex; align-items: center; gap: 14px">
+        <button id="playBtn" onclick="togglePlay()" class="p3" style="--d: #375BD1; width: 50px; height: 50px; border-radius: 50%; background: #587CF9; color: #fff; border: 0; display: flex; align-items: center; justify-content: center; font-size: 20px">
+          ▶️
+        </button>
+        <div>
+          <div id="playerTitle" style="font-weight: 800; font-size: 16px; color: var(--ink)">Ep 1: How to introduce yourself</div>
+          <div id="playerStatus" style="font-size: 13px; color: #7F87A7">Tinglashga tayyor</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 14px">
+        <button onclick="changeSpeed()" id="speedBtn" style="background: #F3F5FB; border: 2px solid #DDE3FF; padding: 8px 14px; border-radius: 12px; font-weight: 700; font-size: 14px; color: var(--ink); cursor: pointer">
+          1.0x
+        </button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const episodes = [
+  {
+    title: "Ep 1: How to introduce yourself like a native",
+    transcript: "Hello everyone and welcome to the Englify Podcast! Today we are talking about how to introduce yourself naturally. Instead of just saying 'My name is John and I am fine', native speakers often say: 'Hey, I'm John, great to meet you! How's your day going?' Remember, a warm smile and confident tone are just as important as the words!"
+  },
+  {
+    title: "Ep 2: 10 Common English Mistakes and how to avoid them",
+    transcript: "Welcome back! Today's top mistake is saying 'I am agree with you'. In English, 'agree' is already a verb, so you simply say: 'I agree with you'. Another common slip is 'She don't know' instead of 'She doesn't know'. Practice these everyday to build automatic fluency!"
+  },
+  {
+    title: "Ep 3: Ordering Food at a Restaurant",
+    transcript: "Imagine you are sitting at a cozy café in London. The waiter approaches: 'Are you ready to order?' You can politely reply: 'Yes, please! Could I have the chicken salad and a cup of black coffee?' Never say 'I want this', always use 'Could I have' or 'I would like'."
+  },
+  {
+    title: "Ep 4: Job Interview — Tell Me About Yourself",
+    transcript: "The classic job interview opening: 'Tell me about yourself'. Don't recite your entire life story! Use the Present-Past-Future formula. Talk about where you are right now, one key past accomplishment, and why you are excited about this specific opportunity."
+  },
+  {
+    title: "Ep 5: Travel English — At the Airport & Check-in",
+    transcript: "At the check-in desk, the agent will ask: 'Can I see your passport and booking reference?' Then they will ask: 'Would you prefer a window seat or an aisle seat?' Learn these phrases so your next international journey is smooth and stress-free!"
+  }
+];
+
+let curEp = 0;
+let isPlaying = false;
+let curRate = 1.0;
+
+function playEpisode(idx) {
+  curEp = idx;
+  document.querySelectorAll('.podcast-item').forEach((item, i) => {
+    item.classList.toggle('playing', i === idx);
+  });
+
+  const ep = episodes[idx];
+  document.getElementById('playerTitle').textContent = ep.title;
+  document.getElementById('transcriptText').textContent = ep.transcript;
+  document.getElementById('playerStatus').textContent = 'Ijro etilmoqda...';
+
+  startAudio();
+}
+
+function startAudio() {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(episodes[curEp].transcript);
+  utterance.lang = 'en-US';
+  utterance.rate = curRate;
+
+  utterance.onend = () => {
+    isPlaying = false;
+    document.getElementById('playBtn').textContent = '▶️';
+    document.getElementById('playerStatus').textContent = 'Yakunlandi';
+  };
+
+  window.speechSynthesis.speak(utterance);
+  isPlaying = true;
+  document.getElementById('playBtn').textContent = '⏸️';
+}
+
+function togglePlay() {
+  if (isPlaying) {
+    if ('speechSynthesis' in window) window.speechSynthesis.pause();
+    isPlaying = false;
+    document.getElementById('playBtn').textContent = '▶️';
+    document.getElementById('playerStatus').textContent = 'Pauzada';
+  } else {
+    if ('speechSynthesis' in window && window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+      isPlaying = true;
+      document.getElementById('playBtn').textContent = '⏸️';
+      document.getElementById('playerStatus').textContent = 'Ijro etilmoqda...';
+    } else {
+      playEpisode(curEp);
+    }
+  }
+}
+
+function changeSpeed() {
+  if (curRate === 1.0) curRate = 1.25;
+  else if (curRate === 1.25) curRate = 1.5;
+  else curRate = 1.0;
+
+  document.getElementById('speedBtn').textContent = curRate.toFixed(1) + 'x';
+  if (isPlaying) {
+    startAudio();
+  }
+}
+</script>
+</body>
+</html>
