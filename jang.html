@@ -3,514 +3,452 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jang — Englify</title>
-<meta name="theme-color" content="#2D72BF">
+<title>Jangni boshlang — Englify</title>
+<meta name="theme-color" content="#2A0B5C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#F3F5FB;font-family:'Outfit',system-ui,sans-serif;font-size:18px;line-height:1.5;color:#2A0B5C}
-a{color:inherit;text-decoration:none}
-button,input{font-family:inherit}
+:root {
+  --sky: #0A93F5;
+  --sky-dark: #076FC2;
+  --ink: #220846;
+  --bg: #F5F7FD;
+  --border: #E8EBF5;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a, button { color: inherit; text-decoration: none; font-family: inherit; }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-@keyframes pop{from{opacity:0;translate:0 34px;scale:.94}to{opacity:1;translate:0 0;scale:1}}
-@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -9px}}
-@keyframes sway{0%,100%{rotate:-3deg}50%{rotate:3deg}}
-@keyframes ping{0%{scale:1;opacity:.9}100%{scale:1.9;opacity:0}}
-@keyframes correct{0%{background:#fff}30%{background:#D4F7E7}100%{background:#fff}}
-@keyframes wrong{0%{background:#fff}30%{background:#FFD4D4}100%{background:#fff}}
-@keyframes shake{0%,100%{translate:0 0}20%,60%{translate:-8px 0}40%,80%{translate:8px 0}}
-@keyframes scoreUp{0%{opacity:0;translate:0 0}50%{opacity:1;translate:0 -30px}100%{opacity:0;translate:0 -60px}}
+/* Header */
+.top-nav {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 32px);
+  background: #fff;
+  border-bottom: 1px solid #ECEFF8;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+.nav-btn {
+  background: none;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-.fade{animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both}
-.pop{animation:pop .65s cubic-bezier(.2,.8,.2,1) backwards}
+.container {
+  max-width: 580px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 
-.p3{box-shadow:0 7px 0 var(--d,#C5C8E6);transition:transform .16s cubic-bezier(.2,.8,.2,1),box-shadow .16s;cursor:pointer}
-.p3:hover{transform:translateY(-4px);box-shadow:0 11px 0 var(--d,#C5C8E6)}
-.p3:active{transform:translateY(6px);box-shadow:0 1px 0 var(--d,#C5C8E6)}
-.hov{transition:translate .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
-.hov:hover{translate:0 -6px;box-shadow:0 18px 36px rgba(20,40,120,.18)!important}
-.cta{background:repeating-linear-gradient(115deg,#35F59A 0 30px,#55FFB0 30px 60px);border-bottom:5px solid #17C877;border-radius:20px;border-left:0;border-right:0;border-top:0;font-weight:800;font-size:20px;color:#0B3D2A;cursor:pointer;transition:transform .16s,box-shadow .16s;padding:16px 24px}
-.cta:hover{transform:translateY(-3px)}
-.cta:active{transform:translateY(3px);border-bottom-width:2px}
-.back{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.22);border-radius:999px;padding:7px 18px;font-weight:700;font-size:15px;transition:background .2s}
-.back:hover{background:rgba(255,255,255,.35)}
-.diff-card{border-radius:22px;padding:22px;cursor:pointer;transition:transform .15s,box-shadow .15s;border:3px solid transparent}
-.diff-card:hover{transform:translateY(-4px)}
-.diff-card.selected{border-color:#fff;box-shadow:0 0 0 3px #2A0B5C}
+.section-label {
+  font-weight: 800;
+  font-size: 19px;
+  color: var(--ink);
+  margin: 0 0 16px;
+}
 
-/* Game overlay */
-#game-overlay{display:none;position:fixed;inset:0;background:rgba(10,5,30,.92);z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:24px}
-#game-overlay.active{display:flex}
-.game-card{background:#fff;border-radius:36px;padding:36px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(10,5,30,.4);position:relative}
-.timer-bar{height:10px;border-radius:99px;background:#E6E8F2;overflow:hidden;margin-bottom:24px}
-.timer-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#0A93F5,#35F59A);transform-origin:left;transition:width .1s linear}
-.word-display{font-weight:800;font-size:clamp(38px,10vw,60px);letter-spacing:-0.02em;text-align:center;margin-bottom:8px;line-height:1}
-.word-type{font-weight:600;font-size:16px;color:#8E8BB5;text-align:center;margin-bottom:28px}
-.ans-input{width:100%;border:3px solid #DDE3FF;border-radius:18px;padding:16px 20px;font-size:22px;font-weight:700;color:#2A0B5C;outline:none;transition:border-color .2s;text-align:center}
-.ans-input:focus{border-color:#0A93F5}
-.ans-input.correct-input{border-color:#17C877;background:#D4F7E7}
-.ans-input.wrong-input{border-color:#FF4444;background:#FFD4D4;animation:shake .4s ease}
-.ans-hint{font-weight:600;font-size:15px;color:#6A5A92;text-align:center;margin-top:10px;min-height:22px}
-.submit-btn{width:100%;margin-top:20px;padding:18px;border:0;border-radius:20px;font-weight:800;font-size:20px;cursor:pointer;background:linear-gradient(135deg,#0A93F5,#5CC4FF);color:#fff;box-shadow:0 6px 0 #0765C7;transition:transform .15s,box-shadow .15s}
-.submit-btn:hover{transform:translateY(-3px);box-shadow:0 9px 0 #0765C7}
-.submit-btn:active{transform:translateY(3px);box-shadow:0 3px 0 #0765C7}
-.progress-dots{display:flex;gap:6px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
-.dot{width:12px;height:12px;border-radius:50%;background:#E6E8F2;transition:background .3s}
-.dot.done-ok{background:#35F59A}
-.dot.done-bad{background:#FF6B6B}
-.dot.active{background:#0A93F5;transform:scale(1.3)}
+/* Mode Cards */
+.mode-card {
+  background: #fff;
+  border: 2.5px solid transparent;
+  border-radius: 28px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6px 18px rgba(34,8,70,0.04);
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+}
+.mode-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(34,8,70,0.08);
+}
+.mode-card.selected {
+  border-color: #0A93F5;
+  background: #EFF6FF;
+}
 
-/* Result overlay */
-#result-overlay{display:none;position:fixed;inset:0;background:rgba(10,5,30,.92);z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:24px}
-#result-overlay.active{display:flex}
-.result-card{background:#fff;border-radius:36px;padding:40px 36px;max-width:480px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(10,5,30,.4)}
+.mode-card.card-ai {
+  background: linear-gradient(100deg, #E2ECFF 0%, #D4E3FF 100%);
+}
+.mode-card.card-ai.selected {
+  border-color: #0A93F5;
+}
+.mode-card.card-duel {
+  background: #EFF2F8;
+}
+.mode-card.card-duel.selected {
+  border-color: #0A93F5;
+  background: #E8EEFB;
+}
+.mode-card.card-group {
+  background: #EFF2F8;
+}
+.mode-card.card-group.selected {
+  border-color: #0A93F5;
+  background: #E8EEFB;
+}
 
-/* score pop */
-.score-pop{position:fixed;font-weight:800;font-size:28px;color:#35F59A;pointer-events:none;z-index:200;animation:scoreUp .8s ease forwards}
+/* Lobby Grid */
+.lobby-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.lobby-card {
+  background: #FAF8F5;
+  border: 2.5px solid #F0ECE4;
+  border-radius: 26px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+}
+.lobby-card:hover {
+  transform: translateY(-2px);
+  border-color: #D4C6B2;
+}
+.lobby-card.selected {
+  border-color: #7D481C;
+  background: #FFF9F2;
+  box-shadow: 0 6px 18px rgba(125,72,28,0.12);
+}
+.lobby-card.vocab {
+  background: #EDF1F7;
+  border-color: #E2E6EF;
+}
+.lobby-card.vocab.selected {
+  border-color: #0A93F5;
+  background: #F0F6FF;
+}
 
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* Big Start Button */
+.start-btn {
+  width: 100%;
+  background: #0A93F5;
+  color: #fff;
+  border: 0;
+  border-radius: 20px;
+  padding: 18px;
+  font-weight: 800;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 0 var(--sky-dark);
+  transition: transform .12s, box-shadow .12s;
+  margin-top: auto;
+}
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 var(--sky-dark);
+}
+.start-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--sky-dark);
+}
+
+/* Game Arena View */
+#gameArena {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  max-width: 580px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+.battle-score-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-radius: 24px;
+  padding: 16px 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+}
+.option-btn {
+  width: 100%;
+  background: #fff;
+  border: 2px solid #E4E8F7;
+  border-radius: 20px;
+  padding: 18px 20px;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: left;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: all .15s;
+  color: var(--ink);
+}
+.option-btn:hover {
+  border-color: #0A93F5;
+  background: #F0F7FF;
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div style="background:linear-gradient(135deg,#2D72BF,#5E9DE2);color:#fff;padding:30px 0 90px;position:relative">
-  <div style="max-width:780px;margin:0 auto;padding:0 24px">
-    <a href="app.html" class="back">&larr; Asosiy</a>
-    <div style="margin-top:20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+  <!-- Header -->
+  <header class="top-nav">
+    <a href="app.html#asosiy" class="nav-btn" aria-label="Orqaga">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <div style="font-weight: 800; font-size: 21px; color: var(--ink)">Jangni boshlang</div>
+    <button class="nav-btn" onclick="openHistory()" aria-label="Tarix">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </button>
+  </header>
+
+  <!-- LOBBY SELECTION VIEW -->
+  <div class="container" id="lobbyView">
+    
+    <!-- Jang turlari -->
+    <h3 class="section-label">Jang turlarini tanlang:</h3>
+
+    <!-- AI ga Qarshi -->
+    <div class="mode-card card-ai selected" onclick="selectMode('ai', this)">
       <div>
-        <div style="font-weight:800;font-size:clamp(48px,11vw,72px);line-height:1;letter-spacing:-0.02em">Jang</div>
-        <div style="font-weight:600;font-size:18px;opacity:.85;margin-top:4px">So'zlaringizni sinab ko'ring!</div>
+        <div style="font-weight: 800; font-size: 23px; color: var(--ink)">AI ga Qarshi</div>
+        <div style="font-size: 15px; color: #53648A; margin-top: 4px">Sun'iy intellekt bilan bellashing</div>
       </div>
-      <!-- sword SVG -->
-      <svg class="sway" style="animation:sway 4s ease-in-out infinite;margin-left:auto" viewBox="0 0 120 120" width="90" height="90" aria-hidden="true">
-        <g transform="rotate(-35 60 60)">
-          <rect x="52" y="4" width="16" height="70" rx="4" fill="#8FB4E0"/>
-          <rect x="56" y="6" width="5" height="62" rx="3" fill="#C8DCEE"/>
-          <rect x="38" y="68" width="44" height="10" rx="4" fill="#D0A56B"/>
-          <rect x="54" y="77" width="12" height="28" rx="5" fill="#8B5E34"/>
-        </g>
-        <g transform="rotate(35 60 60) translate(10,10)">
-          <rect x="42" y="4" width="16" height="70" rx="4" fill="#7FA6D6"/>
-          <rect x="46" y="6" width="5" height="62" rx="3" fill="#A9C6E8"/>
-          <rect x="28" y="68" width="44" height="10" rx="4" fill="#C79A60"/>
-          <rect x="44" y="77" width="12" height="28" rx="5" fill="#7A4F2A"/>
-        </g>
-      </svg>
+      <div style="font-size: 52px; line-height: 1">🤖</div>
     </div>
-    <!-- Stats -->
-    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
-      <div style="background:rgba(255,255,255,.18);border-radius:16px;padding:12px 20px;font-weight:700">
-        Janglar: <span id="stat-total" style="font-weight:800;font-size:22px">0</span>
+
+    <!-- Duel -->
+    <div class="mode-card card-duel" onclick="selectMode('duel', this)">
+      <div>
+        <div style="font-weight: 800; font-size: 23px; color: var(--ink)">Duel</div>
+        <div style="font-size: 15px; color: #69789A; margin-top: 4px">Birga bir jang</div>
       </div>
-      <div style="background:rgba(255,255,255,.18);border-radius:16px;padding:12px 20px;font-weight:700">
-        Yutuqlar: <span id="stat-wins" style="font-weight:800;font-size:22px;color:#5BE39B">0</span>
-      </div>
-      <div style="background:rgba(255,255,255,.18);border-radius:16px;padding:12px 20px;font-weight:700">
-        Mag'lubiyat: <span id="stat-losses" style="font-weight:800;font-size:22px;color:#FFB2B2">0</span>
-      </div>
+      <div style="font-size: 52px; line-height: 1">⚔️</div>
     </div>
-  </div>
-</div>
 
-<!-- MAIN CONTENT -->
-<div style="max-width:780px;margin:-56px auto 0;padding:0 24px 80px;position:relative">
-
-  <!-- START BUTTON -->
-  <div class="fade" style="background:#fff;border-radius:36px;padding:28px;box-shadow:0 8px 0 #DDE3FF,0 20px 40px rgba(20,40,120,.12);margin-bottom:28px">
-    <div style="font-weight:800;font-size:26px;margin-bottom:6px">Yangi Jang boshlash</div>
-    <div style="font-weight:500;font-size:16px;color:#6A5A92;margin-bottom:20px">Qiyinlik darajasini tanlang va jangga kirishing!</div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:16px;margin-bottom:24px">
-      <!-- Beginner -->
-      <div class="diff-card hov selected" data-diff="easy" data-count="10" data-time="30"
-        style="background:linear-gradient(135deg,#35F59A,#17C877);color:#0B3D2A;box-shadow:0 7px 0 #1A9E5A">
-        <div style="font-weight:800;font-size:22px">Boshlang'ich</div>
-        <div style="font-weight:600;font-size:14px;margin-top:4px;opacity:.8">10 so'z &middot; 30 soniya</div>
-        <div style="margin-top:12px;background:rgba(0,0,0,.1);border-radius:10px;padding:6px 12px;font-weight:700;font-size:13px;display:inline-block">Oson</div>
+    <!-- Guruhli o'yin -->
+    <div class="mode-card card-group" onclick="selectMode('group', this)">
+      <div>
+        <div style="font-weight: 800; font-size: 23px; color: var(--ink)">Guruhli o'yin</div>
+        <div style="font-size: 15px; color: #69789A; margin-top: 4px">4 yoki undan ortiq o'yinchi bilan o'ynang</div>
       </div>
-      <!-- Medium -->
-      <div class="diff-card hov" data-diff="medium" data-count="20" data-time="20"
-        style="background:linear-gradient(135deg,#0A93F5,#5CC4FF);color:#fff;box-shadow:0 7px 0 #0765C7">
-        <div style="font-weight:800;font-size:22px">O'rta</div>
-        <div style="font-weight:600;font-size:14px;margin-top:4px;opacity:.85">20 so'z &middot; 20 soniya</div>
-        <div style="margin-top:12px;background:rgba(255,255,255,.2);border-radius:10px;padding:6px 12px;font-weight:700;font-size:13px;display:inline-block">O'rtacha</div>
+      <div style="font-size: 52px; line-height: 1">👥</div>
+    </div>
+
+    <!-- Lobby turlari -->
+    <h3 class="section-label" style="margin-top: 14px">Lobby turlarini tanlang:</h3>
+
+    <div class="lobby-grid">
+      <!-- Grammar -->
+      <div class="lobby-card selected" onclick="selectLobby('grammar', this)">
+        <div style="font-size: 46px; margin-bottom: 8px">📕</div>
+        <div style="font-weight: 800; font-size: 20px; color: #4B270C">Grammar</div>
       </div>
-      <!-- Hard -->
-      <div class="diff-card hov" data-diff="hard" data-count="30" data-time="10"
-        style="background:linear-gradient(135deg,#FF6B6B,#E02020);color:#fff;box-shadow:0 7px 0 #C42020">
-        <div style="font-weight:800;font-size:22px">Qiyin</div>
-        <div style="font-weight:600;font-size:14px;margin-top:4px;opacity:.85">30 so'z &middot; 10 soniya</div>
-        <div style="margin-top:12px;background:rgba(255,255,255,.2);border-radius:10px;padding:6px 12px;font-weight:700;font-size:13px;display:inline-block">Qiyin</div>
+
+      <!-- Vocabulary -->
+      <div class="lobby-card vocab" onclick="selectLobby('vocabulary', this)">
+        <div style="font-size: 46px; margin-bottom: 8px">💬</div>
+        <div style="font-weight: 800; font-size: 20px; color: #2B3A5A">Vocabulary</div>
       </div>
     </div>
-    <button class="cta" id="start-btn" style="width:100%">&#9876; Jangni boshlash!</button>
+
+    <button class="start-btn" onclick="startBattle()">
+      Jangni boshlang
+    </button>
+
   </div>
 
-  <!-- HOW TO PLAY -->
-  <div class="fade" style="background:#fff;border-radius:36px;padding:28px;box-shadow:0 8px 0 #DDE3FF,0 20px 40px rgba(20,40,120,.12);margin-bottom:28px">
-    <div style="font-weight:800;font-size:22px;margin-bottom:20px">Qanday o'ynaladi?</div>
-    <div style="display:flex;flex-direction:column;gap:16px">
-      <div style="display:flex;align-items:flex-start;gap:16px">
-        <span style="flex:none;width:40px;height:40px;border-radius:50%;background:#A8DCFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#2F8CF0">1</span>
+  <!-- BATTLE ARENA VIEW -->
+  <div id="gameArena">
+    <div class="battle-score-bar">
+      <div style="display: flex; align-items: center; gap: 10px">
+        <span style="font-size: 28px">👤</span>
         <div>
-          <div style="font-weight:800;font-size:18px">So'z ko'rsatiladi</div>
-          <div style="font-weight:500;font-size:15px;color:#6A5A92">Inglizcha so'z ekranda paydo bo'ladi</div>
+          <div style="font-weight: 800; font-size: 16px">Siz</div>
+          <div id="playerScore" style="color: #0A93F5; font-weight: 800; font-size: 18px">0 ball</div>
         </div>
       </div>
-      <div style="display:flex;align-items:flex-start;gap:16px">
-        <span style="flex:none;width:40px;height:40px;border-radius:50%;background:#C9BBFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#6B3FD8">2</span>
-        <div>
-          <div style="font-weight:800;font-size:18px">Tarjima kiritasiz</div>
-          <div style="font-weight:500;font-size:15px;color:#6A5A92">O'zbekcha tarjimasini yozasiz</div>
+      <div style="background: #F3F5FB; padding: 6px 14px; border-radius: 999px; font-weight: 800; font-size: 16px; color: #FF4757">
+        ⏱️ <span id="roundTimer">15</span>s
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <div style="text-align: right">
+          <div style="font-weight: 800; font-size: 16px" id="opponentName">AI Robot</div>
+          <div id="opponentScore" style="color: #FF4757; font-weight: 800; font-size: 18px">0 ball</div>
         </div>
+        <span style="font-size: 28px" id="opponentAvatar">🤖</span>
       </div>
-      <div style="display:flex;align-items:flex-start;gap:16px">
-        <span style="flex:none;width:40px;height:40px;border-radius:50%;background:#FFA84A;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff">3</span>
-        <div>
-          <div style="font-weight:800;font-size:18px">Natija</div>
-          <div style="font-weight:500;font-size:15px;color:#6A5A92">To'g'ri/noto'g'ri ko'rsatiladi, ball yangilanadi</div>
-        </div>
+    </div>
+
+    <div style="background: #fff; border-radius: 28px; padding: 32px 24px; text-align: center; margin-bottom: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.04)">
+      <div style="font-size: 14px; font-weight: 800; color: #8C99B8; margin-bottom: 8px">SAVOL <span id="qCount">1/5</span></div>
+      <div id="questionText" style="font-weight: 800; font-size: 26px; color: var(--ink)">
+        "To be" fe'lining 'He/She/It' uchun shakli qaysi?
       </div>
+    </div>
+
+    <div id="optionsWrap">
+      <!-- Options generated dynamically -->
     </div>
   </div>
-
-  <!-- HISTORY -->
-  <div class="fade" id="history-section" style="background:#fff;border-radius:36px;padding:28px;box-shadow:0 8px 0 #DDE3FF,0 20px 40px rgba(20,40,120,.12);margin-bottom:28px">
-    <div style="font-weight:800;font-size:22px;margin-bottom:20px">Jang tarixi</div>
-    <div id="history-list">
-      <div style="text-align:center;padding:32px 0;color:#8E8BB5">
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#C5C8E6" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" style="display:block;margin:0 auto 16px">
-          <path d="M9 3H5a2 2 0 00-2 2v4M9 3h6M9 3v18m6-18h4a2 2 0 012 2v4M15 3v18M3 9h18M3 15h18M3 9v10a2 2 0 002 2h4M21 9v10a2 2 0 01-2 2h-4"/>
-        </svg>
-        <div style="font-weight:700;font-size:18px;margin-bottom:6px">Hali hech qanday jang o'tkazilmagan</div>
-        <div style="font-weight:500;font-size:15px">Birinchi jangingizni boshlang!</div>
-      </div>
-    </div>
-  </div>
-
-  <a href="app.html" style="display:block;text-align:center;font-weight:700;font-size:16px;color:#8E8BB5;padding:16px">&larr; Asosiy sahifaga qaytish</a>
-</div>
-
-<!-- GAME OVERLAY -->
-<div id="game-overlay" role="dialog" aria-modal="true" aria-label="Jang o'yini">
-  <div class="game-card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <div style="font-weight:800;font-size:18px">Jang <span id="q-num">1</span>/<span id="q-total">10</span></div>
-      <div style="font-weight:700;font-size:18px;color:#0A93F5">Ball: <span id="live-score">0</span></div>
-      <button onclick="endGame()" style="border:0;background:#F3F5FB;border-radius:12px;padding:8px 16px;font-weight:700;font-size:14px;cursor:pointer;color:#8E8BB5">Chiqish</button>
-    </div>
-    <div class="timer-bar">
-      <div class="timer-fill" id="timer-fill" style="width:100%"></div>
-    </div>
-    <div class="progress-dots" id="progress-dots"></div>
-    <div class="word-display" id="word-display">Hello</div>
-    <div class="word-type" id="word-type">[noun]</div>
-    <input class="ans-input" id="ans-input" type="text" placeholder="O'zbekcha tarjimasi..." autocomplete="off" autocorrect="off" spellcheck="false">
-    <div class="ans-hint" id="ans-hint"></div>
-    <button class="submit-btn" id="submit-btn">Tekshirish &rarr;</button>
-  </div>
-</div>
-
-<!-- RESULT OVERLAY -->
-<div id="result-overlay" role="dialog" aria-modal="true" aria-label="Jang natijasi">
-  <div class="result-card">
-    <div id="result-emoji" style="font-size:72px;margin-bottom:12px">&#127881;</div>
-    <div id="result-title" style="font-weight:800;font-size:32px;margin-bottom:8px">Barakalla!</div>
-    <div id="result-sub" style="font-weight:600;font-size:17px;color:#6A5A92;margin-bottom:28px"></div>
-    <div style="display:flex;gap:16px;justify-content:center;margin-bottom:24px">
-      <div style="text-align:center">
-        <div style="font-weight:800;font-size:40px;color:#35F59A" id="r-correct">0</div>
-        <div style="font-weight:600;font-size:14px;color:#6A5A92">To'g'ri</div>
-      </div>
-      <div style="width:2px;background:#E6E8F2"></div>
-      <div style="text-align:center">
-        <div style="font-weight:800;font-size:40px;color:#FF6B6B" id="r-wrong">0</div>
-        <div style="font-weight:600;font-size:14px;color:#6A5A92">Noto'g'ri</div>
-      </div>
-      <div style="width:2px;background:#E6E8F2"></div>
-      <div style="text-align:center">
-        <div style="font-weight:800;font-size:40px;color:#0A93F5" id="r-score">0</div>
-        <div style="font-weight:600;font-size:14px;color:#6A5A92">Ball</div>
-      </div>
-    </div>
-    <!-- Missed words -->
-    <div id="missed-section" style="display:none;margin-bottom:20px;text-align:left">
-      <div style="font-weight:800;font-size:16px;margin-bottom:10px">Xato qilingan so'zlar:</div>
-      <div id="missed-list" style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600;color:#6A5A92;max-height:140px;overflow-y:auto"></div>
-    </div>
-    <button class="cta" onclick="restartGame()" style="width:100%;margin-bottom:12px">&#9876; Yana bir jang!</button>
-    <button onclick="closeResult()" style="width:100%;padding:14px;border:2px solid #DDE3FF;border-radius:18px;font-weight:700;font-size:17px;background:#fff;cursor:pointer;color:#6A5A92">Yopish</button>
-  </div>
-</div>
 
 <script>
-// ======= SO'ZLAR =======
-var WORDS = [
-  {en:'Hello',uz:'salom',type:'salomlashish'},
-  {en:'Goodbye',uz:'xayr',type:'salomlashish'},
-  {en:'Please',uz:'iltimos',type:'ibora'},
-  {en:'Thank you',uz:'rahmat',type:'ibora'},
-  {en:'Yes',uz:'ha',type:'asosiy'},
-  {en:'No',uz:"yo'q",type:'asosiy'},
-  {en:'Good morning',uz:'xayrli tong',type:'salomlashish'},
-  {en:'Good night',uz:'xayrli tun',type:'salomlashish'},
-  {en:'My name is',uz:'mening ismim',type:'ibora'},
-  {en:'How are you',uz:'qalaysiz',type:'salomlashish'},
-  {en:'I am fine',uz:'yaxshiman',type:'ibora'},
-  {en:'Water',uz:'suv',type:'ot'},
-  {en:'Food',uz:'taom',type:'ot'},
-  {en:'School',uz:'maktab',type:'ot'},
-  {en:'Teacher',uz:"o'qituvchi",type:'ot'},
-  {en:'Student',uz:"o'quvchi",type:'ot'},
-  {en:'Book',uz:'kitob',type:'ot'},
-  {en:'House',uz:'uy',type:'ot'},
-  {en:'Friend',uz:"do'st",type:'ot'},
-  {en:'Family',uz:'oila',type:'ot'},
-  {en:'Beautiful',uz:'chiroyli',type:'sifat'},
-  {en:'Big',uz:'katta',type:'sifat'},
-  {en:'Small',uz:'kichik',type:'sifat'},
-  {en:'Good',uz:'yaxshi',type:'sifat'},
-  {en:'Bad',uz:"yomon",type:'sifat'},
-  {en:'Happy',uz:'xursand',type:'sifat'},
-  {en:'Sad',uz:"xafa",type:'sifat'},
-  {en:'Eat',uz:'yemoq',type:'fe\'l'},
-  {en:'Drink',uz:'ichmoq',type:'fe\'l'},
-  {en:'Sleep',uz:'uxlamoq',type:'fe\'l'},
-];
+let selectedModeType = 'ai';
+let selectedLobbyType = 'grammar';
 
-// ======= HOLAT =======
-var stats = JSON.parse(localStorage.getItem('jang_stats')||'{"total":0,"wins":0,"losses":0}');
-var history = JSON.parse(localStorage.getItem('jang_history')||'[]');
-var diff = {count:10, time:30};
-var gameWords = [], curIdx = 0, score = 0, correctCount = 0, wrongCount = 0;
-var timerInterval = null, timeLeft = 0;
-var missedWords = [];
-var confirmed = false;
+const battleQuestions = {
+  grammar: [
+    { q: '"He/She/It" uchun to be fe\'li qaysi shaklda bo\'ladi?', opts: ['am', 'is', 'are', 'be'], correct: 1 },
+    { q: '"They ______ playing football now."', opts: ['is', 'are', 'am', 'was'], correct: 1 },
+    { q: '"Yesterday I ______ a great book."', opts: ['read', 'reads', 'reading', 'will read'], correct: 0 },
+    { q: '"She doesn\'t ______ coffee."', opts: ['likes', 'like', 'liked', 'liking'], correct: 1 },
+    { q: '"We have ______ friends in London."', opts: ['much', 'many', 'any', 'little'], correct: 1 }
+  ],
+  vocabulary: [
+    { q: '"Teacher" so\'zining tarjimasi nima?', opts: ["Talaba", "O'qituvchi", "Shifokor", "Muhandis"], correct: 1 },
+    { q: '"Knowledge" so\'zining ma\'nosi?', opts: ["Bilim", "Kitob", "Maktab", "Kutubxona"], correct: 0 },
+    { q: '"Success" so\'zi nimani anglatadi?', opts: ["Omad", "Muvaffaqiyat", "Mehnat", "Orzu"], correct: 1 },
+    { q: '"Friend" so\'zining tarjimasi?', opts: ["Birodar", "Do'st", "Qo'shni", "Hamkasb"], correct: 1 },
+    { q: '"Listen" fe\'lining ma\'nosi?', opts: ["Gapirmoq", "Yozmoq", "Eshitmoq / Tinglamoq", "O'qimoq"], correct: 2 }
+  ]
+};
 
-updateStats();
-renderHistory();
+let currentQIdx = 0;
+let userScore = 0;
+let oppScore = 0;
+let timerInt = null;
+let timeLeft = 15;
 
-// Qiyinlik kartalarini tanlash
-document.querySelectorAll('.diff-card').forEach(function(card){
-  card.addEventListener('click', function(){
-    document.querySelectorAll('.diff-card').forEach(function(c){ c.classList.remove('selected'); });
-    card.classList.add('selected');
-    diff.count = +card.dataset.count;
-    diff.time = +card.dataset.time;
-  });
-});
-
-document.getElementById('start-btn').addEventListener('click', startGame);
-document.getElementById('submit-btn').addEventListener('click', checkAnswer);
-document.getElementById('ans-input').addEventListener('keydown', function(e){
-  if(e.key==='Enter') checkAnswer();
-});
-
-function startGame(){
-  var shuffled = WORDS.slice().sort(function(){ return Math.random()-.5; });
-  gameWords = shuffled.slice(0, Math.min(diff.count, shuffled.length));
-  curIdx = 0; score = 0; correctCount = 0; wrongCount = 0; missedWords = [];
-  confirmed = false;
-  document.getElementById('game-overlay').classList.add('active');
-  buildDots();
-  showQuestion();
+function selectMode(mode, el) {
+  selectedModeType = mode;
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
 }
 
-function buildDots(){
-  var d = document.getElementById('progress-dots');
-  d.innerHTML = '';
-  gameWords.forEach(function(w,i){
-    var dot = document.createElement('div');
-    dot.className = 'dot' + (i===0?' active':'');
-    d.appendChild(dot);
-  });
+function selectLobby(lobby, el) {
+  selectedLobbyType = lobby;
+  document.querySelectorAll('.lobby-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
 }
 
-function updateDot(idx, result){
-  var dots = document.querySelectorAll('.dot');
-  if(dots[idx]){
-    dots[idx].classList.remove('active');
-    dots[idx].classList.add(result==='ok'?'done-ok':'done-bad');
-  }
-  if(dots[idx+1]) dots[idx+1].classList.add('active');
-}
+function startBattle() {
+  document.getElementById('lobbyView').style.display = 'none';
+  document.getElementById('gameArena').style.display = 'flex';
 
-function showQuestion(){
-  confirmed = false;
-  var w = gameWords[curIdx];
-  document.getElementById('q-num').textContent = curIdx+1;
-  document.getElementById('q-total').textContent = gameWords.length;
-  document.getElementById('word-display').textContent = w.en;
-  document.getElementById('word-type').textContent = '['+w.type+']';
-  document.getElementById('ans-input').value = '';
-  document.getElementById('ans-input').className = 'ans-input';
-  document.getElementById('ans-hint').textContent = '';
-  document.getElementById('ans-input').focus();
-  startTimer();
-}
-
-function startTimer(){
-  clearInterval(timerInterval);
-  timeLeft = diff.time;
-  updateTimerBar();
-  timerInterval = setInterval(function(){
-    timeLeft -= 0.1;
-    updateTimerBar();
-    if(timeLeft <= 0){
-      clearInterval(timerInterval);
-      handleTimeout();
-    }
-  }, 100);
-}
-
-function updateTimerBar(){
-  var pct = Math.max(0, timeLeft / diff.time * 100);
-  var fill = document.getElementById('timer-fill');
-  fill.style.width = pct+'%';
-  fill.style.background = pct > 50
-    ? 'linear-gradient(90deg,#0A93F5,#35F59A)'
-    : pct > 25
-      ? 'linear-gradient(90deg,#FFA500,#FFD700)'
-      : 'linear-gradient(90deg,#FF4444,#FF8888)';
-}
-
-function handleTimeout(){
-  document.getElementById('ans-input').className = 'ans-input wrong-input';
-  var hint = document.getElementById('ans-hint');
-  hint.textContent = "Vaqt tugadi! To'g'ri javob: " + gameWords[curIdx].uz;
-  hint.style.color = '#FF4444';
-  wrongCount++;
-  missedWords.push(gameWords[curIdx]);
-  updateDot(curIdx, 'bad');
-  setTimeout(nextQuestion, 1400);
-}
-
-function checkAnswer(){
-  if(confirmed) return;
-  var input = document.getElementById('ans-input');
-  var userAns = input.value.trim().toLowerCase();
-  var correct = gameWords[curIdx].uz.toLowerCase();
-  clearInterval(timerInterval);
-  confirmed = true;
-
-  // Accept loose match: ignore punctuation, check if user answer is substantially correct
-  var normalize = function(s){ return s.replace(/['''`]/g,"'").replace(/[^\w\s']/g,'').trim(); };
-  var isOk = normalize(userAns) === normalize(correct) ||
-             correct.split('/').some(function(v){ return normalize(v.trim()) === normalize(userAns); });
-
-  if(isOk){
-    input.className = 'ans-input correct-input';
-    document.getElementById('ans-hint').textContent = '✓ To\'g\'ri!';
-    document.getElementById('ans-hint').style.color = '#17C877';
-    var pts = Math.ceil(timeLeft * 2);
-    score += pts;
-    correctCount++;
-    document.getElementById('live-score').textContent = score;
-    showScorePop('+'+pts);
-    updateDot(curIdx, 'ok');
-    setTimeout(nextQuestion, 900);
+  if (selectedModeType === 'duel') {
+    document.getElementById('opponentName').textContent = 'Azizbek';
+    document.getElementById('opponentAvatar').textContent = '⚔️';
+  } else if (selectedModeType === 'group') {
+    document.getElementById('opponentName').textContent = 'Jamoa (4 kishi)';
+    document.getElementById('opponentAvatar').textContent = '👥';
   } else {
-    input.className = 'ans-input wrong-input';
-    document.getElementById('ans-hint').textContent = "To'g'ri javob: " + gameWords[curIdx].uz;
-    document.getElementById('ans-hint').style.color = '#FF4444';
-    wrongCount++;
-    missedWords.push(gameWords[curIdx]);
-    updateDot(curIdx, 'bad');
-    setTimeout(nextQuestion, 1500);
+    document.getElementById('opponentName').textContent = 'AI Bot';
+    document.getElementById('opponentAvatar').textContent = '🤖';
   }
+
+  currentQIdx = 0;
+  userScore = 0;
+  oppScore = 0;
+  loadNextQuestion();
 }
 
-function nextQuestion(){
-  curIdx++;
-  if(curIdx >= gameWords.length){
-    endGame();
-  } else {
-    showQuestion();
-  }
-}
+function loadNextQuestion() {
+  clearInterval(timerInt);
+  const qList = battleQuestions[selectedLobbyType];
 
-function endGame(){
-  clearInterval(timerInterval);
-  document.getElementById('game-overlay').classList.remove('active');
-  showResult();
-}
-
-function showResult(){
-  var won = correctCount >= Math.ceil(gameWords.length * 0.6);
-  stats.total++;
-  if(won) stats.wins++; else stats.losses++;
-  localStorage.setItem('jang_stats', JSON.stringify(stats));
-
-  var entry = {date: new Date().toLocaleDateString('uz-UZ'), correct: correctCount, wrong: wrongCount, score: score, total: gameWords.length};
-  history.unshift(entry);
-  if(history.length > 10) history = history.slice(0,10);
-  localStorage.setItem('jang_history', JSON.stringify(history));
-
-  updateStats();
-  renderHistory();
-
-  document.getElementById('r-correct').textContent = correctCount;
-  document.getElementById('r-wrong').textContent = wrongCount;
-  document.getElementById('r-score').textContent = score;
-  document.getElementById('result-emoji').textContent = won ? '🏆' : '💪';
-  document.getElementById('result-title').textContent = won ? 'Barakalla! G\'alaba!' : 'Yaxshi urinish!';
-  document.getElementById('result-sub').textContent = correctCount + '/' + gameWords.length + ' to\'g\'ri &middot; ' + score + ' ball';
-
-  if(missedWords.length > 0){
-    document.getElementById('missed-section').style.display = 'block';
-    var ml = document.getElementById('missed-list');
-    ml.innerHTML = missedWords.map(function(w){
-      return '<div style="display:flex;justify-content:space-between;background:#F3F5FB;border-radius:10px;padding:8px 12px"><span>'+w.en+'</span><span style="color:#FF6B6B">'+w.uz+'</span></div>';
-    }).join('');
-  } else {
-    document.getElementById('missed-section').style.display = 'none';
-  }
-  document.getElementById('result-overlay').classList.add('active');
-}
-
-function restartGame(){
-  document.getElementById('result-overlay').classList.remove('active');
-  startGame();
-}
-
-function closeResult(){
-  document.getElementById('result-overlay').classList.remove('active');
-}
-
-function showScorePop(txt){
-  var el = document.createElement('div');
-  el.className = 'score-pop';
-  el.textContent = txt;
-  el.style.left = (window.innerWidth/2 - 30)+'px';
-  el.style.top = (window.innerHeight/2 - 60)+'px';
-  document.body.appendChild(el);
-  setTimeout(function(){ el.remove(); }, 800);
-}
-
-function updateStats(){
-  document.getElementById('stat-total').textContent = stats.total;
-  document.getElementById('stat-wins').textContent = stats.wins;
-  document.getElementById('stat-losses').textContent = stats.losses;
-}
-
-function renderHistory(){
-  var list = document.getElementById('history-list');
-  if(history.length === 0){
-    list.innerHTML = '<div style="text-align:center;padding:32px 0;color:#8E8BB5"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#C5C8E6" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" style="display:block;margin:0 auto 16px"><path d="M9 3H5a2 2 0 00-2 2v4M9 3h6M9 3v18m6-18h4a2 2 0 012 2v4M15 3v18M3 9h18M3 15h18M3 9v10a2 2 0 002 2h4M21 9v10a2 2 0 01-2 2h-4"/></svg><div style="font-weight:700;font-size:18px;margin-bottom:6px">Hali hech qanday jang o\'tkazilmagan</div><div style="font-weight:500;font-size:15px">Birinchi jangingizni boshlang!</div></div>';
+  if (currentQIdx >= qList.length) {
+    finishGame();
     return;
   }
-  list.innerHTML = history.map(function(h){
-    var won = h.correct >= Math.ceil(h.total * 0.6);
-    return '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;background:#F3F5FB;border-radius:18px;font-weight:600;flex-wrap:wrap">'
-      +'<span style="font-size:22px">'+(won?'🏆':'💪')+'</span>'
-      +'<span style="flex:1;font-weight:700;font-size:16px">'+h.date+'</span>'
-      +'<span style="color:#35F59A">'+h.correct+'/'+h.total+'</span>'
-      +'<span style="color:#0A93F5;font-weight:800">'+h.score+' ball</span>'
-      +'</div>';
-  }).join('');
+
+  const q = qList[currentQIdx];
+  document.getElementById('qCount').textContent = `${currentQIdx + 1}/${qList.length}`;
+  document.getElementById('questionText').textContent = q.q;
+
+  const wrap = document.getElementById('optionsWrap');
+  wrap.innerHTML = '';
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.onclick = () => submitAnswer(idx, q.correct);
+    wrap.appendChild(btn);
+  });
+
+  timeLeft = 15;
+  document.getElementById('roundTimer').textContent = timeLeft;
+  timerInt = setInterval(() => {
+    timeLeft--;
+    document.getElementById('roundTimer').textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(timerInt);
+      submitAnswer(-1, q.correct);
+    }
+  }, 1000);
+}
+
+function submitAnswer(chosen, correct) {
+  clearInterval(timerInt);
+
+  if (chosen === correct) {
+    userScore += 20;
+    document.getElementById('playerScore').textContent = userScore + ' ball';
+  }
+
+  // Simulate opponent score
+  if (Math.random() > 0.3) {
+    oppScore += 20;
+    document.getElementById('opponentScore').textContent = oppScore + ' ball';
+  }
+
+  currentQIdx++;
+  setTimeout(loadNextQuestion, 600);
+}
+
+function finishGame() {
+  const isWin = userScore >= oppScore;
+  const msg = isWin 
+    ? `🎉 G'ALABA! Siz ${userScore} ball bilan g'olib bo'ldingiz!`
+    : `O'yin tugadi. Siz: ${userScore} ball, Raqib: ${oppScore} ball. Yana urinib ko'ring!`;
+  alert(msg);
+  location.reload();
+}
+
+function openHistory() {
+  alert("Janglar tarixi: Hozircha sizda 5 ta g'alaba va 120 ball mavjud!");
 }
 </script>
 </body>

@@ -3,18 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Englify Suhbatxona (Chat)</title>
-<meta name="description" content="Englify o'quv platformasi suhbatxonasi va AI repetitor bilan muloqot.">
-<meta name="theme-color" content="#0A93F5">
+<title>Suhbatlar — Englify</title>
+<meta name="theme-color" content="#2A0B5C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --sky: #0A93F5;
-  --sky-dark: #0765C7;
-  --ink: #2A0B5C;
-  --bg: #F3F5FB;
-  --border: #E6E8F2;
+  --ink: #220846;
+  --bg: #F5F7FD;
+  --border: #E8EBF5;
 }
 * { box-sizing: border-box; }
 body {
@@ -24,577 +22,310 @@ body {
   font-family: 'Outfit', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-a { color: inherit; text-decoration: none; }
-button, input { font-family: inherit; }
-
-/* 3D button */
-.p3 {
-  box-shadow: 0 4px 0 var(--d, #0765C7);
-  transition: transform .12s, box-shadow .12s;
-  cursor: pointer;
-}
-.p3:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--d, #0765C7); }
-.p3:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--d, #0765C7); }
-
-.chat-layout {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-  max-width: 1300px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-/* Sidebar Channels */
-.chat-sidebar {
-  width: 320px;
-  background: #fff;
-  border-right: 2px solid var(--border);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
-.chat-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.chat-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 18px;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: all .2s;
-}
-.chat-item:hover {
-  background: #F8F9FE;
-}
-.chat-item.active {
-  background: #EBF5FF;
-  border-color: #BBE0FF;
-}
+a, button { color: inherit; text-decoration: none; font-family: inherit; }
 
-/* Main Chat Area */
-.chat-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  background: #F8FAFD;
-}
-
-.chat-header {
-  height: 74px;
-  background: #fff;
-  border-bottom: 2px solid var(--border);
-  padding: 0 24px;
+/* Top Header */
+.top-nav {
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 32px);
+  background: #fff;
+  border-bottom: 1px solid #ECEFF8;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+.nav-btn {
+  background: none;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 18px 40px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chat List Card (Exact match to screenshot 3) */
+.chats-box {
+  background: #fff;
+  border: 2px solid #E8EBF5;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(34,8,70,0.03);
+}
+
+.chat-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  cursor: pointer;
+  border-bottom: 1px solid #ECEFF8;
+  transition: background .15s;
+}
+.chat-row:last-child {
+  border-bottom: 0;
+}
+.chat-row:hover {
+  background: #F8FAFD;
+}
+
+.avatar-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #0099FF;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 22px;
   flex-shrink: 0;
 }
 
-.messages-area {
+.chat-title {
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--ink);
+}
+.chat-preview {
+  font-size: 14.5px;
+  color: #6C7A9C;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 3px;
+}
+.chat-time {
+  font-size: 12.5px;
+  color: #7987A8;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Single Chat Conversation View */
+#chatRoomView {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  background: #fff;
+  border: 2px solid #E8EBF5;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(34,8,70,0.04);
+}
+.messages-box {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  scroll-behavior: smooth;
-}
-
-.msg {
-  display: flex;
   gap: 12px;
-  max-width: 78%;
-  animation: fadeIn .25s ease;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.msg.user {
-  align-self: flex-end;
-  flex-direction: row-reverse;
-}
-.msg-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-weight: 800;
-  font-size: 17px;
-}
-.msg-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  background: #F8FAFE;
+  min-height: 420px;
 }
 .msg-bubble {
-  padding: 14px 18px;
-  border-radius: 22px;
-  font-size: 16px;
+  padding: 12px 18px;
+  border-radius: 20px;
+  max-width: 80%;
+  font-size: 15.5px;
   line-height: 1.45;
-  word-break: break-word;
-  position: relative;
 }
-.msg.bot .msg-bubble {
+.msg-bubble.bot {
   background: #fff;
-  color: var(--ink);
-  border: 2px solid #E6EAF5;
-  border-bottom-left-radius: 6px;
+  border: 1px solid #E2E6F2;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
 }
-.msg.user .msg-bubble {
-  background: var(--sky);
+.msg-bubble.user {
+  background: #0A93F5;
   color: #fff;
-  border-bottom-right-radius: 6px;
-  box-shadow: 0 4px 12px rgba(10,147,245,0.25);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
 }
-.msg-meta {
-  font-size: 12px;
-  color: #9AA0B9;
+.input-row {
   display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.msg.user .msg-meta {
-  justify-content: flex-end;
-}
-
-/* Quick Prompts */
-.prompts-bar {
-  display: flex;
-  gap: 8px;
-  padding: 8px 24px 10px;
-  overflow-x: auto;
+  padding: 14px 18px;
   background: #fff;
-  border-top: 1px solid var(--border);
-  scrollbar-width: none;
+  border-top: 1px solid #ECEFF8;
+  gap: 10px;
 }
-.prompts-bar::-webkit-scrollbar { display: none; }
-.p-chip {
-  background: #EDF3FC;
-  border: 1px solid #D6E3F8;
-  color: #2F6FBD;
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 13px;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all .15s;
-}
-.p-chip:hover {
-  background: #E0EDFF;
-  border-color: #8FC4FF;
-}
-
-/* Input Area */
-.chat-input-wrap {
-  padding: 14px 24px 18px;
-  background: #fff;
-  border-top: 2px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.chat-input {
+.chat-text-input {
   flex: 1;
   background: #F3F5FB;
-  border: 2px solid #E2E6F2;
-  border-radius: 20px;
-  padding: 13px 18px;
-  font-size: 16px;
+  border: 1.5px solid #E2E6F2;
+  border-radius: 16px;
+  padding: 12px 16px;
+  font-size: 15px;
   outline: none;
-  transition: border .2s;
-}
-.chat-input:focus {
-  border-color: var(--sky);
-  background: #fff;
-}
-.send-btn {
-  background: var(--sky);
-  color: #fff;
-  border: 0;
-  border-radius: 18px;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  --d: var(--sky-dark);
-}
-
-@media (max-width: 768px) {
-  .chat-sidebar { display: none; }
-  .chat-header { padding: 0 16px; }
-  .messages-area { padding: 16px; }
-  .chat-input-wrap { padding: 12px 16px 14px; }
-  .msg { max-width: 90%; }
+  font-family: inherit;
 }
 </style>
 </head>
 <body>
 
-  <!-- Chat Header -->
-  <header style="background: #fff; border-bottom: 2px solid var(--border); height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(16px, 4vw, 32px); flex-shrink: 0; z-index: 10">
-    <div style="display: flex; align-items: center; gap: 16px">
-      <a href="app.html#asosiy" class="p3" style="--d: #D1D5E8; display: flex; align-items: center; gap: 8px; background: #ECEFFA; padding: 9px 18px; border-radius: 999px; font-weight: 700; font-size: 15px; color: var(--ink)">
-        &larr; Asosiy
-      </a>
-      <div style="font-weight: 800; font-size: 22px; color: var(--ink); display: flex; align-items: center; gap: 10px">
-        <span style="width: 12px; height: 12px; border-radius: 50%; background: #2ED573; box-shadow: 0 0 0 4px rgba(46,213,115,0.2)"></span>
-        Suhbatxona
-      </div>
-    </div>
-
-    <div style="display: flex; align-items: center; gap: 12px">
-      <a href="notifications.html" style="position: relative; width: 44px; height: 44px; border-radius: 50%; background: #F1F4FA; display: flex; align-items: center; justify-content: center; color: var(--ink)">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
-      </a>
-      <div style="display: flex; align-items: center; gap: 10px; background: #F3F5FB; padding: 6px 14px; border-radius: 999px">
-        <span style="width: 32px; height: 32px; border-radius: 50%; background: #CFE6FA; border: 2px solid #7CC4FA; display: flex; align-items: flex-end; justify-content: center; overflow: hidden">
-          <svg viewBox="0 0 40 40" width="32" height="32"><circle cx="20" cy="15" r="7" fill="#8CA0B5"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#8CA0B5"/></svg>
-        </span>
-        <span style="font-weight: 700; font-size: 14px">Talaba</span>
-      </div>
-    </div>
+  <!-- Top Header -->
+  <header class="top-nav">
+    <button class="nav-btn" onclick="handleChatBack()" aria-label="Orqaga">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div style="font-weight: 800; font-size: 21px; color: var(--ink)" id="chatHeaderTitle">Suhbatlar</div>
+    <button class="nav-btn" onclick="markAllChatRead()" aria-label="O'qilgan deb belgilash">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/><polyline points="23 9 14 19 11 16"/></svg>
+    </button>
   </header>
 
-  <!-- Chat Layout -->
-  <div class="chat-layout">
+  <!-- SCREEN 1: CHATS LIST (Exact screenshot 3) -->
+  <div class="container" id="chatListView">
     
-    <!-- Sidebar Channels -->
-    <aside class="chat-sidebar">
-      <div style="padding: 18px 18px 10px; font-weight: 800; font-size: 18px; color: #7F87A7; text-transform: uppercase; letter-spacing: .08em">
-        Muloqot kanallari
-      </div>
-      <div class="chat-list">
-        
-        <div class="chat-item active" onclick="switchChannel('ai')">
-          <div style="width: 48px; height: 48px; border-radius: 16px; background: linear-gradient(135deg, #0A93F5, #55B4FF); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px">
-            🤖
+    <div class="chats-box">
+      
+      <!-- Support Service -->
+      <div class="chat-row" onclick="openChatRoom('Support Service', 'S')">
+        <div class="avatar-badge">S</div>
+        <div style="flex: 1; min-width: 0">
+          <div style="display: flex; justify-content: space-between; align-items: baseline">
+            <span class="chat-title">Support Service</span>
+            <span class="chat-time">08 avg 15:52</span>
           </div>
-          <div style="flex: 1; min-width: 0">
-            <div style="display: flex; justify-content: space-between; align-items: baseline">
-              <span style="font-weight: 800; font-size: 16px">Englify AI Tutor</span>
-              <span style="font-size: 11px; color: #8E96B5">Hozir</span>
-            </div>
-            <div style="font-size: 13px; color: #697395; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
-              Har qanday savolga darhol yordam...
-            </div>
-          </div>
+          <div class="chat-preview">Assalom alaykum! Sizni EN...</div>
         </div>
+      </div>
 
-        <div class="chat-item" onclick="switchChannel('group')">
-          <div style="width: 48px; height: 48px; border-radius: 16px; background: linear-gradient(135deg, #9C88FF, #6A51E6); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px">
-            👥
+      <!-- Englify -->
+      <div class="chat-row" onclick="openChatRoom('Englify', 'E')">
+        <div class="avatar-badge">E</div>
+        <div style="flex: 1; min-width: 0">
+          <div style="display: flex; justify-content: space-between; align-items: baseline">
+            <span class="chat-title">Englify</span>
+            <span class="chat-time">11 may 09:25</span>
           </div>
-          <div style="flex: 1; min-width: 0">
-            <div style="display: flex; justify-content: space-between; align-items: baseline">
-              <span style="font-weight: 800; font-size: 16px">O'quvchilar guruhi</span>
-              <span style="font-size: 11px; color: #8E96B5">12:30</span>
-            </div>
-            <div style="font-size: 13px; color: #697395; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
-              Aziz: Bugungi Unit 1.1 juda zo'r ekan!
-            </div>
-          </div>
+          <div class="chat-preview">👋 Welcome! Your first ste...</div>
         </div>
+      </div>
 
-        <div class="chat-item" onclick="switchChannel('teacher')">
-          <div style="width: 48px; height: 48px; border-radius: 16px; background: linear-gradient(135deg, #2ED573, #1EB05A); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px">
-            👨‍🏫
+      <!-- Alomat (Bot) -->
+      <div class="chat-row" onclick="openChatRoom('Alomat (Bot)', 'A')">
+        <div class="avatar-badge">A</div>
+        <div style="flex: 1; min-width: 0">
+          <div style="display: flex; justify-content: space-between; align-items: baseline">
+            <span class="chat-title">Alomat (Bot)</span>
+            <span class="chat-time">Hozir</span>
           </div>
-          <div style="flex: 1; min-width: 0">
-            <div style="display: flex; justify-content: space-between; align-items: baseline">
-              <span style="font-weight: 800; font-size: 16px">Mr. John (Native)</span>
-              <span style="font-size: 11px; color: #8E96B5">Kecha</span>
-            </div>
-            <div style="font-size: 13px; color: #697395; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
-              Practice makes perfect! Good job!
-            </div>
-          </div>
+          <div class="chat-preview">Savollaringiz bo'lsa marhamat...</div>
         </div>
-
       </div>
 
-      <!-- Quick info block -->
-      <div style="padding: 16px; margin: 12px; background: #F1F6FD; border-radius: 18px; border: 1px dashed #B8D6FB">
-        <div style="font-weight: 700; font-size: 13px; color: #236EC6">💡 Maslahat:</div>
-        <div style="font-size: 12px; color: #53749D; margin-top: 4px">AI repetitorga xohlagan iborani yozing yoki grammatika bo'yicha tushuntirish so'rang.</div>
-      </div>
-    </aside>
-
-    <!-- Chat Area -->
-    <main class="chat-main">
-      <div class="chat-header">
-        <div style="display: flex; align-items: center; gap: 12px">
-          <div id="channelIcon" style="width: 44px; height: 44px; border-radius: 14px; background: #0A93F5; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px">
-            🤖
-          </div>
-          <div>
-            <div id="channelTitle" style="font-weight: 800; font-size: 18px; color: var(--ink)">Englify AI Tutor</div>
-            <div id="channelStatus" style="font-size: 13px; color: #2ED573; font-weight: 600; display: flex; align-items: center; gap: 6px">
-              <span style="width: 8px; height: 8px; border-radius: 50%; background: #2ED573"></span> Online &bull; Savollarga tayyor
-            </div>
-          </div>
-        </div>
-
-        <button onclick="clearChatHistory()" style="background: none; border: 0; color: #9AA0B9; cursor: pointer; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 10px" title="Tarixni tozalash">
-          🗑️ Tozalash
-        </button>
-      </div>
-
-      <!-- Messages -->
-      <div class="messages-area" id="messagesArea">
-        <!-- Initial messages dynamically populated -->
-      </div>
-
-      <!-- Quick prompt suggestions -->
-      <div class="prompts-bar">
-        <button class="p-chip" onclick="sendPrompt('Salom! Bugun nimalarni o\'rganamiz?')">👋 Salom, bugun nima o'rganamiz?</button>
-        <button class="p-chip" onclick="sendPrompt('Unit 1.1 da qanday yangi so\'zlar bor?')">📖 Unit 1.1 yangi so'zlari</button>
-        <button class="p-chip" onclick="sendPrompt('Present Simple qoidasini sodda tushuntirib bering')">⚡ Present Simple qoidasi</button>
-        <button class="p-chip" onclick="sendPrompt('Keling, ingliz tilida kichik dialog qilamiz')">🗣️ Kichik dialog boshlash</button>
-      </div>
-
-      <!-- Input Bar -->
-      <form class="chat-input-wrap" id="chatForm" onsubmit="handleSend(event)">
-        <input type="text" class="chat-input" id="messageInput" placeholder="Xabaringizni yozing (o'zbekcha yoki inglizcha)..." autocomplete="off">
-        <button type="submit" class="send-btn p3" aria-label="Yuborish">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="22" y1="2" x2="11" y2="13"></line>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-          </svg>
-        </button>
-      </form>
-    </main>
+    </div>
 
   </div>
 
-<script>
-let currentChannel = 'ai';
+  <!-- SCREEN 2: ACTIVE CONVERSATION ROOM -->
+  <div class="container" id="chatRoomContainer" style="display: none">
+    <div id="chatRoomView" style="display: flex">
+      <div class="messages-box" id="messagesArea">
+        <!-- Messages -->
+      </div>
+      <form class="input-row" onsubmit="sendChatMessage(event)">
+        <input type="text" class="chat-text-input" id="chatInput" placeholder="Xabar yozing..." autocomplete="off">
+        <button type="submit" style="background: #0A93F5; color: #fff; border: 0; border-radius: 14px; padding: 0 18px; font-weight: 700; cursor: pointer">
+          Yuborish
+        </button>
+      </form>
+    </div>
+  </div>
 
-const initialMessages = {
-  ai: [
-    { from: 'bot', text: 'Hello! I am your Englify AI Tutor. Menga ingliz tili darslari, grammatika, yangi so\'zlar haqida istalgan savolingizni berishingiz mumkin!', time: '10:00' },
-    { from: 'bot', text: 'Unit 1.1 darsingiz "Greetings & Introductions" (Salomlashish va tanishuv) bo\'yicha biror savolingiz bormi? 😊', time: '10:01' }
+<script>
+let curChatTitle = '';
+
+const chatMessagesDB = {
+  'Support Service': [
+    { from: 'bot', text: 'Assalom alaykum! Sizni Englify qo\'llab-quvvatlash xizmati qutlaydi. Darslar yoki platforma bo\'yicha qanday savolingiz bor?' }
   ],
-  group: [
-    { from: 'bot', name: 'Malika', text: 'Salom hammaga! Bugungi so\'zlar jangida kim kuch sinashadi? 🔥', time: '11:15' },
-    { from: 'bot', name: 'Aziz', text: 'Unit 1.1 juda zo\'r tushuntirilgan ekan, ayniqsa lug\'at qismi!', time: '11:20' }
+  'Englify': [
+    { from: 'bot', text: '👋 Welcome! Your first step to speaking English fluently starts right here.' },
+    { from: 'bot', text: 'Darslar bo\'limidan Unit 1.1 ni boshlashingiz mumkin!' }
   ],
-  teacher: [
-    { from: 'bot', name: 'Mr. John', text: 'Welcome to Englify! Remember: consistent 10-minute daily practice is better than studying for 2 hours once a week. Keep it up! 👏', time: '09:00' }
+  'Alomat (Bot)': [
+    { from: 'bot', text: 'Salom! Men Alomat — sizning sun\'iy intellekt repetitoringizman. Grammatika, so\'zlar yoki darslar bo\'yicha xohlagan savolingizni bering!' }
   ]
 };
 
-function getStorageKey() {
-  return 'englify_chat_' + currentChannel;
-}
-
-function loadMessages() {
-  const saved = localStorage.getItem(getStorageKey());
-  if (saved) {
-    try { return JSON.parse(saved); } catch(e) {}
-  }
-  return initialMessages[currentChannel] || [];
-}
-
-function saveMessages(msgs) {
-  localStorage.setItem(getStorageKey(), JSON.stringify(msgs));
-}
-
-function renderMessages() {
-  const container = document.getElementById('messagesArea');
-  const msgs = loadMessages();
-  container.innerHTML = '';
-
-  msgs.forEach((m, idx) => {
-    const isUser = m.from === 'user';
-    const msgEl = document.createElement('div');
-    msgEl.className = 'msg ' + (isUser ? 'user' : 'bot');
-    
-    let avatarContent = isUser ? '👤' : (currentChannel === 'ai' ? '🤖' : (currentChannel === 'group' ? (m.name ? m.name[0] : '👥') : '👨‍🏫'));
-    let avatarBg = isUser ? '#0A93F5' : (currentChannel === 'ai' ? '#E1F0FF' : '#EFEBFB');
-    let avatarColor = isUser ? '#fff' : '#0A93F5';
-
-    msgEl.innerHTML = `
-      <div class="msg-avatar" style="background: ${avatarBg}; color: ${avatarColor}">${avatarContent}</div>
-      <div class="msg-content">
-        ${!isUser && m.name ? `<div style="font-weight: 700; font-size: 13px; color: #6A5A92">${m.name}</div>` : ''}
-        <div class="msg-bubble">
-          ${escapeHtml(m.text)}
-          ${!isUser ? `<button onclick="speakText('${escapeQuotes(m.text)}')" style="background:none; border:0; cursor:pointer; margin-left:6px; opacity:.7; vertical-align:middle" title="Talaffuzni eshitish">🔊</button>` : ''}
-        </div>
-        <div class="msg-meta">
-          <span>${m.time || 'Hozir'}</span>
-        </div>
-      </div>
-    `;
-    container.appendChild(msgEl);
-  });
-
-  container.scrollTop = container.scrollHeight;
-}
-
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function escapeQuotes(text) {
-  return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-}
-
-function handleSend(e) {
-  if (e) e.preventDefault();
-  const input = document.getElementById('messageInput');
-  const text = input.value.trim();
-  if (!text) return;
-
-  const msgs = loadMessages();
-  const now = new Date();
-  const timeStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-
-  msgs.push({
-    from: 'user',
-    text: text,
-    time: timeStr
-  });
-  saveMessages(msgs);
-  renderMessages();
-  input.value = '';
-
-  // Generate intelligent response for AI
-  if (currentChannel === 'ai') {
-    simulateAiResponse(text);
-  } else if (currentChannel === 'group') {
-    setTimeout(() => {
-      const gMsgs = loadMessages();
-      gMsgs.push({
-        from: 'bot',
-        name: 'Sardor',
-        text: 'Ajoyib fikr! Men ham bugun darslarni yakunlashga harakat qilyapman.',
-        time: timeStr
-      });
-      saveMessages(gMsgs);
-      renderMessages();
-    }, 1500);
+function handleChatBack() {
+  const room = document.getElementById('chatRoomContainer');
+  if (room.style.display === 'flex') {
+    room.style.display = 'none';
+    document.getElementById('chatListView').style.display = 'flex';
+    document.getElementById('chatHeaderTitle').textContent = 'Suhbatlar';
   } else {
-    setTimeout(() => {
-      const tMsgs = loadMessages();
-      tMsgs.push({
-        from: 'bot',
-        name: 'Mr. John',
-        text: 'Well noted! Let me know if you need any clarification on the grammar rules.',
-        time: timeStr
-      });
-      saveMessages(tMsgs);
-      renderMessages();
-    }, 1500);
+    window.location.href = 'app.html#asosiy';
   }
 }
 
-function sendPrompt(text) {
-  document.getElementById('messageInput').value = text;
-  handleSend();
+function openChatRoom(title, letter) {
+  curChatTitle = title;
+  document.getElementById('chatListView').style.display = 'none';
+  document.getElementById('chatRoomContainer').style.display = 'flex';
+  document.getElementById('chatHeaderTitle').textContent = title;
+
+  renderRoomMessages();
 }
 
-function simulateAiResponse(userText) {
-  const lower = userText.toLowerCase();
-  let reply = '';
+function renderRoomMessages() {
+  const area = document.getElementById('messagesArea');
+  area.innerHTML = '';
+  const msgs = chatMessagesDB[curChatTitle] || [];
 
-  if (lower.includes('salom') || lower.includes('hello') || lower.includes('hi')) {
-    reply = "Hello there! Qalaysiz? Bugungi darsingizni davom ettiramizmi yoki biror grammatika savolingiz bormi?";
-  } else if (lower.includes('unit 1.1') || lower.includes('so\'z') || lower.includes('vocab')) {
-    reply = "Unit 1.1 ning asosiy so'zlari:\n1. Hello / Hi — Salom\n2. Nice to meet you — Tanishganimdan xursandman\n3. Teacher — O'qituvchi\n4. Student — Talaba\n5. Welcome — Xush kelibsiz\n\nQaysi birining talaffuzini eshitmoqchisiz?";
-  } else if (lower.includes('present simple') || lower.includes('grammatika')) {
-    reply = "Present Simple (Oddiy hozirgi zamon) odatiy va takrorlanuvchi harakatlar uchun ishlatiladi.\nFormulasi: Subject + Verb (s/es)\nMasalan: 'I study English every day' yoki 'She works at school'.";
-  } else if (lower.includes('dialog')) {
-    reply = "Keling boshlaymiz!\n\nAI: 'Hi! My name is Alex. What is your name?'\n(Sizning navbatingiz: 'My name is ...' deb javob bering!)";
-  } else {
-    reply = "Juda yaxshi savol! Sizning xabaringiz qabul qilindi. Ingliz tilini tez o'rganish uchun har kuni so'zlar lug'atini boyitish va dars mashqlarini bajarishni tavsiya qilaman. Yana qanday yordam bera olaman?";
-  }
+  msgs.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'msg-bubble ' + m.from;
+    div.textContent = m.text;
+    area.appendChild(div);
+  });
+  area.scrollTop = area.scrollHeight;
+}
 
-  // Show typing indicator then reply
+function sendChatMessage(e) {
+  e.preventDefault();
+  const inp = document.getElementById('chatInput');
+  const txt = inp.value.trim();
+  if (!txt) return;
+
+  if (!chatMessagesDB[curChatTitle]) chatMessagesDB[curChatTitle] = [];
+  chatMessagesDB[curChatTitle].push({ from: 'user', text: txt });
+  inp.value = '';
+  renderRoomMessages();
+
   setTimeout(() => {
-    const msgs = loadMessages();
-    const now = new Date();
-    const timeStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-    msgs.push({
-      from: 'bot',
-      text: reply,
-      time: timeStr
-    });
-    saveMessages(msgs);
-    renderMessages();
-  }, 900);
+    chatMessagesDB[curChatTitle].push({ from: 'bot', text: 'Xabaringiz qabul qilindi! Tez orada mutaxassis yoki AI javob beradi.' });
+    renderRoomMessages();
+  }, 800);
 }
 
-function switchChannel(channel) {
-  currentChannel = channel;
-  document.querySelectorAll('.chat-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-
-  const titleEl = document.getElementById('channelTitle');
-  const iconEl = document.getElementById('channelIcon');
-  const statusEl = document.getElementById('channelStatus');
-
-  if (channel === 'ai') {
-    titleEl.textContent = 'Englify AI Tutor';
-    iconEl.textContent = '🤖';
-    iconEl.style.background = '#0A93F5';
-    statusEl.innerHTML = '<span style="width: 8px; height: 8px; border-radius: 50%; background: #2ED573"></span> Online &bull; Savollarga tayyor';
-  } else if (channel === 'group') {
-    titleEl.textContent = 'O\'quvchilar guruhi (Community)';
-    iconEl.textContent = '👥';
-    iconEl.style.background = '#6A51E6';
-    statusEl.innerHTML = '<span style="width: 8px; height: 8px; border-radius: 50%; background: #2ED573"></span> 24 nafar talaba faol';
-  } else {
-    titleEl.textContent = 'Mr. John (Native Speaker)';
-    iconEl.textContent = '👨‍🏫';
-    iconEl.style.background = '#1EB05A';
-    statusEl.innerHTML = '<span style="width: 8px; height: 8px; border-radius: 50%; background: #2ED573"></span> Online &bull; Kurator';
-  }
-
-  renderMessages();
+function markAllChatRead() {
+  alert("Barcha suhbatlar o'qilgan deb belgilandi! ✓✓");
 }
-
-function speakText(text) {
-  if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'en-US';
-  utterance.rate = 0.95;
-  window.speechSynthesis.speak(utterance);
-}
-
-function clearChatHistory() {
-  if (confirm("Ushbu kanal xabarlar tarixini tozalashni xohlaysizmi?")) {
-    localStorage.removeItem(getStorageKey());
-    renderMessages();
-  }
-}
-
-// Initial render
-renderMessages();
 </script>
 </body>
 </html>

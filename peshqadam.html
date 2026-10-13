@@ -3,175 +3,340 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Peshqadamlar — Englify</title>
-<meta name="theme-color" content="#FFB26F">
+<title>Peshqadamlar jadvali — Englify</title>
+<meta name="theme-color" content="#00A3FF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#F3F5FB;font-family:'Outfit',system-ui,sans-serif;font-size:18px;line-height:1.5;color:#2A0B5C}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit}
+:root {
+  --sky: #00A3FF;
+  --ink: #220846;
+  --bg: #F5F7FD;
+  --border: #E8EBF5;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+a, button { color: inherit; text-decoration: none; font-family: inherit; }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-@keyframes pop{from{opacity:0;translate:0 34px;scale:.94}to{opacity:1;translate:0 0;scale:1}}
-@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -9px}}
-@keyframes bob2{0%,100%{translate:0 0}50%{translate:0 -7px}}
+/* Top Blue Header */
+.leader-header {
+  background: #00A3FF;
+  color: #fff;
+  padding: 16px 20px 24px;
+}
+.header-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.back-btn {
+  background: none;
+  border: 0;
+  padding: 6px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
 
-.fade{animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both}
-.pop{animation:pop .65s cubic-bezier(.2,.8,.2,1) backwards}
-.hov{transition:translate .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
-.hov:hover{translate:0 -4px;box-shadow:0 16px 32px rgba(20,40,120,.15)!important}
-.back{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.22);border-radius:999px;padding:7px 18px;font-weight:700;font-size:15px;transition:background .2s}
-.back:hover{background:rgba(255,255,255,.38)}
-.tab-btn{border:2px solid #DDE3FF;border-radius:999px;padding:8px 22px;font-weight:700;font-size:15px;background:#fff;cursor:pointer;transition:all .2s;white-space:nowrap}
-.tab-btn.active,.tab-btn:hover{background:#FFB26F;color:#2A0B5C;border-color:#F0852A}
-.avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;border:3px solid #fff;flex:none}
-.rank-row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:20px;background:#fff;transition:background .2s}
-.rank-row:hover{background:#FFF8F0}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* User Card in Header (Exact match to screenshot 4) */
+.user-profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+.user-avatar-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #E4E8F2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.user-name-text {
+  font-weight: 800;
+  font-size: 24px;
+  color: #fff;
+  margin-left: 14px;
+}
+.level-badge-pill {
+  background: #fff;
+  color: #00A3FF;
+  border-radius: 999px;
+  padding: 5px 16px;
+  font-weight: 800;
+  font-size: 15px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+.score-pill {
+  background: #fff;
+  color: #00A3FF;
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-weight: 800;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Tabs */
+.tabs-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs-scroll::-webkit-scrollbar { display: none; }
+.level-tab {
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 800;
+  font-size: 15px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all .15s;
+}
+.level-tab.active {
+  background: #fff;
+  color: #00A3FF;
+}
+
+/* Leaderboard List Container */
+.container {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 18px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Leader Card */
+.leader-card {
+  background: #fff;
+  border: 2px solid #E8EBF5;
+  border-radius: 20px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 14px rgba(34,8,70,0.02);
+  transition: transform .12s;
+}
+.leader-card:hover {
+  transform: translateY(-2px);
+}
+
+.rank-num {
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--ink);
+  width: 24px;
+  text-align: center;
+}
+.player-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #E4E8F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  font-size: 20px;
+  overflow: hidden;
+}
+.player-name {
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--ink);
+  margin-left: 12px;
+}
+.player-score {
+  background: #fff;
+  border: 1.5px solid #E8EBF5;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-weight: 800;
+  font-size: 15px;
+  color: #1F0D52;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div style="background:#FFB26F;color:#2A0B5C;padding:30px 0 110px;position:relative;overflow:hidden">
-  <!-- bg decoration -->
-  <svg style="position:absolute;right:-20px;top:-20px;opacity:.15" viewBox="0 0 200 200" width="260" aria-hidden="true"><circle cx="100" cy="100" r="100" fill="#FF8A1F"/></svg>
-  <div style="max-width:780px;margin:0 auto;padding:0 24px;position:relative">
-    <a href="app.html" class="back">← Asosiy</a>
-    <div style="margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
-      <div>
-        <div style="font-weight:800;font-size:clamp(38px,9vw,58px);line-height:1;letter-spacing:-0.02em">Peshqadamlar</div>
-        <div style="font-weight:600;font-size:17px;opacity:.75;margin-top:6px">Eng yaxshi o'quvchilar reytingi</div>
+  <!-- Top Blue Header with User Info (Screenshot 4) -->
+  <header class="leader-header">
+    <div style="max-width: 680px; margin: 0 auto">
+      <div class="header-bar">
+        <a href="app.html#asosiy" class="back-btn" aria-label="Orqaga">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </a>
+        <h1 style="margin: 0; font-weight: 800; font-size: 22px">Peshqadamlar jadvali</h1>
       </div>
-      <!-- Trophy icon -->
-      <div style="font-size:72px;line-height:1" aria-hidden="true">🏆</div>
-    </div>
-    <!-- My rank -->
-    <div style="margin-top:20px;display:inline-flex;align-items:center;gap:10px;background:#FF8A1F;border-radius:999px;padding:10px 20px;box-shadow:0 4px 0 #D0640A">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>
-      <span style="font-weight:800;font-size:17px;color:#fff">Sizning o'rningiz: #47</span>
-    </div>
-  </div>
-</div>
 
-<!-- MAIN -->
-<div style="max-width:780px;margin:-80px auto 0;padding:0 24px 80px;position:relative">
-
-  <!-- PODIUM -->
-  <div class="fade" style="background:#fff;border-radius:36px;padding:28px;box-shadow:0 8px 0 #DDE3FF,0 20px 40px rgba(20,40,120,.12);margin-bottom:24px">
-    <div style="font-weight:800;font-size:22px;margin-bottom:24px;text-align:center">🥇 Top 3</div>
-    <div style="display:flex;align-items:flex-end;justify-content:center;gap:12px;min-height:180px">
-      <!-- 2nd -->
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;max-width:130px">
-        <div style="font-size:28px">🥈</div>
-        <div class="avatar bob2" style="animation:bob2 4.2s ease-in-out .4s infinite;background:#E0E0E0">
-          <svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0A0A0"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0A0A0"/></svg>
+      <!-- Abdurahmon Profile -->
+      <div class="user-profile-row">
+        <div style="display: flex; align-items: center">
+          <div class="user-avatar-circle">
+            <svg viewBox="0 0 40 40" width="48" height="48"><circle cx="20" cy="15" r="7" fill="#8CA0B5"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#8CA0B5"/></svg>
+          </div>
+          <div class="user-name-text">Abdurahmon</div>
         </div>
-        <div style="font-weight:700;font-size:14px;text-align:center">[Ism]</div>
-        <div style="background:#C0C0C0;border-radius:14px 14px 0 0;width:100%;height:80px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#fff">2</div>
-        <div style="font-weight:700;font-size:14px;color:#6A5A92">0 ball</div>
-      </div>
-      <!-- 1st -->
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;max-width:140px">
-        <div style="font-size:34px">👑</div>
-        <div class="avatar bob" style="animation:bob 3.4s ease-in-out infinite;background:#FFD700;border-color:#FFB800;width:60px;height:60px">
-          <svg viewBox="0 0 40 40" width="56" height="56" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0840A"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0840A"/></svg>
+
+        <div style="display: flex; flex-direction: column; align-items: flex-end">
+          <div class="level-badge-pill">Starter</div>
+          <div class="score-pill">
+            <span style="color: #2ED573">⭐</span> 1
+          </div>
         </div>
-        <div style="font-weight:800;font-size:16px;text-align:center">[Ism]</div>
-        <div style="background:linear-gradient(135deg,#FFD700,#FFA500);border-radius:14px 14px 0 0;width:100%;height:120px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;color:#fff;box-shadow:0 -4px 0 inset rgba(255,255,255,.3)">1</div>
-        <div style="font-weight:800;font-size:16px;color:#E08C00">0 ball</div>
       </div>
-      <!-- 3rd -->
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;max-width:130px">
-        <div style="font-size:26px">🥉</div>
-        <div class="avatar bob2" style="animation:bob2 3.8s ease-in-out .8s infinite;background:#E0A070">
-          <svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#9A5A30"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#9A5A30"/></svg>
+
+      <!-- Level Tabs -->
+      <div class="tabs-scroll">
+        <button class="level-tab active" onclick="switchLevelTab('starter', this)">Starter</button>
+        <button class="level-tab" onclick="switchLevelTab('beginner', this)">Beginner</button>
+        <button class="level-tab" onclick="switchLevelTab('elementary', this)">Elementary</button>
+        <button class="level-tab" onclick="switchLevelTab('pre', this)">Pre-Intermediate</button>
+        <button class="level-tab" onclick="switchLevelTab('inter', this)">Intermediate</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Leaderboard List Container -->
+  <div class="container" id="leaderboardList">
+    
+    <!-- 1: Englify -->
+    <div class="leader-card">
+      <div style="display: flex; align-items: center">
+        <span class="rank-num">1</span>
+        <div class="player-avatar" style="background: #00A3FF; color: #fff; font-size: 11px; font-weight: 800; margin-left: 12px">
+          Englify
+          <span style="position: absolute; bottom: 0; right: 0; font-size: 10px">👑</span>
         </div>
-        <div style="font-weight:700;font-size:14px;text-align:center">[Ism]</div>
-        <div style="background:#CD7F32;border-radius:14px 14px 0 0;width:100%;height:60px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#fff">3</div>
-        <div style="font-weight:700;font-size:14px;color:#6A5A92">0 ball</div>
+        <span class="player-name">Englify</span>
+      </div>
+      <div class="player-score">
+        <span style="color: #2ED573">⭐</span> 3406
       </div>
     </div>
-  </div>
 
-  <!-- FILTERS -->
-  <div class="fade" style="display:flex;gap:10px;overflow-x:auto;padding:4px 0 16px;scrollbar-width:none">
-    <button class="tab-btn active">Bu hafta</button>
-    <button class="tab-btn">Bu oy</button>
-    <button class="tab-btn">Barcha vaqt</button>
-  </div>
-
-  <!-- MY RANK HIGHLIGHT -->
-  <div class="pop" style="background:linear-gradient(135deg,#FFB26F,#FF8A1F);border-radius:24px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;box-shadow:0 6px 0 #E06F00">
-    <span style="font-weight:800;font-size:22px;color:#fff;min-width:36px">#47</span>
-    <div class="avatar" style="background:#FFD0A0;border-color:rgba(255,255,255,.5)">
-      <svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0640A"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0640A"/></svg>
+    <!-- 2: SIGMA -->
+    <div class="leader-card">
+      <div style="display: flex; align-items: center">
+        <span class="rank-num">2</span>
+        <div class="player-avatar" style="margin-left: 12px">
+          <svg viewBox="0 0 40 40" width="36" height="36"><circle cx="20" cy="15" r="7" fill="#8CA0B5"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#8CA0B5"/></svg>
+        </div>
+        <span class="player-name">SIGMA</span>
+      </div>
+      <div class="player-score">
+        <span style="color: #2ED573">⭐</span> 3146
+      </div>
     </div>
-    <span style="flex:1;font-weight:800;font-size:18px;color:#fff">[Ismingiz] <span style="font-size:13px;opacity:.8;font-weight:600">(siz)</span></span>
-    <span style="font-weight:800;font-size:20px;color:#fff">0</span>
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>
-  </div>
 
-  <!-- LEADERBOARD LIST -->
-  <div class="fade" style="background:#fff;border-radius:36px;padding:20px;box-shadow:0 8px 0 #DDE3FF,0 20px 40px rgba(20,40,120,.12);margin-bottom:24px;display:flex;flex-direction:column;gap:6px">
-    <!-- Row template, repeated 10 times -->
-    <div class="rank-row" style="background:linear-gradient(90deg,#FFF8DC,#FFFBF0)">
-      <span style="font-weight:800;font-size:18px;min-width:36px;color:#E08C00">🥇</span>
-      <div class="avatar" style="background:#FFD98A"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0640A"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0640A"/></svg></div>
-      <span style="flex:1;font-weight:700;font-size:17px">[Ism]</span>
-      <span style="font-weight:800;font-size:17px">0</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#35F59A" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    <!-- 3: Adhamjon -->
+    <div class="leader-card">
+      <div style="display: flex; align-items: center">
+        <span class="rank-num">3</span>
+        <div class="player-avatar" style="margin-left: 12px">
+          <svg viewBox="0 0 40 40" width="36" height="36"><circle cx="20" cy="15" r="7" fill="#8CA0B5"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#8CA0B5"/></svg>
+          <span style="position: absolute; bottom: 0; right: 0; font-size: 10px">👑</span>
+        </div>
+        <span class="player-name">Adhamjon</span>
+      </div>
+      <div class="player-score">
+        <span style="color: #2ED573">⭐</span> 3110
+      </div>
     </div>
-    <div class="rank-row" style="background:linear-gradient(90deg,#F5F5F5,#FAFAFA)">
-      <span style="font-weight:800;font-size:18px;min-width:36px;color:#808080">🥈</span>
-      <div class="avatar" style="background:#E0E0E0"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0A0A0"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0A0A0"/></svg></div>
-      <span style="flex:1;font-weight:700;font-size:17px">[Ism]</span>
-      <span style="font-weight:800;font-size:17px">0</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#35F59A" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    </div>
-    <div class="rank-row" style="background:linear-gradient(90deg,#FFF3E8,#FFF8F2)">
-      <span style="font-weight:800;font-size:18px;min-width:36px;color:#CD7F32">🥉</span>
-      <div class="avatar" style="background:#E0A070"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#9A5A30"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#9A5A30"/></svg></div>
-      <span style="flex:1;font-weight:700;font-size:17px">[Ism]</span>
-      <span style="font-weight:800;font-size:17px">0</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF6B6B" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-    </div>
-    <!-- Rows 4-10 -->
-    <div class="rank-row"><span style="font-weight:700;font-size:16px;color:#8E8BB5;min-width:36px">4</span><div class="avatar" style="background:#E6E8F2"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0A0A0"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0A0A0"/></svg></div><span style="flex:1;font-weight:600;font-size:16px">[Ism]</span><span style="font-weight:700;font-size:16px">0</span></div>
-    <div class="rank-row" style="background:#F8F9FF"><span style="font-weight:700;font-size:16px;color:#8E8BB5;min-width:36px">5</span><div class="avatar" style="background:#E6E8F2"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0A0A0"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0A0A0"/></svg></div><span style="flex:1;font-weight:600;font-size:16px">[Ism]</span><span style="font-weight:700;font-size:16px">0</span></div>
-    <div class="rank-row"><span style="font-weight:700;font-size:16px;color:#8E8BB5;min-width:36px">6</span><div class="avatar" style="background:#E6E8F2"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0A0A0"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0A0A0"/></svg></div><span style="flex:1;font-weight:600;font-size:16px">[Ism]</span><span style="font-weight:700;font-size:16px">0</span></div>
-    <div class="rank-row" style="background:#F8F9FF"><span style="font-weight:700;font-size:16px;color:#8E8BB5;min-width:36px">7</span><div class="avatar" style="background:#E6E8F2"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0A0A0"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0A0A0"/></svg></div><span style="flex:1;font-weight:600;font-size:16px">[Ism]</span><span style="font-weight:700;font-size:16px">0</span></div>
-    <div class="rank-row"><span style="font-weight:700;font-size:16px;color:#8E8BB5;min-width:36px">8</span><div class="avatar" style="background:#E6E8F2"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0A0A0"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0A0A0"/></svg></div><span style="flex:1;font-weight:600;font-size:16px">[Ism]</span><span style="font-weight:700;font-size:16px">0</span></div>
-    <div class="rank-row" style="background:#F8F9FF"><span style="font-weight:700;font-size:16px;color:#8E8BB5;min-width:36px">9</span><div class="avatar" style="background:#E6E8F2"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0A0A0"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0A0A0"/></svg></div><span style="flex:1;font-weight:600;font-size:16px">[Ism]</span><span style="font-weight:700;font-size:16px">0</span></div>
-    <div class="rank-row"><span style="font-weight:700;font-size:16px;color:#8E8BB5;min-width:36px">10</span><div class="avatar" style="background:#E6E8F2"><svg viewBox="0 0 40 40" width="48" height="48" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#A0A0A0"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#A0A0A0"/></svg></div><span style="flex:1;font-weight:600;font-size:16px">[Ism]</span><span style="font-weight:700;font-size:16px">0</span></div>
-  </div>
 
-  <!-- MOTIVATION -->
-  <div class="fade" style="text-align:center;padding:24px;background:#fff;border-radius:28px;box-shadow:0 6px 0 #DDE3FF;margin-bottom:24px">
-    <div style="font-size:40px;margin-bottom:8px">🚀</div>
-    <div style="font-weight:800;font-size:22px;margin-bottom:6px">Ko'proq ball yig'ing!</div>
-    <div style="font-weight:500;font-size:16px;color:#6A5A92">Har kuni dars qiling va reytingda yuqori ko'tariling</div>
-  </div>
+    <!-- 4: Abror -->
+    <div class="leader-card">
+      <div style="display: flex; align-items: center">
+        <span class="rank-num">4</span>
+        <div class="player-avatar" style="margin-left: 12px">
+          <svg viewBox="0 0 40 40" width="36" height="36"><circle cx="20" cy="15" r="7" fill="#8CA0B5"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#8CA0B5"/></svg>
+          <span style="position: absolute; bottom: 0; right: 0; font-size: 10px">👑</span>
+        </div>
+        <span class="player-name">Abror</span>
+      </div>
+      <div class="player-score">
+        <span style="color: #2ED573">⭐</span> 2651
+      </div>
+    </div>
 
-  <a href="app.html" style="display:block;text-align:center;font-weight:700;font-size:16px;color:#8E8BB5;padding:16px">← Asosiy sahifaga qaytish</a>
-</div>
+    <!-- 5: Gulbaxor -->
+    <div class="leader-card">
+      <div style="display: flex; align-items: center">
+        <span class="rank-num">5</span>
+        <div class="player-avatar" style="margin-left: 12px">
+          <svg viewBox="0 0 40 40" width="36" height="36"><circle cx="20" cy="15" r="7" fill="#8CA0B5"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#8CA0B5"/></svg>
+        </div>
+        <span class="player-name">Gulbaxor</span>
+      </div>
+      <div class="player-score">
+        <span style="color: #2ED573">⭐</span> 2636
+      </div>
+    </div>
+
+    <!-- 6: Gulnoza -->
+    <div class="leader-card">
+      <div style="display: flex; align-items: center">
+        <span class="rank-num">6</span>
+        <div class="player-avatar" style="margin-left: 12px; background: #FFD180">
+          👧
+        </div>
+        <span class="player-name">Gulnoza</span>
+      </div>
+      <div class="player-score">
+        <span style="color: #2ED573">⭐</span> 2515
+      </div>
+    </div>
+
+    <!-- 7: Boximboyev -->
+    <div class="leader-card">
+      <div style="display: flex; align-items: center">
+        <span class="rank-num">7</span>
+        <div class="player-avatar" style="margin-left: 12px">
+          <svg viewBox="0 0 40 40" width="36" height="36"><circle cx="20" cy="15" r="7" fill="#8CA0B5"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#8CA0B5"/></svg>
+        </div>
+        <span class="player-name">Boximboyev</span>
+      </div>
+      <div class="player-score">
+        <span style="color: #2ED573">⭐</span> 2346
+      </div>
+    </div>
+
+  </div>
 
 <script>
-// Tab tugmalar
-document.querySelectorAll('.tab-btn').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    // Visual feedback — haqiqiy ma'lumot bilan bog'lanmagan (demo)
-    var t = document.createElement('div');
-    t.textContent = '📊 ' + btn.textContent + ' reytingi yuklandi';
-    t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#FFB26F;color:#2A0B5C;padding:12px 24px;border-radius:999px;font-weight:700;font-size:15px;z-index:999;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.15)';
-    document.body.appendChild(t);
-    setTimeout(function(){ t.remove(); }, 1800);
-  });
-});
+function switchLevelTab(level, btn) {
+  document.querySelectorAll('.level-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
 </script>
 </body>
 </html>

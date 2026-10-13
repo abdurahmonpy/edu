@@ -3,18 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Englify Bildirishnomalar</title>
-<meta name="description" content="Englify o'quv platformasi bildirishnomalari va yangiliklari.">
-<meta name="theme-color" content="#0A93F5">
+<title>Bildirishnoma — Englify</title>
+<meta name="theme-color" content="#2A0B5C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --sky: #0A93F5;
-  --sky-dark: #0765C7;
-  --ink: #2A0B5C;
-  --bg: #F3F5FB;
-  --border: #E6E8F2;
+  --ink: #220846;
+  --bg: #F5F7FD;
+  --border: #E8EBF5;
 }
 * { box-sizing: border-box; }
 body {
@@ -26,291 +24,178 @@ body {
   line-height: 1.5;
   min-height: 100vh;
 }
-a { color: inherit; text-decoration: none; }
-button { font-family: inherit; }
+a, button { color: inherit; text-decoration: none; font-family: inherit; }
 
-/* 3D button */
-.p3 {
-  box-shadow: 0 4px 0 var(--d, #C5C8E6);
-  transition: transform .12s, box-shadow .12s;
-  cursor: pointer;
-}
-.p3:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--d, #C5C8E6); }
-.p3:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--d, #C5C8E6); }
-
-.container {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 24px 20px 80px;
-}
-
-.filter-pill {
-  padding: 8px 18px;
-  border-radius: 999px;
-  border: 2px solid #DDE3FF;
-  background: #fff;
-  font-weight: 700;
-  font-size: 14px;
-  color: #6A5A92;
-  cursor: pointer;
-  transition: all .15s;
-}
-.filter-pill:hover {
-  border-color: var(--sky);
-  color: var(--sky);
-}
-.filter-pill.active {
-  background: var(--sky);
-  border-color: var(--sky);
-  color: #fff;
-  box-shadow: 0 4px 10px rgba(10,147,245,0.25);
-}
-
-.notif-card {
-  background: #fff;
-  border: 2px solid #E6EBF5;
-  border-radius: 24px;
-  padding: 20px 22px;
+/* Header */
+.top-nav {
+  height: 68px;
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  transition: all .2s;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 32px);
+  background: #fff;
+  border-bottom: 1px solid #ECEFF8;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+.nav-btn {
+  background: none;
+  border: 0;
+  padding: 8px;
   cursor: pointer;
-  position: relative;
-}
-.notif-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(20,40,120,0.06);
-  border-color: #BBE0FF;
-}
-.notif-card.unread {
-  background: #F8FBFF;
-  border-color: #C8E3FF;
-}
-.notif-card.unread::after {
-  content: '';
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #0A93F5;
-  box-shadow: 0 0 0 3px rgba(10,147,245,0.2);
-}
-
-.notif-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 18px;
+  color: var(--ink);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
+}
+
+.container {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 18px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Notification Card */
+.notif-card {
+  background: #fff;
+  border: 1px solid #E8EBF5;
+  border-radius: 26px;
+  padding: 20px 22px;
+  box-shadow: 0 4px 18px rgba(34,8,70,0.03);
+}
+
+.notif-date {
+  font-size: 14px;
+  color: #7987A8;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.notif-banner {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  position: relative;
+  aspect-ratio: 16 / 8;
+  background: #2D1432;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  color: #fff;
+}
+
+.notif-title {
+  font-weight: 800;
+  font-size: 19px;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.notif-desc {
+  font-size: 14.5px;
+  color: #5D6A88;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+.notif-action-btn {
+  font-weight: 800;
+  font-size: 16px;
+  color: #0A93F5;
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+  transition: opacity .15s;
+}
+.notif-action-btn:hover {
+  opacity: .8;
 }
 </style>
 </head>
 <body>
 
-  <!-- Top Navigation Header -->
-  <header style="background: #fff; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 20">
-    <div style="max-width: 860px; margin: 0 auto; height: 72px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between">
-      <div style="display: flex; align-items: center; gap: 14px">
-        <a href="app.html#asosiy" class="p3" style="--d: #D1D5E8; display: flex; align-items: center; gap: 8px; background: #ECEFFA; padding: 9px 18px; border-radius: 999px; font-weight: 700; font-size: 15px; color: var(--ink)">
-          &larr; Asosiy
-        </a>
-        <h1 style="margin: 0; font-weight: 800; font-size: 24px; color: var(--ink)">Bildirishnomalar</h1>
-      </div>
-
-      <div style="display: flex; gap: 8px">
-        <button onclick="markAllAsRead()" class="p3" style="--d: #D1D5E8; background: #fff; border: 2px solid #DDE3FF; padding: 8px 14px; border-radius: 14px; font-weight: 700; font-size: 13px; color: #5B2BC4" title="Hammasini o'qilgan deb belgilash">
-          ✓ Barchasini o'qish
-        </button>
-        <button onclick="clearAllNotifications()" style="background: none; border: 0; padding: 8px; cursor: pointer; color: #9AA0B9" title="Tozalash">
-          🗑️
-        </button>
-      </div>
-    </div>
+  <!-- Header -->
+  <header class="top-nav">
+    <a href="app.html#asosiy" class="nav-btn" aria-label="Orqaga">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <div style="font-weight: 800; font-size: 21px; color: var(--ink)">Bildirishnoma</div>
+    <button class="nav-btn" onclick="markAllRead()" aria-label="Barchasini o'qish" title="O'qilgan deb belgilash">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/><polyline points="23 9 14 19 11 16"/></svg>
+    </button>
   </header>
 
-  <!-- Main Content -->
   <div class="container">
     
-    <!-- Filter Pills -->
-    <div style="display: flex; gap: 10px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none">
-      <button class="filter-pill active" onclick="setFilter('all', this)">Barchasi (<span id="totalCount">5</span>)</button>
-      <button class="filter-pill" onclick="setFilter('dars', this)">Darslar</button>
-      <button class="filter-pill" onclick="setFilter('turnir', this)">Turnirlar</button>
-      <button class="filter-pill" onclick="setFilter('jonli', this)">Jonli efir</button>
-      <button class="filter-pill" onclick="setFilter('tizim', this)">Tizim</button>
+    <!-- Card 1 -->
+    <div class="notif-card">
+      <div class="notif-date">2026.07.15 21:01</div>
+      <div class="notif-banner" style="background: linear-gradient(135deg, #421C16, #78351B)">
+        <div>
+          <span style="background: #fff; color: #421C16; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 6px">MILLAT UMIDI</span>
+          <div style="font-weight: 800; font-size: 18px; line-height: 1.2">To'g'ri universitet tanlash!</div>
+          <div style="font-size: 11px; opacity: .85; margin-top: 4px">Online bepul vebinarga qo'shiling!</div>
+        </div>
+        <div style="font-size: 50px">👨‍💼</div>
+      </div>
+      <div class="notif-title">🎓 Bugun kelajak uchun qaror qabul qilinadigan kun!</div>
+      <div class="notif-desc">Abituriyentlar va ota-onalar uchun Umidjon Ishmuhammedov bilan maxsus master-klass bo'lib o'tadi...</div>
+      <div style="overflow: hidden">
+        <a href="zoom.html" class="notif-action-btn">Bepul qo'shiling</a>
+      </div>
     </div>
 
-    <!-- Notifications List -->
-    <div id="notifList" style="display: flex; flex-direction: column; gap: 14px">
-      <!-- Items dynamically populated -->
+    <!-- Card 2 -->
+    <div class="notif-card">
+      <div class="notif-date">2026.07.14 10:18</div>
+      <div class="notif-banner" style="background: linear-gradient(135deg, #5C3D32, #8F6656)">
+        <div>
+          <div style="font-weight: 800; font-size: 16px; line-height: 1.25">Millat Umidi Universiteti<br><span style="color: #FFE58F">1 000 000 000</span> grant e'lon qildi</div>
+        </div>
+        <div style="font-size: 48px">✉️</div>
+      </div>
+      <div class="notif-title">🎓 Universitet tanlashdagi bitta to'g'ri qaror</div>
+      <div class="notif-desc">Universitet tanlashdagi bitta to'g'ri qaror kelajagingizni belgilaydi. Grant tanlovlarida qatnashing...</div>
+      <div style="overflow: hidden">
+        <a href="zoom.html" class="notif-action-btn">Qo'shilish</a>
+      </div>
     </div>
 
-    <!-- Empty State (hidden by default) -->
-    <div id="emptyState" style="display: none; text-align: center; padding: 60px 20px; background: #fff; border-radius: 30px; border: 2px dashed #D6DCF0; margin-top: 10px">
-      <div style="font-size: 54px; margin-bottom: 12px">🔔</div>
-      <div style="font-weight: 800; font-size: 22px; color: var(--ink)">Hozircha yangi bildirishnomalar yo'q</div>
-      <div style="font-size: 15px; color: #8E8BB5; max-width: 380px; margin: 8px auto 20px">Yangi darslar va yutuqlaringiz haqida xabarlar shu yerda aks etadi.</div>
-      <a href="app.html#darslar" class="p3" style="--d: #0765C7; display: inline-block; background: var(--sky); color: #fff; padding: 12px 24px; border-radius: 16px; font-weight: 700; font-size: 16px">Darslarga o'tish</a>
+    <!-- Card 3 -->
+    <div class="notif-card">
+      <div class="notif-date">2026.06.27 19:01</div>
+      <div class="notif-banner" style="background: linear-gradient(135deg, #0A1C3E, #1F4287)">
+        <div>
+          <div style="display: flex; gap: 6px; margin-bottom: 6px">
+            <span style="background: #0A93F5; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px">NAQDGA:</span>
+            <span style="background: #2ED573; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px">NASIYAGA:</span>
+          </div>
+          <div style="font-weight: 800; font-size: 17px">Yangi mavsum aksiyasi!</div>
+          <div style="font-size: 11px; opacity: .85">Barcha o'quv modullari uchun 40% chegirma</div>
+        </div>
+        <div style="font-size: 48px">🎁</div>
+      </div>
+      <div class="notif-title">🔥 Ingliz tili kurslariga ro'yxatdan o'tish ochildi!</div>
+      <div class="notif-desc">Individual va guruh mashg'ulotlarida zamonaviy metodika asosida ta'lim oling...</div>
+      <div style="overflow: hidden">
+        <a href="dars.html" class="notif-action-btn">Batafsil ma'lumot</a>
+      </div>
     </div>
 
   </div>
 
 <script>
-const defaultNotifications = [
-  {
-    id: 1,
-    type: 'dars',
-    title: 'Unit 1.1 darsingiz sizni kutmoqda!',
-    desc: '"Greetings & Introductions" darsini boshlang va ilk ballaringizni yutib oling.',
-    time: '15 daqiqa oldin',
-    icon: '📘',
-    iconBg: '#E1F0FF',
-    link: 'dars.html',
-    unread: true
-  },
-  {
-    id: 2,
-    type: 'turnir',
-    title: 'So\'zlar jangi turniri ochiq!',
-    desc: '30 ta yangi so\'z bo\'yicha tezlikni sinab ko\'ring va peshqadamlar jadvalida yuqorilang.',
-    time: '1 soat oldin',
-    icon: '⚔️',
-    iconBg: '#FFEBEA',
-    link: 'jang.html',
-    unread: true
-  },
-  {
-    id: 3,
-    type: 'jonli',
-    title: 'Zoom Speaking Club bugun 20:00 da',
-    desc: 'Native speaker bilan jonli muloqot mashg\'ulotiga havola tayyor.',
-    time: '3 soat oldin',
-    icon: '🎙️',
-    iconBg: '#EFEBFB',
-    link: 'zoom.html',
-    unread: false
-  },
-  {
-    id: 4,
-    type: 'dars',
-    title: 'Lug\'atingizga yangi so\'zlar qo\'shildi',
-    desc: '5 ta yangi lug\'at kartochkalari yaratildi. Flashcard rejimida takrorlash tavsiya etiladi.',
-    time: 'Kecha',
-    icon: '📖',
-    iconBg: '#E1F8EB',
-    link: 'lugat.html',
-    unread: false
-  },
-  {
-    id: 5,
-    type: 'tizim',
-    title: 'Englify platformasiga xush kelibsiz!',
-    desc: 'Barcha imkoniyatlar — darslar, janglar, lug\'at va jonli darslar faollashtirildi.',
-    time: '2 kun oldin',
-    icon: '🎉',
-    iconBg: '#FFF5E5',
-    link: 'app.html',
-    unread: false
-  }
-];
-
-let currentFilter = 'all';
-
-function getStoredNotifications() {
-  const data = localStorage.getItem('englify_notifications');
-  if (data) {
-    try { return JSON.parse(data); } catch(e) {}
-  }
-  return defaultNotifications;
+function markAllRead() {
+  alert("Barcha bildirishnomalar o'qilgan deb belgilandi! ✓✓");
 }
-
-function saveNotifications(items) {
-  localStorage.setItem('englify_notifications', JSON.stringify(items));
-}
-
-function renderNotifications() {
-  const items = getStoredNotifications();
-  const listEl = document.getElementById('notifList');
-  const emptyEl = document.getElementById('emptyState');
-  const countEl = document.getElementById('totalCount');
-
-  countEl.textContent = items.length;
-
-  const filtered = items.filter(item => {
-    if (currentFilter === 'all') return true;
-    return item.type === currentFilter;
-  });
-
-  if (filtered.length === 0) {
-    listEl.style.display = 'none';
-    emptyEl.style.display = 'block';
-    return;
-  }
-
-  listEl.style.display = 'flex';
-  emptyEl.style.display = 'none';
-  listEl.innerHTML = '';
-
-  filtered.forEach(n => {
-    const card = document.createElement('div');
-    card.className = 'notif-card' + (n.unread ? ' unread' : '');
-    card.onclick = () => {
-      markAsRead(n.id);
-      if (n.link) window.location.href = n.link;
-    };
-
-    card.innerHTML = `
-      <div class="notif-icon" style="background: ${n.iconBg}">${n.icon}</div>
-      <div style="flex: 1; min-width: 0">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px">
-          <div style="font-weight: 800; font-size: 17px; color: var(--ink)">${n.title}</div>
-          <span style="font-size: 12px; color: #8E96B5; white-space: nowrap">${n.time}</span>
-        </div>
-        <div style="font-size: 14.5px; color: #6A5A92; margin-top: 4px; line-height: 1.4">${n.desc}</div>
-      </div>
-    `;
-    listEl.appendChild(card);
-  });
-}
-
-function setFilter(filter, btn) {
-  currentFilter = filter;
-  document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderNotifications();
-}
-
-function markAsRead(id) {
-  const items = getStoredNotifications();
-  const found = items.find(i => i.id === id);
-  if (found) {
-    found.unread = false;
-    saveNotifications(items);
-  }
-}
-
-function markAllAsRead() {
-  const items = getStoredNotifications();
-  items.forEach(i => i.unread = false);
-  saveNotifications(items);
-  renderNotifications();
-}
-
-function clearAllNotifications() {
-  if (confirm("Barcha bildirishnomalarni o'chirishni xohlaysizmi?")) {
-    saveNotifications([]);
-    renderNotifications();
-  }
-}
-
-// Initial render
-renderNotifications();
 </script>
 </body>
 </html>

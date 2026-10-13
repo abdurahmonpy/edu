@@ -3,19 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Englify Kitoblar (Graded Readers)</title>
-<meta name="description" content="Englify ingliz tili kitoblari: darajalarga moslashtirilgan qiziqarli asarlar va audio kitoblar.">
-<meta name="theme-color" content="#FF9A55">
+<title>Kitoblar — Englify</title>
+<meta name="theme-color" content="#2A0B5C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --sky: #0A93F5;
-  --orange: #FF7A3D;
-  --orange-dark: #D44B13;
-  --ink: #2A0B5C;
-  --bg: #F3F5FB;
-  --border: #E6E8F2;
+  --ink: #220846;
+  --bg: #F5F7FD;
+  --border: #E8EBF5;
 }
 * { box-sizing: border-box; }
 body {
@@ -27,81 +24,130 @@ body {
   line-height: 1.5;
   min-height: 100vh;
 }
-a { color: inherit; text-decoration: none; }
-button { font-family: inherit; }
+a, button { color: inherit; text-decoration: none; font-family: inherit; }
 
-.p3 {
-  box-shadow: 0 5px 0 var(--d, #D44B13);
-  transition: transform .12s, box-shadow .12s;
-  cursor: pointer;
+/* Header */
+.top-nav {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 clamp(16px, 4vw, 32px);
+  background: #fff;
+  border-bottom: 1px solid #ECEFF8;
+  position: sticky;
+  top: 0;
+  z-index: 30;
 }
-.p3:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--d, #D44B13); }
-.p3:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--d, #D44B13); }
+.back-btn {
+  background: none;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+}
 
 .container {
-  max-width: 1140px;
+  max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
-  padding: 24px 20px 80px;
-}
-
-.book-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
-}
-
-.book-card {
-  background: #fff;
-  border: 2px solid #E6E8F2;
-  border-radius: 26px;
-  padding: 18px;
+  padding: 24px clamp(16px, 4vw, 32px) 60px;
   display: flex;
   flex-direction: column;
+  gap: 28px;
+}
+
+.genre-title {
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--ink);
+  margin: 0 0 16px;
+}
+
+/* Horizontal scroll / grid row (Exact match to screenshot 5) */
+.books-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.books-row::-webkit-scrollbar { display: none; }
+
+.book-card {
+  width: 160px;
+  flex: none;
+  background: #fff;
+  border: 2px solid #E8EBF5;
+  border-radius: 24px;
+  padding: 12px;
+  cursor: pointer;
   transition: all .2s;
-  box-shadow: 0 6px 0 #DDE3FF;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 14px rgba(34,8,70,0.03);
 }
 .book-card:hover {
   transform: translateY(-4px);
-  border-color: #FF9A55;
-  box-shadow: 0 10px 0 #FFCDB0;
+  border-color: #A0C5FF;
+  box-shadow: 0 10px 22px rgba(10,147,245,0.1);
 }
 
 .book-cover {
-  aspect-ratio: 3 / 4;
+  width: 100%;
+  aspect-ratio: 1 / 1.35;
   border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  color: #fff;
   position: relative;
   overflow: hidden;
-  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8px;
+  margin-bottom: 10px;
+  background-size: cover;
+  background-position: center;
 }
 
-.filter-btn {
-  padding: 8px 18px;
+.views-pill {
+  background: rgba(255,255,255,0.92);
   border-radius: 999px;
-  border: 2px solid #DDE3FF;
-  background: #fff;
-  font-weight: 700;
-  font-size: 14px;
-  color: #6A5A92;
-  cursor: pointer;
-  transition: all .15s;
+  padding: 3px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 800;
+  font-size: 11.5px;
+  color: var(--ink);
+  align-self: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
-.filter-btn.active {
-  background: #FF7A3D;
-  border-color: #FF7A3D;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(255,122,61,0.3);
+
+.book-level {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7A86A8;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.book-name {
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Reader Modal */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(42,11,92,0.6);
+  background: rgba(34,8,70,0.6);
   backdrop-filter: blur(4px);
   z-index: 100;
   display: none;
@@ -112,137 +158,120 @@ button { font-family: inherit; }
 .reader-modal {
   background: #fff;
   border-radius: 32px;
-  max-width: 760px;
+  max-width: 720px;
   width: 100%;
   max-height: 85vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-  animation: popUp .25s ease;
-}
-@keyframes popUp {
-  from { opacity: 0; transform: scale(.95); }
-  to { opacity: 1; transform: scale(1); }
 }
 </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header style="background: #fff; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 20">
-    <div style="max-width: 1140px; margin: 0 auto; height: 72px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between">
-      <div style="display: flex; align-items: center; gap: 14px">
-        <a href="app.html#resurslar" class="p3" style="--d: #D1D5E8; display: flex; align-items: center; gap: 8px; background: #ECEFFA; padding: 9px 18px; border-radius: 999px; font-weight: 700; font-size: 15px; color: var(--ink)">
-          &larr; Resurslar
-        </a>
-        <h1 style="margin: 0; font-weight: 800; font-size: clamp(20px, 4vw, 26px); color: var(--ink)">
-          📚 Kitoblar (Readers)
-        </h1>
-      </div>
-
-      <div>
-        <span style="background: #FFF3EB; border: 2px solid #FFD1B8; border-radius: 999px; padding: 6px 16px; font-weight: 800; font-size: 16px; color: var(--orange)">
-          5 ta kitob
-        </span>
-      </div>
-    </div>
+  <!-- Top Header -->
+  <header class="top-nav">
+    <a href="app.html#resurslar" class="back-btn" aria-label="Orqaga">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <h1 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">Kitoblar</h1>
   </header>
 
   <div class="container">
     
-    <!-- Hero Banner -->
-    <div style="background: linear-gradient(110deg, #FF9A55, #F0453B); color: #fff; border-radius: 36px; padding: 32px clamp(20px, 5vw, 40px); box-shadow: 0 8px 0 #BD2F26; margin-bottom: 34px">
-      <div style="max-width: 640px">
-        <span style="background: rgba(255,255,255,0.22); border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .08em">Kutubxona</span>
-        <h2 style="margin: 12px 0 10px; font-weight: 800; font-size: clamp(26px, 5.5vw, 40px); line-height: 1.15">Darajangizga moslashtirilgan asarlar</h2>
-        <p style="margin: 0; font-size: 17px; opacity: .9; line-height: 1.4">O'qish orqali so'z boyligingizni oshiring. Har bir so'zni tinglash va matnni qulay rejimda mutolaa qilish imkoniyati.</p>
+    <!-- 1. Fantasy -->
+    <div>
+      <h2 class="genre-title">Fantasy</h2>
+      <div class="books-row">
+        
+        <!-- The Alchemist -->
+        <div class="book-card" onclick="openReader('The Alchemist', 'Paulo Coelho', 'The boy\'s name was Santiago. Dusk was falling as he arrived with his herd at an abandoned church. The roof had fallen in long ago, and an enormous sycamore had grown on the spot where the sacristy had once stood. He decided to spend the night there.')">
+          <div class="book-cover" style="background: linear-gradient(135deg, #FF9F1C, #E65100)">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px">☀️</div>
+            <div class="views-pill">👁️ 54.5k</div>
+          </div>
+          <div class="book-level">Upper-Intermediat...</div>
+          <div class="book-name">The alchemist</div>
+        </div>
+
+        <!-- Eragon -->
+        <div class="book-card" onclick="openReader('Eragon', 'Christopher Paolini', 'Wind howled through the night, carrying a scent that would change the world. A tall Shade lifted his head and sniffed the air. He looked human except for his crimson hair and maroon eyes. He was waiting for the dragon egg.')">
+          <div class="book-cover" style="background: linear-gradient(135deg, #1B3B6F, #061A40)">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px">🐉</div>
+            <div class="views-pill">👁️ 5.9k</div>
+          </div>
+          <div class="book-level">Upper-Intermediat...</div>
+          <div class="book-name">Eragon</div>
+        </div>
+
+        <!-- Coraline -->
+        <div class="book-card" onclick="openReader('Coraline', 'Neil Gaiman', 'Coraline discovered the door a little after they moved into the house. It was a very old house, with an attic under the roof and a cellar under the ground. There were twenty-one windows and a mysterious small wooden door in the drawing room.')">
+          <div class="book-cover" style="background: linear-gradient(135deg, #6C5CE7, #341F97)">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px">🗝️</div>
+            <div class="views-pill">👁️ 12.1k</div>
+          </div>
+          <div class="book-level">Pre-Intermediate</div>
+          <div class="book-name">Coraline</div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Filter Buttons -->
-    <div style="display: flex; gap: 10px; margin-bottom: 26px; overflow-x: auto; padding-bottom: 4px">
-      <button class="filter-btn active" onclick="filterBooks('all', this)">Barchasi</button>
-      <button class="filter-btn" onclick="filterBooks('A1', this)">A1 Starter</button>
-      <button class="filter-btn" onclick="filterBooks('A2', this)">A2 Elementary</button>
-      <button class="filter-btn" onclick="filterBooks('B1', this)">B1 Intermediate</button>
+    <!-- 2. Biography -->
+    <div>
+      <h2 class="genre-title">Biography</h2>
+      <div class="books-row">
+        
+        <!-- The Diary of a Young Girl -->
+        <div class="book-card" onclick="openReader('The Diary of a Young Girl', 'Anne Frank', 'I hope I will be able to confide everything to you, as I have never been able to confide in anyone, and I hope you will be a great source of comfort and support. Sunday, 14 June 1942: On Friday, 12 June, I woke up at six o\'clock and it was my birthday.')">
+          <div class="book-cover" style="background: linear-gradient(135deg, #3D3D3D, #1E272E)">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px">📖</div>
+            <div class="views-pill">👁️ 9.3k</div>
+          </div>
+          <div class="book-level">Upper-Intermediat...</div>
+          <div class="book-name">The Diary of a Young Girl</div>
+        </div>
+
+        <!-- Can't Hurt Me -->
+        <div class="book-card" onclick="openReader('Can\'t Hurt Me', 'David Goggins', 'For the first twenty-four years of my life, I was depressed, insecure, and overweight. But everything changed when I realized that nobody was coming to save me. I had to become my own hero.')">
+          <div class="book-cover" style="background: linear-gradient(135deg, #74B9FF, #0984E3)">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px">📗</div>
+            <div class="views-pill">👁️ 671</div>
+          </div>
+          <div class="book-level">Intermediate 2 (B1+)</div>
+          <div class="book-name">Can't Hurt Me: Master Your...</div>
+        </div>
+
+      </div>
     </div>
 
-    <!-- Books Grid -->
-    <div class="book-grid" id="booksGrid">
-      
-      <!-- Book 1 -->
-      <div class="book-card" data-level="A1">
-        <div class="book-cover" style="background: linear-gradient(135deg, #FF7675, #D63031)">
-          <span style="background: rgba(0,0,0,0.25); border-radius: 8px; padding: 4px 10px; font-weight: 800; font-size: 12px; align-self: flex-start">A1 Starter</span>
-          <div>
-            <div style="font-size: 34px; margin-bottom: 8px">👑</div>
-            <div style="font-weight: 800; font-size: 20px; line-height: 1.2">The Little Prince</div>
-            <div style="font-size: 13px; opacity: .85; margin-top: 4px">Antoine de Saint-Exupéry</div>
+    <!-- 3. Science Fiction -->
+    <div>
+      <h2 class="genre-title">Science Fiction</h2>
+      <div class="books-row">
+        
+        <!-- The City of Ember -->
+        <div class="book-card" onclick="openReader('The City of Ember', 'Jeanne DuPrau', 'When the city of Ember was built, the Builders made sure that it would have everything necessary to survive for two hundred years in the underground darkness.')">
+          <div class="book-cover" style="background: linear-gradient(135deg, #D35400, #962D00)">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px">💡</div>
+            <div class="views-pill">👁️ 4.2k</div>
           </div>
+          <div class="book-level">Intermediate</div>
+          <div class="book-name">The City of Ember</div>
         </div>
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between">
-          <p style="margin: 0 0 14px; font-size: 14px; color: #6A5A92">Kichkina Shahzoda haqida falsafiy va ta'sirli qissa. Sodda ingliz tilida.</p>
-          <button onclick="openReader(0)" class="p3" style="--d: #D44B13; width: 100%; background: #FF7A3D; color: #fff; border: 0; border-radius: 14px; padding: 11px; font-weight: 800; font-size: 15px">
-            Mutolaa qilish 📖
-          </button>
-        </div>
-      </div>
 
-      <!-- Book 2 -->
-      <div class="book-card" data-level="A2">
-        <div class="book-cover" style="background: linear-gradient(135deg, #0984E3, #2D3436)">
-          <span style="background: rgba(0,0,0,0.25); border-radius: 8px; padding: 4px 10px; font-weight: 800; font-size: 12px; align-self: flex-start">A2 Elementary</span>
-          <div>
-            <div style="font-size: 34px; margin-bottom: 8px">🔍</div>
-            <div style="font-weight: 800; font-size: 20px; line-height: 1.2">Sherlock Holmes</div>
-            <div style="font-size: 13px; opacity: .85; margin-top: 4px">Arthur Conan Doyle</div>
+        <!-- I, Robot -->
+        <div class="book-card" onclick="openReader('I, Robot', 'Isaac Asimov', 'Rule One: A robot may not injure a human being or, through inaction, allow a human being to come to harm. Dr. Susan Calvin looked at the mechanical worker with quiet determination.')">
+          <div class="book-cover" style="background: linear-gradient(135deg, #2C3E50, #000000)">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px">🤖</div>
+            <div class="views-pill">👁️ 8.5k</div>
           </div>
+          <div class="book-level">Upper-Intermediate</div>
+          <div class="book-name">I, Robot</div>
         </div>
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between">
-          <p style="margin: 0 0 14px; font-size: 14px; color: #6A5A92">Mashhur detektivning eng qiziqarli sirlari va jumboqlari.</p>
-          <button onclick="openReader(1)" class="p3" style="--d: #D44B13; width: 100%; background: #FF7A3D; color: #fff; border: 0; border-radius: 14px; padding: 11px; font-weight: 800; font-size: 15px">
-            Mutolaa qilish 📖
-          </button>
-        </div>
-      </div>
 
-      <!-- Book 3 -->
-      <div class="book-card" data-level="A1">
-        <div class="book-cover" style="background: linear-gradient(135deg, #6C5CE7, #A29BFE)">
-          <span style="background: rgba(0,0,0,0.25); border-radius: 8px; padding: 4px 10px; font-weight: 800; font-size: 12px; align-self: flex-start">A1 Starter</span>
-          <div>
-            <div style="font-size: 34px; margin-bottom: 8px">🐇</div>
-            <div style="font-weight: 800; font-size: 20px; line-height: 1.2">Alice in Wonderland</div>
-            <div style="font-size: 13px; opacity: .85; margin-top: 4px">Lewis Carroll</div>
-          </div>
-        </div>
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between">
-          <p style="margin: 0 0 14px; font-size: 14px; color: #6A5A92">Ajoyibotlar mamlakatiga tushib qolgan Alisaning g'aroyib sarguzashtlari.</p>
-          <button onclick="openReader(2)" class="p3" style="--d: #D44B13; width: 100%; background: #FF7A3D; color: #fff; border: 0; border-radius: 14px; padding: 11px; font-weight: 800; font-size: 15px">
-            Mutolaa qilish 📖
-          </button>
-        </div>
       </div>
-
-      <!-- Book 4 -->
-      <div class="book-card" data-level="B1">
-        <div class="book-cover" style="background: linear-gradient(135deg, #00B894, #00CEC9)">
-          <span style="background: rgba(0,0,0,0.25); border-radius: 8px; padding: 4px 10px; font-weight: 800; font-size: 12px; align-self: flex-start">B1 Intermediate</span>
-          <div>
-            <div style="font-size: 34px; margin-bottom: 8px">🏝️</div>
-            <div style="font-weight: 800; font-size: 20px; line-height: 1.2">Robinson Crusoe</div>
-            <div style="font-size: 13px; opacity: .85; margin-top: 4px">Daniel Defoe</div>
-          </div>
-        </div>
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between">
-          <p style="margin: 0 0 14px; font-size: 14px; color: #6A5A92">Kimsasiz orolda 28 yil yolg'iz yashagan jasur dengizchi haqida roman.</p>
-          <button onclick="openReader(3)" class="p3" style="--d: #D44B13; width: 100%; background: #FF7A3D; color: #fff; border: 0; border-radius: 14px; padding: 11px; font-weight: 800; font-size: 15px">
-            Mutolaa qilish 📖
-          </button>
-        </div>
-      </div>
-
     </div>
 
   </div>
@@ -250,91 +279,32 @@ button { font-family: inherit; }
   <!-- Reader Modal Window -->
   <div class="modal-overlay" id="readerModal">
     <div class="reader-modal">
-      <div style="padding: 20px 26px; border-bottom: 2px solid var(--border); display: flex; justify-content: space-between; align-items: center">
+      <div style="padding: 20px 24px; border-bottom: 2px solid var(--border); display: flex; justify-content: space-between; align-items: center">
         <div>
-          <h3 id="modalBookTitle" style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">The Little Prince</h3>
-          <span id="modalBookAuthor" style="font-size: 14px; color: #7F87A7">Chapter 1 &bull; 1-Bob</span>
+          <h3 id="modalTitle" style="margin: 0; font-weight: 800; font-size: 20px; color: var(--ink)">Kitob nomi</h3>
+          <span id="modalAuthor" style="font-size: 13.5px; color: #7885A5">Muallif</span>
         </div>
-        <div style="display: flex; gap: 10px">
-          <button onclick="speakBookText()" class="p3" style="--d: #D1D5E8; background: #F3F5FB; border: 0; padding: 8px 14px; border-radius: 12px; font-weight: 700; font-size: 14px">
+        <div style="display: flex; gap: 8px">
+          <button onclick="speakCurrentBook()" style="background: #EEF3FE; border: 0; padding: 8px 14px; border-radius: 12px; font-weight: 700; cursor: pointer; color: #0A93F5">
             🔊 Tinglash
           </button>
-          <button onclick="closeReader()" style="background: none; border: 0; font-size: 24px; cursor: pointer; color: #9AA0B9">
-            &times;
-          </button>
+          <button onclick="closeReader()" style="background: none; border: 0; font-size: 26px; cursor: pointer; color: #7885A5">&times;</button>
         </div>
       </div>
-
-      <div style="padding: 26px; overflow-y: auto; font-size: 17px; line-height: 1.8; color: #2D3436" id="modalBookContent">
-        <!-- Text content populated dynamically -->
+      <div style="padding: 24px; overflow-y: auto; font-size: 17px; line-height: 1.8; color: #2D3436" id="modalText">
+        <!-- Content -->
       </div>
     </div>
   </div>
 
 <script>
-const bookTexts = [
-  {
-    title: "The Little Prince",
-    author: "Antoine de Saint-Exupéry &bull; Chapter 1",
-    text: `Once when I was six years old I saw a magnificent picture in a book, called True Stories from Nature, about the primeval forest. It was a picture of a boa constrictor in the act of swallowing an animal.
+let currentTextToSpeak = '';
 
-In the book it said: "Boa constrictors swallow their prey whole, without chewing it. After that they are not able to move, and they sleep through the six months that they need for digestion."
-
-I pondered deeply, then, over the adventures of the jungle. And after some work with a coloured pencil I succeeded in making my first drawing. My Drawing Number One. It looked something like this: a hat? No, it was a boa constrictor digesting an elephant!`
-  },
-  {
-    title: "Sherlock Holmes: The Red-Headed League",
-    author: "Arthur Conan Doyle &bull; Chapter 1",
-    text: `I had called upon my friend, Mr. Sherlock Holmes, one day in the autumn of last year and found him in deep conversation with a very stout, florid-faced, elderly gentleman with fiery red hair.
-
-With an apology for my intrusion, I was about to withdraw when Holmes pulled me abruptly into the room and closed the door behind me.
-
-"You could not have come at a better time, my dear Watson," he said cordially. "Here is a gentleman who has a very singular story to tell."`
-  },
-  {
-    title: "Alice in Wonderland",
-    author: "Lewis Carroll &bull; Down the Rabbit-Hole",
-    text: `Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it.
-
-"And what is the use of a book," thought Alice "without pictures or conversations?"
-
-Suddenly a White Rabbit with pink eyes ran close by her. There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, "Oh dear! Oh dear! I shall be late!"`
-  },
-  {
-    title: "Robinson Crusoe",
-    author: "Daniel Defoe &bull; Chapter 1",
-    text: `I was born in the year 1632, in the city of York, of a good family. My father was a foreigner of Bremen, who settled first at Hull: he got a good estate by merchandise, and leaving off his trade, lived afterwards at York.
-
-I had two elder brothers, one of whom was a lieutenant-colonel to an English regiment of foot in Flanders. Being the third son of the family and not bred to any trade, my head began to be filled very early with rambling thoughts. My father gave me serious and excellent counsel against what he foresaw was my design.`
-  }
-];
-
-let curBookIdx = 0;
-
-function filterBooks(level, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  const cards = document.querySelectorAll('.book-card');
-  cards.forEach(card => {
-    if (level === 'all' || card.dataset.level === level) {
-      card.style.display = 'flex';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-}
-
-function openReader(idx) {
-  curBookIdx = idx;
-  const b = bookTexts[idx];
-  document.getElementById('modalBookTitle').textContent = b.title;
-  document.getElementById('modalBookAuthor').innerHTML = b.author;
-  
-  // Format paragraphs
-  const paragraphs = b.text.split('\n\n').map(p => `<p style="margin: 0 0 16px">${p}</p>`).join('');
-  document.getElementById('modalBookContent').innerHTML = paragraphs;
-
+function openReader(title, author, text) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalAuthor').textContent = author;
+  document.getElementById('modalText').textContent = text;
+  currentTextToSpeak = text;
   document.getElementById('readerModal').style.display = 'flex';
 }
 
@@ -343,11 +313,10 @@ function closeReader() {
   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 
-function speakBookText() {
+function speakCurrentBook() {
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
-  const text = bookTexts[curBookIdx].text;
-  const utterance = new SpeechSynthesisUtterance(text);
+  const utterance = new SpeechSynthesisUtterance(currentTextToSpeak);
   utterance.lang = 'en-US';
   utterance.rate = 0.9;
   window.speechSynthesis.speak(utterance);
