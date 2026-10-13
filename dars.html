@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1.1 — Englify</title>
+<meta name="theme-color" content="#0A93F5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F3F5FB;font-family:'Outfit',system-ui,sans-serif;font-size:18px;line-height:1.5;color:#2A0B5C}
+a{color:inherit;text-decoration:none}
+button,input{font-family:inherit}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;translate:0 34px;scale:.94}to{opacity:1;translate:0 0;scale:1}}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@keyframes growx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+.fade{animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both}
+.pop{animation:pop .65s cubic-bezier(.2,.8,.2,1) backwards}
+.pop:nth-child(2){animation-delay:.07s}
+.pop:nth-child(3){animation-delay:.14s}
+.pop:nth-child(4){animation-delay:.21s}
+.pop:nth-child(5){animation-delay:.28s}
+.pop:nth-child(6){animation-delay:.35s}
+.hov{transition:translate .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.hov:hover{translate:0 -6px;box-shadow:0 18px 36px rgba(20,40,120,.18)!important}
+.p3{box-shadow:0 7px 0 var(--d,#C5C8E6);transition:transform .16s cubic-bezier(.2,.8,.2,1),box-shadow .16s;cursor:pointer}
+.p3:hover{transform:translateY(-4px);box-shadow:0 11px 0 var(--d,#C5C8E6)}
+.p3:active{transform:translateY(6px);box-shadow:0 1px 0 var(--d,#C5C8E6)}
+.back{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.22);border-radius:999px;padding:7px 18px;font-weight:700;font-size:15px;transition:background .2s}
+.back:hover{background:rgba(255,255,255,.35)}
+.cta{background:repeating-linear-gradient(115deg,#35F59A 0 30px,#55FFB0 30px 60px);border:0;border-bottom:5px solid #17C877;border-radius:20px;font-weight:800;font-size:20px;color:#0B3D2A;cursor:pointer;width:100%;padding:18px;transition:transform .16s,border-bottom-width .15s}
+.cta:hover{transform:translateY(-3px)}
+.cta:active{transform:translateY(3px);border-bottom-width:2px}
+.word-card{background:#F3F5FB;border:2px solid #DDE3FF;border-radius:20px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all .2s}
+.word-card:hover{border-color:#0A93F5;background:#EBF5FF}
+.speak-btn{width:38px;height:38px;border-radius:50%;background:#A8DCFF;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none;transition:background .2s}
+.speak-btn:hover{background:#5CC4FF}
+.progress-bar{height:8px;background:#DDE3FF;border-radius:99px;overflow:hidden;margin:12px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,#0A93F5,#6CCBFF);border-radius:99px;transform-origin:left;animation:growx 1s cubic-bezier(.2,.8,.2,1) .3s both;width:4%}
+.example{background:#F0F9FF;border-left:4px solid #0A93F5;border-radius:0 14px 14px 0;padding:12px 16px;margin-bottom:10px}
+/* Layout */
+.lwrap{max-width:1100px;margin:0 auto;padding:32px 24px 80px;display:grid;grid-template-columns:1fr;gap:28px}
+@media(min-width:900px){.lwrap{grid-template-columns:minmax(0,620px) minmax(0,340px);align-items:start}}
+.sidebar{display:flex;flex-direction:column;gap:20px}
+@media(max-width:899px){.sidebar{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div style="background:linear-gradient(135deg,#0A93F5,#5CC4FF);color:#fff;padding:30px 0 0;position:relative">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+      <a href="app.html#darslar" class="back">← Darslar</a>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="background:rgba(255,255,255,.2);border-radius:999px;padding:5px 14px;font-weight:700;font-size:14px">⭐ +50 XP</span>
+        <span style="background:rgba(255,255,255,.2);border-radius:999px;padding:5px 14px;font-weight:700;font-size:14px">⏱ ~10 daqiqa</span>
+      </div>
+    </div>
+    <div style="font-weight:600;font-size:15px;opacity:.8;margin-bottom:4px;letter-spacing:.08em">UNIT 1.1</div>
+    <div style="font-weight:800;font-size:clamp(28px,6vw,46px);line-height:1.1;letter-spacing:-0.02em">Greetings &amp; Introductions</div>
+    <div style="font-weight:500;font-size:16px;opacity:.85;margin-top:6px">Salomlashish va o'zini tanishtirish</div>
+    <!-- Progress -->
+    <div class="progress-bar" style="margin-top:20px">
+      <div class="progress-fill"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-weight:700;font-size:13px;opacity:.8;padding-bottom:20px">
+      <span>Boshlang'ich</span>
+      <span>4% tugallandi</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="lwrap">
+  <div style="display:flex;flex-direction:column;gap:24px">
+
+    <!-- VIDEO -->
+    <div class="fade" style="background:#fff;border-radius:32px;padding:24px;box-shadow:0 8px 0 #DDE3FF,0 20px 40px rgba(20,40,120,.1)">
+      <div style="font-weight:800;font-size:20px;margin-bottom:16px">📹 Dars videosi</div>
+      <div style="background:#14172B;border-radius:22px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;overflow:hidden">
+        <!-- gradient overlay -->
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,93,200,.4),rgba(90,60,180,.3))"></div>
+        <!-- play btn -->
+        <div style="position:relative;z-index:1;width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 0 0 12px rgba(255,255,255,.2),0 0 0 24px rgba(255,255,255,.08);transition:transform .2s">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="#2A0B5C" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+        </div>
+        <div style="position:relative;z-index:1;color:#fff;font-weight:700;font-size:14px;opacity:.85">Dars videosi &middot; 05:30</div>
+      </div>
+    </div>
+
+    <!-- VOCABULARY -->
+    <div class="fade" style="background:#fff;border-radius:32px;padding:24px;box-shadow:0 8px 0 #DDE3FF,0 20px 40px rgba(20,40,120,.1)">
+      <div style="font-weight:800;font-size:20px;margin-bottom:16px">📚 Yangi so'zlar</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px">
+        <div class="word-card pop">
+          <div>
+            <div style="font-weight:800;font-size:22px">Hello</div>
+            <div style="font-weight:600;font-size:14px;color:#6A5A92">Salom</div>
+          </div>
+          <button class="speak-btn" aria-label="Talaffuzni eshitish">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F8CF0" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4"/><polygon points="9 3 20 12 9 21 9 3" fill="#2F8CF0"/></svg>
+          </button>
+        </div>
+        <div class="word-card pop">
+          <div>
+            <div style="font-weight:800;font-size:22px">Goodbye</div>
+            <div style="font-weight:600;font-size:14px;color:#6A5A92">Xayr</div>
+          </div>
+          <button class="speak-btn" aria-label="Talaffuzni eshitish">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F8CF0" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4"/><polygon points="9 3 20 12 9 21 9 3" fill="#2F8CF0"/></svg>
+          </button>
+        </div>
+        <div class="word-card pop">
+          <div>
+            <div style="font-weight:800;font-size:22px">Please</div>
+            <div style="font-weight:600;font-size:14px;color:#6A5A92">Iltimos</div>
+          </div>
+          <button class="speak-btn" aria-label="Talaffuzni eshitish">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F8CF0" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4"/><polygon points="9 3 20 12 9 21 9 3" fill="#2F8CF0"/></svg>
+          </button>
+        </div>
+        <div class="word-card pop">
+          <div>
+            <div style="font-weight:800;font-size:22px">Thank you</div>
+            <div style="font-weight:600;font-size:14px;color:#6A5A92">Rahmat</div>
+          </div>
+          <button class="speak-btn" aria-label="Talaffuzni eshitish">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F8CF0" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4"/><polygon points="9 3 20 12 9 21 9 3" fill="#2F8CF0"/></svg>
+          </button>
+        </div>
+        <div class="word-card pop">
+          <div>
+            <div style="font-weight:800;font-size:22px">Yes</div>
+            <div style="font-weight:600;font-size:14px;color:#6A5A92">Ha</div>
+          </div>
+          <button class="speak-btn" aria-label="Talaffuzni eshitish">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F8CF0" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4"/><polygon points="9 3 20 12 9 21 9 3" fill="#2F8CF0"/></svg>
+          </button>
+        </div>
+        <div class="word-card pop">
+          <div>
+            <div style="font-weight:800;font-size:22px">No</div>
+            <div style="font-weight:600;font-size:14px;color:#6A5A92">Yo'q</div>
+          </div>
+          <button class="speak-btn" aria-label="Talaffuzni eshitish">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F8CF0" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4"/><polygon points="9 3 20 12 9 21 9 3" fill="#2F8CF0"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRAMMAR -->
+    <div class="fade" style="background:#fff;border-radius:32px;padding:24px;box-shadow:0 8px 0 #DDE3FF,0 20px 40px rgba(20,40,120,.1)">
+      <div style="font-weight:800;font-size:20px;margin-bottom:16px">📝 Grammatika</div>
+      <div style="background:#F3F5FB;border-radius:20px;padding:20px;margin-bottom:16px">
+        <div style="font-weight:800;font-size:18px;margin-bottom:8px">Salomlashish iboralari</div>
+        <div style="font-weight:500;font-size:15px;color:#46346F;line-height:1.6">Ingliz tilida salomlashishning bir necha usuli mavjud. Rasmiy va norasmiy holatlarda turli iboralar ishlatiladi.</div>
+      </div>
+      <div class="example">
+        <div style="font-weight:700;font-size:15px;color:#0A93F5;margin-bottom:2px">Rasmiy</div>
+        <div style="font-weight:800;font-size:18px">Good morning!</div>
+        <div style="font-weight:600;font-size:14px;color:#6A5A92">Xayrli tong! (rassomiy)</div>
+      </div>
+      <div class="example">
+        <div style="font-weight:700;font-size:15px;color:#0A93F5;margin-bottom:2px">Norasmiy</div>
+        <div style="font-weight:800;font-size:18px">Hey! / Hi!</div>
+        <div style="font-weight:600;font-size:14px;color:#6A5A92">Salom! (do'stlarga)</div>
+      </div>
+      <div class="example">
+        <div style="font-weight:700;font-size:15px;color:#0A93F5;margin-bottom:2px">O'zini tanishtirish</div>
+        <div style="font-weight:800;font-size:18px">My name is ___.</div>
+        <div style="font-weight:600;font-size:14px;color:#6A5A92">Mening ismim ___.</div>
+      </div>
+    </div>
+
+    <!-- PRACTICE -->
+    <div class="fade" style="background:#fff;border-radius:32px;padding:24px;box-shadow:0 8px 0 #DDE3FF,0 20px 40px rgba(20,40,120,.1)">
+      <div style="font-weight:800;font-size:20px;margin-bottom:6px">🎯 Mashq</div>
+      <div style="font-weight:500;font-size:15px;color:#6A5A92;margin-bottom:16px">Darsni mustahkamlash uchun Jang o'yinini o'ynang</div>
+      <!-- Stars -->
+      <div style="display:flex;gap:8px;margin-bottom:20px">
+        <svg width="36" height="36" viewBox="0 0 24 24" aria-label="Yulduz 1 — bo'sh" fill="#E6E8F2" stroke="#C5C8E6" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 16.5 6.1 19.8l1.3-6.5L2.5 8.8 9.1 8z"/></svg>
+        <svg width="36" height="36" viewBox="0 0 24 24" aria-label="Yulduz 2 — bo'sh" fill="#E6E8F2" stroke="#C5C8E6" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 16.5 6.1 19.8l1.3-6.5L2.5 8.8 9.1 8z"/></svg>
+        <svg width="36" height="36" viewBox="0 0 24 24" aria-label="Yulduz 3 — bo'sh" fill="#E6E8F2" stroke="#C5C8E6" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 16.5 6.1 19.8l1.3-6.5L2.5 8.8 9.1 8z"/></svg>
+      </div>
+      <a href="jang.html" class="p3 pop" style="--d:#1A9E5A;display:flex;align-items:center;justify-content:center;gap:12px;background:linear-gradient(135deg,#35F59A,#17C877);border-radius:22px;padding:20px;font-weight:800;font-size:20px;color:#0B3D2A;box-shadow:0 7px 0 #1A9E5A">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M14.5 17.5L3 6v5h5M21 3l-7 7M21 3h-5M21 3v5"/></svg>
+        Jang o'yinini boshlash
+      </a>
+    </div>
+
+    <!-- BOTTOM ACTIONS -->
+    <div class="fade" style="display:flex;flex-direction:column;gap:12px">
+      <button class="cta">Keyingi dars →</button>
+      <a href="app.html#darslar" style="display:block;text-align:center;font-weight:700;font-size:16px;color:#8E8BB5;padding:10px">Darslar ro'yxatiga qaytish</a>
+    </div>
+
+  </div><!-- /main col -->
+
+  <!-- SIDEBAR (desktop only) -->
+  <aside class="sidebar">
+    <!-- Lesson outline -->
+    <div class="pop" style="background:#fff;border-radius:28px;padding:22px;box-shadow:0 7px 0 #DDE3FF">
+      <div style="font-weight:800;font-size:17px;margin-bottom:14px">Unit 1.1 mavzulari</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;font-weight:600">
+        <div style="display:flex;align-items:center;gap:10px;color:#0A93F5">
+          <span style="width:22px;height:22px;border-radius:50%;background:#A8DCFF;display:flex;align-items:center;justify-content:center;font-size:12px">▶</span>
+          Salomlashish iboralari
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;color:#C5C8E6">
+          <span style="width:22px;height:22px;border-radius:50%;background:#E6E8F2;display:flex;align-items:center;justify-content:center">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#A0A0A0" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 018 0v3" fill="none" stroke="#A0A0A0" stroke-width="2.5"/></svg>
+          </span>
+          O'zini tanishtirish
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;color:#C5C8E6">
+          <span style="width:22px;height:22px;border-radius:50%;background:#E6E8F2;display:flex;align-items:center;justify-content:center">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#A0A0A0" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 018 0v3" fill="none" stroke="#A0A0A0" stroke-width="2.5"/></svg>
+          </span>
+          Oddiy suhbat
+        </div>
+      </div>
+    </div>
+
+    <!-- Next lesson card -->
+    <div class="pop" style="background:linear-gradient(135deg,#0A93F5,#5CC4FF);color:#fff;border-radius:28px;padding:22px;box-shadow:0 7px 0 #0765C7">
+      <div style="font-weight:700;font-size:13px;opacity:.8;letter-spacing:.08em;margin-bottom:4px">KEYINGI DARS</div>
+      <div style="font-weight:800;font-size:28px;letter-spacing:-0.02em">Unit 1.2</div>
+      <div style="font-weight:600;font-size:15px;opacity:.85;margin-top:2px">Numbers &middot; ~12 daqiqa</div>
+      <div style="margin-top:8px;background:rgba(255,255,255,.2);border-radius:999px;padding:5px 14px;font-weight:700;font-size:13px;display:inline-block">🔒 Qulflangan</div>
+    </div>
+
+    <!-- Ask question -->
+    <div class="pop" style="background:#fff;border-radius:28px;padding:22px;box-shadow:0 7px 0 #DDE3FF">
+      <div style="font-weight:800;font-size:17px;margin-bottom:8px">💬 Savol bormi?</div>
+      <div style="font-weight:500;font-size:14px;color:#6A5A92;margin-bottom:14px">O'qituvchilarga Telegram orqali yozing</div>
+      <a href="#" style="display:block;text-align:center;background:#0A93F5;color:#fff;border-radius:16px;padding:12px;font-weight:800;font-size:15px">Telegram</a>
+    </div>
+
+    <!-- Tips -->
+    <div class="pop" style="background:#FFF8DC;border-radius:28px;padding:22px;border:2px solid #FFE15A">
+      <div style="font-weight:800;font-size:17px;margin-bottom:8px">💡 Maslahat</div>
+      <div style="font-weight:500;font-size:14px;color:#5A4A00;line-height:1.5">So'zlarni katta ovozda aytib ko'ring. Talaffuz mashq qilish eng muhim qadamdir!</div>
+    </div>
+  </aside>
+
+</div><!-- /lwrap -->
+
+<script>
+// Speak buttons
+document.querySelectorAll('.speak-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var card = btn.closest('.word-card');
+    var word = card ? card.querySelector('[style*="font-size:22px"]').textContent.trim() : '';
+    if(word && 'speechSynthesis' in window){
+      var u = new SpeechSynthesisUtterance(word);
+      u.lang = 'en-US'; u.rate = 0.85;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+      btn.style.background = '#5CC4FF';
+      setTimeout(function(){ btn.style.background = ''; }, 700);
+    }
+  });
+});
+
+// 2x bosing — lug'atga qo'shish
+document.querySelectorAll('.word-card').forEach(function(card){
+  card.title = "2x bosing — lug'atga qo'shish";
+  card.addEventListener('dblclick', function(){
+    var en = card.querySelector('[style*="font-size:22px"]').textContent.trim();
+    var uz = card.querySelector('[style*="font-size:14px"]').textContent.trim();
+    var words = JSON.parse(localStorage.getItem('lugat_words') || '[]');
+    var exists = words.some(function(w){ return w.en.toLowerCase() === en.toLowerCase(); });
+    var msg, bg, clr;
+    if(!exists){
+      words.unshift({id:Date.now(), en:en, uz:uz, type:"so'z", ex:'', status:'new', date:Date.now()});
+      localStorage.setItem('lugat_words', JSON.stringify(words));
+      card.style.borderColor = '#35F59A';
+      card.style.background = '#F0FFF7';
+      msg = '"' + en + '" lug\'atga qo\'shildi!';
+      bg = '#35F59A'; clr = '#0B3D2A';
+    } else {
+      msg = '"' + en + '" allaqachon lug\'atda bor';
+      bg = '#A8DCFF'; clr = '#0A5FAE';
+    }
+    var t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:'+bg+';color:'+clr+';padding:12px 24px;border-radius:999px;font-weight:700;font-size:16px;z-index:999;box-shadow:0 6px 20px rgba(0,0,0,.2);white-space:nowrap';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.remove(); }, 2200);
+  });
+});
+
+// Keyingi dars tugmasi
+var ctaBtn = document.querySelector('button.cta');
+if(ctaBtn){
+  ctaBtn.addEventListener('click', function(){
+    var t = document.createElement('div');
+    t.textContent = '🔒 Keyingi dars hali qulflanmagan!';
+    t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#2A0B5C;color:#fff;padding:12px 24px;border-radius:999px;font-weight:700;font-size:16px;z-index:999;box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:nowrap';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.remove(); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
