@@ -635,11 +635,51 @@ a, button { color: inherit; text-decoration: none; font-family: inherit; }
     </div>
   </main>
 
+<script src="auth-ui.js"></script>
 <script>
 // ==================== STATE MANAGEMENT ====================
 let videoWatched = localStorage.getItem('unit1_video_watched') === 'true';
 let videoPercent = localStorage.getItem('unit1_video_percent') || (videoWatched ? 100 : 0);
 let hwPercent = localStorage.getItem('unit1_hw_percent') || 0;
+
+// ---- Server bilan sinxron (login qilgan foydalanuvchi uchun) ----
+function pushProgress() {
+  eduAuth.getSession().then(function (u) {
+    if (!u) return;
+    fetch('/api/progress', {
+      method: 'PUT', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        lesson: 'Unit 1',
+        video_watched: videoWatched === true || Number(videoPercent) >= 100,
+        video_percent: Number(videoPercent) || 0,
+        hw_percent: Number(hwPercent) || 0
+      })
+    }).catch(function () {});
+  });
+}
+
+function syncProgressFromServer() {
+  fetch('/api/progress', { credentials: 'same-origin' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (!data || !data.progress || !data.progress.length) return;
+      var row = null;
+      for (var i = 0; i < data.progress.length; i++) {
+        if (data.progress[i].lesson === 'Unit 1') { row = data.progress[i]; break; }
+      }
+      if (!row) row = data.progress[data.progress.length - 1];
+      videoWatched = !!row.video_watched || Number(row.video_percent) >= 100;
+      videoPercent = Number(row.video_percent) || 0;
+      hwPercent = Number(row.hw_percent) || 0;
+      localStorage.setItem('unit1_video_watched', videoWatched ? 'true' : 'false');
+      localStorage.setItem('unit1_video_percent', String(videoPercent));
+      localStorage.setItem('unit1_hw_percent', String(hwPercent));
+      if (typeof updateUI === 'function') updateUI();
+    }).catch(function () {});
+}
+
+eduAuth.onChange(function (user) { if (user) syncProgressFromServer(); });
+eduAuth.mountAuthBar();
 
 let currentScreen = 'screenMenu'; // 'screenMenu' | 'screenVideoList' | 'screenPlayer' | 'screenHwList' | 'screenExercise'
 
@@ -764,6 +804,7 @@ function finishVideoAndGoToHw() {
   localStorage.setItem('unit1_video_watched', 'true');
   localStorage.setItem('unit1_video_percent', '100');
   updateUI();
+  pushProgress();
 
   // Stop video
   document.getElementById('videoIframe').src = '';
@@ -866,6 +907,7 @@ function onExerciseComplete() {
   hwPercent = 100;
   localStorage.setItem('unit1_hw_percent', '100');
   updateUI();
+  pushProgress();
 
   alert("Tabriklaymiz! Barcha topshiriqlar muvaffaqiyatli bajarildi! +50 XP hisobingizga qo'shildi!");
   showScreen('screenMenu', 'Unit 1.1');

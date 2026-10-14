@@ -256,21 +256,12 @@ a, button { color: inherit; text-decoration: none; font-family: inherit; }
     </div>
   </div>
 
+<script src="auth-ui.js"></script>
 <script>
 let curChatTitle = '';
-
-const chatMessagesDB = {
-  'Support Service': [
-    { from: 'bot', text: 'Assalom alaykum! Sizni Englify qo\'llab-quvvatlash xizmati qutlaydi. Darslar yoki platforma bo\'yicha qanday savolingiz bor?' }
-  ],
-  'Englify': [
-    { from: 'bot', text: '👋 Welcome! Your first step to speaking English fluently starts right here.' },
-    { from: 'bot', text: 'Darslar bo\'limidan Unit 1.1 ni boshlashingiz mumkin!' }
-  ],
-  'Alomat (Bot)': [
-    { from: 'bot', text: 'Salom! Men Alomat — sizning sun\'iy intellekt repetitoringizman. Grammatika, so\'zlar yoki darslar bo\'yicha xohlagan savolingizni bering!' }
-  ]
-};
+let curRoomLetter = '';
+let pollTimer = null;
+let curUserId = null;
 
 function handleChatBack() {
   const room = document.getElementById('chatRoomContainer');
@@ -278,6 +269,8 @@ function handleChatBack() {
     room.style.display = 'none';
     document.getElementById('chatListView').style.display = 'flex';
     document.getElementById('chatHeaderTitle').textContent = 'Suhbatlar';
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    curChatTitle = '';
   } else {
     window.location.href = 'app.html#asosiy';
   }
@@ -285,43 +278,103 @@ function handleChatBack() {
 
 function openChatRoom(title, letter) {
   curChatTitle = title;
+  curRoomLetter = letter;
   document.getElementById('chatListView').style.display = 'none';
   document.getElementById('chatRoomContainer').style.display = 'flex';
   document.getElementById('chatHeaderTitle').textContent = title;
 
-  renderRoomMessages();
+  loadRoom();
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(loadRoom, 5000);
 }
 
-function renderRoomMessages() {
+function showLoginNotice() {
   const area = document.getElementById('messagesArea');
   area.innerHTML = '';
-  const msgs = chatMessagesDB[curChatTitle] || [];
+  const box = document.createElement('div');
+  box.style.cssText = 'margin:auto;text-align:center;padding:28px 20px;background:#fff;border-radius:24px;box-shadow:0 8px 0 #E3E9FF;max-width:340px';
+  const t = document.createElement('div');
+  t.style.cssText = 'font-weight:800;font-size:17px;margin-bottom:6px;color:#14172B';
+  t.textContent = 'Xabar yozish uchun tizimga kiring';
+  const s = document.createElement('div');
+  s.style.cssText = 'font-weight:600;font-size:14px;color:#6A5A92;margin-bottom:14px';
+  s.textContent = 'Hisobingiz bo‘lsa kiring, yo‘q bo‘lsa bir necha soniyada ro‘yxatdan o‘ting.';
+  const b = document.createElement('button');
+  b.textContent = 'Kirish / Ro‘yxatdan o‘tish';
+  b.style.cssText = 'border:0;background:#0A93F5;color:#fff;border-radius:14px;padding:12px 18px;font-weight:800;font-size:15px;cursor:pointer';
+  b.addEventListener('click', () => eduAuth.openModal('login'));
+  box.appendChild(t); box.appendChild(s); box.appendChild(b);
+  area.appendChild(box);
+  area.scrollTop = area.scrollHeight;
+}
 
+async function loadRoom() {
+  if (!curChatTitle) return;
+  const user = await eduAuth.getSession();
+  curUserId = user ? user.id : null;
+  if (!user) { showLoginNotice(); return; }
+  try {
+    const r = await fetch('/api/chat?room=' + encodeURIComponent(curChatTitle), { credentials: 'same-origin' });
+    if (r.status === 401) { showLoginNotice(); return; }
+    if (!r.ok) return;
+    const data = await r.json();
+    renderMessages(data.messages || []);
+  } catch (e) { /* tarmoq xatosi — polling keyingi safar qayta urinadi */ }
+}
+
+function renderMessages(msgs) {
+  const area = document.getElementById('messagesArea');
+  area.innerHTML = '';
+  if (!msgs.length) {
+    const empty = document.createElement('div');
+    empty.style.cssText = 'margin:auto;text-align:center;font-weight:600;color:#8A88B3;padding:20px';
+    empty.textContent = 'Hali xabarlar yo‘q. Birinchi xabarni yozing!';
+    area.appendChild(empty);
+  }
   msgs.forEach(m => {
+    const mine = curUserId && m.user_id === curUserId;
     const div = document.createElement('div');
-    div.className = 'msg-bubble ' + m.from;
-    div.textContent = m.text;
+    div.className = 'msg-bubble ' + (mine ? 'user' : 'bot');
+    if (!mine && m.author_name) {
+      const a = document.createElement('div');
+      a.style.cssText = 'font-weight:800;font-size:12px;opacity:.75;margin-bottom:2px';
+      a.textContent = m.author_name;
+      div.appendChild(a);
+    }
+    const body = document.createElement('div');
+    body.textContent = m.body;
+    div.appendChild(body);
     area.appendChild(div);
   });
   area.scrollTop = area.scrollHeight;
 }
 
-function sendChatMessage(e) {
+async function sendChatMessage(e) {
   e.preventDefault();
   const inp = document.getElementById('chatInput');
   const txt = inp.value.trim();
-  if (!txt) return;
+  if (!txt || !curChatTitle) return;
 
-  if (!chatMessagesDB[curChatTitle]) chatMessagesDB[curChatTitle] = [];
-  chatMessagesDB[curChatTitle].push({ from: 'user', text: txt });
+  const user = await eduAuth.getSession();
+  if (!user) { eduAuth.openModal('login'); return; }
+
   inp.value = '';
-  renderRoomMessages();
-
-  setTimeout(() => {
-    chatMessagesDB[curChatTitle].push({ from: 'bot', text: 'Xabaringiz qabul qilindi! Tez orada mutaxassis yoki AI javob beradi.' });
-    renderRoomMessages();
-  }, 800);
+  try {
+    const r = await fetch('/api/chat', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ room: curChatTitle, body: txt })
+    });
+    if (r.status === 401) { eduAuth.openModal('login'); return; }
+    loadRoom();
+  } catch (e2) { inp.value = txt; }
 }
+
+eduAuth.onChange((user) => {
+  curUserId = user ? user.id : null;
+  if (curChatTitle) loadRoom();
+});
 
 function markAllChatRead() {
   alert("Barcha suhbatlar o'qilgan deb belgilandi! ✓✓");

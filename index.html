@@ -146,7 +146,9 @@ a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
               <input id="f-phone" type="tel" value="+998" style="flex: 1; min-width: 0; border: 0; padding: 0 16px; font-size: 18px; font-weight: 700; color: var(--ink)">
             </div>
           </div>
+          <input name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; height:0; width:0; border:0; padding:0">
           <button type="button" id="send" data-sent="no" style="height: 62px; border: 0; border-bottom: 5px solid var(--mintdk); border-radius: 16px; background: repeating-linear-gradient(115deg, #35F59A 0 30px, #55FFB0 30px 60px); color: var(--ink); font-weight: 800; font-size: 21px; cursor: pointer">Ro‘yxatdan o‘tish</button>
+          <div id="f-error" role="alert" style="display:none; text-align:center; font-weight:700; font-size:14px; color:#D93025"></div>
           <div style="text-align: center; font-size: 14px; font-weight: 600">Tugmani bosish orqali siz <a href="#top" style="color: var(--sky); text-decoration: underline">ommaviy offertamizga</a> rozilik bildirasiz!</div>
         </form>
       </div>
@@ -840,12 +842,37 @@ a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
     });
   });
 
-  // Forma
+  // Forma — haqiqiy backend'ga yuborish (/api/leads): validatsiya + xatolik xabarlari
   var btn=document.getElementById('send'), t;
+  var fErr=document.getElementById('f-error');
+  function showErr(m){ if(!fErr) return; fErr.textContent=m; fErr.style.display='block'; }
   btn.addEventListener('click',function(){
-    btn.textContent='Yuborildi! Tez orada bog‘lanamiz'; btn.setAttribute('data-sent','yes');
-    clearTimeout(t);
-    t=setTimeout(function(){ btn.textContent='Ro‘yxatdan o‘tish'; btn.setAttribute('data-sent','no'); },3200);
+    if(btn.getAttribute('data-sent')==='busy') return;
+    var name=(document.getElementById('f-name').value||'').trim();
+    var phone=(document.getElementById('f-phone').value||'').trim();
+    var honeypot=(document.querySelector('form input[name="company"]')||{}).value||'';
+    if(fErr) fErr.style.display='none';
+    if(name.length<2){ showErr('Ismingizni va familiyangizni kiriting.'); return; }
+    if(!/^\+?[0-9][0-9 ()-]{6,19}$/.test(phone)){ showErr('Telefon raqamni to‘g‘ri kiriting.'); return; }
+    btn.setAttribute('data-sent','busy');
+    btn.textContent='Yuborilmoqda...';
+    fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_name:name,phone:phone,company:honeypot})})
+      .then(function(r){ return r.json().catch(function(){return {};}).then(function(d){ return {s:r.status,d:d}; }); })
+      .then(function(r){
+        btn.removeAttribute('data-sent');
+        if(r.s===200){
+          btn.textContent='Yuborildi! Tez orada bog‘lanamiz'; btn.setAttribute('data-sent','yes');
+          clearTimeout(t);
+          t=setTimeout(function(){ btn.textContent='Ro‘yxatdan o‘tish'; btn.setAttribute('data-sent','no'); },3200);
+        } else if(r.s===429){
+          btn.textContent='Ro‘yxatdan o‘tish';
+          showErr('Juda ko‘p urindingiz. Birozdan keyin qayta urinib ko‘ring.');
+        } else {
+          btn.textContent='Ro‘yxatdan o‘tish';
+          showErr((r.d && r.d.message) || 'Xatolik yuz berdi. Qayta urinib ko‘ring.');
+        }
+      })
+      .catch(function(){ btn.removeAttribute('data-sent'); btn.textContent='Ro‘yxatdan o‘tish'; showErr('Tarmoq xatosi. Internetni tekshiring.'); });
   });
 })();
 </script>
