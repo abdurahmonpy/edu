@@ -9,7 +9,6 @@
  *   - level card             GET /levels
  *   - battle counters        GET /battles/stats
  *   - vocabulary card        GET /vocabulary/stats + /vocabulary?limit=1&status=new
- *   - "continue lesson"      GET /progress/continue
  *
  * Everything is defensive: a failed request only shows a toast and leaves the
  * hardcoded fallback markup in place. Nothing here touches the tab switching
@@ -176,43 +175,8 @@
     if (example) example.textContent = item.example || item.translation || '';
   }
 
-  // ------------------------------------------------- continue-lesson button
-  var continueUrl = null;
-
-  function loadContinue() {
-    return api
-      .get('/progress/continue')
-      .then(function (result) {
-        if (result && result.url) continueUrl = String(result.url);
-      })
-      .catch(function (error) {
-        // 404 simply means "nothing in progress yet" — keep the tab switch.
-        if (!error || (error.status !== 404 && error.status !== 204)) fail(error);
-      });
-  }
-
-  function watchContinueButton() {
-    // Capture phase: when a lesson URL is known we navigate instead of letting
-    // the button's own data-go tab switch run.
-    document.addEventListener(
-      'click',
-      function (event) {
-        var target = event.target;
-        var button = target && target.closest ? target.closest('[data-continue]') : null;
-        if (!button || !continueUrl) return;
-        event.preventDefault();
-        event.stopPropagation();
-        window.location.href = continueUrl;
-      },
-      true
-    );
-  }
-
   // ------------------------------------------------------------------ boot
   function load() {
-    watchContinueButton();
-    loadContinue();
-
     api.get('/users/me/stats').then(paintStats).catch(fail);
     api.get('/levels').then(paintLevels).catch(fail);
     api.get('/battles/stats').then(paintBattles).catch(fail);

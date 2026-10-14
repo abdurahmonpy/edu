@@ -5,10 +5,10 @@
  *
  * Page contract
  * -------------
- *   <body data-auth="required">   redirect to kirish.html when logged out
+ *   <body data-auth="required">   redirect to /login when logged out
  *   <body data-auth="optional">   never redirect (landing page)
  *   <body data-auth="public">     never redirect, never fetch the profile
- *   <body data-auth="guest">      redirect to app.html when ALREADY logged in
+ *   <body data-auth="guest">      redirect to /dashboard when ALREADY logged in
  *
  * Elements it fills automatically when present:
  *   [data-user-name] [data-user-email] [data-user-points] [data-user-level]
@@ -47,7 +47,7 @@
 
   function loginUrl() {
     var next = location.pathname.split('/').pop() + location.search + location.hash;
-    return 'kirish.html?next=' + encodeURIComponent(next || 'app.html');
+    return '/login?next=' + encodeURIComponent(next || '/dashboard');
   }
 
   function setLoggedInChrome(isLoggedIn) {
@@ -231,7 +231,7 @@
 
       return request.then(function () {
         api.clearSession('logout');
-        window.location.href = options.redirect || 'kirish.html';
+        window.location.href = options.redirect || '/login';
       });
     },
 
@@ -242,7 +242,7 @@
       setLoggedInChrome(loggedIn);
 
       if (mode === 'guest' && loggedIn) {
-        window.location.replace(UI.qs('next') || 'app.html');
+        window.location.replace(UI.qs('next') || '/dashboard');
         return Promise.resolve(null);
       }
 

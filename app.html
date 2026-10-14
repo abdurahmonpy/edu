@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Englify Student App</title>
+<title>Englify Dashboard</title>
 <meta name="description" content="Englify o'quv platformasi: darslar, resurslar va statistika.">
 <meta name="theme-color" content="#0A93F5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -113,6 +113,22 @@ input,select,button{font-family:inherit}
 .app[data-tab="3"] .sind{transform:translateY(192px)}
 .ql{transition:background .2s,translate .25s cubic-bezier(.3,1.5,.5,1)}
 .ql:hover{background:#F0F2FA;translate:3px 0}
+.side{width:256px!important;padding:22px 16px 18px!important;gap:16px!important}
+.side>a:first-child{font-size:26px!important}
+.side>a:first-child span{width:38px!important;height:38px!important;font-size:23px!important;border-radius:12px!important}
+.side nav:not(.quick-nav){gap:5px!important}
+.side .sind{height:44px!important;border-radius:13px!important}
+.side .si{height:44px!important;padding:0 14px!important;border-radius:13px!important;font-size:16px!important;gap:11px!important}
+.app[data-tab="1"] .sind{transform:translateY(49px)}
+.app[data-tab="2"] .sind{transform:translateY(98px)}
+.app[data-tab="3"] .sind{transform:translateY(147px)}
+.quick-heading{font-size:11px!important;letter-spacing:.13em!important;color:#9299b4!important;margin:5px 0 -7px!important}
+.quick-nav{display:flex;flex-direction:column;gap:3px!important;padding:5px!important;margin:0 -5px;border-radius:16px;background:#f7f8fc}
+.side .ql{min-height:35px;box-sizing:border-box;padding:7px 9px!important;gap:10px!important;border-radius:11px!important;font-size:13px!important;font-weight:700!important;color:#38415f!important}
+.side .ql:hover{background:#e9f3ff;color:#087bd0!important;translate:2px 0}
+.side .ql:focus-visible,.side .si:focus-visible{outline:3px solid #8acaff;outline-offset:2px}
+.quick-icon{width:8px!important;height:8px!important;flex:none;border-radius:50%!important;box-shadow:0 0 0 3px rgba(10,147,245,.09)}
+.side [data-action="logout"]{font-size:13px!important;color:#d43d59!important;min-height:34px}
 .cta{background:repeating-linear-gradient(115deg,#35F59A 0 30px,#55FFB0 30px 60px);box-shadow:0 6px 0 #1CC77A;transition:transform .16s cubic-bezier(.2,.8,.2,1),box-shadow .16s;cursor:pointer}
 .cta:hover{transform:translateY(-3px);box-shadow:0 9px 0 #1CC77A}
 .cta:active{transform:translateY(5px);box-shadow:0 1px 0 #1CC77A}
@@ -154,19 +170,17 @@ input,select,button{font-family:inherit}
       <button type="button" class="si si3" data-go="3" style="position: relative; height: 56px; display: flex; align-items: center; gap: 14px; padding: 0 18px; background: none; border: 0; border-radius: 18px; cursor: pointer; font-weight: 800; font-size: 19px; text-align: left"><svg class="sico" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="3"/><rect x="13" y="3" width="8" height="8" rx="3"/><rect x="3" y="13" width="8" height="8" rx="3"/><rect x="13" y="13" width="8" height="8" rx="3"/></svg>Ko'proq</button>
     </nav>
 
-    <div style="font-weight: 700; font-size: 13px; letter-spacing: .12em; color: #A09DC4; padding: 0 8px; margin: 8px 0 -10px">TEZKOR HAVOLALAR</div>
-    <div style="display: flex; flex-direction: column; gap: 2px">
-      <a href="jang.html" class="ql" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; background: none; border-radius: 14px; cursor: pointer; font-weight: 700; font-size: 17px; color: var(--ink); text-align: left; text-decoration: none"><span style="width: 14px; height: 14px; border-radius: 5px; background: #5E9DE2"></span>Jang</a>
-      <a href="lugat.html" class="ql" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; background: none; border-radius: 14px; cursor: pointer; font-weight: 700; font-size: 17px; color: var(--ink); text-align: left; text-decoration: none"><span style="width: 14px; height: 14px; border-radius: 5px; background: #0A93F5"></span>Mening lug'atim</a>
-      <a href="chat.html" class="ql" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; background: none; border-radius: 14px; cursor: pointer; font-weight: 700; font-size: 17px; color: var(--ink); text-align: left; text-decoration: none"><span style="width: 14px; height: 14px; border-radius: 5px; background: #2ED573"></span>Suhbatxona (Chat)</a>
-      <a href="notifications.html" class="ql" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; background: none; border-radius: 14px; cursor: pointer; font-weight: 700; font-size: 17px; color: var(--ink); text-align: left; text-decoration: none"><span style="width: 14px; height: 14px; border-radius: 5px; background: #FF4757"></span>Bildirishnomalar</a>
-      <a href="zoom.html" class="ql" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; background: none; border-radius: 14px; cursor: pointer; font-weight: 700; font-size: 17px; color: var(--ink); text-align: left; text-decoration: none"><span style="width: 14px; height: 14px; border-radius: 5px; background: #ABA3E0"></span>Zoom tadbirlar</a>
-      <a href="peshqadam.html" class="ql" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; background: none; border-radius: 14px; cursor: pointer; font-weight: 700; font-size: 17px; color: var(--ink); text-align: left; text-decoration: none"><span style="width: 14px; height: 14px; border-radius: 5px; background: #FFB26F"></span>Peshqadamlar</a>
-    </div>
+    <div class="quick-heading" style="font-weight: 700; font-size: 13px; letter-spacing: .12em; color: #A09DC4; padding: 0 8px; margin: 8px 0 -10px">TEZKOR HAVOLALAR</div>
+    <nav class="quick-nav" aria-label="Tezkor havolalar">
+      <a href="jang.html" class="ql"><span class="quick-icon" style="background:#5E9DE2"></span>Jang</a>
+      <a href="lugat.html" class="ql"><span class="quick-icon" style="background:#0A93F5"></span>Mening lug'atim</a>
+      <a href="chat.html" class="ql"><span class="quick-icon" style="background:#2ED573"></span>Suhbatxona</a>
+      <a href="notifications.html" class="ql"><span class="quick-icon" style="background:#FF4757"></span>Bildirishnomalar</a>
+      <a href="zoom.html" class="ql"><span class="quick-icon" style="background:#ABA3E0"></span>Zoom tadbirlar</a>
+      <a href="peshqadam.html" class="ql"><span class="quick-icon" style="background:#FFB26F"></span>Peshqadamlar</a>
+    </nav>
 
     <div style="flex: 1"></div>
-
-    <button type="button" class="cta" data-go="1" data-continue style="border: 0; border-radius: 20px; padding: 16px 18px; font-weight: 800; font-size: 18px; color: #0B3D2A">Darsni davom ettirish</button>
 
     <div style="display: flex; align-items: center; gap: 12px; background: #F3F5FB; border-radius: 22px; padding: 12px 14px">
       <span data-user-avatar data-size="44" style="width: 46px; height: 46px; border-radius: 50%; background: #CFE6FA; border: 3px solid #7CC4FA; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; flex: none"><svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true"><circle cx="20" cy="15" r="7" fill="#8CA0B5"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#8CA0B5"/></svg></span>
@@ -411,9 +425,15 @@ input,select,button{font-family:inherit}
 (function(){
   var app=document.querySelector('.app'), panes=document.querySelectorAll('[data-pane]');
   var names=['asosiy','darslar','resurslar','koproq'];
+  document.querySelectorAll('[data-pane="3"] button').forEach(function(button){
+    if(button.textContent.trim()==='Sozlamalar') button.addEventListener('click',function(){ location.href='/settings'; });
+  });
   function go(i,scroll){
     app.setAttribute('data-tab',i);
     panes.forEach(function(p){ p.hidden = +p.getAttribute('data-pane')!==i; });
+    document.querySelectorAll('[data-go]').forEach(function(item){
+      item.setAttribute('aria-pressed', String(+item.getAttribute('data-go')===i));
+    });
     if(scroll) window.scrollTo({top:0,behavior:'smooth'});
     try{ history.replaceState(null,'','#'+names[i]); }catch(e){}
   }
@@ -421,7 +441,7 @@ input,select,button{font-family:inherit}
     b.addEventListener('click',function(){ go(+b.getAttribute('data-go'),true); });
   });
   var h=(location.hash||'').slice(1), k=names.indexOf(h);
-  if(k>0) go(k,false);
+  go(k>0?k:0,false);
 })();
 </script>
 <script src="assets/js/config.js"></script>

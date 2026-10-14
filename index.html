@@ -15,6 +15,14 @@ a.nav:hover{color:#0A82EA}
 html{scroll-behavior:smooth}
 input,select,button{font-family:inherit}
 .row{scrollbar-width:thin}
+.account-menu{position:relative;font-size:15px;z-index:5}
+.account-menu>summary{display:flex;align-items:center;gap:9px;list-style:none;cursor:pointer;font-weight:800;padding:8px 14px;border-radius:999px;background:#f2f7ff}
+.account-menu>summary::-webkit-details-marker{display:none}
+.account-menu [data-user-avatar]{width:38px;height:38px;border-radius:50%;overflow:hidden;background:#dcecff;display:grid;place-items:center}
+.account-dropdown{position:absolute;right:0;top:calc(100% + 10px);width:210px;padding:8px;background:white;border:1px solid #e4e9fa;border-radius:18px;box-shadow:0 12px 34px #2638782b;display:grid;gap:4px}
+.account-dropdown a,.account-dropdown button{display:block;text-align:left;padding:10px 12px;border:0;border-radius:11px;background:transparent;color:#2a0b5c;font-weight:700;cursor:pointer}
+.account-dropdown a:hover,.account-dropdown button:hover{background:#f1f6ff}
+.account-dropdown button{color:#c8314c}
 
 /* ---------- ANIMATSIYALAR ---------- */
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
@@ -118,10 +126,14 @@ a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
           <a class="nav" href="#tariflar" style="padding: 10px 0">Tariflar</a>
           <a class="nav" href="#aloqa" style="padding: 10px 0">Aloqa</a>
           <a class="nav" href="#natijalar" style="padding: 10px 0">Natijalar</a>
-          <a class="nav" data-auth="login" href="kirish.html" style="padding: 10px 0">Kirish</a>
-          <a class="nav" data-auth="user" href="app.html" style="padding: 10px 0" hidden>Ilovam</a>
+          <a class="nav" data-auth="login" href="/login" style="padding: 10px 0">Kirish</a>
+          <details class="account-menu" data-auth="user" hidden>
+            <summary><span data-user-avatar data-size="38"></span><span data-user-name>Profil</span></summary>
+            <div class="account-dropdown"><a href="/dashboard">Dashboard</a><a href="/settings">Sozlamalar</a><button type="button" data-action="logout">Chiqish</button></div>
+          </details>
         </nav>
-        <a href="app.html" class="nbtn" style="background: var(--sky); color: #fff; font-weight: 700; font-size: 19px; padding: 14px 28px; border-radius: 999px; border-bottom: 4px solid #0861B5">Student App</a>
+        <a href="/login" data-auth="login" class="nbtn" style="background: var(--sky); color: #fff; font-weight: 700; font-size: 19px; padding: 14px 28px; border-radius: 999px; border-bottom: 4px solid #0861B5">Boshlash</a>
+        <a href="/dashboard" data-auth="user" class="nbtn" style="background: var(--sky); color: #fff; font-weight: 700; font-size: 19px; padding: 14px 28px; border-radius: 999px; border-bottom: 4px solid #0861B5" hidden>Dashboard</a>
       </header>
     </div>
   </div>
@@ -803,8 +815,8 @@ a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
         <span>Telegram: [@englify]</span>
         <span>Instagram: [@englify.uz]</span>
         <span>Manzil: [MANZIL]</span>
-        <a class="nav" data-auth="login" href="kirish.html" style="color: #FFE15A; font-weight: 800">Kirish</a>
-        <a class="nav" data-auth="user" href="app.html" style="color: #FFE15A; font-weight: 800" hidden>Ilovam</a>
+        <a class="nav" data-auth="login" href="/login" style="color: #FFE15A; font-weight: 800">Kirish</a>
+        <a class="nav" data-auth="user" href="/dashboard" style="color: #FFE15A; font-weight: 800" hidden>Dashboard</a>
       </div>
     </div>
   </footer>

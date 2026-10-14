@@ -73,7 +73,7 @@ async def _bootstrap_user(session: AsyncSession, user: models.User) -> None:
             f"{user.daily_goal_minutes} daqiqa maqsadiga erishing."
         ),
         banner={"badge": "START", "emoji": "👋"},
-        link="app.html#darslar",
+        link="/dashboard#darslar",
         cta_label="Darsni boshlash",
         icon="👋",
     )
@@ -139,17 +139,25 @@ async def register(
     if problems:
         raise HTTPException(status_code=422, detail=" ".join(problems))
 
-    email = payload.email.lower().strip()
-    existing = await session.scalar(select(models.User).where(models.User.email == email))
+    phone = (
+        "+" + "".join(ch for ch in payload.phone if ch.isdigit()) if payload.phone else None
+    )
+    email = payload.email.lower().strip() if payload.email else (
+        phone.lstrip("+") + "@phone.englify.uz"
+    )
+    identity_match = models.User.email == email
+    if phone:
+        identity_match = identity_match | (models.User.phone == phone)
+    existing = await session.scalar(select(models.User).where(identity_match))
     if existing is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="Bu email allaqachon ro'yxatdan o'tgan. Tizimga kiring.",
+            detail="Bu telefon raqami yoki email allaqachon ro'yxatdan o'tgan.",
         )
 
     user = models.User(
         email=email,
-        phone=payload.phone,
+        phone=phone,
         full_name=payload.full_name,
         password_hash=hash_password(payload.password),
         level=normalize_level(payload.level),
@@ -188,12 +196,16 @@ async def login(
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> schemas.AuthResponse:
-    email = payload.email.lower().strip()
-    user = await session.scalar(select(models.User).where(models.User.email == email))
+    if payload.phone:
+        phone = "+" + "".join(ch for ch in payload.phone if ch.isdigit())
+        user = await session.scalar(select(models.User).where(models.User.phone == phone))
+    else:
+        email = str(payload.email).lower().strip()
+        user = await session.scalar(select(models.User).where(models.User.email == email))
 
     # Same message for "no such user" and "wrong password" (no user enumeration).
     invalid = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED, detail="Email yoki parol noto'g'ri."
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="Telefon raqami yoki parol noto'g'ri."
     )
     if user is None:
         raise invalid
@@ -221,6 +233,59 @@ async def login(
     await session.commit()
     await session.refresh(user)
 
+    return schemas.AuthResponse(**tokens.model_dump(), user=services.user_public(user))
+
+
+@router.post(
+    "/google",
+    response_model=schemas.AuthResponse,
+    dependencies=[Depends(auth_rate_limit)],
+)
+async def google_login(
+    payload: schemas.GoogleLoginRequest,
+    request: Request,
+    session: AsyncSession = Depends(get_session),
+) -> schemas.AuthResponse:
+    """Verify a Google Identity Services ID token and issue Englify JWTs."""
+    if not settings.google_client_id:
+        raise HTTPException(status_code=503, detail="Google orqali kirish hozircha sozlanmagan.")
+    try:
+        from google.auth.transport.requests import Request as GoogleRequest
+        from google.oauth2 import id_token
+
+        claims = id_token.verify_oauth2_token(
+            payload.credential, GoogleRequest(), settings.google_client_id
+        )
+    except Exception as exc:
+        logger.info("Google sign-in token rejected: %s", type(exc).__name__)
+        raise HTTPException(status_code=401, detail="Google tasdiqlashi yaroqsiz.") from exc
+
+    email = str(claims.get("email", "")).lower().strip()
+    subject = claims.get("sub")
+    full_name = " ".join(str(claims.get("name") or "Google user").split())[:120]
+    if not email or not subject or claims.get("email_verified") is not True:
+        raise HTTPException(status_code=401, detail="Google email manzili tasdiqlanmagan.")
+
+    user = await session.scalar(select(models.User).where(models.User.email == email))
+    if user is None:
+        user = models.User(
+            email=email,
+            full_name=full_name,
+            password_hash=hash_password(create_reset_token()),
+            daily_goal_minutes=settings.default_daily_goal_minutes,
+            is_verified=True,
+        )
+        session.add(user)
+        await session.flush()
+        await _bootstrap_user(session, user)
+    if not user.is_active:
+        raise HTTPException(status_code=403, detail="Hisob bloklangan.")
+
+    user.is_verified = True
+    user.last_login_at = utcnow()
+    tokens = _issue_tokens(session, user, user_agent=request.headers.get("user-agent"))
+    await session.commit()
+    await session.refresh(user)
     return schemas.AuthResponse(**tokens.model_dump(), user=services.user_public(user))
 
 

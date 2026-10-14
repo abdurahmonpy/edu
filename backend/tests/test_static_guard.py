@@ -42,6 +42,7 @@ ALLOWED = [
     "index.html",
     "app.html",
     "kirish.html",
+    "settings.html",
     "assets/js/api.js",
     "assets/js/config.js",
     "404.html",
@@ -69,6 +70,13 @@ def test_clean_url_resolves_html_files(handler):
     assert handler.resolve_path("app") == "app.html"
     assert handler.resolve_path("kirish") == "kirish.html"
     assert handler.resolve_path("dars") == "dars.html"
+
+
+def test_named_auth_and_dashboard_routes(handler):
+    assert handler.resolve_path("login") == "kirish.html"
+    assert handler.resolve_path("register") == "kirish.html"
+    assert handler.resolve_path("dashboard") == "app.html"
+    assert handler.resolve_path("settings") == "settings.html"
 
 
 def test_clean_url_rejects_missing_and_extensionless(handler):

@@ -244,7 +244,7 @@ async def enroll(
             kind="lesson",
             title=f"«{course.title}» kursiga yozildingiz",
             body="Birinchi darsni bugun boshlang!",
-            link="app.html#darslar",
+            link="/dashboard#darslar",
             icon="📚",
         )
         await session.commit()

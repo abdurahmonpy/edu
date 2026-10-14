@@ -14,7 +14,7 @@ from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
@@ -171,6 +171,7 @@ async def api_index() -> dict:
         "name": settings.app_name,
         "version": __version__,
         "environment": settings.environment,
+        "google_client_id": settings.google_client_id,
         "docs": "/docs",
         "endpoints": {
             "auth": f"{API}/auth",
@@ -188,6 +189,11 @@ async def api_index() -> dict:
             "realtime": f"{API}/ws/chat/{{id}} | {API}/ws/battles/{{id}} | {API}/ws/notifications",
         },
     }
+
+
+@app.get(f"{API}/config", tags=["meta"], summary="Public client configuration")
+async def public_config() -> dict:
+    return {"google_client_id": settings.google_client_id}
 
 
 # ===========================================================================
@@ -225,6 +231,12 @@ class FrontendFiles(StaticFiles):
         ".xml",
         ".webmanifest",
         ".pdf",
+    }
+    ROUTE_ALIASES = {
+        "login": "kirish.html",
+        "register": "kirish.html",
+        "dashboard": "app.html",
+        "settings": "settings.html",
     }
     #: Never expose the backend source, env files, git metadata or internal docs.
     BLOCKED_TOP_LEVEL = {
@@ -286,6 +298,9 @@ class FrontendFiles(StaticFiles):
         if self._is_blocked(normalized):
             return None
 
+        if normalized in self.ROUTE_ALIASES:
+            return self.ROUTE_ALIASES[normalized]
+
         suffix = Path(normalized).suffix.lower()
         if suffix == "":
             # ``cleanUrls``: /app -> app.html. Extension-less real files
@@ -303,6 +318,14 @@ class FrontendFiles(StaticFiles):
 
 
 if settings.serve_frontend and settings.static_dir.exists():
+    @app.get("/kirish", include_in_schema=False)
+    async def legacy_login_url() -> RedirectResponse:
+        return RedirectResponse("/login", status_code=307)
+
+    @app.get("/app", include_in_schema=False)
+    async def legacy_dashboard_url() -> RedirectResponse:
+        return RedirectResponse("/dashboard", status_code=307)
+
     app.mount(
         "/",
         FrontendFiles(directory=str(settings.static_dir), html=True),

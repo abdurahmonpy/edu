@@ -87,6 +87,7 @@ Repo servisiga o'tib **Variables** bo'limiga quyidagilarni kiriting:
 | `CORS_ORIGINS` | `https://<sizning-vercel-domeningiz>` | Vercel'ni ishlatishda; aks holda `*` |
 | `SEED_DEMO_DATA` | `true` | prototip kontenti (kurslar, kitoblar, jang savollari); idempotent |
 | `SEED_DEMO_ACCOUNTS` | `false` | **productionda `false` qoldiring**; demo parollar bilan hisoblar yaratmaydi |
+| `GOOGLE_CLIENT_ID` | Google OAuth web client ID | Google loginini yoqish uchun; Google Cloud OAuth clientida Railway domenini Authorized JavaScript origins ro'yxatiga kiriting |
 | `AUTO_CREATE_TABLES` | `true` | jadvallarni avtomatik yaratadi |
 | `SERVE_FRONTEND` | `true` | HTML sahifalarni ham shu servis beradi |
 | `EXPOSE_RESET_TOKEN` | `false` | **productionda albatta `false`** |

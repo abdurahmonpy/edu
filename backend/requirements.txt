@@ -11,4 +11,5 @@ PyJWT>=2.9
 bcrypt>=4.1
 python-multipart>=0.0.9
 email-validator>=2.2
+google-auth[requests]>=2.35
 websockets>=12.0

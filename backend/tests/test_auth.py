@@ -110,6 +110,17 @@ def test_api_index(client):
     assert "auth" in response.json()["endpoints"]
 
 
+def test_public_config_contains_only_public_google_client_id(client):
+    response = client.get("/api/v1/config")
+    assert response.status_code == 200
+    assert set(response.json()) == {"google_client_id"}
+
+
+def test_google_login_stays_disabled_without_client_configuration(client):
+    response = client.post("/api/v1/auth/google", json={"credential": "x" * 24})
+    assert response.status_code == 503
+
+
 # ===========================================================================
 # registration
 # ===========================================================================
@@ -128,6 +139,38 @@ def test_register_returns_tokens_and_user(client):
     assert body["user"]["points"] == 0
     assert body["user"]["level"] == "starter"
     assert body["user"]["level_title"] == "Starter"
+
+
+def test_register_and_login_with_phone(client):
+    phone = "+998" + str(uuid.uuid4().int)[:9]
+    registered = client.post(
+        "/api/v1/auth/register",
+        json={"phone": phone, "password": "KuchliParol1"},
+    )
+    assert registered.status_code == 201, registered.text
+    assert registered.json()["user"]["phone"] == phone
+    assert registered.json()["user"]["email"] is None
+    logged_in = client.post(
+        "/api/v1/auth/login",
+        json={"phone": phone, "password": "KuchliParol1"},
+    )
+    assert logged_in.status_code == 200
+    assert logged_in.json()["user"]["phone"] == phone
+
+
+def test_phone_login_normalizes_formatting(client):
+    phone = "+998" + str(uuid.uuid4().int)[:9]
+    created = client.post(
+        "/api/v1/auth/register",
+        json={"phone": phone, "password": "KuchliParol1"},
+    )
+    assert created.status_code == 201, created.text
+    formatted = " ".join((phone[:4], phone[4:6], phone[6:9], phone[9:11], phone[11:]))
+    logged_in = client.post(
+        "/api/v1/auth/login",
+        json={"phone": formatted, "password": "KuchliParol1"},
+    )
+    assert logged_in.status_code == 200
 
 
 def test_register_duplicate_email_conflicts(client, fresh_user):

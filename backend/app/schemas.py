@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import date, datetime
 from typing import Any, Generic, Literal, TypeVar
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator, model_validator
 
 T = TypeVar("T")
 
@@ -33,10 +33,10 @@ class Page(BaseModel, Generic[T]):
 # Auth
 # ===========================================================================
 class RegisterRequest(BaseModel):
-    email: EmailStr
+    email: EmailStr | None = None
     password: str = Field(min_length=1, max_length=256)
-    full_name: str = Field(min_length=2, max_length=120)
-    phone: str | None = Field(default=None, max_length=32)
+    full_name: str = Field(default="Foydalanuvchi", min_length=2, max_length=120)
+    phone: str | None = Field(default=None, min_length=7, max_length=32)
     level: str | None = None
 
     @field_validator("full_name")
@@ -47,18 +47,49 @@ class RegisterRequest(BaseModel):
             raise ValueError("Ism kamida 2 ta belgidan iborat bo'lishi kerak.")
         return cleaned
 
+    @model_validator(mode="after")
+    def _require_registration_identifier(self):
+        if self.email is None and not self.phone:
+            raise ValueError("Telefon raqami kerak.")
+        return self
+
     @field_validator("phone")
     @classmethod
     def _clean_phone(cls, value: str | None) -> str | None:
         if value is None:
             return None
         cleaned = "".join(ch for ch in value if ch.isdigit() or ch == "+")
-        return cleaned or None
+        digits = cleaned.lstrip("+")
+        if not (7 <= len(digits) <= 15):
+            raise ValueError("Telefon raqami 7–15 ta raqamdan iborat bo'lishi kerak.")
+        return "+" + digits
 
 
 class LoginRequest(BaseModel):
-    email: EmailStr
+    email: EmailStr | None = None
+    phone: str | None = Field(default=None, min_length=7, max_length=32)
     password: str
+
+    @field_validator("phone")
+    @classmethod
+    def _clean_phone(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        cleaned = "".join(ch for ch in value if ch.isdigit() or ch == "+")
+        digits = cleaned.lstrip("+")
+        if not (7 <= len(digits) <= 15):
+            raise ValueError("Telefon raqami 7–15 ta raqamdan iborat bo'lishi kerak.")
+        return "+" + digits
+
+    @model_validator(mode="after")
+    def _require_login_identifier(self):
+        if self.email is None and not self.phone:
+            raise ValueError("Telefon raqami yoki email kiriting.")
+        return self
+
+
+class GoogleLoginRequest(BaseModel):
+    credential: str = Field(min_length=20, max_length=8192)
 
 
 class RefreshRequest(BaseModel):
@@ -86,7 +117,7 @@ class ResetPasswordRequest(BaseModel):
 
 class UserPublic(ORMModel):
     id: str
-    email: EmailStr
+    email: EmailStr | None
     full_name: str
     phone: str | None = None
     role: str

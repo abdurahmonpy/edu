@@ -16,6 +16,8 @@ from .utils import LEVEL_TITLES, SKILLS, normalize_level, today_utc, utcnow
 # ===========================================================================
 def user_public(user: models.User) -> schemas.UserPublic:
     data = schemas.UserPublic.model_validate(user)
+    if user.email.endswith("@phone.englify.uz"):
+        data.email = None
     data.level_title = LEVEL_TITLES.get(user.level, user.level.title())
     return data
 
@@ -264,7 +266,7 @@ async def maybe_promote_level(session: AsyncSession, user: models.User) -> str |
             title=f"Yangi daraja: {LEVEL_TITLES.get(user.level, user.level)}",
             body="Tabriklaymiz! Siz keyingi darajaga ko'tarildingiz.",
             icon="🎉",
-            link="app.html#darslar",
+            link="/dashboard#darslar",
         )
         return user.level
     return None

@@ -2,7 +2,7 @@
  * Englify — HTTP client.
  * ---------------------------------------------------------------------------
  * Responsibilities:
- *   - keep the access/refresh token pair in localStorage
+ *   - keep the access/refresh token pair in local or session storage
  *   - attach `Authorization: Bearer <token>` automatically
  *   - transparently refresh an expired access token once per request
  *   - normalise errors into `ApiError` with a human readable Uzbek message
@@ -39,7 +39,7 @@
   // ---------------------------------------------------------------- session
   function readSession() {
     try {
-      var raw = localStorage.getItem(STORAGE_KEY);
+      var raw = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
       if (!raw) return null;
       var parsed = JSON.parse(raw);
       if (!parsed || !parsed.access_token) return null;
@@ -49,9 +49,15 @@
     }
   }
 
-  function writeSession(payload) {
+  function writeSession(payload, remember) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      var sessionOnly = remember === false || (
+        remember === undefined && !localStorage.getItem(STORAGE_KEY) &&
+        !!sessionStorage.getItem(STORAGE_KEY)
+      );
+      localStorage.removeItem(STORAGE_KEY);
+      sessionStorage.removeItem(STORAGE_KEY);
+      (sessionOnly ? sessionStorage : localStorage).setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch (error) {
       /* private mode / quota — the session simply won't survive a reload */
     }
@@ -90,7 +96,7 @@
 
     session: readSession,
 
-    setSession: function (payload) {
+    setSession: function (payload, remember) {
       var previous = readSession();
       var next = {
         access_token: payload.access_token,
@@ -98,7 +104,7 @@
         expires_in: payload.expires_in,
         user: payload.user || (previous && previous.user) || null
       };
-      writeSession(next);
+      writeSession(next, remember);
       if (!previous) emit('login', next);
       emit('session', next);
       return next;
@@ -108,6 +114,7 @@
       var previous = readSession();
       try {
         localStorage.removeItem(STORAGE_KEY);
+        sessionStorage.removeItem(STORAGE_KEY);
       } catch (error) {
         /* ignore */
       }

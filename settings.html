@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sozlamalar — Englify</title>
+<meta name="description" content="Englify akkaunt sozlamalari">
+<meta name="theme-color" content="#0A93F5">
+<style>
+  :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#2a0b5c;background:#f3f5fb;font-synthesis:none}
+  *{box-sizing:border-box}body{margin:0;min-height:100vh;padding:32px 18px}
+  main{width:min(100%,720px);margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+  h1{font-size:clamp(28px,5vw,38px);margin:0}.back{color:#087bd0;font-weight:700;text-decoration:none}
+  section{background:#fff;border:1px solid #e1e6f7;border-radius:22px;padding:24px;margin:16px 0;box-shadow:0 8px 25px #1524570e}
+  h2{font-size:21px;margin:0 0 18px}.field{margin:14px 0}.field label{display:block;font-weight:700;font-size:14px;margin-bottom:7px}
+  input{width:100%;border:1px solid #d9dff1;border-radius:12px;padding:12px 14px;font:inherit;color:inherit}
+  input:focus{outline:3px solid #c7e6ff;border-color:#0a93f5}.muted{color:#6a5a92;font-size:14px;margin:6px 0}
+  button{border:0;border-radius:12px;background:#0a93f5;color:#fff;padding:12px 18px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+  button:hover{background:#087bd0}button:disabled{opacity:.6;cursor:wait}.message{min-height:22px;margin:10px 0 0;font-weight:650;color:#b02c42}
+  .logout{background:#fff;color:#c8314c;border:1px solid #f1cad1}
+  @media(max-width:520px){body{padding:22px 14px}section{padding:19px;border-radius:18px}}
+</style>
+</head>
+<body data-auth="required">
+<main>
+  <div class="top"><h1>Sozlamalar</h1><a class="back" href="/dashboard">← Dashboard</a></div>
+  <section aria-labelledby="profileHeading">
+    <h2 id="profileHeading">Profil</h2>
+    <form id="profileForm">
+      <div class="field"><label for="fullName">Ism va familiya</label><input id="fullName" name="full_name" autocomplete="name" minlength="2" maxlength="120" required></div>
+      <div class="field"><label for="phone">Telefon raqami</label><input id="phone" name="phone" autocomplete="tel" readonly><p class="muted">Telefon raqamini almashtirish uchun raqamni tasdiqlash kerak.</p></div>
+      <button type="submit">Saqlash</button><p class="message" id="profileMessage" aria-live="polite"></p>
+    </form>
+  </section>
+  <section id="passwordSection" aria-labelledby="passwordHeading">
+    <h2 id="passwordHeading">Parolni almashtirish</h2>
+    <form id="passwordForm">
+      <div class="field"><label for="currentPassword">Joriy parol</label><input id="currentPassword" type="password" autocomplete="current-password" required></div>
+      <div class="field"><label for="newPassword">Yangi parol</label><input id="newPassword" type="password" autocomplete="new-password" minlength="8" required></div>
+      <div class="field"><label for="repeatPassword">Yangi parolni takrorlang</label><input id="repeatPassword" type="password" autocomplete="new-password" minlength="8" required></div>
+      <button type="submit">Parolni yangilash</button><p class="message" id="passwordMessage" aria-live="polite"></p>
+    </form>
+  </section>
+  <button type="button" class="logout" data-action="logout">Chiqish</button>
+</main>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+(function(){
+  'use strict';
+  var api=window.EnglifyApi, auth=window.EnglifyAuth;
+  var profileForm=document.getElementById('profileForm');
+  var passwordForm=document.getElementById('passwordForm');
+  var profileMessage=document.getElementById('profileMessage');
+  var passwordMessage=document.getElementById('passwordMessage');
+  function setBusy(form,busy){form.querySelector('button[type="submit"]').disabled=busy;}
+  auth.require().then(function(user){
+    document.getElementById('fullName').value=user.full_name||'';
+    document.getElementById('phone').value=user.phone||'Google akkaunti';
+    if(!user.phone) document.getElementById('passwordSection').hidden=true;
+  }).catch(function(){});
+  profileForm.addEventListener('submit',function(event){
+    event.preventDefault();profileMessage.textContent='';setBusy(profileForm,true);
+    api.patch('/auth/me',{full_name:document.getElementById('fullName').value.trim()})
+      .then(function(user){profileMessage.style.color='#147442';profileMessage.textContent='Profil saqlandi.';auth.me(true);})
+      .catch(function(error){profileMessage.style.color='#b02c42';profileMessage.textContent=error.message||'Profilni saqlab bo‘lmadi.';})
+      .then(function(){setBusy(profileForm,false);});
+  });
+  passwordForm.addEventListener('submit',function(event){
+    event.preventDefault();passwordMessage.style.color='#b02c42';passwordMessage.textContent='';
+    var current=document.getElementById('currentPassword').value;
+    var next=document.getElementById('newPassword').value;
+    if(next.length<8){passwordMessage.textContent='Yangi parol kamida 8 ta belgidan iborat bo‘lishi kerak.';return;}
+    if(next!==document.getElementById('repeatPassword').value){passwordMessage.textContent='Yangi parollar mos kelmadi.';return;}
+    setBusy(passwordForm,true);
+    api.post('/auth/change-password',{current_password:current,new_password:next})
+      .then(function(result){passwordMessage.style.color='#147442';passwordMessage.textContent=result.detail||'Parol yangilandi. Qaytadan kiring.';api.clearSession('password_change');setTimeout(function(){location.replace('/login');},900);})
+      .catch(function(error){passwordMessage.textContent=error.message||'Parolni yangilab bo‘lmadi.';setBusy(passwordForm,false);});
+  });
+})();
+</script>
+</body>
+</html>

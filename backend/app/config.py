@@ -57,6 +57,7 @@ class Settings(BaseSettings):
     # Number of failed logins before the account is temporarily locked.
     max_failed_logins: int = 10
     login_lockout_minutes: int = 15
+    google_client_id: str = ""
 
     # ------------------------------------------------------------------- cors
     # Comma separated list, or "*" to allow everything.

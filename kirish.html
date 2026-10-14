@@ -23,8 +23,8 @@
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
   .badges{display:flex;flex-wrap:wrap;gap:10px;position:relative}
   .badge{background:rgba(255,255,255,.2);border-radius:999px;padding:9px 18px;font-weight:700;font-size:15px}
-  .panel{display:flex;align-items:center;justify-content:center;padding:40px 22px}
-  .card{width:100%;max-width:452px;background:#fff;border-radius:34px;padding:34px 32px 30px;box-shadow:0 5px 0 rgba(30,30,90,.12),0 20px 44px rgba(20,40,120,.16)}
+  .panel{display:flex;align-items:center;justify-content:center;padding:40px clamp(24px,7vw,100px);background:#F3F5FB}
+  .card{width:100%;max-width:430px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}
   .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:26px;color:var(--sky);margin-bottom:22px}
   .logo span{width:42px;height:42px;border-radius:13px;background:var(--sky);box-shadow:0 4px 0 var(--sky-dk);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px}
   .tabs{display:flex;background:#F3F5FB;border-radius:18px;padding:6px;margin-bottom:24px}
@@ -53,8 +53,7 @@
   .note.bad{background:#FFF1F2;border-color:#FFD0D6;color:#B3121F}
   .divider{display:flex;align-items:center;gap:12px;color:#A09DC4;font-weight:700;font-size:14px;margin:20px 0}
   .divider:before,.divider:after{content:"";flex:1;height:2px;background:var(--line);border-radius:2px}
-  .demo{display:flex;gap:10px;flex-wrap:wrap}
-  .demo button{flex:1;min-width:150px}
+  .google-box{display:flex;justify-content:center;min-height:44px}
   .foot{text-align:center;font-weight:600;font-size:15px;color:var(--muted);margin-top:20px}
   [hidden]{display:none!important}
   @media (max-width:900px){.wrap{grid-template-columns:1fr}.art{padding:34px 26px}.art .tall{display:none}}
@@ -103,8 +102,8 @@
       <section id="viewLogin" role="tabpanel" aria-labelledby="tabLogin">
         <form id="loginForm" novalidate>
           <div class="field">
-            <label for="loginEmail">Email</label>
-            <input id="loginEmail" name="email" type="email" autocomplete="email" placeholder="siz@example.com" required>
+            <label for="loginPhone">Telefon raqami</label>
+            <input id="loginPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+998 90 123 45 67" required>
           </div>
           <div class="field">
             <label for="loginPassword">Parol</label>
@@ -114,16 +113,12 @@
             <label style="display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px;color:var(--muted)">
               <input type="checkbox" id="rememberMe" checked style="width:18px;height:18px;accent-color:var(--sky)">Eslab qolish
             </label>
-            <button type="button" class="link" id="toForgot">Parolni tiklash</button>
+            <span></span>
           </div>
           <button class="submit" type="submit" id="loginSubmit">Kirish</button>
         </form>
 
-        <div class="divider">yoki demo hisob bilan</div>
-        <div class="demo">
-          <button type="button" class="ghost" id="demoStudent">👩‍🎓 Talaba (demo)</button>
-          <button type="button" class="ghost" id="demoLeader">🏆 Peshqadam (demo)</button>
-        </div>
+        <div id="googleLoginOption" hidden><div class="divider">yoki Google orqali</div><div id="googleLogin" class="google-box"></div></div>
         <p class="foot">Hisobingiz yo'qmi? <button type="button" class="link" id="toRegister">Ro'yxatdan o'ting</button></p>
       </section>
 
@@ -131,16 +126,8 @@
       <section id="viewRegister" role="tabpanel" aria-labelledby="tabRegister" hidden>
         <form id="registerForm" novalidate>
           <div class="field">
-            <label for="regName">Ism va familiya</label>
-            <input id="regName" name="full_name" type="text" autocomplete="name" placeholder="Ali Valiyev" required>
-          </div>
-          <div class="field">
-            <label for="regEmail">Email</label>
-            <input id="regEmail" name="email" type="email" autocomplete="email" placeholder="siz@example.com" required>
-          </div>
-          <div class="field">
-            <label for="regPhone">Telefon <span style="font-weight:600">(majburiy emas)</span></label>
-            <input id="regPhone" name="phone" type="tel" autocomplete="tel" placeholder="+998 90 123 45 67">
+            <label for="regPhone">Telefon raqami</label>
+            <input id="regPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+998 90 123 45 67" required>
           </div>
           <div class="field">
             <label for="regPassword">Parol</label>
@@ -153,35 +140,8 @@
           </div>
           <button class="submit" type="submit" id="registerSubmit">Ro'yxatdan o'tish</button>
         </form>
+        <div id="googleRegisterOption" hidden><div class="divider">yoki Google orqali</div><div id="googleRegister" class="google-box"></div></div>
         <p class="foot">Hisobingiz bormi? <button type="button" class="link" id="toLogin">Kiring</button></p>
-      </section>
-
-      <!-- ---------------------------- FORGOT ------------------------------ -->
-      <section id="viewForgot" hidden>
-        <button type="button" class="link" id="backToLogin" style="margin-bottom:16px">← Kirishga qaytish</button>
-
-        <form id="forgotForm" novalidate>
-          <div class="field">
-            <label for="forgotEmail">Email</label>
-            <input id="forgotEmail" type="email" autocomplete="email" placeholder="siz@example.com" required>
-          </div>
-          <button class="submit" type="submit" id="forgotSubmit">Tiklash havolasini olish</button>
-        </form>
-
-        <div id="resetBox" hidden style="margin-top:22px">
-          <div class="divider">yangi parol</div>
-          <form id="resetForm" novalidate>
-            <div class="field">
-              <label for="resetPassword">Yangi parol</label>
-              <input id="resetPassword" type="password" autocomplete="new-password" placeholder="Kamida 8 ta belgi" required>
-            </div>
-            <div class="field">
-              <label for="resetPassword2">Yangi parolni takrorlang</label>
-              <input id="resetPassword2" type="password" autocomplete="new-password" placeholder="••••••••" required>
-            </div>
-            <button class="submit" type="submit" id="resetSubmit">Parolni yangilash</button>
-          </form>
-        </div>
       </section>
 
       <p class="foot"><a href="index.html">← englify.uz saytiga qaytish</a></p>
@@ -203,7 +163,6 @@
   var tabRegister = document.getElementById('tabRegister');
   var viewLogin = document.getElementById('viewLogin');
   var viewRegister = document.getElementById('viewRegister');
-  var viewForgot = document.getElementById('viewForgot');
   var globalNote = document.getElementById('globalNote');
 
   function note(message, kind) {
@@ -215,7 +174,6 @@
   function show(view) {
     viewLogin.hidden = view !== 'login';
     viewRegister.hidden = view !== 'register';
-    viewForgot.hidden = view !== 'forgot';
     tabLogin.setAttribute('aria-selected', String(view === 'login'));
     tabRegister.setAttribute('aria-selected', String(view === 'register'));
     note('');
@@ -225,8 +183,6 @@
   tabRegister.addEventListener('click', function () { show('register'); });
   document.getElementById('toRegister').addEventListener('click', function () { show('register'); });
   document.getElementById('toLogin').addEventListener('click', function () { show('login'); });
-  document.getElementById('toForgot').addEventListener('click', function () { show('forgot'); });
-  document.getElementById('backToLogin').addEventListener('click', function () { show('login'); });
 
   function busy(button, isBusy, label) {
     button.disabled = isBusy;
@@ -256,10 +212,14 @@
     form.querySelectorAll('.err').forEach(function (node) { node.textContent = ''; });
   }
 
-  function afterAuth(payload) {
-    api.setSession(payload);
-    var next = UI.qs('next');
-    var safe = next && !/^https?:|^\/\//i.test(next) ? next : 'app.html';
+  function afterAuth(payload, remember) {
+    api.setSession(payload, remember);
+    var next = UI.qs('next') || '/dashboard';
+    var safe = '/dashboard';
+    try {
+      var target = new URL(next, window.location.origin);
+      if (target.origin === window.location.origin) safe = target.pathname + target.search + target.hash;
+    } catch (error) { /* fall back to the dashboard */ }
     window.location.replace(safe);
   }
 
@@ -272,15 +232,17 @@
     clearErrors(loginForm);
     note('');
 
-    var email = document.getElementById('loginEmail').value.trim();
+    var phone = document.getElementById('loginPhone').value.trim();
     var password = document.getElementById('loginPassword').value;
 
-    if (!email) return invalid(document.getElementById('loginEmail'), 'Emailni kiriting.');
+    if (!phone) return invalid(document.getElementById('loginPhone'), 'Telefon raqamingizni kiriting.');
     if (!password) return invalid(document.getElementById('loginPassword'), 'Parolni kiriting.');
 
     busy(loginSubmit, true, 'Kirish…');
-    api.post('/auth/login', { email: email, password: password }, { auth: false })
-      .then(afterAuth)
+    api.post('/auth/login', { phone: phone, password: password }, { auth: false })
+      .then(function (payload) {
+        afterAuth(payload, document.getElementById('rememberMe').checked);
+      })
       .catch(function (error) {
         busy(loginSubmit, false);
         note(error.message, 'bad');
@@ -296,24 +258,19 @@
     clearErrors(registerForm);
     note('');
 
-    var fullName = document.getElementById('regName').value.trim();
-    var email = document.getElementById('regEmail').value.trim();
     var phone = document.getElementById('regPhone').value.trim();
     var password = document.getElementById('regPassword').value;
     var repeat = document.getElementById('regPassword2').value;
     var ok = true;
 
-    if (fullName.length < 2) { invalid(document.getElementById('regName'), 'Ismingizni kiriting.'); ok = false; }
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { invalid(document.getElementById('regEmail'), 'Email noto\u2019g\u2019ri.'); ok = false; }
+    if (!phone) { invalid(document.getElementById('regPhone'), 'Telefon raqamingizni kiriting.'); ok = false; }
     if (password.length < 8) { invalid(document.getElementById('regPassword'), 'Parol kamida 8 ta belgidan iborat bo\u2019lishi kerak.'); ok = false; }
     if (password !== repeat) { invalid(document.getElementById('regPassword2'), 'Parollar mos kelmadi.'); ok = false; }
     if (!ok) return;
 
     busy(registerSubmit, true, 'Yaratilmoqda…');
     api.post('/auth/register', {
-      full_name: fullName,
-      email: email,
-      phone: phone || null,
+      phone: phone,
       password: password
     }, { auth: false })
       .then(function (payload) {
@@ -326,89 +283,38 @@
       });
   });
 
-  // ------------------------------------------------------------ forgot
-  var forgotForm = document.getElementById('forgotForm');
-  var forgotSubmit = document.getElementById('forgotSubmit');
-  var resetBox = document.getElementById('resetBox');
-  var resetToken = null;
-
-  forgotForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    clearErrors(forgotForm);
-    note('');
-
-    var email = document.getElementById('forgotEmail').value.trim();
-    if (!email) return invalid(document.getElementById('forgotEmail'), 'Emailni kiriting.');
-
-    busy(forgotSubmit, true, 'Yuborilmoqda…');
-    api.post('/auth/forgot-password', { email: email }, { auth: false })
-      .then(function (result) {
-        busy(forgotSubmit, false);
-        note(result.detail || 'Tiklash havolasi yuborildi.', 'ok');
-        if (result.reset_token) {
-          resetToken = result.reset_token;
-          resetBox.hidden = false;
-          note('Havola tayyor (dev rejimi). Yangi parolni kiriting.', 'ok');
-        }
-      })
-      .catch(function (error) {
-        busy(forgotSubmit, false);
-        note(error.message, 'bad');
+  // Google Identity Services verifies identity in the browser; the backend
+  // independently validates the signed ID token against GOOGLE_CLIENT_ID.
+  window.handleGoogleCredential = function (response) {
+    api.post('/auth/google', { credential: response.credential }, { auth: false })
+      .then(function (payload) { afterAuth(payload, true); })
+      .catch(function (error) { note(error.message || 'Google orqali kirib bo‘lmadi.', 'bad'); });
+  };
+  api.get('/config').then(function (settings) {
+    if (!settings.google_client_id) return;
+    document.getElementById('googleLoginOption').hidden = false;
+    document.getElementById('googleRegisterOption').hidden = false;
+    var script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.onload = function () {
+      ['googleLogin', 'googleRegister'].forEach(function (id) {
+        var slot = document.getElementById(id);
+        if (!slot || !window.google) return;
+        window.google.accounts.id.initialize({
+          client_id: settings.google_client_id,
+          callback: window.handleGoogleCredential,
+          ux_mode: 'popup'
+        });
+        window.google.accounts.id.renderButton(slot, { theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with', width: 300 });
       });
-  });
+    };
+    document.head.appendChild(script);
+  }).catch(function () { /* phone and password remain available */ });
 
-  var resetForm = document.getElementById('resetForm');
-  var resetSubmit = document.getElementById('resetSubmit');
-
-  resetForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    clearErrors(resetForm);
-
-    var password = document.getElementById('resetPassword').value;
-    var repeat = document.getElementById('resetPassword2').value;
-    if (password.length < 8) return invalid(document.getElementById('resetPassword'), 'Parol kamida 8 ta belgi.');
-    if (password !== repeat) return invalid(document.getElementById('resetPassword2'), 'Parollar mos kelmadi.');
-    if (!resetToken) return note('Tiklash havolasi topilmadi. Qaytadan so\u2019rang.', 'bad');
-
-    busy(resetSubmit, true, 'Saqlanmoqda…');
-    api.post('/auth/reset-password', { token: resetToken, new_password: password }, { auth: false })
-      .then(function () {
-        busy(resetSubmit, false);
-        UI.toast('Parol yangilandi. Endi kiring.', 'success');
-        show('login');
-        note('Parol muvaffaqiyatli yangilandi. Endi yangi parol bilan kiring.', 'ok');
-      })
-      .catch(function (error) {
-        busy(resetSubmit, false);
-        note(error.message, 'bad');
-      });
-  });
-
-  // -------------------------------------------------------- demo logins
-  function demoLogin(email) {
-    note('');
-    api.post('/auth/login', { email: email, password: 'englify1234' }, { auth: false })
-      .then(afterAuth)
-      .catch(function (error) { note(error.message, 'bad'); });
-  }
-  document.getElementById('demoStudent').addEventListener('click', function () {
-    demoLogin('abdurahmon@englify.uz');
-  });
-  document.getElementById('demoLeader').addEventListener('click', function () {
-    demoLogin('englify@englify.uz');
-  });
-
-  // URL orqali kelgan holatlar: ?mode=register / ?mode=forgot / ?token=...
+  // URL orqali kelgan holat: /register yoki ?mode=register.
   var mode = UI.qs('mode');
-  if (mode === 'register') show('register');
-  if (mode === 'forgot') show('forgot');
-  var urlToken = UI.qs('token');
-  if (urlToken) {
-    show('forgot');
-    resetToken = urlToken;
-    resetBox.hidden = false;
-    note('Havola aniqlandi. Yangi parolingizni kiriting.', 'ok');
-  }
+  if (mode === 'register' || /\/register\/?$/.test(location.pathname)) show('register');
 })();
 </script>
 </body>

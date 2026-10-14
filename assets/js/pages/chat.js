@@ -640,7 +640,7 @@
       stopRoom();
       showList();
     } else {
-      window.location.href = 'app.html#asosiy';
+      window.location.href = '/dashboard#asosiy';
     }
   }
 

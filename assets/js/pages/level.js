@@ -380,7 +380,7 @@
   function boot() {
     Auth.require()
       .then(function (currentUser) {
-        if (!currentUser) return; // auth.js is redirecting to kirish.html
+        if (!currentUser) return; // auth.js is redirecting to /login
         start(currentUser);
       })
       .catch(function () {
