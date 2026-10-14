@@ -75,7 +75,7 @@
       }
       return (
         '<span aria-hidden="true" style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;' +
-        'background:#0A93F5;color:#fff;display:inline-flex;align-items:center;justify-content:center;' +
+        'background:#0B5AA4;color:#fff;display:inline-flex;align-items:center;justify-content:center;' +
         'font-weight:800;font-size:' + Math.round(size * 0.38) + 'px;letter-spacing:.02em">' +
         UI.escape(UI.initials(name)) +
         '</span>'
@@ -166,7 +166,7 @@
       var palette = {
         success: { bg: '#17C877', fg: '#062E1D' },
         error: { bg: '#FF4757', fg: '#fff' },
-        info: { bg: '#0A93F5', fg: '#fff' },
+        info: { bg: '#0B5AA4', fg: '#fff' },
         warn: { bg: '#FFB26F', fg: '#40260C' }
       };
       var tone = palette[kind] || palette.info;
@@ -212,10 +212,10 @@
     empty: function (message, hint) {
       return (
         '<div style="text-align:center;padding:38px 20px;background:#fff;border-radius:26px;' +
-        'border:2px dashed #DDE3FF">' +
+        'border:2px dashed #D4E2EE">' +
         '<div style="font-size:44px;line-height:1" aria-hidden="true">\uD83D\uDCED</div>' +
         '<div style="font-weight:800;font-size:19px;margin-top:12px">' + UI.escape(message) + '</div>' +
-        (hint ? '<div style="color:#6A5A92;font-weight:600;margin-top:6px">' + UI.escape(hint) + '</div>' : '') +
+        (hint ? '<div style="color:#486582;font-weight:600;margin-top:6px">' + UI.escape(hint) + '</div>' : '') +
         '</div>'
       );
     },

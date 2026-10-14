@@ -19,10 +19,10 @@
   }
 
   var PAGE_LIMIT = 30;
-  var UNREAD_CARD_SHADOW = 'inset 3px 0 0 #0A93F5, 0 4px 18px rgba(34,8,70,0.03)';
+  var UNREAD_CARD_SHADOW = 'inset 3px 0 0 #0B5AA4, 0 4px 18px rgba(34,8,70,0.03)';
   var READ_CARD_SHADOW = '0 4px 18px rgba(34,8,70,0.03)';
   var FILTER_ACTIVE =
-    'background: #0A93F5; color: #fff; border: 1.5px solid #0A93F5; border-radius: 999px;' +
+    'background: #0B5AA4; color: #fff; border: 1.5px solid #0B5AA4; border-radius: 999px;' +
     'padding: 7px 18px; font-weight: 800; font-size: 14.5px; cursor: pointer';
   var FILTER_IDLE =
     'background: #fff; color: #220846; border: 1.5px solid #E8EBF5; border-radius: 999px;' +
@@ -103,7 +103,7 @@
         var chipNode = document.createElement('span');
         chipNode.textContent = label;
         chipNode.style.cssText =
-          'background:' + ((chip && chip.color) || '#0A93F5') + ';color:#fff;font-size:9px;' +
+          'background:' + ((chip && chip.color) || '#0B5AA4') + ';color:#fff;font-size:9px;' +
           'font-weight:800;padding:2px 6px;border-radius:4px';
         row.appendChild(chipNode);
       });
@@ -155,7 +155,7 @@
     remove.textContent = '\u2715';
     remove.style.cssText =
       'position:absolute;top:10px;right:12px;width:26px;height:26px;border:0;border-radius:999px;' +
-      'background:#F3F5FB;color:#6C7A9C;font-size:13px;font-weight:800;line-height:1;cursor:pointer';
+      'background:#F3F6FA;color:#6C7A9C;font-size:13px;font-weight:800;line-height:1;cursor:pointer';
     card.appendChild(remove);
 
     var date = document.createElement('div');
@@ -166,7 +166,7 @@
       date.style.cssText = 'display:flex;align-items:center;gap:8px';
       var dot = document.createElement('span');
       dot.style.cssText =
-        'width:8px;height:8px;border-radius:50%;background:#0A93F5;display:inline-block;flex-shrink:0';
+        'width:8px;height:8px;border-radius:50%;background:#0B5AA4;display:inline-block;flex-shrink:0';
       date.appendChild(dot);
       var stamp = document.createElement('span');
       stamp.textContent = UI.datetime(item.created_at);

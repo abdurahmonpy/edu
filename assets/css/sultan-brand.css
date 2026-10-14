@@ -1,0 +1,27 @@
+:root {
+  --sultan-navy: #08264D;
+  --sultan-blue: #0B5AA4;
+  --sultan-sky: #0B78B8;
+  --sultan-muted: #486582;
+  --sultan-pale: #EAF3FA;
+}
+
+html { background: #F3F6FA; }
+body { --ink: var(--sultan-navy); --sky: var(--sultan-blue); }
+body.page-enter { animation: sultan-page-enter .34s cubic-bezier(.2,.75,.25,1) both; }
+body.page-leave { animation: sultan-page-leave .18s ease-in both; pointer-events: none; }
+@keyframes sultan-page-enter {
+  from { opacity: .45; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes sultan-page-leave {
+  to { opacity: .25; transform: translateX(-12px); }
+}
+.sultan-wordmark { display: block; width: min(210px, 48vw); height: auto; object-fit: contain; }
+.sultan-brand-icon { display: block; width: 46px; height: 38px; object-fit: cover; border-radius: 8px; }
+.nlogo .sultan-wordmark { width: min(190px, 38vw); }
+.p3:hover .zoom-chair { rotate: 0deg !important; scale: 1.02; }
+
+@media (prefers-reduced-motion: reduce) {
+  body.page-enter, body.page-leave { animation: none !important; }
+}

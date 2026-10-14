@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sozlamalar — Englify</title>
-<meta name="description" content="Englify akkaunt sozlamalari">
-<meta name="theme-color" content="#0A93F5">
+<title>Sozlamalar — SULTAN EDU</title>
+<meta name="description" content="SULTAN EDU akkaunt sozlamalari">
+<meta name="theme-color" content="#0B5AA4">
 <style>
   :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#2a0b5c;background:#f3f5fb;font-synthesis:none}
   *{box-sizing:border-box}body{margin:0;min-height:100vh;padding:32px 18px}
@@ -20,6 +20,8 @@
   .logout{background:#fff;color:#c8314c;border:1px solid #f1cad1}
   @media(max-width:520px){body{padding:22px 14px}section{padding:19px;border-radius:18px}}
 </style>
+<link rel="stylesheet" href="assets/css/sultan-brand.css">
+<script src="assets/js/navigation.js"></script>
 </head>
 <body data-auth="required">
 <main>
@@ -76,7 +78,7 @@
     if(next!==document.getElementById('repeatPassword').value){passwordMessage.textContent='Yangi parollar mos kelmadi.';return;}
     setBusy(passwordForm,true);
     api.post('/auth/change-password',{current_password:current,new_password:next})
-      .then(function(result){passwordMessage.style.color='#147442';passwordMessage.textContent=result.detail||'Parol yangilandi. Qaytadan kiring.';api.clearSession('password_change');setTimeout(function(){location.replace('/login');},900);})
+      .then(function(result){passwordMessage.style.color='#147442';passwordMessage.textContent=result.detail||'Parol yangilandi. Qaytadan kiring.';api.clearSession('password_change');setTimeout(function(){window.SultanNavigate('/login',true);},900);})
       .catch(function(error){passwordMessage.textContent=error.message||'Parolni yangilab bo‘lmadi.';setBusy(passwordForm,false);});
   });
 })();

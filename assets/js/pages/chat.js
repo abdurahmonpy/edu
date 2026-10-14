@@ -640,7 +640,7 @@
       stopRoom();
       showList();
     } else {
-      window.location.href = '/dashboard#asosiy';
+      window.SultanNavigate('/dashboard#asosiy');
     }
   }
 

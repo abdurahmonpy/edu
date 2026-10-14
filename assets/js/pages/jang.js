@@ -314,7 +314,7 @@
     state.answered = true;
     stopTimer();
     markButtons(true);
-    if (btn) btn.style.borderColor = '#0A93F5';
+    if (btn) btn.style.borderColor = '#0B5AA4';
 
     var before = myScore();
     // The backend derives correctness from `answer_index` and IGNORES the
@@ -413,7 +413,7 @@
       ' ball · ' + UI.escape(oppName) + ': ' + UI.escape(theirs) + ' ball</div>' +
       '<div style="color:#69789A;font-weight:600;font-size:15px;margin-top:6px">' +
       UI.escape(label(TOPIC_LABEL, battle.topic) + ' · ' + label(MODE_LABEL, battle.mode)) + '</div>' +
-      '<button id="backToLobby" type="button" style="margin-top:20px;background:#0A93F5;color:#fff;border:0;' +
+      '<button id="backToLobby" type="button" style="margin-top:20px;background:#0B5AA4;color:#fff;border:0;' +
       'border-radius:16px;padding:14px 26px;font-weight:800;font-size:16px;cursor:pointer;' +
       'box-shadow:0 4px 0 #076FC2">Lobbyga qaytish</button>';
 

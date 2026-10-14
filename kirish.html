@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kirish — Englify</title>
-<meta name="description" content="Englify hisobingizga kiring yoki yangi hisob yarating.">
-<meta name="theme-color" content="#0A93F5">
+<title>Kirish — SULTAN EDU</title>
+<meta name="description" content="SULTAN EDU hisobingizga kiring yoki yangi hisob yarating.">
+<meta name="theme-color" content="#0B5AA4">
 <meta name="englify-api" content="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--sky:#0A93F5;--sky-dk:#0765C7;--ink:#2A0B5C;--violet:#6B3FD8;--mint:#35F59A;--mint-dk:#1CC77A;--line:#DDE3FF;--muted:#6A5A92}
+  :root{--sky:#0B5AA4;--sky-dk:#073B76;--ink:#08264D;--violet:#0B4F83;--mint:#1684CF;--mint-dk:#075AA4;--line:#D4E2EE;--muted:#486582}
   *{box-sizing:border-box}
-  body{margin:0;background:#F3F5FB;color:var(--ink);font-family:'Outfit',system-ui,sans-serif;font-size:17px;line-height:1.5}
+  body{margin:0;background:#F3F6FA;color:var(--ink);font-family:'Outfit',system-ui,sans-serif;font-size:17px;line-height:1.5}
   a{color:inherit;text-decoration:none}
   input,select,button{font-family:inherit;font-size:17px}
   .wrap{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}
@@ -23,11 +23,11 @@
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
   .badges{display:flex;flex-wrap:wrap;gap:10px;position:relative}
   .badge{background:rgba(255,255,255,.2);border-radius:999px;padding:9px 18px;font-weight:700;font-size:15px}
-  .panel{display:flex;align-items:center;justify-content:center;padding:40px clamp(24px,7vw,100px);background:#F3F5FB}
+  .panel{display:flex;align-items:center;justify-content:center;padding:40px clamp(24px,7vw,100px);background:#F3F6FA}
   .card{width:100%;max-width:430px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}
   .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:26px;color:var(--sky);margin-bottom:22px}
   .logo span{width:42px;height:42px;border-radius:13px;background:var(--sky);box-shadow:0 4px 0 var(--sky-dk);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px}
-  .tabs{display:flex;background:#F3F5FB;border-radius:18px;padding:6px;margin-bottom:24px}
+  .tabs{display:flex;background:#F3F6FA;border-radius:18px;padding:6px;margin-bottom:24px}
   .tabs button{flex:1;border:0;background:none;border-radius:14px;padding:12px;font-weight:800;font-size:16px;color:var(--muted);cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
   .tabs button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 3px 0 rgba(30,30,90,.1)}
   .field{margin-bottom:16px}
@@ -38,13 +38,13 @@
   .hint{font-size:14px;color:var(--muted);margin-top:6px}
   .err{font-size:14px;color:#C81E2B;font-weight:700;margin-top:6px;min-height:0}
   .submit{width:100%;border:0;border-radius:18px;padding:16px;font-weight:800;font-size:18px;color:#04321F;cursor:pointer;
-    background:repeating-linear-gradient(115deg,var(--mint) 0 30px,#55FFB0 30px 60px);box-shadow:0 6px 0 var(--mint-dk);
+    background:repeating-linear-gradient(115deg,var(--mint) 0 30px,#69B9E6 30px 60px);box-shadow:0 6px 0 var(--mint-dk);
     transition:transform .16s,box-shadow .16s}
   .submit:hover{transform:translateY(-2px);box-shadow:0 9px 0 var(--mint-dk)}
   .submit:active{transform:translateY(4px);box-shadow:0 1px 0 var(--mint-dk)}
   .submit[disabled]{opacity:.6;cursor:progress;transform:none}
   .ghost{width:100%;border:2px solid var(--line);background:#fff;border-radius:18px;padding:14px;font-weight:800;cursor:pointer;color:var(--ink)}
-  .ghost:hover{background:#F7F9FF}
+  .ghost:hover{background:#EFF5FA}
   .row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 20px}
   .link{color:var(--sky);font-weight:700;cursor:pointer;background:none;border:0;padding:0;font-size:15px}
   .link:hover{text-decoration:underline}
@@ -59,6 +59,8 @@
   @media (max-width:900px){.wrap{grid-template-columns:1fr}.art{padding:34px 26px}.art .tall{display:none}}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<link rel="stylesheet" href="assets/css/sultan-brand.css">
+<script src="assets/js/navigation.js"></script>
 </head>
 <body data-auth="guest">
 
@@ -71,7 +73,7 @@
 
     <div style="position:relative">
       <div style="display:flex;align-items:center;gap:12px;font-weight:800;font-size:30px;letter-spacing:-.02em">
-        <span style="width:46px;height:46px;border-radius:14px;background:#fff;color:var(--sky);display:flex;align-items:center;justify-content:center;font-size:26px">e</span>englify
+        <img class="sultan-brand-icon" src="assets/brand/sultan-mark.png" alt="" style="width:52px;height:38px">SULTAN EDU
       </div>
       <h1 style="margin-top:44px">Ingliz tilini<br>bugun boshlang.</h1>
       <p>Darslar, jonli tadbirlar, lug'at va janglar — barchasi bitta hisobda. Kuniga 20 daqiqa yetarli.</p>
@@ -89,7 +91,7 @@
   <!-- ======================= O'NG PANEL ======================= -->
   <main class="panel">
     <div class="card">
-      <div class="logo"><span>e</span>englify</div>
+      <div class="logo"><img class="sultan-brand-icon" src="assets/brand/sultan-mark.png" alt="" style="width:52px;height:38px">SULTAN EDU</div>
 
       <div class="tabs" role="tablist" aria-label="Kirish yoki ro'yxatdan o'tish">
         <button type="button" id="tabLogin" role="tab" aria-selected="true" aria-controls="viewLogin">Kirish</button>
@@ -144,7 +146,7 @@
         <p class="foot">Hisobingiz bormi? <button type="button" class="link" id="toLogin">Kiring</button></p>
       </section>
 
-      <p class="foot"><a href="index.html">← englify.uz saytiga qaytish</a></p>
+      <p class="foot"><a href="index.html">← SULTAN EDU saytiga qaytish</a></p>
     </div>
   </main>
 </div>
@@ -220,7 +222,7 @@
       var target = new URL(next, window.location.origin);
       if (target.origin === window.location.origin) safe = target.pathname + target.search + target.hash;
     } catch (error) { /* fall back to the dashboard */ }
-    window.location.replace(safe);
+    window.SultanNavigate(safe, true);
   }
 
   // ------------------------------------------------------------- login

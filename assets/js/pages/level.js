@@ -81,9 +81,9 @@
     var value = percent(level);
 
     var badgeColors = unlocked
-      ? 'background: #6B3FD8; color: #fff;'
+      ? 'background: #0B4F83; color: #fff;'
       : (index === firstLockedIndex
-          ? 'background: #C9C3FA; color: #5B2BC4;'
+          ? 'background: #C9C3FA; color: #0B4F83;'
           : 'background: #E6E8F2; color: #8F95B2;');
 
     var statusHtml;
@@ -100,9 +100,9 @@
     var progressHtml = unlocked
       ? '<div style="display: flex; align-items: center; gap: 12px">' +
           '<div style="flex: 1; height: 10px; background: #E6E8F2; border-radius: 99px; overflow: hidden">' +
-            '<div style="width: ' + value + '%; height: 100%; background: #6B3FD8; border-radius: 99px"></div>' +
+            '<div style="width: ' + value + '%; height: 100%; background: #0B4F83; border-radius: 99px"></div>' +
           '</div>' +
-          '<span style="font-weight: 800; font-size: 14px; color: #6B3FD8">' + percentLabel(value) + '</span>' +
+          '<span style="font-weight: 800; font-size: 14px; color: #0B4F83">' + percentLabel(value) + '</span>' +
         '</div>'
       : '';
 
@@ -116,7 +116,7 @@
           '<h4 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">' + UI.escape(titleOf(level)) + '</h4>' +
           statusHtml +
         '</div>' +
-        '<p style="margin: 6px 0 ' + (unlocked ? '12px' : '0') + '; font-size: 15px; color: #6A5A92">' +
+        '<p style="margin: 6px 0 ' + (unlocked ? '12px' : '0') + '; font-size: 15px; color: #486582">' +
           UI.escape(level.description || '') + '</p>' +
         progressHtml +
       '</div>';
@@ -301,7 +301,7 @@
       '<span style="font-weight:700; font-size:14px; color:' + (correct ? '#108A45' : '#B3121F') + '">' +
         (index + 1) + '-savol \u2014 ' + (correct ? "to'g'ri" : "noto'g'ri") +
         (result.explanation && !correct
-          ? '<div style="font-weight:600; color:#6A5A92; margin-top:4px">' + UI.escape(result.explanation) + '</div>'
+          ? '<div style="font-weight:600; color:#486582; margin-top:4px">' + UI.escape(result.explanation) + '</div>'
           : '') +
       '</span>' +
     '</div>';
@@ -332,7 +332,7 @@
       var scoreText = (Number(result.score) || 0);
       var rows = (result.results || []).map(resultRow).join('');
       breakdown.innerHTML =
-        '<div style="font-weight:800; font-size:16px; color:#6B3FD8; margin-bottom:14px">' +
+        '<div style="font-weight:800; font-size:16px; color:#0B4F83; margin-bottom:14px">' +
           'Natija: ' + correct + '/' + total + " to'g'ri \u00b7 " +
           (scoreText % 1 === 0 ? scoreText.toFixed(0) : scoreText.toFixed(1)) + '% \u00b7 +' +
           UI.number(result.points_earned) + ' ball' +

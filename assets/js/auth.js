@@ -231,7 +231,7 @@
 
       return request.then(function () {
         api.clearSession('logout');
-        window.location.href = options.redirect || '/login';
+        window.SultanNavigate(options.redirect || '/login');
       });
     },
 
@@ -242,12 +242,12 @@
       setLoggedInChrome(loggedIn);
 
       if (mode === 'guest' && loggedIn) {
-        window.location.replace(UI.qs('next') || '/dashboard');
+        window.SultanNavigate(UI.qs('next') || '/dashboard', true);
         return Promise.resolve(null);
       }
 
       if (mode === 'required' && !loggedIn) {
-        window.location.replace(loginUrl());
+        window.SultanNavigate(loginUrl(), true);
         return Promise.resolve(null);
       }
 
@@ -270,7 +270,7 @@
         .catch(function (error) {
           if (error && error.status === 401) {
             api.clearSession('unauthorized');
-            if (mode === 'required') window.location.replace(loginUrl());
+            if (mode === 'required') window.SultanNavigate(loginUrl(), true);
             return null;
           }
           console.warn('[Englify] profile load failed:', error && error.message);
@@ -282,7 +282,7 @@
 
     require: function () {
       if (!api.isLoggedIn()) {
-        window.location.replace(loginUrl());
+        window.SultanNavigate(loginUrl(), true);
         return Promise.reject(new Error('not authenticated'));
       }
       return state.ready || Auth.boot();

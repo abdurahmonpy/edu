@@ -60,25 +60,25 @@ window.eduAuth = (function () {
     wrap.style.cssText = 'position:fixed;inset:0;background:rgba(10,20,50,.55);z-index:9999;display:none;align-items:center;justify-content:center;padding:16px';
     wrap.innerHTML =
       '<div style="position:relative;background:#fff;color:#14172B;border-radius:28px;padding:26px 24px 22px;width:min(420px,94vw);box-shadow:0 18px 50px rgba(10,40,120,.35)">' +
-      '<button id="edu-auth-close" aria-label="Yopish" style="position:absolute;top:14px;right:14px;border:0;background:#EEF1FA;border-radius:999px;width:34px;height:34px;font-size:17px;font-weight:800;color:#6A5A92;cursor:pointer">&times;</button>' +
+      '<button id="edu-auth-close" aria-label="Yopish" style="position:absolute;top:14px;right:14px;border:0;background:#EEF1FA;border-radius:999px;width:34px;height:34px;font-size:17px;font-weight:800;color:#486582;cursor:pointer">&times;</button>' +
       '<div style="display:flex;gap:8px;margin-bottom:18px">' +
-      '<button id="edu-auth-tab-login" style="flex:1;height:46px;border:0;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;background:#0A93F5;color:#fff">Kirish</button>' +
-      '<button id="edu-auth-tab-signup" style="flex:1;height:46px;border:2px solid #D6DCF0;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;background:#fff;color:#6A5A92">Ro‘yxatdan o‘tish</button>' +
+      '<button id="edu-auth-tab-login" style="flex:1;height:46px;border:0;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;background:#0B5AA4;color:#fff">Kirish</button>' +
+      '<button id="edu-auth-tab-signup" style="flex:1;height:46px;border:2px solid #D4E2EE;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;background:#fff;color:#486582">Ro‘yxatdan o‘tish</button>' +
       '</div>' +
       '<div id="edu-auth-name-row" style="display:none;flex-direction:column;gap:6px;margin-bottom:12px">' +
       '<label style="font-weight:700;font-size:14px">Ismingiz</label>' +
-      '<input id="edu-auth-name" type="text" autocomplete="name" maxlength="120" style="height:52px;border:2px solid #D6DCF0;border-bottom-width:4px;border-radius:14px;padding:0 14px;font-size:16px;font-weight:600;box-sizing:border-box;width:100%">' +
+      '<input id="edu-auth-name" type="text" autocomplete="name" maxlength="120" style="height:52px;border:2px solid #D4E2EE;border-bottom-width:4px;border-radius:14px;padding:0 14px;font-size:16px;font-weight:600;box-sizing:border-box;width:100%">' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">' +
       '<label style="font-weight:700;font-size:14px">Email</label>' +
-      '<input id="edu-auth-email" type="email" autocomplete="email" style="height:52px;border:2px solid #D6DCF0;border-bottom-width:4px;border-radius:14px;padding:0 14px;font-size:16px;font-weight:600;box-sizing:border-box;width:100%">' +
+      '<input id="edu-auth-email" type="email" autocomplete="email" style="height:52px;border:2px solid #D4E2EE;border-bottom-width:4px;border-radius:14px;padding:0 14px;font-size:16px;font-weight:600;box-sizing:border-box;width:100%">' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">' +
       '<label style="font-weight:700;font-size:14px">Parol <span id="edu-auth-hint" style="display:none;font-weight:600;color:#8A88B3">(kamida 8 belgi)</span></label>' +
-      '<input id="edu-auth-password" type="password" autocomplete="current-password" style="height:52px;border:2px solid #D6DCF0;border-bottom-width:4px;border-radius:14px;padding:0 14px;font-size:16px;font-weight:600;box-sizing:border-box;width:100%">' +
+      '<input id="edu-auth-password" type="password" autocomplete="current-password" style="height:52px;border:2px solid #D4E2EE;border-bottom-width:4px;border-radius:14px;padding:0 14px;font-size:16px;font-weight:600;box-sizing:border-box;width:100%">' +
       '</div>' +
       '<div id="edu-auth-error" style="display:none;color:#D93025;font-weight:700;font-size:14px;margin-bottom:10px"></div>' +
-      '<button id="edu-auth-submit" style="width:100%;height:56px;border:0;border-bottom:5px solid #0B8A57;border-radius:16px;background:linear-gradient(115deg,#35F59A 0 30px,#55FFB0 30px 60px);color:#14172B;font-weight:800;font-size:17px;cursor:pointer">Kirish</button>' +
+      '<button id="edu-auth-submit" style="width:100%;height:56px;border:0;border-bottom:5px solid #0B8A57;border-radius:16px;background:linear-gradient(115deg,#1684CF 0 30px,#69B9E6 30px 60px);color:#14172B;font-weight:800;font-size:17px;cursor:pointer">Kirish</button>' +
       '</div>';
     document.body.appendChild(wrap);
 
@@ -92,12 +92,12 @@ window.eduAuth = (function () {
       document.getElementById('edu-auth-submit').textContent = isSignup ? 'Ro‘yxatdan o‘tish' : 'Kirish';
       var tl = document.getElementById('edu-auth-tab-login');
       var ts = document.getElementById('edu-auth-tab-signup');
-      tl.style.background = isSignup ? '#fff' : '#0A93F5';
-      tl.style.color = isSignup ? '#6A5A92' : '#fff';
-      tl.style.border = isSignup ? '2px solid #D6DCF0' : '0';
-      ts.style.background = isSignup ? '#0A93F5' : '#fff';
-      ts.style.color = isSignup ? '#fff' : '#6A5A92';
-      ts.style.border = isSignup ? '0' : '2px solid #D6DCF0';
+      tl.style.background = isSignup ? '#fff' : '#0B5AA4';
+      tl.style.color = isSignup ? '#486582' : '#fff';
+      tl.style.border = isSignup ? '2px solid #D4E2EE' : '0';
+      ts.style.background = isSignup ? '#0B5AA4' : '#fff';
+      ts.style.color = isSignup ? '#fff' : '#486582';
+      ts.style.border = isSignup ? '0' : '2px solid #D4E2EE';
       hideError();
     }
     function showError(msg) {
@@ -191,7 +191,7 @@ window.eduAuth = (function () {
       barEl.innerHTML = '';
       var b2 = document.createElement('button');
       b2.textContent = 'Kirish';
-      b2.style.cssText = 'border:0;background:#0A93F5;color:#fff;border-radius:999px;padding:8px 16px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 6px 16px rgba(10,147,245,.4)';
+      b2.style.cssText = 'border:0;background:#0B5AA4;color:#fff;border-radius:999px;padding:8px 16px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 6px 16px rgba(10,147,245,.4)';
       b2.addEventListener('click', function () { openModal('login'); });
       barEl.appendChild(b2);
     }

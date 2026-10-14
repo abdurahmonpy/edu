@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Englify Darajalar (Levels)</title>
-<meta name="description" content="Englify o'quv dasturi CEFR darajalari va darajani aniqlash testi.">
-<meta name="theme-color" content="#6B3FD8">
+<title>SULTAN EDU Darajalar (Levels)</title>
+<meta name="description" content="SULTAN EDU o'quv dasturi CEFR darajalari va darajani aniqlash testi.">
+<meta name="theme-color" content="#0B4F83">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --sky: #0A93F5;
-  --purple: #6B3FD8;
+  --sky: #0B5AA4;
+  --purple: #0B4F83;
   --purple-dark: #4A24A6;
-  --ink: #2A0B5C;
-  --bg: #F3F5FB;
+  --ink: #08264D;
+  --bg: #F3F6FA;
   --border: #E6E8F2;
 }
 * { box-sizing: border-box; }
@@ -49,14 +49,14 @@ button { font-family: inherit; }
   border: 2px solid #E6E8F2;
   border-radius: 28px;
   padding: 24px 26px;
-  box-shadow: 0 6px 0 #DDE3FF;
+  box-shadow: 0 6px 0 #D4E2EE;
   display: flex;
   gap: 20px;
   align-items: center;
   transition: all .2s;
 }
 .level-card.active {
-  border-color: #6B3FD8;
+  border-color: #0B4F83;
   background: #FAF9FF;
   box-shadow: 0 8px 0 #C7BCF5;
 }
@@ -82,15 +82,17 @@ button { font-family: inherit; }
   margin-bottom: 10px;
 }
 .quiz-opt:hover {
-  border-color: #6B3FD8;
+  border-color: #0B4F83;
   background: #F7F5FE;
 }
 .quiz-opt.selected {
-  border-color: #6B3FD8;
+  border-color: #0B4F83;
   background: #EFEBFB;
   color: #552ABF;
 }
 </style>
+<link rel="stylesheet" href="assets/css/sultan-brand.css">
+<script src="assets/js/navigation.js"></script>
 </head>
 <body data-auth="required">
 
@@ -143,7 +145,7 @@ button { font-family: inherit; }
       </div>
 
       <div id="quizContainer">
-        <div id="qNumber" style="font-weight: 800; font-size: 14px; color: #6B3FD8; margin-bottom: 6px">1-SAVOL (3 tadan)</div>
+        <div id="qNumber" style="font-weight: 800; font-size: 14px; color: #0B4F83; margin-bottom: 6px">1-SAVOL (3 tadan)</div>
         <div id="qText" style="font-weight: 800; font-size: 20px; color: var(--ink); margin-bottom: 18px">"She ______ to school every morning." nuqtalar o'rniga to'g'ri so'zni tanlang:</div>
 
         <div id="optionsContainer">
@@ -156,10 +158,10 @@ button { font-family: inherit; }
 
       <div id="quizResult" style="display: none; text-align: center; padding: 20px 0">
         <div style="font-size: 54px; margin-bottom: 10px">🎓</div>
-        <h4 style="margin: 0; font-weight: 800; font-size: 26px; color: var(--ink)">Sizning tavsiya etilgan darajangiz: <span id="resLevel" style="color: #6B3FD8">A1 Starter</span></h4>
-        <p id="resDesc" style="color: #6A5A92; font-size: 16px; max-width: 500px; margin: 10px auto 24px">Siz uchun eng yaxshi boshlanish — Starter Unit 1.1 darslari!</p>
+        <h4 style="margin: 0; font-weight: 800; font-size: 26px; color: var(--ink)">Sizning tavsiya etilgan darajangiz: <span id="resLevel" style="color: #0B4F83">A1 Starter</span></h4>
+        <p id="resDesc" style="color: #486582; font-size: 16px; max-width: 500px; margin: 10px auto 24px">Siz uchun eng yaxshi boshlanish — Starter Unit 1.1 darslari!</p>
         <div id="quizBreakdown" style="margin-bottom: 24px"></div>
-        <a href="dars.html" class="p3" style="--d: #4A24A6; display: inline-block; background: #6B3FD8; color: #fff; padding: 14px 32px; border-radius: 18px; font-weight: 800; font-size: 17px">
+        <a href="dars.html" class="p3" style="--d: #4A24A6; display: inline-block; background: #0B4F83; color: #fff; padding: 14px 32px; border-radius: 18px; font-weight: 800; font-size: 17px">
           Darsga o'tish &rarr;
         </a>
       </div>

@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Englify Podkastlar (Audio Podcasts)</title>
-<meta name="description" content="Englify ingliz tili podkastlari: eshitish ko'nikmasi (listening) uchun audio darslar va transkriptlar.">
-<meta name="theme-color" content="#587CF9">
+<title>SULTAN EDU Podkastlar (Audio Podcasts)</title>
+<meta name="description" content="SULTAN EDU ingliz tili podkastlari: eshitish ko'nikmasi (listening) uchun audio darslar va transkriptlar.">
+<meta name="theme-color" content="#0B5AA4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --sky: #0A93F5;
-  --blue: #587CF9;
+  --sky: #0B5AA4;
+  --blue: #0B5AA4;
   --blue-dark: #375BD1;
-  --ink: #2A0B5C;
-  --bg: #F3F5FB;
+  --ink: #08264D;
+  --bg: #F3F6FA;
   --border: #E6E8F2;
 }
 * { box-sizing: border-box; }
@@ -50,7 +50,7 @@ button { font-family: inherit; }
   border: 2px solid #E6E8F2;
   border-radius: 24px;
   padding: 20px 24px;
-  box-shadow: 0 5px 0 #DDE3FF;
+  box-shadow: 0 5px 0 #D4E2EE;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -60,11 +60,11 @@ button { font-family: inherit; }
 }
 .podcast-item:hover {
   transform: translateY(-3px);
-  border-color: #587CF9;
+  border-color: #0B5AA4;
   box-shadow: 0 8px 0 #BDCFFC;
 }
 .podcast-item.playing {
-  border-color: #587CF9;
+  border-color: #0B5AA4;
   background: #F4F7FF;
 }
 
@@ -90,6 +90,8 @@ button { font-family: inherit; }
   flex-wrap: wrap;
 }
 </style>
+<link rel="stylesheet" href="assets/css/sultan-brand.css">
+<script src="assets/js/navigation.js"></script>
 </head>
 <body>
 
@@ -116,7 +118,7 @@ button { font-family: inherit; }
   <div class="container">
     
     <!-- Hero Banner -->
-    <div style="background: linear-gradient(110deg, #587CF9, #9A3FEF); color: #fff; border-radius: 36px; padding: 32px clamp(20px, 5vw, 40px); box-shadow: 0 8px 0 #4622B3; margin-bottom: 34px">
+    <div style="background: linear-gradient(110deg, #0B5AA4, #9A3FEF); color: #fff; border-radius: 36px; padding: 32px clamp(20px, 5vw, 40px); box-shadow: 0 8px 0 #4622B3; margin-bottom: 34px">
       <div style="max-width: 660px">
         <span style="background: rgba(255,255,255,0.22); border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .08em">Listening &bull; Tinglab tushunish</span>
         <h2 style="margin: 12px 0 10px; font-weight: 800; font-size: clamp(26px, 5.5vw, 40px); line-height: 1.15">Haqiqiy jonli ingliz tili podkastlari</h2>
@@ -132,12 +134,12 @@ button { font-family: inherit; }
       <!-- Ep 1 -->
       <div class="podcast-item" onclick="playEpisode(0)" id="ep-0">
         <div style="display: flex; align-items: center; gap: 18px">
-          <div style="width: 54px; height: 54px; border-radius: 18px; background: #587CF9; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0">
+          <div style="width: 54px; height: 54px; border-radius: 18px; background: #0B5AA4; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0">
             ▶️
           </div>
           <div>
             <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 1: How to introduce yourself like a native</div>
-            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Salomlashish va o'zini tanishtirishning jonli iboralari &bull; A1-A2</div>
+            <div style="font-size: 14px; color: #486582; margin-top: 3px">Salomlashish va o'zini tanishtirishning jonli iboralari &bull; A1-A2</div>
           </div>
         </div>
         <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
@@ -153,7 +155,7 @@ button { font-family: inherit; }
           </div>
           <div>
             <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 2: 10 Common English Mistakes and how to avoid them</div>
-            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Ko'p uchraydigan 10 ta grammatik xato va ularning yechimi &bull; A2-B1</div>
+            <div style="font-size: 14px; color: #486582; margin-top: 3px">Ko'p uchraydigan 10 ta grammatik xato va ularning yechimi &bull; A2-B1</div>
           </div>
         </div>
         <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
@@ -169,7 +171,7 @@ button { font-family: inherit; }
           </div>
           <div>
             <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 3: Ordering Food at a Restaurant</div>
-            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Restoranda ovqat buyurtma qilish va hisob so'rash &bull; A1</div>
+            <div style="font-size: 14px; color: #486582; margin-top: 3px">Restoranda ovqat buyurtma qilish va hisob so'rash &bull; A1</div>
           </div>
         </div>
         <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
@@ -185,7 +187,7 @@ button { font-family: inherit; }
           </div>
           <div>
             <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 4: Job Interview — Tell Me About Yourself</div>
-            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Ish suhbatida o'zingiz haqingizda muvaffaqiyatli gapirish &bull; B1-B2</div>
+            <div style="font-size: 14px; color: #486582; margin-top: 3px">Ish suhbatida o'zingiz haqingizda muvaffaqiyatli gapirish &bull; B1-B2</div>
           </div>
         </div>
         <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
@@ -196,12 +198,12 @@ button { font-family: inherit; }
       <!-- Ep 5 -->
       <div class="podcast-item" onclick="playEpisode(4)" id="ep-4">
         <div style="display: flex; align-items: center; gap: 18px">
-          <div style="width: 54px; height: 54px; border-radius: 18px; background: #0A93F5; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0">
+          <div style="width: 54px; height: 54px; border-radius: 18px; background: #0B5AA4; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0">
             ▶️
           </div>
           <div>
             <div style="font-weight: 800; font-size: 18px; color: var(--ink)">Ep 5: Travel English — At the Airport & Check-in</div>
-            <div style="font-size: 14px; color: #6A5A92; margin-top: 3px">Aeroportda ro'yxatdan o'tish va parvoz qoidalari &bull; A2</div>
+            <div style="font-size: 14px; color: #486582; margin-top: 3px">Aeroportda ro'yxatdan o'tish va parvoz qoidalari &bull; A2</div>
           </div>
         </div>
         <div style="font-weight: 700; font-size: 14px; color: #8F95B2; white-space: nowrap">
@@ -212,7 +214,7 @@ button { font-family: inherit; }
     </div>
 
     <!-- Transcript Box -->
-    <div style="margin-top: 36px; background: #fff; border: 2px solid #E6E8F2; border-radius: 30px; padding: 26px; box-shadow: 0 6px 0 #DDE3FF">
+    <div style="margin-top: 36px; background: #fff; border: 2px solid #E6E8F2; border-radius: 30px; padding: 26px; box-shadow: 0 6px 0 #D4E2EE">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px">
         <h4 style="margin: 0; font-weight: 800; font-size: 20px; color: var(--ink)">📝 Epizod transkripti (Matni):</h4>
         <span style="font-size: 13px; color: #7F87A7">Ingliz tilida</span>
@@ -228,7 +230,7 @@ button { font-family: inherit; }
   <div class="player-bar">
     <div class="player-wrap">
       <div style="display: flex; align-items: center; gap: 14px">
-        <button id="playBtn" onclick="togglePlay()" class="p3" style="--d: #375BD1; width: 50px; height: 50px; border-radius: 50%; background: #587CF9; color: #fff; border: 0; display: flex; align-items: center; justify-content: center; font-size: 20px">
+        <button id="playBtn" onclick="togglePlay()" class="p3" style="--d: #375BD1; width: 50px; height: 50px; border-radius: 50%; background: #0B5AA4; color: #fff; border: 0; display: flex; align-items: center; justify-content: center; font-size: 20px">
           ▶️
         </button>
         <div>
@@ -238,7 +240,7 @@ button { font-family: inherit; }
       </div>
 
       <div style="display: flex; align-items: center; gap: 14px">
-        <button onclick="changeSpeed()" id="speedBtn" style="background: #F3F5FB; border: 2px solid #DDE3FF; padding: 8px 14px; border-radius: 12px; font-weight: 700; font-size: 14px; color: var(--ink); cursor: pointer">
+        <button onclick="changeSpeed()" id="speedBtn" style="background: #F3F6FA; border: 2px solid #D4E2EE; padding: 8px 14px; border-radius: 12px; font-weight: 700; font-size: 14px; color: var(--ink); cursor: pointer">
           1.0x
         </button>
       </div>
@@ -249,7 +251,7 @@ button { font-family: inherit; }
 const episodes = [
   {
     title: "Ep 1: How to introduce yourself like a native",
-    transcript: "Hello everyone and welcome to the Englify Podcast! Today we are talking about how to introduce yourself naturally. Instead of just saying 'My name is John and I am fine', native speakers often say: 'Hey, I'm John, great to meet you! How's your day going?' Remember, a warm smile and confident tone are just as important as the words!"
+    transcript: "Hello everyone and welcome to the SULTAN EDU Podcast! Today we are talking about how to introduce yourself naturally. Instead of just saying 'My name is John and I am fine', native speakers often say: 'Hey, I'm John, great to meet you! How's your day going?' Remember, a warm smile and confident tone are just as important as the words!"
   },
   {
     title: "Ep 2: 10 Common English Mistakes and how to avoid them",
