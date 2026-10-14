@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kirish — Englify</title>
+<meta name="description" content="Englify hisobingizga kiring yoki yangi hisob yarating.">
+<meta name="theme-color" content="#0A93F5">
+<meta name="englify-api" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--sky:#0A93F5;--sky-dk:#0765C7;--ink:#2A0B5C;--violet:#6B3FD8;--mint:#35F59A;--mint-dk:#1CC77A;--line:#DDE3FF;--muted:#6A5A92}
+  *{box-sizing:border-box}
+  body{margin:0;background:#F3F5FB;color:var(--ink);font-family:'Outfit',system-ui,sans-serif;font-size:17px;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  input,select,button{font-family:inherit;font-size:17px}
+  .wrap{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}
+  .art{position:relative;overflow:hidden;background:linear-gradient(150deg,var(--sky),#5CC4FF 55%,#8FD6FF);color:#fff;padding:48px 52px;display:flex;flex-direction:column;justify-content:space-between}
+  .art h1{font-size:clamp(32px,4vw,52px);line-height:1.08;margin:0;letter-spacing:-.02em;font-weight:800}
+  .art p{font-size:19px;opacity:.94;max-width:34ch}
+  .blob{position:absolute;border-radius:50%;background:rgba(255,255,255,.16);animation:float 9s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+  .badges{display:flex;flex-wrap:wrap;gap:10px;position:relative}
+  .badge{background:rgba(255,255,255,.2);border-radius:999px;padding:9px 18px;font-weight:700;font-size:15px}
+  .panel{display:flex;align-items:center;justify-content:center;padding:40px 22px}
+  .card{width:100%;max-width:452px;background:#fff;border-radius:34px;padding:34px 32px 30px;box-shadow:0 5px 0 rgba(30,30,90,.12),0 20px 44px rgba(20,40,120,.16)}
+  .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:26px;color:var(--sky);margin-bottom:22px}
+  .logo span{width:42px;height:42px;border-radius:13px;background:var(--sky);box-shadow:0 4px 0 var(--sky-dk);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px}
+  .tabs{display:flex;background:#F3F5FB;border-radius:18px;padding:6px;margin-bottom:24px}
+  .tabs button{flex:1;border:0;background:none;border-radius:14px;padding:12px;font-weight:800;font-size:16px;color:var(--muted);cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
+  .tabs button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 3px 0 rgba(30,30,90,.1)}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-weight:700;font-size:15px;margin-bottom:7px;color:var(--muted)}
+  .field input{width:100%;border:2px solid var(--line);border-radius:16px;padding:14px 16px;background:#FBFCFE;outline:none;transition:border-color .18s,background .18s}
+  .field input:focus{border-color:var(--sky);background:#fff}
+  .field input[aria-invalid="true"]{border-color:#FF8A97;background:#FFF7F8}
+  .hint{font-size:14px;color:var(--muted);margin-top:6px}
+  .err{font-size:14px;color:#C81E2B;font-weight:700;margin-top:6px;min-height:0}
+  .submit{width:100%;border:0;border-radius:18px;padding:16px;font-weight:800;font-size:18px;color:#04321F;cursor:pointer;
+    background:repeating-linear-gradient(115deg,var(--mint) 0 30px,#55FFB0 30px 60px);box-shadow:0 6px 0 var(--mint-dk);
+    transition:transform .16s,box-shadow .16s}
+  .submit:hover{transform:translateY(-2px);box-shadow:0 9px 0 var(--mint-dk)}
+  .submit:active{transform:translateY(4px);box-shadow:0 1px 0 var(--mint-dk)}
+  .submit[disabled]{opacity:.6;cursor:progress;transform:none}
+  .ghost{width:100%;border:2px solid var(--line);background:#fff;border-radius:18px;padding:14px;font-weight:800;cursor:pointer;color:var(--ink)}
+  .ghost:hover{background:#F7F9FF}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 20px}
+  .link{color:var(--sky);font-weight:700;cursor:pointer;background:none;border:0;padding:0;font-size:15px}
+  .link:hover{text-decoration:underline}
+  .note{background:#F0F7FF;border:2px solid #D6E9FF;border-radius:18px;padding:14px 16px;font-weight:600;font-size:15px;margin-bottom:18px}
+  .note.ok{background:#EEFBF4;border-color:#C6F2DC}
+  .note.bad{background:#FFF1F2;border-color:#FFD0D6;color:#B3121F}
+  .divider{display:flex;align-items:center;gap:12px;color:#A09DC4;font-weight:700;font-size:14px;margin:20px 0}
+  .divider:before,.divider:after{content:"";flex:1;height:2px;background:var(--line);border-radius:2px}
+  .demo{display:flex;gap:10px;flex-wrap:wrap}
+  .demo button{flex:1;min-width:150px}
+  .foot{text-align:center;font-weight:600;font-size:15px;color:var(--muted);margin-top:20px}
+  [hidden]{display:none!important}
+  @media (max-width:900px){.wrap{grid-template-columns:1fr}.art{padding:34px 26px}.art .tall{display:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-auth="guest">
+
+<div class="wrap">
+  <!-- ======================= CHAP PANEL ======================= -->
+  <aside class="art">
+    <div class="blob" style="width:280px;height:280px;left:-80px;top:-70px"></div>
+    <div class="blob" style="width:200px;height:200px;right:6%;bottom:8%;animation-delay:1.4s"></div>
+    <div class="blob" style="width:120px;height:120px;left:22%;bottom:22%;animation-delay:2.6s"></div>
+
+    <div style="position:relative">
+      <div style="display:flex;align-items:center;gap:12px;font-weight:800;font-size:30px;letter-spacing:-.02em">
+        <span style="width:46px;height:46px;border-radius:14px;background:#fff;color:var(--sky);display:flex;align-items:center;justify-content:center;font-size:26px">e</span>englify
+      </div>
+      <h1 style="margin-top:44px">Ingliz tilini<br>bugun boshlang.</h1>
+      <p>Darslar, jonli tadbirlar, lug'at va janglar — barchasi bitta hisobda. Kuniga 20 daqiqa yetarli.</p>
+    </div>
+
+    <div class="badges tall">
+      <span class="badge">🎬 8+ video dars</span>
+      <span class="badge">📚 7 kitob</span>
+      <span class="badge">🎧 5 podkast</span>
+      <span class="badge">⚔️ Jonli janglar</span>
+      <span class="badge">🏆 Reyting jadvali</span>
+    </div>
+  </aside>
+
+  <!-- ======================= O'NG PANEL ======================= -->
+  <main class="panel">
+    <div class="card">
+      <div class="logo"><span>e</span>englify</div>
+
+      <div class="tabs" role="tablist" aria-label="Kirish yoki ro'yxatdan o'tish">
+        <button type="button" id="tabLogin" role="tab" aria-selected="true" aria-controls="viewLogin">Kirish</button>
+        <button type="button" id="tabRegister" role="tab" aria-selected="false" aria-controls="viewRegister">Ro'yxatdan o'tish</button>
+      </div>
+
+      <div id="globalNote" class="note" hidden></div>
+
+      <!-- ------------------------------ LOGIN ------------------------------ -->
+      <section id="viewLogin" role="tabpanel" aria-labelledby="tabLogin">
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" name="email" type="email" autocomplete="email" placeholder="siz@example.com" required>
+          </div>
+          <div class="field">
+            <label for="loginPassword">Parol</label>
+            <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+          </div>
+          <div class="row">
+            <label style="display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px;color:var(--muted)">
+              <input type="checkbox" id="rememberMe" checked style="width:18px;height:18px;accent-color:var(--sky)">Eslab qolish
+            </label>
+            <button type="button" class="link" id="toForgot">Parolni tiklash</button>
+          </div>
+          <button class="submit" type="submit" id="loginSubmit">Kirish</button>
+        </form>
+
+        <div class="divider">yoki demo hisob bilan</div>
+        <div class="demo">
+          <button type="button" class="ghost" id="demoStudent">👩‍🎓 Talaba (demo)</button>
+          <button type="button" class="ghost" id="demoLeader">🏆 Peshqadam (demo)</button>
+        </div>
+        <p class="foot">Hisobingiz yo'qmi? <button type="button" class="link" id="toRegister">Ro'yxatdan o'ting</button></p>
+      </section>
+
+      <!-- --------------------------- REGISTER ----------------------------- -->
+      <section id="viewRegister" role="tabpanel" aria-labelledby="tabRegister" hidden>
+        <form id="registerForm" novalidate>
+          <div class="field">
+            <label for="regName">Ism va familiya</label>
+            <input id="regName" name="full_name" type="text" autocomplete="name" placeholder="Ali Valiyev" required>
+          </div>
+          <div class="field">
+            <label for="regEmail">Email</label>
+            <input id="regEmail" name="email" type="email" autocomplete="email" placeholder="siz@example.com" required>
+          </div>
+          <div class="field">
+            <label for="regPhone">Telefon <span style="font-weight:600">(majburiy emas)</span></label>
+            <input id="regPhone" name="phone" type="tel" autocomplete="tel" placeholder="+998 90 123 45 67">
+          </div>
+          <div class="field">
+            <label for="regPassword">Parol</label>
+            <input id="regPassword" name="password" type="password" autocomplete="new-password" placeholder="Kamida 8 ta belgi" required>
+            <div class="hint">Kamida 8 ta belgi. Harflar va raqamlar aralashmasi tavsiya etiladi.</div>
+          </div>
+          <div class="field">
+            <label for="regPassword2">Parolni takrorlang</label>
+            <input id="regPassword2" name="password2" type="password" autocomplete="new-password" placeholder="••••••••" required>
+          </div>
+          <button class="submit" type="submit" id="registerSubmit">Ro'yxatdan o'tish</button>
+        </form>
+        <p class="foot">Hisobingiz bormi? <button type="button" class="link" id="toLogin">Kiring</button></p>
+      </section>
+
+      <!-- ---------------------------- FORGOT ------------------------------ -->
+      <section id="viewForgot" hidden>
+        <button type="button" class="link" id="backToLogin" style="margin-bottom:16px">← Kirishga qaytish</button>
+
+        <form id="forgotForm" novalidate>
+          <div class="field">
+            <label for="forgotEmail">Email</label>
+            <input id="forgotEmail" type="email" autocomplete="email" placeholder="siz@example.com" required>
+          </div>
+          <button class="submit" type="submit" id="forgotSubmit">Tiklash havolasini olish</button>
+        </form>
+
+        <div id="resetBox" hidden style="margin-top:22px">
+          <div class="divider">yangi parol</div>
+          <form id="resetForm" novalidate>
+            <div class="field">
+              <label for="resetPassword">Yangi parol</label>
+              <input id="resetPassword" type="password" autocomplete="new-password" placeholder="Kamida 8 ta belgi" required>
+            </div>
+            <div class="field">
+              <label for="resetPassword2">Yangi parolni takrorlang</label>
+              <input id="resetPassword2" type="password" autocomplete="new-password" placeholder="••••••••" required>
+            </div>
+            <button class="submit" type="submit" id="resetSubmit">Parolni yangilash</button>
+          </form>
+        </div>
+      </section>
+
+      <p class="foot"><a href="index.html">← englify.uz saytiga qaytish</a></p>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+(function () {
+  'use strict';
+  var api = window.EnglifyApi;
+  var UI = window.EnglifyUI;
+
+  var tabLogin = document.getElementById('tabLogin');
+  var tabRegister = document.getElementById('tabRegister');
+  var viewLogin = document.getElementById('viewLogin');
+  var viewRegister = document.getElementById('viewRegister');
+  var viewForgot = document.getElementById('viewForgot');
+  var globalNote = document.getElementById('globalNote');
+
+  function note(message, kind) {
+    globalNote.className = 'note' + (kind ? ' ' + kind : '');
+    globalNote.textContent = message;
+    globalNote.hidden = !message;
+  }
+
+  function show(view) {
+    viewLogin.hidden = view !== 'login';
+    viewRegister.hidden = view !== 'register';
+    viewForgot.hidden = view !== 'forgot';
+    tabLogin.setAttribute('aria-selected', String(view === 'login'));
+    tabRegister.setAttribute('aria-selected', String(view === 'register'));
+    note('');
+  }
+
+  tabLogin.addEventListener('click', function () { show('login'); });
+  tabRegister.addEventListener('click', function () { show('register'); });
+  document.getElementById('toRegister').addEventListener('click', function () { show('register'); });
+  document.getElementById('toLogin').addEventListener('click', function () { show('login'); });
+  document.getElementById('toForgot').addEventListener('click', function () { show('forgot'); });
+  document.getElementById('backToLogin').addEventListener('click', function () { show('login'); });
+
+  function busy(button, isBusy, label) {
+    button.disabled = isBusy;
+    if (isBusy) {
+      button.dataset.label = button.textContent;
+      button.textContent = label || 'Yuborilmoqda…';
+    } else if (button.dataset.label) {
+      button.textContent = button.dataset.label;
+    }
+  }
+
+  function invalid(input, message) {
+    input.setAttribute('aria-invalid', 'true');
+    var box = input.parentNode.querySelector('.err');
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'err';
+      input.parentNode.appendChild(box);
+    }
+    box.textContent = message;
+  }
+
+  function clearErrors(form) {
+    form.querySelectorAll('[aria-invalid]').forEach(function (node) {
+      node.removeAttribute('aria-invalid');
+    });
+    form.querySelectorAll('.err').forEach(function (node) { node.textContent = ''; });
+  }
+
+  function afterAuth(payload) {
+    api.setSession(payload);
+    var next = UI.qs('next');
+    var safe = next && !/^https?:|^\/\//i.test(next) ? next : 'app.html';
+    window.location.replace(safe);
+  }
+
+  // ------------------------------------------------------------- login
+  var loginForm = document.getElementById('loginForm');
+  var loginSubmit = document.getElementById('loginSubmit');
+
+  loginForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    clearErrors(loginForm);
+    note('');
+
+    var email = document.getElementById('loginEmail').value.trim();
+    var password = document.getElementById('loginPassword').value;
+
+    if (!email) return invalid(document.getElementById('loginEmail'), 'Emailni kiriting.');
+    if (!password) return invalid(document.getElementById('loginPassword'), 'Parolni kiriting.');
+
+    busy(loginSubmit, true, 'Kirish…');
+    api.post('/auth/login', { email: email, password: password }, { auth: false })
+      .then(afterAuth)
+      .catch(function (error) {
+        busy(loginSubmit, false);
+        note(error.message, 'bad');
+      });
+  });
+
+  // ---------------------------------------------------------- register
+  var registerForm = document.getElementById('registerForm');
+  var registerSubmit = document.getElementById('registerSubmit');
+
+  registerForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    clearErrors(registerForm);
+    note('');
+
+    var fullName = document.getElementById('regName').value.trim();
+    var email = document.getElementById('regEmail').value.trim();
+    var phone = document.getElementById('regPhone').value.trim();
+    var password = document.getElementById('regPassword').value;
+    var repeat = document.getElementById('regPassword2').value;
+    var ok = true;
+
+    if (fullName.length < 2) { invalid(document.getElementById('regName'), 'Ismingizni kiriting.'); ok = false; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { invalid(document.getElementById('regEmail'), 'Email noto\u2019g\u2019ri.'); ok = false; }
+    if (password.length < 8) { invalid(document.getElementById('regPassword'), 'Parol kamida 8 ta belgidan iborat bo\u2019lishi kerak.'); ok = false; }
+    if (password !== repeat) { invalid(document.getElementById('regPassword2'), 'Parollar mos kelmadi.'); ok = false; }
+    if (!ok) return;
+
+    busy(registerSubmit, true, 'Yaratilmoqda…');
+    api.post('/auth/register', {
+      full_name: fullName,
+      email: email,
+      phone: phone || null,
+      password: password
+    }, { auth: false })
+      .then(function (payload) {
+        UI.toast('Hisob yaratildi. Xush kelibsiz!', 'success');
+        afterAuth(payload);
+      })
+      .catch(function (error) {
+        busy(registerSubmit, false);
+        note(error.errors && error.errors.length ? error.errors.join(' ') : error.message, 'bad');
+      });
+  });
+
+  // ------------------------------------------------------------ forgot
+  var forgotForm = document.getElementById('forgotForm');
+  var forgotSubmit = document.getElementById('forgotSubmit');
+  var resetBox = document.getElementById('resetBox');
+  var resetToken = null;
+
+  forgotForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    clearErrors(forgotForm);
+    note('');
+
+    var email = document.getElementById('forgotEmail').value.trim();
+    if (!email) return invalid(document.getElementById('forgotEmail'), 'Emailni kiriting.');
+
+    busy(forgotSubmit, true, 'Yuborilmoqda…');
+    api.post('/auth/forgot-password', { email: email }, { auth: false })
+      .then(function (result) {
+        busy(forgotSubmit, false);
+        note(result.detail || 'Tiklash havolasi yuborildi.', 'ok');
+        if (result.reset_token) {
+          resetToken = result.reset_token;
+          resetBox.hidden = false;
+          note('Havola tayyor (dev rejimi). Yangi parolni kiriting.', 'ok');
+        }
+      })
+      .catch(function (error) {
+        busy(forgotSubmit, false);
+        note(error.message, 'bad');
+      });
+  });
+
+  var resetForm = document.getElementById('resetForm');
+  var resetSubmit = document.getElementById('resetSubmit');
+
+  resetForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    clearErrors(resetForm);
+
+    var password = document.getElementById('resetPassword').value;
+    var repeat = document.getElementById('resetPassword2').value;
+    if (password.length < 8) return invalid(document.getElementById('resetPassword'), 'Parol kamida 8 ta belgi.');
+    if (password !== repeat) return invalid(document.getElementById('resetPassword2'), 'Parollar mos kelmadi.');
+    if (!resetToken) return note('Tiklash havolasi topilmadi. Qaytadan so\u2019rang.', 'bad');
+
+    busy(resetSubmit, true, 'Saqlanmoqda…');
+    api.post('/auth/reset-password', { token: resetToken, new_password: password }, { auth: false })
+      .then(function () {
+        busy(resetSubmit, false);
+        UI.toast('Parol yangilandi. Endi kiring.', 'success');
+        show('login');
+        note('Parol muvaffaqiyatli yangilandi. Endi yangi parol bilan kiring.', 'ok');
+      })
+      .catch(function (error) {
+        busy(resetSubmit, false);
+        note(error.message, 'bad');
+      });
+  });
+
+  // -------------------------------------------------------- demo logins
+  function demoLogin(email) {
+    note('');
+    api.post('/auth/login', { email: email, password: 'englify1234' }, { auth: false })
+      .then(afterAuth)
+      .catch(function (error) { note(error.message, 'bad'); });
+  }
+  document.getElementById('demoStudent').addEventListener('click', function () {
+    demoLogin('abdurahmon@englify.uz');
+  });
+  document.getElementById('demoLeader').addEventListener('click', function () {
+    demoLogin('englify@englify.uz');
+  });
+
+  // URL orqali kelgan holatlar: ?mode=register / ?mode=forgot / ?token=...
+  var mode = UI.qs('mode');
+  if (mode === 'register') show('register');
+  if (mode === 'forgot') show('forgot');
+  var urlToken = UI.qs('token');
+  if (urlToken) {
+    show('forgot');
+    resetToken = urlToken;
+    resetBox.hidden = false;
+    note('Havola aniqlandi. Yangi parolingizni kiriting.', 'ok');
+  }
+})();
+</script>
+</body>
+</html>

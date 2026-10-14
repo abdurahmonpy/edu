@@ -104,7 +104,7 @@ a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
 }
 </style>
 </head>
-<body style="margin:0">
+<body style="margin:0" data-auth="optional">
 <div class="rv" data-seen="" style="--sky: #0A82EA; --ink: #2A0B5C; --violet: #6B3FD8; --mint: #35F59A; --mintdk: #17C877; --line: #DDE3FF; background: #F3F5FB; color: #2A0B5C; font-family: 'Outfit', system-ui, sans-serif; font-size: 18px; line-height: 1.5; width: 100%; box-sizing: border-box; overflow-x: hidden">
 
   <!-- FLOATING NAV -->
@@ -118,6 +118,8 @@ a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
           <a class="nav" href="#tariflar" style="padding: 10px 0">Tariflar</a>
           <a class="nav" href="#aloqa" style="padding: 10px 0">Aloqa</a>
           <a class="nav" href="#natijalar" style="padding: 10px 0">Natijalar</a>
+          <a class="nav" data-auth="login" href="kirish.html" style="padding: 10px 0">Kirish</a>
+          <a class="nav" data-auth="user" href="app.html" style="padding: 10px 0" hidden>Ilovam</a>
         </nav>
         <a href="app.html" class="nbtn" style="background: var(--sky); color: #fff; font-weight: 700; font-size: 19px; padding: 14px 28px; border-radius: 999px; border-bottom: 4px solid #0861B5">Student App</a>
       </header>
@@ -134,7 +136,7 @@ a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
         <h1 style="margin: 0; font-weight: 800; font-size: clamp(44px, 7vw, 88px); line-height: 1; letter-spacing: -0.03em">General English</h1>
         <p style="margin: 0; font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.25; max-width: 520px; text-wrap: balance">Ingliz tilini zamonaviy metodlar yordamida tez va samarali o‘rganing</p>
 
-        <form onsubmit="return false" style="margin-top: 22px; background: #fff; color: var(--ink); border-radius: 32px; padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 6px 0 rgba(10,60,160,0.25); max-width: 480px">
+        <form onsubmit="return false" data-lead-form="index-hero" style="margin-top: 22px; background: #fff; color: var(--ink); border-radius: 32px; padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 6px 0 rgba(10,60,160,0.25); max-width: 480px">
           <div style="display: flex; flex-direction: column; gap: 8px">
             <label for="f-name" style="font-weight: 700; font-size: 18px; padding-left: 10px">Ismingiz va Familiyangiz</label>
             <input id="f-name" type="text" placeholder="Ismingiz va Familiyangiz" style="height: 60px; box-sizing: border-box; border: 2px solid #D6DCF0; border-bottom-width: 4px; border-radius: 16px; padding: 0 18px; font-size: 18px; font-weight: 600; color: var(--ink)">
@@ -801,6 +803,8 @@ a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
         <span>Telegram: [@englify]</span>
         <span>Instagram: [@englify.uz]</span>
         <span>Manzil: [MANZIL]</span>
+        <a class="nav" data-auth="login" href="kirish.html" style="color: #FFE15A; font-weight: 800">Kirish</a>
+        <a class="nav" data-auth="user" href="app.html" style="color: #FFE15A; font-weight: 800" hidden>Ilovam</a>
       </div>
     </div>
   </footer>
@@ -842,39 +846,12 @@ a[href="#ilova"]:hover{transform:translateY(-2px) rotate(-2deg)}
     });
   });
 
-  // Forma — haqiqiy backend'ga yuborish (/api/leads): validatsiya + xatolik xabarlari
-  var btn=document.getElementById('send'), t;
-  var fErr=document.getElementById('f-error');
-  function showErr(m){ if(!fErr) return; fErr.textContent=m; fErr.style.display='block'; }
-  btn.addEventListener('click',function(){
-    if(btn.getAttribute('data-sent')==='busy') return;
-    var name=(document.getElementById('f-name').value||'').trim();
-    var phone=(document.getElementById('f-phone').value||'').trim();
-    var honeypot=(document.querySelector('form input[name="company"]')||{}).value||'';
-    if(fErr) fErr.style.display='none';
-    if(name.length<2){ showErr('Ismingizni va familiyangizni kiriting.'); return; }
-    if(!/^\+?[0-9][0-9 ()-]{6,19}$/.test(phone)){ showErr('Telefon raqamni to‘g‘ri kiriting.'); return; }
-    btn.setAttribute('data-sent','busy');
-    btn.textContent='Yuborilmoqda...';
-    fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_name:name,phone:phone,company:honeypot})})
-      .then(function(r){ return r.json().catch(function(){return {};}).then(function(d){ return {s:r.status,d:d}; }); })
-      .then(function(r){
-        btn.removeAttribute('data-sent');
-        if(r.s===200){
-          btn.textContent='Yuborildi! Tez orada bog‘lanamiz'; btn.setAttribute('data-sent','yes');
-          clearTimeout(t);
-          t=setTimeout(function(){ btn.textContent='Ro‘yxatdan o‘tish'; btn.setAttribute('data-sent','no'); },3200);
-        } else if(r.s===429){
-          btn.textContent='Ro‘yxatdan o‘tish';
-          showErr('Juda ko‘p urindingiz. Birozdan keyin qayta urinib ko‘ring.');
-        } else {
-          btn.textContent='Ro‘yxatdan o‘tish';
-          showErr((r.d && r.d.message) || 'Xatolik yuz berdi. Qayta urinib ko‘ring.');
-        }
-      })
-      .catch(function(){ btn.removeAttribute('data-sent'); btn.textContent='Ro‘yxatdan o‘tish'; showErr('Tarmoq xatosi. Internetni tekshiring.'); });
-  });
 })();
 </script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/pages/index.js"></script>
 </body>
 </html>

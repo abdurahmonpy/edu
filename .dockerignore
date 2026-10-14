@@ -1,0 +1,40 @@
+# --- version control / editor ----------------------------------------------
+.git
+.gitignore
+.github
+.vscode
+.idea
+.tmp_*
+docs/
+scripts/
+backend/tests/
+backend/requirements-dev.txt
+*.swp
+
+# --- python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- local databases & secrets ---------------------------------------------
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+
+# --- node (not used, but keeps the context small) ---------------------------
+node_modules/
+npm-debug.log*
+
+# --- os junk ----------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.log

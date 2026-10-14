@@ -87,14 +87,17 @@ button,input,select{font-family:inherit}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
-<body>
+<body data-auth="required">
 
 <!-- HEADER -->
 <div style="background:linear-gradient(135deg,#0A93F5,#5CC4FF);color:#fff;padding:30px 0 90px;position:relative">
   <div style="max-width:780px;margin:0 auto;padding:0 24px">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
       <a href="app.html" class="back">&larr; Asosiy</a>
-      <button onclick="openFlash()" style="background:rgba(255,255,255,.22);border:0;border-radius:999px;padding:8px 18px;font-weight:700;font-size:15px;color:#fff;cursor:pointer;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.22)'">&#9654; Flashcard</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button onclick="openReview()" style="background:rgba(255,255,255,.22);border:0;border-radius:999px;padding:8px 18px;font-weight:700;font-size:15px;color:#fff;cursor:pointer;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.22)'">&#8635; Takrorlash <span id="due-count">0</span></button>
+        <button onclick="openFlash()" style="background:rgba(255,255,255,.22);border:0;border-radius:999px;padding:8px 18px;font-weight:700;font-size:15px;color:#fff;cursor:pointer;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.22)'">&#9654; Flashcard</button>
+      </div>
     </div>
     <div style="margin-top:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
       <div>

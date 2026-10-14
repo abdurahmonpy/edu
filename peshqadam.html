@@ -186,7 +186,7 @@ a, button { color: inherit; text-decoration: none; font-family: inherit; }
 }
 </style>
 </head>
-<body>
+<body data-auth="required">
 
   <!-- Top Blue Header with User Info (Screenshot 4) -->
   <header class="leader-header">
@@ -204,24 +204,34 @@ a, button { color: inherit; text-decoration: none; font-family: inherit; }
           <div class="user-avatar-circle">
             <svg viewBox="0 0 40 40" width="48" height="48"><circle cx="20" cy="15" r="7" fill="#8CA0B5"/><path d="M5 40c0-10 7-14 15-14s15 4 15 14z" fill="#8CA0B5"/></svg>
           </div>
-          <div class="user-name-text">Abdurahmon</div>
+          <div class="user-name-text" data-user-name>Abdurahmon</div>
         </div>
 
         <div style="display: flex; flex-direction: column; align-items: flex-end">
-          <div class="level-badge-pill">Starter</div>
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px">
+            <div class="level-badge-pill" style="margin-bottom: 0" data-user-level>Starter</div>
+            <div class="level-badge-pill" style="margin-bottom: 0; background: rgba(255,255,255,0.25); color: #fff" data-user-rank>—</div>
+          </div>
           <div class="score-pill">
-            <span style="color: #2ED573">⭐</span> 1
+            <span style="color: #2ED573">⭐</span> <span data-user-points>1</span>
           </div>
         </div>
       </div>
 
       <!-- Level Tabs -->
       <div class="tabs-scroll">
-        <button class="level-tab active" onclick="switchLevelTab('starter', this)">Starter</button>
+        <button class="level-tab active" onclick="switchLevelTab('all', this)">Umumiy</button>
+        <button class="level-tab" onclick="switchLevelTab('starter', this)">Starter</button>
         <button class="level-tab" onclick="switchLevelTab('beginner', this)">Beginner</button>
         <button class="level-tab" onclick="switchLevelTab('elementary', this)">Elementary</button>
-        <button class="level-tab" onclick="switchLevelTab('pre', this)">Pre-Intermediate</button>
-        <button class="level-tab" onclick="switchLevelTab('inter', this)">Intermediate</button>
+        <button class="level-tab" onclick="switchLevelTab('pre-intermediate', this)">Pre-Intermediate</button>
+        <button class="level-tab" onclick="switchLevelTab('intermediate', this)">Intermediate</button>
+      </div>
+
+      <!-- Davr tanlash -->
+      <div id="periodTabs" style="display: flex; gap: 8px; margin-top: 10px">
+        <button type="button" class="period-tab" data-period="all" style="background: #fff; color: #00A3FF; border: 0; border-radius: 999px; padding: 6px 16px; font-weight: 800; font-size: 13.5px; white-space: nowrap; cursor: pointer">Umumiy</button>
+        <button type="button" class="period-tab" data-period="week" style="background: rgba(255,255,255,0.25); color: #fff; border: 0; border-radius: 999px; padding: 6px 16px; font-weight: 800; font-size: 13.5px; white-space: nowrap; cursor: pointer">Haftalik</button>
       </div>
     </div>
   </header>
@@ -332,11 +342,10 @@ a, button { color: inherit; text-decoration: none; font-family: inherit; }
 
   </div>
 
-<script>
-function switchLevelTab(level, btn) {
-  document.querySelectorAll('.level-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
-</script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/pages/peshqadam.js"></script>
 </body>
 </html>

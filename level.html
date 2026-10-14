@@ -92,7 +92,7 @@ button { font-family: inherit; }
 }
 </style>
 </head>
-<body>
+<body data-auth="required">
 
   <!-- Header -->
   <header style="background: #fff; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 20">
@@ -107,7 +107,7 @@ button { font-family: inherit; }
       </div>
 
       <div>
-        <span style="background: #EFEBFB; border: 2px solid #D5C9F8; border-radius: 999px; padding: 6px 16px; font-weight: 800; font-size: 16px; color: var(--purple)">
+        <span id="currentLevelPill" style="background: #EFEBFB; border: 2px solid #D5C9F8; border-radius: 999px; padding: 6px 16px; font-weight: 800; font-size: 16px; color: var(--purple)">
           Joriy: A1 Starter
         </span>
       </div>
@@ -131,70 +131,8 @@ button { font-family: inherit; }
     <!-- Levels Roadmap -->
     <h3 style="font-weight: 800; font-size: 24px; margin: 0 0 18px; color: var(--ink)">O'quv bosqichlari</h3>
     
-    <div style="display: flex; flex-direction: column; gap: 18px; margin-bottom: 46px">
-      
-      <!-- A1 -->
-      <div class="level-card active">
-        <div style="width: 64px; height: 64px; border-radius: 20px; background: #6B3FD8; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 26px; flex-shrink: 0">
-          A1
-        </div>
-        <div style="flex: 1; min-width: 0">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px">
-            <h4 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">Starter &bull; Boshlang'ich</h4>
-            <span style="background: #2ED573; color: #fff; border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 13px">Hozir o'qilmoqda</span>
-          </div>
-          <p style="margin: 6px 0 12px; font-size: 15px; color: #6A5A92">Salomlashish, asosiy so'zlar, oila, raqamlar va oddiy kundalik gaplar.</p>
-          <div style="display: flex; align-items: center; gap: 12px">
-            <div style="flex: 1; height: 10px; background: #E6E8F2; border-radius: 99px; overflow: hidden">
-              <div style="width: 4%; height: 100%; background: #6B3FD8; border-radius: 99px"></div>
-            </div>
-            <span style="font-weight: 800; font-size: 14px; color: #6B3FD8">4%</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- A2 -->
-      <div class="level-card locked">
-        <div style="width: 64px; height: 64px; border-radius: 20px; background: #C9C3FA; color: #5B2BC4; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 26px; flex-shrink: 0">
-          A2
-        </div>
-        <div style="flex: 1; min-width: 0">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px">
-            <h4 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">Elementary &bull; Oddiy muloqot</h4>
-            <span style="background: #E4E8F7; color: #7F87A7; border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 13px">🔒 500 ball kerak</span>
-          </div>
-          <p style="margin: 6px 0 0; font-size: 15px; color: #6A5A92">Xaridlar, sayohat, o'tmishdagi hodisalar, ob-havo va rejalashtirish.</p>
-        </div>
-      </div>
-
-      <!-- B1 -->
-      <div class="level-card locked">
-        <div style="width: 64px; height: 64px; border-radius: 20px; background: #E6E8F2; color: #8F95B2; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 26px; flex-shrink: 0">
-          B1
-        </div>
-        <div style="flex: 1; min-width: 0">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px">
-            <h4 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">Pre-Intermediate &bull; O'rta bosqich</h4>
-            <span style="background: #E4E8F7; color: #7F87A7; border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 13px">🔒 1500 ball kerak</span>
-          </div>
-          <p style="margin: 6px 0 0; font-size: 15px; color: #6A5A92">Erkin fikr bildirish, kitoblar o'qish, kinolar tomosha qilish va insho yozish.</p>
-        </div>
-      </div>
-
-      <!-- B2 -->
-      <div class="level-card locked">
-        <div style="width: 64px; height: 64px; border-radius: 20px; background: #E6E8F2; color: #8F95B2; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 26px; flex-shrink: 0">
-          B2
-        </div>
-        <div style="flex: 1; min-width: 0">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px">
-            <h4 style="margin: 0; font-weight: 800; font-size: 22px; color: var(--ink)">Intermediate &bull; Ishonchli nutq</h4>
-            <span style="background: #E4E8F7; color: #7F87A7; border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 13px">🔒 3000 ball kerak</span>
-          </div>
-          <p style="margin: 6px 0 0; font-size: 15px; color: #6A5A92">IELTS 6.0-6.5 darajasi, murakkab grammatika, ravon bahs-munozaralar.</p>
-        </div>
-      </div>
-
+    <div id="levelRoadmap" style="display: flex; flex-direction: column; gap: 18px; margin-bottom: 46px">
+      <!-- Rendered from GET /levels by assets/js/pages/level.js -->
     </div>
 
     <!-- Placement Quiz Section -->
@@ -220,6 +158,7 @@ button { font-family: inherit; }
         <div style="font-size: 54px; margin-bottom: 10px">🎓</div>
         <h4 style="margin: 0; font-weight: 800; font-size: 26px; color: var(--ink)">Sizning tavsiya etilgan darajangiz: <span id="resLevel" style="color: #6B3FD8">A1 Starter</span></h4>
         <p id="resDesc" style="color: #6A5A92; font-size: 16px; max-width: 500px; margin: 10px auto 24px">Siz uchun eng yaxshi boshlanish — Starter Unit 1.1 darslari!</p>
+        <div id="quizBreakdown" style="margin-bottom: 24px"></div>
         <a href="dars.html" class="p3" style="--d: #4A24A6; display: inline-block; background: #6B3FD8; color: #fff; padding: 14px 32px; border-radius: 18px; font-weight: 800; font-size: 17px">
           Darsga o'tish &rarr;
         </a>
@@ -229,77 +168,10 @@ button { font-family: inherit; }
 
   </div>
 
-<script>
-function scrollToQuiz() {
-  document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth' });
-}
-
-const questions = [
-  {
-    q: '"She ______ to school every morning." Nuqtalar o\'rniga to\'g\'ri so\'zni tanlang:',
-    opts: ['A) go', 'B) goes', 'C) going', 'D) wented'],
-    correct: 1
-  },
-  {
-    q: '"I don\'t have ______ money in my wallet." Qaysi so\'z mos keladi?',
-    opts: ['A) some', 'B) many', 'C) any', 'D) a'],
-    correct: 2
-  },
-  {
-    q: '"Yesterday, we ______ a great movie at the cinema."',
-    opts: ['A) see', 'B) saw', 'C) seen', 'D) was seeing'],
-    correct: 1
-  }
-];
-
-let curQ = 0;
-let score = 0;
-
-function selectQuizAnswer(optIdx) {
-  if (optIdx === questions[curQ].correct) {
-    score++;
-  }
-
-  curQ++;
-  if (curQ < questions.length) {
-    loadQuestion();
-  } else {
-    showResult();
-  }
-}
-
-function loadQuestion() {
-  const qData = questions[curQ];
-  document.getElementById('qNumber').textContent = `${curQ + 1}-SAVOL (${questions.length} tadan)`;
-  document.getElementById('qText').textContent = qData.q;
-
-  const container = document.getElementById('optionsContainer');
-  container.innerHTML = '';
-  qData.opts.forEach((opt, idx) => {
-    const btn = document.createElement('button');
-    btn.className = 'quiz-opt';
-    btn.textContent = opt;
-    btn.onclick = () => selectQuizAnswer(idx);
-    container.appendChild(btn);
-  });
-}
-
-function showResult() {
-  document.getElementById('quizContainer').style.display = 'none';
-  const resEl = document.getElementById('quizResult');
-  resEl.style.display = 'block';
-
-  const resLevel = document.getElementById('resLevel');
-  const resDesc = document.getElementById('resDesc');
-
-  if (score >= 3) {
-    resLevel.textContent = 'A2 Elementary';
-    resDesc.textContent = 'Ajoyib natija! Boshlang\'ich bilimlaringiz mustahkam. Elementary darslariga tayyorsiz!';
-  } else {
-    resLevel.textContent = 'A1 Starter';
-    resDesc.textContent = 'Siz uchun hozirgi A1 Starter darslari (Unit 1.1) ayni muddao. Darsni hoziroq davom ettiring!';
-  }
-}
-</script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/pages/level.js"></script>
 </body>
 </html>

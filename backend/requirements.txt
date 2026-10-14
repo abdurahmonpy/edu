@@ -1,0 +1,14 @@
+# Englify backend — Python 3.11+ (tested on 3.14)
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.30
+sqlalchemy[asyncio]>=2.0.30
+alembic>=1.13
+asyncpg>=0.29
+aiosqlite>=0.20
+pydantic>=2.8
+pydantic-settings>=2.4
+PyJWT>=2.9
+bcrypt>=4.1
+python-multipart>=0.0.9
+email-validator>=2.2
+websockets>=12.0

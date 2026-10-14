@@ -1,0 +1,22 @@
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = [".venv", "__pycache__"]
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "B", "C4", "SIM", "I", "UP"]
+ignore = [
+    "E501",   # line length is handled by the formatter
+    "B008",   # FastAPI's `Depends()`/`Query()` idiom lives in default args
+    "UP017",  # `timezone.utc` is kept for older-Python readability
+    "UP046",  # `Generic[T]` keeps the models importable on Python 3.9+
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "E402"]
+"seed_data.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --tb=short"
+filterwarnings = ["ignore::DeprecationWarning"]
