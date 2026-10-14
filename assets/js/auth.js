@@ -297,6 +297,7 @@
       document.querySelectorAll('[data-action="logout"]').forEach(function (node) {
         node.addEventListener('click', function (event) {
           event.preventDefault();
+          if (!window.confirm('Haqiqatan ham hisobdan chiqmoqchimisiz?')) return;
           Auth.logout({ allDevices: node.getAttribute('data-all-devices') === 'true' });
         });
       });
