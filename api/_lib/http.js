@@ -80,4 +80,20 @@ function readJson(req, res) {
   });
 }
 
-module.exports = { json, readBody, parseCookies, serializeCookie, clearCookie, isLoopback, readJson };
+/**
+ * API xatolarini xavfsiz kodlab javob beradi (maxfiy ma'lumotsiz).
+ */
+function handleApiError(res, e) {
+  const code = e && e.code;
+  if (code === 'SUPABASE_NOT_CONFIGURED') return json(res, 503, { error: 'not_configured' });
+  if (code === 'SUPABASE_PUBLISHABLE_KEY_MISSING') return json(res, 503, { error: 'publishable_key_missing' });
+  if (code === 'SUPABASE_URL_INVALID') {
+    return json(res, 503, { error: 'supabase_url_invalid', message: 'SUPABASE_URL noto\'g\'ri — qiymat https://<ref>.supabase.co ko\'rinishida bo\'lishi kerak.' });
+  }
+  if (code === 'UPSTREAM_NETWORK') {
+    return json(res, 502, { error: 'upstream_unreachable', detail: e.causeCode || 'unknown' });
+  }
+  return json(res, 500, { error: 'internal' });
+}
+
+module.exports = { json, readBody, parseCookies, serializeCookie, clearCookie, isLoopback, readJson, handleApiError };

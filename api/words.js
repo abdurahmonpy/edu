@@ -7,8 +7,8 @@
  */
 'use strict';
 
-const { json, readJson } = require('./_lib/http');
-const { dbGet, dbPost, dbPatch, dbDelete, readSession, configured } = require('./_lib/supabase');
+const { json, readJson, handleApiError } = require('./_lib/http');
+const { dbGet, dbPost, dbPatch, dbDelete, readSession, ensureConfigured } = require('./_lib/supabase');
 const { str, validText, validId } = require('./_lib/validate');
 
 const STATUSES = ['new', 'learned', 'review'];
@@ -41,7 +41,7 @@ function wordFields(body, requireAll) {
 
 module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
-  if (!configured()) return json(res, 503, { error: 'not_configured' });
+  if (!ensureConfigured(res)) return;
 
   const session = await readSession(req, res);
   if (!session || !session.user) return json(res, 401, { error: 'unauthorized' });
@@ -90,7 +90,6 @@ module.exports = async function handler(req, res) {
 
     return json(res, 405, { error: 'Method not allowed' });
   } catch (e) {
-    if (e && e.code === 'SUPABASE_NOT_CONFIGURED') return json(res, 503, { error: 'not_configured' });
-    return json(res, 500, { error: 'internal' });
+    return handleApiError(res, e);
   }
 };

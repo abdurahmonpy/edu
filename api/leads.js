@@ -4,8 +4,8 @@
  */
 'use strict';
 
-const { json, readJson } = require('./_lib/http');
-const { dbPost, configured } = require('./_lib/supabase');
+const { json, readJson, handleApiError } = require('./_lib/http');
+const { dbPost, ensureConfigured } = require('./_lib/supabase');
 const { validName, validPhone, str } = require('./_lib/validate');
 
 // Best-effort in-memory rate limit (Vercel serverless: har bir instance uchun alohida).
@@ -24,7 +24,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return json(res, 405, { error: 'Only POST' });
 
-  if (!configured()) return json(res, 503, { error: 'not_configured' });
+  if (!ensureConfigured(res)) return;
 
   const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
   if (rateLimited(ip)) return json(res, 429, { error: 'too_many_requests' });
@@ -39,7 +39,11 @@ module.exports = async function handler(req, res) {
   const phone = validPhone(body.phone) ? str(body.phone) : null;
   if (!fullName || !phone) return json(res, 400, { error: 'invalid_input', message: "Ism (2-120 belgi) va to'g'ri telefon kiriting." });
 
-  const r = await dbPost('leads', { full_name: fullName, phone }, { Prefer: 'return=minimal' });
-  if (!r.ok) return json(res, 502, { error: 'upstream_error' });
-  return json(res, 200, { ok: true });
+  try {
+    const r = await dbPost('leads', { full_name: fullName, phone }, { Prefer: 'return=minimal' });
+    if (!r.ok) return json(res, 502, { error: 'upstream_error' });
+    return json(res, 200, { ok: true });
+  } catch (e) {
+    return handleApiError(res, e);
+  }
 };

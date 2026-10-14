@@ -4,10 +4,10 @@
  */
 'use strict';
 
-const { json, readJson } = require('./_lib/http');
+const { json, readJson, handleApiError } = require('./_lib/http');
 const {
   adminCreateUser, passwordGrant, logout, dbGet, dbPost,
-  setSessionCookies, clearSessionCookies, readSession, configured
+  setSessionCookies, clearSessionCookies, readSession, ensureConfigured
 } = require('./_lib/supabase');
 const { str, validName, validEmail, validPassword } = require('./_lib/validate');
 
@@ -39,7 +39,7 @@ module.exports = async function handler(req, res) {
   }
 
   if (!action) return json(res, 400, { error: 'missing_action' });
-  if (!configured()) return json(res, 503, { error: 'not_configured' });
+  if (!ensureConfigured(res)) return;
 
   try {
     if (action === 'me') {
@@ -107,7 +107,6 @@ module.exports = async function handler(req, res) {
 
     return json(res, 400, { error: 'unknown_action' });
   } catch (e) {
-    if (e && e.code === 'SUPABASE_NOT_CONFIGURED') return json(res, 503, { error: 'not_configured' });
-    return json(res, 500, { error: 'internal' });
+    return handleApiError(res, e);
   }
 };

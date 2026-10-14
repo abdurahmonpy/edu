@@ -16,12 +16,20 @@ const ACCESS_TTL = 60 * 60;            // 1 saat
 const REFRESH_TTL = 60 * 60 * 24 * 30; // 30 kun
 
 function config() {
-  const url = (process.env.SUPABASE_URL || '').replace(/\/+$/, '');
-  const publishable = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '';
-  const secret = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+  const url = String(process.env.SUPABASE_URL || '').trim().replace(/\/+$/, '');
+  const publishable = String(process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '').trim();
+  const secret = String(process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
   if (!url || !secret) {
     const err = new Error('SUPABASE_NOT_CONFIGURED');
     err.code = 'SUPABASE_NOT_CONFIGURED';
+    throw err;
+  }
+  let parsed;
+  try { parsed = new URL(url); } catch (e) { parsed = null; }
+  const loopback = parsed && (parsed.hostname === '127.0.0.1' || parsed.hostname === 'localhost');
+  if (!parsed || (!loopback && parsed.protocol !== 'https:')) {
+    const err = new Error('SUPABASE_URL_INVALID');
+    err.code = 'SUPABASE_URL_INVALID';
     throw err;
   }
   return { url, publishable, secret };
@@ -31,8 +39,23 @@ function configured() {
   try { config(); return true; } catch (e) { return false; }
 }
 
+/** Res'ga xavfsiz xato javobini yozadi; true = konfiguratsiya tayyor. */
+function ensureConfigured(res) {
+  try { config(); return true; }
+  catch (e) { require('./http').handleApiError(res, e); return false; }
+}
+
 async function rest(url, opts) {
-  const r = await fetch(url, opts);
+  let r;
+  try {
+    r = await fetch(url, opts);
+  } catch (e) {
+    const err = new Error('upstream_fetch_failed');
+    err.code = 'UPSTREAM_NETWORK';
+    err.causeCode = (e && e.cause && (e.cause.code || e.cause.message)) || (e && e.code) || (e && e.name) || 'unknown';
+    err.causeCode = String(err.causeCode).split('\n')[0].slice(0, 80);
+    throw err;
+  }
   const text = await r.text();
   let data = null;
   if (text) { try { data = JSON.parse(text); } catch (e) { data = { raw: text }; } }
@@ -159,7 +182,7 @@ async function readSession(req, res) {
 }
 
 module.exports = {
-  config, configured,
+  config, configured, ensureConfigured,
   adminCreateUser, passwordGrant, refreshGrant, getUser, logout,
   db, dbGet, dbPost, dbPatch, dbDelete,
   setSessionCookies, clearSessionCookies, readSession,
