@@ -142,6 +142,7 @@ async def update_user(
 @router.get("/leads", response_model=schemas.Page[schemas.LeadOut])
 async def list_leads(
     status: str | None = Query(default=None),
+    q: str | None = Query(default=None, max_length=255),
     limit: int = Query(default=50, ge=1, le=200),
     offset: int = Query(default=0, ge=0),
     _: models.User = Depends(require_admin),
@@ -152,6 +153,13 @@ async def list_leads(
         if status not in {"new", "contacted", "converted", "closed"}:
             raise HTTPException(status_code=422, detail="Lead holati noto'g'ri.")
         filters.append(models.Lead.status == status)
+    if q and q.strip():
+        term = f"%{q.strip()}%"
+        filters.append(
+            models.Lead.name.ilike(term)
+            | models.Lead.phone.ilike(term)
+            | models.Lead.email.ilike(term)
+        )
     total = await session.scalar(select(func.count(models.Lead.id)).where(*filters)) or 0
     leads = (
         await session.execute(

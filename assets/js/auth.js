@@ -60,6 +60,10 @@
     document.querySelectorAll('[data-auth="guest"]').forEach(function (node) {
       node.hidden = isLoggedIn;
     });
+    var current = api.user();
+    document.querySelectorAll('[data-admin-only]').forEach(function (node) {
+      node.hidden = !isLoggedIn || !current || current.role !== 'admin';
+    });
   }
 
   function levelTitle(level) {
